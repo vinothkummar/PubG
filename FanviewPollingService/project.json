@@ -1,0 +1,7 @@
+﻿{
+  "dependencies": {
+    "Microsoft.Extensions.Logging": "2.0.0",
+    "Microsoft.Extensions.Logging.Console": "2.0.0",
+    "Microsoft.Extensions.DependencyInjection": "2.0.0"
+  }
+}
