@@ -12,34 +12,22 @@ namespace FanviewPollingService.Services
     {
         public static IServiceProvider BuildDI()
         {
-            var serviceProvider = new ServiceCollection().AddLogging((builder) => builder.SetMinimumLevel(LogLevel.Trace))
+            var serviceProvider = new ServiceCollection().AddLogging(configure => configure.AddSerilog())
                                                          .AddSingleton<IHttpClientRequest, HttpClientRequest>()
                                                          .AddSingleton<IHttpClientBuilder, HttpClientBuilder>()
                                                          .AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>))
                                                          .AddTransient<ITelemetryRepository, TelemetryRepository>()
                                                          .BuildServiceProvider();
-
-            var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
-
-            //var loadLogConfig = Path.GetFullPath(@"../../../" + "NLog.config");
-
-            //loggerFactory.AddNLog(new NLogProviderOptions { CaptureMessageTemplates = true, CaptureMessageProperties = true });
-
-            //NLog.LogManager.LoadConfiguration(loadLogConfig);
-
-            //loggerFactory.ConfigureNLog(loadLogConfig);
-
-
             return serviceProvider;
         }
 
         public static void ConfigureServices(IServiceCollection services)
         {
-            services.AddLogging(configure => configure.AddSerilog())
-                    .AddSingleton<IHttpClientRequest, HttpClientRequest>()
-                    .AddSingleton<IHttpClientBuilder, HttpClientBuilder>()
-                    .AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>))
-                    .AddTransient<ITelemetryRepository, TelemetryRepository>();
+            services.AddLogging(configure => configure.AddSerilog());
+                    //.AddSingleton<IHttpClientRequest, HttpClientRequest>()
+                    //.AddSingleton<IHttpClientBuilder, HttpClientBuilder>()
+                    //.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>))
+                    //.AddTransient<ITelemetryRepository, TelemetryRepository>();
 
         }
     }

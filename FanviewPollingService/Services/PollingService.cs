@@ -28,16 +28,7 @@ namespace FanviewPollingService.Services
         private IHttpClientRequest _servicerRequest;
         private IHttpClientBuilder _httpClient;
         private ITelemetryRepository _telemetryRepository;
-   
-        static string Fileformatting
-        {
-            get
-            {
-                return string.Format("log-{0:yyyy-MM-dd_hh-mm-ss-tt}", DateTime.Now);
-            }
-        }
 
-        private string logFileName = Path.Combine(Path.GetFullPath(@"../../../../" + "PollingServiceLog"), Fileformatting);
         private ILogger<PollingService> _logger;
 
         public PollingService()
@@ -46,22 +37,16 @@ namespace FanviewPollingService.Services
         }
 
         public PollingService(IMicroServiceController controller)
-        {
-            var servicesProvider = ServiceConfiguration.BuildDI();           
-            
-            _telemetryRepository = servicesProvider.GetService<ITelemetryRepository>();            
-
+        {           
             this.controller = controller;
 
-            Log.Logger = new LoggerConfiguration().WriteTo.File(logFileName).CreateLogger();
+            var servicesProvider = ServiceConfiguration.BuildDI();
 
-            var serviceCollection = new ServiceCollection();
+            _telemetryRepository = servicesProvider.GetService<ITelemetryRepository>();
 
-            ServiceConfiguration.ConfigureServices(serviceCollection);
+            _logger = servicesProvider.GetService<ILogger<PollingService>>();
 
-            var serviceProvider = serviceCollection.BuildServiceProvider();
-
-            _logger = serviceProvider.GetService<ILogger<PollingService>>();
+            _telemetryRepository = servicesProvider.GetService<ITelemetryRepository>();
         }
 
 
@@ -73,14 +58,12 @@ namespace FanviewPollingService.Services
 
             Timers.Start("Poller", 1000, () =>
             {
-                
-              _logger.LogInformation 
 
-              _telemetryRepository.GetPlayerKillTelemetryJson();
+                _logger.LogInformation( "Service Started Polling " + Environment.NewLine );
 
-            // _telemetryRepository.InsertPlayerKillTelemetry();
+                _telemetryRepository.GetPlayerKillTelemetryJson();
 
-            
+                _logger.LogInformation( "Service Completed Polling "+ Environment.NewLine );
             });
         }
 
@@ -88,7 +71,8 @@ namespace FanviewPollingService.Services
         {
             StopBase();
 
-            File.AppendAllText(logFileName, "Stopped\n");
+             _logger.LogInformation(Environment.NewLine + "Service Stopped @ {0:yyyy-MM-dd_hh-mm-ss-tt-fff}", DateTime.Now.ToString("o") + Environment.NewLine);
+
             Console.WriteLine("I stopped");
         }
 

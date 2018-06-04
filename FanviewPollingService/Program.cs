@@ -26,11 +26,13 @@ namespace FanviewPollingService
 
             Log.Logger = new LoggerConfiguration().WriteTo.File(fileName).CreateLogger();
 
-            var serviceCollection = new ServiceCollection();
+            var serviceProvider = ServiceConfiguration.BuildDI();
 
-            ServiceConfiguration.ConfigureServices(serviceCollection);
+            //var serviceCollection = new ServiceCollection();
 
-            var serviceProvider = serviceCollection.BuildServiceProvider();
+            //ServiceConfiguration.ConfigureServices(serviceCollection);
+
+            //var serviceProvider = serviceCollection.BuildServiceProvider();
 
             var logger = serviceProvider.GetService<ILogger<Program>>();
 
@@ -42,9 +44,9 @@ namespace FanviewPollingService
                 {
                     serviceConfig.ServiceFactory((extraArguments, controller) =>
                     {
-                        logger.LogInformation("Fanview Polling initializing");
+                        logger.LogInformation("Fanview Polling initializing" + Environment.NewLine);
 
-                        return new PollingService(controller);
+                        return new PollingService(controller);                        
                     });
 
                     serviceConfig.OnStart((service, extraParams) =>
@@ -60,8 +62,7 @@ namespace FanviewPollingService
                     });
 
                     serviceConfig.OnError(e =>
-                    {
-                        //File.AppendAllText(fileName, $"Exception: {e.ToString()}\n");
+                    {                        
                         logger.LogError("Exception: {Exception}", e.ToString());
                         Console.WriteLine("Service {0} errored with exception : {1}", name, e.Message);
                     });

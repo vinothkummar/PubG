@@ -9,7 +9,7 @@ namespace FanviewPollingService.Services
 {
     public class HttpClientRequest : IHttpClientRequest
     {
-        public async Task<HttpResponseMessage> GetAsync(HttpClient httpClient, string query)
+        public Task<HttpResponseMessage> GetAsync(HttpClient httpClient, string query)
         {
             var response = new HttpResponseMessage();
             try
@@ -24,7 +24,7 @@ namespace FanviewPollingService.Services
             {
                 throw ex;
             }
-            return await Task.FromResult(response);
+            return Task.FromResult(response);
         }
     }
 }

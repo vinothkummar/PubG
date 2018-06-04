@@ -15,6 +15,7 @@ using System.Linq;
 using System.Threading;
 using System.Net.Http;
 using System.Net;
+using FanviewPollingService.Utility;
 
 namespace FanviewPollingService.Repository
 {
@@ -23,28 +24,23 @@ namespace FanviewPollingService.Repository
         private IHttpClientRequest _servicerRequest;
         private IHttpClientBuilder _httpClient;
         private IGenericRepository<PlayerKill> _genericRepository;
+        private ILogger<TelemetryRepository> _logger;
         private Task<HttpResponseMessage> _pubGClientResponse;
+        private DateTime killEventlastTimeStamp = DateTime.MinValue;
 
-        static string Fileformatting
-        {
-            get
-            {
-                return string.Format("log-{0:yyyy-MM-dd_hh-mm-ss-tt-fff}", DateTime.Now);
-            }
-        }
-
-        private string pubGRequestLog = Path.Combine(Path.GetFullPath(@"../../../../" + "PollingServiceLog"), Fileformatting);
 
         public TelemetryRepository()
         {
             var servicesProvider = ServiceConfiguration.BuildDI();
 
             _servicerRequest = servicesProvider.GetService<IHttpClientRequest>();
-            _httpClient = servicesProvider.GetService<IHttpClientBuilder>();
-            _genericRepository = servicesProvider.GetService<IGenericRepository<PlayerKill>>();
-            
 
-            
+            _httpClient = servicesProvider.GetService<IHttpClientBuilder>();
+
+            _genericRepository = servicesProvider.GetService<IGenericRepository<PlayerKill>>();
+
+            _logger = servicesProvider.GetService<ILogger<TelemetryRepository>>();
+
         }
         
 
@@ -102,69 +98,59 @@ namespace FanviewPollingService.Repository
 
         public async void GetPlayerKillTelemetryJson()
         {
-            string jsonFileName = Path.Combine(Path.GetFullPath(@"../../../../" + "TelemetryJsonData"), Fileformatting);
-
             var query = "2018/05/27/23/59/0edf9d73-620a-11e8-b75f-0a5864637c0e-telemetry.json";
             try
             {
-                File.AppendAllText(pubGRequestLog, Environment.NewLine + string.Format("Polling started @ {0:yyyy-MM-dd_hh-mm-ss-tt-fff}\n", DateTime.Now.ToString("o") + Environment.NewLine));
+               _logger.LogInformation("Player Kill Telemetery Request Started" + Environment.NewLine);
 
-                _pubGClientResponse = Task.Run(async () => await _servicerRequest.GetAsync(await _httpClient.CreateRequestHeader(), query));
+               //_pubGClientResponse = Task.Run(async () => await _servicerRequest.GetAsync(await _httpClient.CreateRequestHeader(), query));
+
+                _pubGClientResponse =  _servicerRequest.GetAsync(await _httpClient.CreateRequestHeader(), query);
 
                 if (_pubGClientResponse.Result.StatusCode == HttpStatusCode.OK && _pubGClientResponse != null)
                 {
-                    var jsonResult = _pubGClientResponse.Result.Content.ReadAsStringAsync().Result;
+                    _logger.LogInformation("Loading Player Kill Telemetery Response Json" + Environment.NewLine);
+
+                     var jsonResult = _pubGClientResponse.Result.Content.ReadAsStringAsync().Result;
+
+                     await Task.Run(async() => InsertPlayerKillTelemetry(jsonResult));
+
+                     //InsertPlayerKillTelemetry(jsonResult);
+
+                    _logger.LogInformation("Completed Loading Kill Telemetery Response Json" + Environment.NewLine);
                 }
-
-              //  await File.WriteAllTextAsync(jsonFileName, jsonResult );
-               
-
-                File.AppendAllText(pubGRequestLog, Environment.NewLine + string.Format("Polling completed @ {0}\n", DateTime.Now.ToString("o") + Environment.NewLine));
+              
+                _logger.LogInformation("Player Kill Telemetery Request Completed"  + Environment.NewLine);
             }
             catch (Exception)
             {
 
                 throw;
             }
-            
-
-            //var jsonToJObject = JArray.Parse(jsonResult);
-
-           // var lastestKillEventTimeStamp = jsonToJObject.Where(x => x.Value<string>("_T") == "LogPlayerKill").Select(s => new {EventTimeStamp = s.Value<string>("_D") }).Last();
-
-           
-
-           //
         }
 
         public async void InsertPlayerKillTelemetry(string jsonResult)
         {
-            string jsonFileName = Path.Combine(Path.GetFullPath(@"../../../../" + "TelemetryJsonData"), Fileformatting);
-
-            File.AppendAllText(jsonFileName, Environment.NewLine + string.Format("Polling started @ {0:yyyy-MM-dd_hh-mm-ss-tt-fff}\n", DateTime.Now.ToString("o") + Environment.NewLine));
-
-            //var query = "2018/05/27/23/59/0edf9d73-620a-11e8-b75f-0a5864637c0e-telemetry.json";
-
-            //var clientResponse = _servicerRequest.GetAsync(await _httpClient.CreateRequestHeader(), query).Result;
-
-            //var jsonResult = clientResponse.Content.ReadAsStringAsync().Result;
-
+           
             var jsonToJObject = JArray.Parse(jsonResult);
 
-            
+            var lastestKillEventTimeStamp = jsonToJObject.Where(x => x.Value<string>("_T") == "LogPlayerKill").Select(s => new {EventTimeStamp = s.Value<string>("_D") }).Last();
+
 
             IEnumerable<PlayerKill> logPlayerKill = GetLogPlayerKillInfo(jsonToJObject);
 
-            var killEventLastTimeStamp = logPlayerKill.Last().EventTimeStamp;
+            var killEventTimeStamp = logPlayerKill.Last().EventTimeStamp.ToDateTimeFormat();            
 
-            Func<Task> persistDataToMongo = async () => _genericRepository.Insert(logPlayerKill, "killMessages");
+            if (killEventTimeStamp > killEventlastTimeStamp)
+            {
+                Func<Task> persistDataToMongo = async () => _genericRepository.Insert(logPlayerKill, "killMessages");
 
-            await Task.Run(persistDataToMongo);
+                await Task.Run(persistDataToMongo);
 
-            File.AppendAllText(jsonFileName, Environment.NewLine + string.Format("Polling completed @ {0}\n", DateTime.Now.ToString("o") + Environment.NewLine));
+                //_genericRepository.Insert(logPlayerKill, "killMessages");
 
-            //   await File.AppendAllTextAsync(jsonFileName, jsonResult + Environment.NewLine);
-
+                killEventlastTimeStamp = killEventTimeStamp;
+            }
         }
     }
 }
