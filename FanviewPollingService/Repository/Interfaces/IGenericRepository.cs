@@ -8,8 +8,8 @@ namespace FanviewPollingService.Repository.Interfaces
 {
     public interface IGenericRepository<T> where T : class
     {
-        Task<IEnumerable<T>> GetAll();
-        Task<IEnumerable<T>> FindBy(Expression<Func<T, bool>> predicate);
+        Task<IEnumerable<T>> GetAll(string collectionName);
+        Task<IEnumerable<T>> FindBy(Expression<Func<T, bool>> predicate, string collectionName);
         void Insert(IEnumerable<T> entity, string collectionName);
         void Delete(T entity);
         void Update(T entity);

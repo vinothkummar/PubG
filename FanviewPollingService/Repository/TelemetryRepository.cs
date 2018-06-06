@@ -29,6 +29,8 @@ namespace FanviewPollingService.Repository
         private DateTime killEventlastTimeStamp = DateTime.MinValue;
 
 
+
+
         public TelemetryRepository()
         {
             var servicesProvider = ServiceConfiguration.BuildDI();

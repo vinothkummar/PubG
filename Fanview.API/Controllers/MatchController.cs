@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Fanview.API.Repository.Interface;
 using Newtonsoft.Json.Linq;
 
+
 namespace Fanview.API.Controllers
 {
     [Produces("application/json")]
@@ -16,10 +17,12 @@ namespace Fanview.API.Controllers
     {
         private IMatchRepository _matchRepository;
 
+
         public MatchController(IMatchRepository matchRepository)
         {
-            _matchRepository = matchRepository;
+            _matchRepository = matchRepository;           
         }
+
         // GET: api/Match
         [HttpGet]
         public IEnumerable<string> Get()
@@ -28,12 +31,12 @@ namespace Fanview.API.Controllers
         }
 
         // GET: api/Match/5
-        [HttpGet("{id}", Name = "Get")]
-        public Task<JObject> Get(string id)
+        [HttpGet("ById/{id}", Name = "GetMatch")]
+        public Task<JObject> GetMatch(string id)
         {
             var result = _matchRepository.GetMatchesByID(id);
             return result;
-            //return "value";
+           
         }
         
         // POST: api/Match

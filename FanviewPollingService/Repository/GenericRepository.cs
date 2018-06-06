@@ -23,24 +23,24 @@ namespace FanviewPollingService.Repository
         {
             _configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json", true, true).Build();
             var client = new MongoClient(this._configuration["Logging:AppSettings:ConnectionString"]);
-            database = client.GetDatabase("FanviewPubGDb");
-            
+            database = client.GetDatabase("FanviewPubGDb");            
         }
-
-
+        
         public void Delete(T entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<T>> FindBy(Expression<Func<T, bool>> predicate)
+        public async Task<IEnumerable<T>> FindBy(Expression<Func<T, bool>> predicate, string collectionName)
         {
             throw new NotImplementedException();
         }
-
-        public Task<IEnumerable<T>> GetAll()
+        
+        public async Task<IEnumerable<T>> GetAll(string collectionName)
         {
-            throw new NotImplementedException();
+            collection = database.GetCollection<T>(collectionName);
+            return await collection.Find(new BsonDocument()).ToListAsync();
+           
         }
 
         public async void Insert(IEnumerable<T> entity, string collectionName)

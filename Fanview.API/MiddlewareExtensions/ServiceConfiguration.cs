@@ -7,6 +7,8 @@ using Fanview.API.Services;
 using Fanview.API.Services.Interface;
 using Fanview.API.Repository;
 using Fanview.API.Repository.Interface;
+using FanviewPollingService.Repository.Interfaces;
+using FanviewPollingService.Repository;
 
 namespace Fanview.API.MiddlewareExtensions
 {
@@ -16,7 +18,9 @@ namespace Fanview.API.MiddlewareExtensions
         {           
             services.AddSingleton(typeof(IAPIRequestBuilder), typeof(APIRequestBuilder));
             services.AddSingleton(typeof(IServiceRequest), typeof(ServiceRequest));
-            services.AddSingleton(typeof(IMatchRepository), typeof(MatchRepository)); 
+            services.AddSingleton(typeof(IMatchRepository), typeof(MatchRepository));
+            services.AddTransient(typeof(ITelemetryApiRepository), typeof(TelemetryApiRepository));
+            services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         }
     }
 }

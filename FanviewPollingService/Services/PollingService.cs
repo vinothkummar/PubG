@@ -58,7 +58,6 @@ namespace FanviewPollingService.Services
 
             Timers.Start("Poller", 1000, () =>
             {
-
                 _logger.LogInformation( "Service Started Polling " + Environment.NewLine );
 
                 _telemetryRepository.GetPlayerKillTelemetryJson();
