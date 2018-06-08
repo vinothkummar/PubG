@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 
-namespace FanviewPollingService.Utility
+namespace Fanview.API.Utility
 {
     public static class Util
     {

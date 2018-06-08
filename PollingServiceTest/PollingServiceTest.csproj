@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FanviewPollingService\FanviewPollingService.csproj" />
+    <ProjectReference Include="..\Fanview.API\Fanview.API.csproj" />
   </ItemGroup>
 
 </Project>

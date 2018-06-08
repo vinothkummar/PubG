@@ -1,27 +1,23 @@
-﻿using FanviewPollingService.Repository.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Text;
+﻿using Fanview.API.Repository.Interface;
+using Microsoft.Extensions.Configuration;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using MongoDB.Driver.Core;
-using Microsoft.Extensions.Configuration;
-using FanviewPollingService.Model;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
-using System.Net.Http;
 
 namespace FanviewPollingService.Repository
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
-    {
-        private IConfigurationRoot _configuration;
-        private IMongoCollection<T> collection;
+    {   
         private IMongoDatabase database;
+        private IConfiguration _configuration;
 
         public GenericRepository()
-        {
-            _configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json", true, true).Build();
+        {  
+            _configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", true, true).Build();          
             var client = new MongoClient(this._configuration["Logging:AppSettings:ConnectionString"]);
             database = client.GetDatabase("FanviewPubGDb");            
         }
@@ -38,7 +34,7 @@ namespace FanviewPollingService.Repository
         
         public async Task<IEnumerable<T>> GetAll(string collectionName)
         {
-            collection = database.GetCollection<T>(collectionName);
+           var collection = database.GetCollection<T>(collectionName);
             return await collection.Find(new BsonDocument()).ToListAsync();
            
         }
@@ -46,7 +42,7 @@ namespace FanviewPollingService.Repository
         public async void Insert(IEnumerable<T> entity, string collectionName)
         {
 
-           collection = database.GetCollection<T>(collectionName);
+          var collection = database.GetCollection<T>(collectionName);
            await collection.InsertManyAsync(entity);
         }
         

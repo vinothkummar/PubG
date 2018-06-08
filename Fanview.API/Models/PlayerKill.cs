@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace FanviewPollingService.Model
+namespace Fanview.API.Model
 {
     [BsonDiscriminator(RootClass = true)]
     public class PlayerKill

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Fanview.API.Repository.Interface;
+﻿using Fanview.API.Repository.Interface;
 using Fanview.API.Services.Interface;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Threading.Tasks;
 
 namespace Fanview.API.Repository
 {

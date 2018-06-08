@@ -1,33 +1,21 @@
-﻿using PeterKottas.DotNetCore.WindowsService.Base;
-using PeterKottas.DotNetCore.WindowsService.Interfaces;
-using System;
-using System.IO;
-using Microsoft.Extensions.Configuration;
-using System.Net.Http.Headers;
-using System.Net.Http;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using Fanview.API.Model;
+using Fanview.API.Repository;
+using Fanview.API.Repository.Interface;
+using Fanview.API.Services;
+using Fanview.API.Services.Interface;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using FanviewPollingService.Contracts;
-using FanviewPollingService.Repository;
-using FanviewPollingService.Repository.Interfaces;
-using FanviewPollingService.Services;
-using MongoDB.Bson;
-using FanviewPollingService.Services;
-using System.Diagnostics;
-using Serilog;
+using PeterKottas.DotNetCore.WindowsService.Base;
+using PeterKottas.DotNetCore.WindowsService.Interfaces;
+using System;
 
 namespace FanviewPollingService.Services
 {
     public class PollingService : MicroService, IMicroService
     {
         private IMicroServiceController controller;        
-        private IHttpClientRequest _servicerRequest;
-        private IHttpClientBuilder _httpClient;
-        private ITelemetryRepository _telemetryRepository;
+       
+        private IPlayerKillRepository _telemetryRepository;
 
         private ILogger<PollingService> _logger;
 
@@ -40,13 +28,11 @@ namespace FanviewPollingService.Services
         {           
             this.controller = controller;
 
-            var servicesProvider = ServiceConfiguration.BuildDI();
+            var servicesProvider = ServiceConfiguration.BuildDI();  
 
-            _telemetryRepository = servicesProvider.GetService<ITelemetryRepository>();
+            _telemetryRepository = servicesProvider.GetService<IPlayerKillRepository>();
 
             _logger = servicesProvider.GetService<ILogger<PollingService>>();
-
-            _telemetryRepository = servicesProvider.GetService<ITelemetryRepository>();
         }
 
 

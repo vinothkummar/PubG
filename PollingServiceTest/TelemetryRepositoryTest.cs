@@ -1,18 +1,15 @@
-using System;
-using Xunit;
-using FanviewPollingService.Services;
-using FanviewPollingService.Contracts;
-using FanviewPollingService.Repository.Interfaces;
-using FanviewPollingService.Model;
+using Fanview.API.Repository.Interface;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Diagnostics;
+using Xunit;
 
 namespace PollingServiceTest
 {
     public class TelemetryRepositoryTest
     {
         private ServiceProvider serviceProvider;
-        private ITelemetryRepository _telemetryRepository;
+        private IPlayerKillRepository _telemetryRepository;
 
         public TelemetryRepositoryTest()
         {
@@ -23,7 +20,7 @@ namespace PollingServiceTest
 
             serviceProvider = services.BuildServiceProvider();
 
-            _telemetryRepository  = serviceProvider.GetService<ITelemetryRepository>();
+            _telemetryRepository  = serviceProvider.GetService<IPlayerKillRepository>();
 
         }
         [Fact]

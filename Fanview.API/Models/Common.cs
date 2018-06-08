@@ -1,9 +1,6 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace FanviewPollingService.Model
+namespace Fanview.API.Model
 {
     public class Common
     {

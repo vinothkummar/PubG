@@ -1,47 +1,37 @@
-﻿using FanviewPollingService.Contracts;
-using FanviewPollingService.Model;
-using FanviewPollingService.Repository.Interfaces;
-using FanviewPollingService.Services;
-using Microsoft.Extensions.Configuration;
+﻿using Fanview.API.Model;
+using Fanview.API.Repository.Interface;
+using Fanview.API.Services.Interface;
+using Fanview.API.Utility;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
 using System.Linq;
-using System.Threading;
-using System.Net.Http;
 using System.Net;
-using FanviewPollingService.Utility;
+using System.Net.Http;
+using System.Threading.Tasks;
 
-namespace FanviewPollingService.Repository
+namespace Fanview.API.Repository
 {
-    public class TelemetryRepository : ITelemetryRepository
+    public class PlayerKillRepository : IPlayerKillRepository
     {
-        private IHttpClientRequest _servicerRequest;
-        private IHttpClientBuilder _httpClient;
+        private IHttpClientRequest _httpClientRequest;
+        private IHttpClientBuilder _httpClientBuilder;
         private IGenericRepository<PlayerKill> _genericRepository;
-        private ILogger<TelemetryRepository> _logger;
+        private ILogger<PlayerKillRepository> _logger;
         private Task<HttpResponseMessage> _pubGClientResponse;
         private DateTime killEventlastTimeStamp = DateTime.MinValue;
 
-
-
-
-        public TelemetryRepository()
+        public PlayerKillRepository(IHttpClientBuilder httpClientBuilder, IHttpClientRequest httpClientRequest, IGenericRepository<PlayerKill> genericRepository, ILogger<PlayerKillRepository> logger)
         {
-            var servicesProvider = ServiceConfiguration.BuildDI();
+            _httpClientRequest = httpClientRequest;
 
-            _servicerRequest = servicesProvider.GetService<IHttpClientRequest>();
+            _httpClientBuilder = httpClientBuilder;
 
-            _httpClient = servicesProvider.GetService<IHttpClientBuilder>();
+            _genericRepository = genericRepository;
 
-            _genericRepository = servicesProvider.GetService<IGenericRepository<PlayerKill>>();
-
-            _logger = servicesProvider.GetService<ILogger<TelemetryRepository>>();
+            _logger = logger;
 
         }
         
@@ -100,14 +90,15 @@ namespace FanviewPollingService.Repository
 
         public async void GetPlayerKillTelemetryJson()
         {
-            var query = "2018/05/27/23/59/0edf9d73-620a-11e8-b75f-0a5864637c0e-telemetry.json";
+            //var query = "pc-eu/2018/05/27/23/59/0edf9d73-620a-11e8-b75f-0a5864637c0e-telemetry.json";
+            var query = "pc-na/2018/06/07/00/59/0e690669-69ee-11e8-9d58-0a5864650332-telemetry.json";
             try
             {
                _logger.LogInformation("Player Kill Telemetery Request Started" + Environment.NewLine);
 
                //_pubGClientResponse = Task.Run(async () => await _servicerRequest.GetAsync(await _httpClient.CreateRequestHeader(), query));
 
-                _pubGClientResponse =  _servicerRequest.GetAsync(await _httpClient.CreateRequestHeader(), query);
+                _pubGClientResponse =  _httpClientRequest.GetAsync(await _httpClientBuilder.CreateRequestHeader(), query);
 
                 if (_pubGClientResponse.Result.StatusCode == HttpStatusCode.OK && _pubGClientResponse != null)
                 {
@@ -137,7 +128,6 @@ namespace FanviewPollingService.Repository
             var jsonToJObject = JArray.Parse(jsonResult);
 
             var lastestKillEventTimeStamp = jsonToJObject.Where(x => x.Value<string>("_T") == "LogPlayerKill").Select(s => new {EventTimeStamp = s.Value<string>("_D") }).Last();
-
 
             IEnumerable<PlayerKill> logPlayerKill = GetLogPlayerKillInfo(jsonToJObject);
 

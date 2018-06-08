@@ -1,13 +1,11 @@
-﻿using FanviewPollingService.Contracts;
+﻿using Fanview.API.Repository;
+using Fanview.API.Repository.Interface;
+using Fanview.API.Services;
+using Fanview.API.Services.Interface;
 using FanviewPollingService.Repository;
-using FanviewPollingService.Repository.Interfaces;
-using FanviewPollingService.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace PollingServiceTest
 {
@@ -31,7 +29,7 @@ namespace PollingServiceTest
             services.AddSingleton<IHttpClientRequest, HttpClientRequest>();
             services.AddSingleton<IHttpClientBuilder, HttpClientBuilder>();
             services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-            services.AddTransient<ITelemetryRepository, TelemetryRepository>();
+            services.AddTransient<IPlayerKillRepository, PlayerKillRepository>();
         }
     }
 }

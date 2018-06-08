@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FanviewPollingService.Repository.Interfaces
+namespace Fanview.API.Repository.Interface
 {
-    public interface ITelemetryRepository
+    public interface IPlayerKillRepository
     {
         void InsertPlayerKillTelemetry(string jsonResult);
 

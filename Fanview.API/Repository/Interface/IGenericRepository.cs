@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using MongoDB.Bson;
 
-namespace FanviewPollingService.Repository.Interfaces
+namespace Fanview.API.Repository.Interface
 {
     public interface IGenericRepository<T> where T : class
     {

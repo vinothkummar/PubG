@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Fanview.API.Services.Interface;
+using System;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using FanviewPollingService.Contracts;
 
-namespace FanviewPollingService.Services
+namespace Fanview.API.Services
 {
     public class HttpClientRequest : IHttpClientRequest
     {

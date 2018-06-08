@@ -1,9 +1,10 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 
-namespace FanviewPollingService.Model
+namespace Fanview.API.Model
 {
-    public class Killer
+    public class Victim
     {
+        
         [BsonElement("name")]
         public string Name { get; set; }
         [BsonElement("teamId")]
@@ -16,6 +17,5 @@ namespace FanviewPollingService.Model
         public int Ranking { get; set; }
         [BsonElement("accountId")]
         public string AccountId { get; set; }
-        
     }
 }

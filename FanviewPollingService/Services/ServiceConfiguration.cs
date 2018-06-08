@@ -1,8 +1,9 @@
-﻿using FanviewPollingService.Contracts;
+﻿using Fanview.API.Repository;
+using Fanview.API.Repository.Interface;
+using Fanview.API.Services;
+using Fanview.API.Services.Interface;
 using FanviewPollingService.Repository;
-using FanviewPollingService.Repository.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Serilog;
 using System;
 
@@ -10,13 +11,17 @@ namespace FanviewPollingService.Services
 {
     public static class ServiceConfiguration
     {
+       
+
         public static IServiceProvider BuildDI()
         {
+            
+
             var serviceProvider = new ServiceCollection().AddLogging(configure => configure.AddSerilog())
                                                          .AddSingleton<IHttpClientRequest, HttpClientRequest>()
                                                          .AddSingleton<IHttpClientBuilder, HttpClientBuilder>()
-                                                         .AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>))
-                                                         .AddTransient<ITelemetryRepository, TelemetryRepository>()
+                                                         .AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>))                                                           
+                                                         .AddTransient<IPlayerKillRepository, PlayerKillRepository>()                                                        
                                                          .BuildServiceProvider();
             return serviceProvider;
         }

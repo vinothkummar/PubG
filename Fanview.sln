@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fanview.Test", "Fanview.Tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FanviewPollingService", "FanviewPollingService\FanviewPollingService.csproj", "{53FDF2E8-8BD3-4924-B803-AF7F9EE338F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PollingServiceTest", "PollingServiceTest\PollingServiceTest.csproj", "{648F9ACD-95D7-4B36-8872-49283BE63D83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PollingServiceTest", "PollingServiceTest\PollingServiceTest.csproj", "{648F9ACD-95D7-4B36-8872-49283BE63D83}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
