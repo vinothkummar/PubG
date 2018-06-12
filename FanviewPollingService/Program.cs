@@ -28,12 +28,6 @@ namespace FanviewPollingService
 
             var serviceProvider = ServiceConfiguration.BuildDI();
 
-            //var serviceCollection = new ServiceCollection();
-
-            //ServiceConfiguration.ConfigureServices(serviceCollection);
-
-            //var serviceProvider = serviceCollection.BuildServiceProvider();
-
             var logger = serviceProvider.GetService<ILogger<Program>>();
 
             ServiceRunner<PollingService>.Run(config =>

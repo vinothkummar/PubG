@@ -25,7 +25,7 @@ namespace Fanview.API.Services
             client.DefaultRequestHeaders.Add("Authorization", "Bearer " + this._configuration["Logging:AppSettings:ApplicationKey"]);
             //client.Timeout = TimeSpan.FromMilliseconds(500);
 
-            return client;
+            return await Task.FromResult(client);
         }
     }
 }

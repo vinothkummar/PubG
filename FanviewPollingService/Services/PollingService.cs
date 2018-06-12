@@ -1,8 +1,4 @@
-﻿using Fanview.API.Model;
-using Fanview.API.Repository;
-using Fanview.API.Repository.Interface;
-using Fanview.API.Services;
-using Fanview.API.Services.Interface;
+﻿using Fanview.API.Repository.Interface;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PeterKottas.DotNetCore.WindowsService.Base;
@@ -30,7 +26,7 @@ namespace FanviewPollingService.Services
 
             var servicesProvider = ServiceConfiguration.BuildDI();  
 
-            _telemetryRepository = servicesProvider.GetService<IPlayerKillRepository>();
+           _telemetryRepository = servicesProvider.GetService<IPlayerKillRepository>();
 
             _logger = servicesProvider.GetService<ILogger<PollingService>>();
         }
@@ -38,7 +34,7 @@ namespace FanviewPollingService.Services
 
        
 
-        public async void Start()
+        public void Start()
         {
             StartBase(); 
 

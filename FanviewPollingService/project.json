@@ -1,5 +1,13 @@
 ﻿{
-  "dependencies": {
+  "version": "2.1.104",
+  "buildOptions": {
+    "emitEntryPoint": true
+  },
+  "dependencies": {    
+      "Microsoft.NetCore.App": {
+        "type": "build",
+        "version": "2.0.0"
+      },
     "Microsoft.Extensions.Logging": "2.0.0",
     "Microsoft.Extensions.Logging.Console": "2.0.0",
     "Microsoft.Extensions.DependencyInjection": "2.0.0"

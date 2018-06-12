@@ -41,8 +41,7 @@ namespace FanviewPollingService.Repository
 
         public async void Insert(IEnumerable<T> entity, string collectionName)
         {
-
-          var collection = database.GetCollection<T>(collectionName);
+           var collection = database.GetCollection<T>(collectionName);
            await collection.InsertManyAsync(entity);
         }
         

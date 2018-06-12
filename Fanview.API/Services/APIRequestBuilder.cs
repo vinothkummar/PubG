@@ -34,7 +34,7 @@ namespace Fanview.API.Services
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             client.DefaultRequestHeaders.Add("Authorization", "Bearer " + _Configuration["Logging:AppSettings:ApplicationKey"]);
 
-            return client ;
+            return await Task.FromResult(client) ;
         }
 
         

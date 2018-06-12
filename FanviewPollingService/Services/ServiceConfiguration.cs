@@ -26,14 +26,14 @@ namespace FanviewPollingService.Services
             return serviceProvider;
         }
 
-        public static void ConfigureServices(IServiceCollection services)
-        {
-            services.AddLogging(configure => configure.AddSerilog());
-                    //.AddSingleton<IHttpClientRequest, HttpClientRequest>()
-                    //.AddSingleton<IHttpClientBuilder, HttpClientBuilder>()
-                    //.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>))
-                    //.AddTransient<ITelemetryRepository, TelemetryRepository>();
+        //public static void ConfigureServices(IServiceCollection services)
+        //{
+        //    services.AddLogging(configure => configure.AddSerilog());
+        //            //.AddSingleton<IHttpClientRequest, HttpClientRequest>()
+        //            //.AddSingleton<IHttpClientBuilder, HttpClientBuilder>()
+        //            //.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>))
+        //            //.AddTransient<ITelemetryRepository, TelemetryRepository>();
 
-        }
+        //}
     }
 }
