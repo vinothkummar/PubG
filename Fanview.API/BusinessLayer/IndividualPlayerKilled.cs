@@ -12,36 +12,45 @@ namespace Fanview.API.BusinessLayer
     {
         public IEnumerable<string> PlayerKilledOrTeamEliminiation(IEnumerable<PlayerKill> playerKilled)
         {
-           var result = playerKilled
-                                    //.OrderByDescending(o => o.EventTimeStamp)
-                                    .Select(s => new { TimeKilled = s.EventTimeStamp, KillerName = s.Killer.Name,
-                                                       VictimName = s.Victim.Name, DamageCause = s.DamageCauserName,
-                                                       DamageTypeCategroy = s.DamageTypeCategory,
-                                                       VictimRanking = s.Victim.Ranking, VictimTeamId = s.Victim.TeamId,
-                                                       KillerTeamId = s.Killer.TeamId, VictimHealth = s.Victim.Health });
-
-            var victimHealthCount = playerKilled.OrderByDescending(o => o.EventTimeStamp)
-                                                .Where(cn => cn.Victim.Health == 0).Count();
+            var result = playerKilled                                     
+                                     .Select(s => new
+                                     {
+                                         TimeKilled = s.EventTimeStamp,
+                                         KillerName = s.Killer.Name,
+                                         VictimName = s.Victim.Name,
+                                         DamageCause = s.DamageCauserName,
+                                         VictimTeamId = s.Victim.TeamId,
+                                         KillerTeamId = s.Killer.TeamId,
+                                         VictimHealth = s.Victim.Health,
+                                     });            
 
             var killMessages = new List<string>();
 
-            
-
             foreach (var item in result)
             {
-                var playerLeft = victimHealthCount - killMessages.Count();
+                var playerLeftCount = FindPlayerLeft(playerKilled, killMessages);
 
-                var killText = $"{item.TimeKilled.ToDateTimeFormat().ToString("HH:mm")}  " +
+                var playerLeft = playerLeftCount == 1 ? "winner" : playerLeftCount.ToString() + " LEFT";
+
+                var killText = $"{item.TimeKilled.ToDateTimeFormat().ToString("mm:ss")}  " +
                     $"{item.KillerName.ToUpper()} {item.KillerTeamId} KILLED  {item.VictimName.ToUpper()} " +
                     $"{item.VictimTeamId} WITH {ReadAssets.GetDamageCauserName(item.DamageCause).ToUpper()}   " +
-                    $"{playerLeft} {item.VictimRanking} LEFT ";
-
+                    $"{playerLeft}";
+                 
                 killMessages.Add(killText);
 
             }
 
             return killMessages;
 
+        }
+
+        private static int FindPlayerLeft(IEnumerable<PlayerKill> playerKilled, List<string> killMessages)
+        {
+          var  lostHealthCount = playerKilled.OrderByDescending(o => o.EventTimeStamp)
+                                                .Where(cn => cn.Victim.Health == 0).Count();
+
+            return lostHealthCount - killMessages.Count();
         }
     }
 }
