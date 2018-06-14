@@ -88,7 +88,7 @@ namespace Fanview.API.Repository
             return result;
         }
 
-        public async void GetPlayerKillTelemetryJson()
+        public async void GetPlayerKillTelemetry()
         {
             //var query = "pc-eu/2018/05/27/23/59/0edf9d73-620a-11e8-b75f-0a5864637c0e-telemetry.json";
             var query = "pc-na/2018/06/07/00/59/0e690669-69ee-11e8-9d58-0a5864650332-telemetry.json";

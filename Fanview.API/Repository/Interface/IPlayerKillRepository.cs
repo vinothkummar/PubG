@@ -8,7 +8,7 @@ namespace Fanview.API.Repository.Interface
     {
         void InsertPlayerKillTelemetry(string jsonResult);
 
-        void GetPlayerKillTelemetryJson();
+        void GetPlayerKillTelemetry();
        
     }
 }
