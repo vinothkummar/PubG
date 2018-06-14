@@ -42,7 +42,7 @@ namespace FanviewPollingService.Services
             {
                 _logger.LogInformation( "Service Started Polling " + Environment.NewLine );
 
-                _telemetryRepository.GetPlayerKillTelemetryJson();
+                _telemetryRepository.GetPlayerKillTelemetry();
 
                 _logger.LogInformation( "Service Completed Polling "+ Environment.NewLine );
             });
