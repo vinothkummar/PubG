@@ -16,19 +16,13 @@ namespace Fanview.API.Repository
 {
     public class PlayerKillRepository : IPlayerKillRepository
     {
-        private IHttpClientRequest _httpClientRequest;
-        private IHttpClientBuilder _httpClientBuilder;
         private IGenericRepository<PlayerKill> _genericRepository;
         private ILogger<PlayerKillRepository> _logger;
         private Task<HttpResponseMessage> _pubGClientResponse;
         private DateTime killEventlastTimeStamp = DateTime.MinValue;
 
-        public PlayerKillRepository(IHttpClientBuilder httpClientBuilder, IHttpClientRequest httpClientRequest, IGenericRepository<PlayerKill> genericRepository, ILogger<PlayerKillRepository> logger)
+        public PlayerKillRepository(IGenericRepository<PlayerKill> genericRepository, ILogger<PlayerKillRepository> logger)
         {
-            _httpClientRequest = httpClientRequest;
-
-            _httpClientBuilder = httpClientBuilder;
-
             _genericRepository = genericRepository;
 
             _logger = logger;
@@ -86,40 +80,6 @@ namespace Fanview.API.Repository
             });
 
             return result;
-        }
-
-        public async void GetPlayerKillTelemetry()
-        {
-            //var query = "pc-eu/2018/05/27/23/59/0edf9d73-620a-11e8-b75f-0a5864637c0e-telemetry.json";
-            var query = "pc-na/2018/06/07/00/59/0e690669-69ee-11e8-9d58-0a5864650332-telemetry.json";
-            try
-            {
-               _logger.LogInformation("Player Kill Telemetery Request Started" + Environment.NewLine);
-
-               //_pubGClientResponse = Task.Run(async () => await _servicerRequest.GetAsync(await _httpClient.CreateRequestHeader(), query));
-
-                _pubGClientResponse =  _httpClientRequest.GetAsync(await _httpClientBuilder.CreateRequestHeader(), query);
-
-                if (_pubGClientResponse.Result.StatusCode == HttpStatusCode.OK && _pubGClientResponse != null)
-                {
-                    _logger.LogInformation("Loading Player Kill Telemetery Response Json" + Environment.NewLine);
-
-                     var jsonResult = _pubGClientResponse.Result.Content.ReadAsStringAsync().Result;
-
-                     await Task.Run(async() => InsertPlayerKillTelemetry(jsonResult));
-
-                     //InsertPlayerKillTelemetry(jsonResult);
-
-                    _logger.LogInformation("Completed Loading Kill Telemetery Response Json" + Environment.NewLine);
-                }
-              
-                _logger.LogInformation("Player Kill Telemetery Request Completed"  + Environment.NewLine);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
         }
 
         public async void InsertPlayerKillTelemetry(string jsonResult)

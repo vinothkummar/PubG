@@ -7,8 +7,5 @@ namespace Fanview.API.Repository.Interface
     public interface IPlayerKillRepository
     {
         void InsertPlayerKillTelemetry(string jsonResult);
-
-        void GetPlayerKillTelemetry();
-       
     }
 }
