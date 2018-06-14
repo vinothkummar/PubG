@@ -8,6 +8,8 @@ namespace Fanview.API.Repository.Interface
 {
     public interface ITelemetryRepository
     {
+        void GetTelemetry();
+
         Task<IEnumerable<PlayerKill>> GetPlayerKills();
     }
 }

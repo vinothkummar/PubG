@@ -9,9 +9,11 @@ namespace FanviewPollingService.Services
 {
     public class PollingService : MicroService, IMicroService
     {
-        private IMicroServiceController controller;        
-       
-        private IPlayerKillRepository _telemetryRepository;
+        private IMicroServiceController controller;
+
+        //private IPlayerKillRepository _telemetryRepository;
+
+        private ITelemetryRepository _telemetryRepository;
 
         private ILogger<PollingService> _logger;
 
@@ -24,9 +26,10 @@ namespace FanviewPollingService.Services
         {           
             this.controller = controller;
 
-            var servicesProvider = ServiceConfiguration.BuildDI();  
+            var servicesProvider = ServiceConfiguration.BuildDI();
 
-           _telemetryRepository = servicesProvider.GetService<IPlayerKillRepository>();
+            //_telemetryRepository = servicesProvider.GetService<IPlayerKillRepository>();
+            _telemetryRepository = servicesProvider.GetService<ITelemetryRepository>();
 
             _logger = servicesProvider.GetService<ILogger<PollingService>>();
         }
@@ -42,7 +45,8 @@ namespace FanviewPollingService.Services
             {
                 _logger.LogInformation( "Service Started Polling " + Environment.NewLine );
 
-                _telemetryRepository.GetPlayerKillTelemetry();
+                //_telemetryRepository.GetPlayerKillTelemetry();
+                _telemetryRepository.GetTelemetry();
 
                 _logger.LogInformation( "Service Completed Polling "+ Environment.NewLine );
             });

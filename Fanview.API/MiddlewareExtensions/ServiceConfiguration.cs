@@ -12,7 +12,8 @@ namespace Fanview.API.MiddlewareExtensions
     public static class ServiceConfiguration
     {
         public static void AddCustomServices(this IServiceCollection services)
-        {           
+        { services.AddSingleton<IHttpClientRequest, HttpClientRequest>();
+            services.AddSingleton<IHttpClientBuilder, HttpClientBuilder>();
             services.AddSingleton(typeof(IAPIRequestBuilder), typeof(APIRequestBuilder));
             services.AddSingleton(typeof(IServiceRequest), typeof(ServiceRequest));
             services.AddSingleton(typeof(IMatchRepository), typeof(MatchRepository));

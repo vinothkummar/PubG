@@ -12,7 +12,15 @@ namespace Fanview.API.BusinessLayer
         public IEnumerable<string> PlayerKilledOrTeamEliminiation(IEnumerable<PlayerKill> playerKilled)
         {
 
-            var text = playerKilled.Select(s => s.Victim).GroupBy(g => g.TeamId);
+            var  groupByTeam = playerKilled.Select(s => new Victim() { AccountId= s.Victim.AccountId, Name = s.Victim.Name, TeamId =s.Victim.TeamId , Health = s.Victim.Health}).GroupBy(g => g.TeamId);
+
+            var teamElimination = new List<string>();
+
+            foreach (var item in groupByTeam)
+            {
+                var eliminationText = item;
+            }
+
             return null;
             //throw new NotImplementedException();
         }
