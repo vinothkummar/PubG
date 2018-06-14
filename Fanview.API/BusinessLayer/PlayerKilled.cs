@@ -10,10 +10,10 @@ namespace Fanview.API.BusinessLayer
 {
     public class PlayerKilled : IPlayerKilled
     {
-        private ITelemetryApiRepository _telemetryApiRepository;
+        private ITelemetryRepository _telemetryApiRepository;
         List<IKillingRule> _rules = new List<IKillingRule>();
 
-        public PlayerKilled(ITelemetryApiRepository telemetryApiRepository)
+        public PlayerKilled(ITelemetryRepository telemetryApiRepository)
         {
             _telemetryApiRepository = telemetryApiRepository;
 

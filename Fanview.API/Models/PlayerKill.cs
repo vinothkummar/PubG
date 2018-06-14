@@ -20,7 +20,9 @@ namespace Fanview.API.Model
         [BsonElement("victim")]
         public Victim Victim { get; set; }
         [BsonElement("damageTypeCategory")]
-        public string DamageTypeCategory { get; set; } 
+        public string DamageTypeCategory { get; set; }
+        [BsonElement("damageReason")]
+        public string DamageReason { get; set; }
         [BsonElement("damageCauserName")]
         public string DamageCauserName { get; set; }
         [BsonElement("distance")]

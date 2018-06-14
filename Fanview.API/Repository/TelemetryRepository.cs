@@ -6,11 +6,11 @@ using System.Linq;
 
 namespace Fanview.API.Repository
 {
-    public class TelemetryApiRepository : ITelemetryApiRepository
+    public class TelemetryRepository : ITelemetryRepository
     {
         private IGenericRepository<PlayerKill> _genericRepository;
 
-        public TelemetryApiRepository(IGenericRepository<PlayerKill> genericRepository)
+        public TelemetryRepository(IGenericRepository<PlayerKill> genericRepository)
         {
             _genericRepository = genericRepository;
         }

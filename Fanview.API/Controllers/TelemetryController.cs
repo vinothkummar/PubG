@@ -17,10 +17,10 @@ namespace Fanview.API.Controllers
     [Route("api/Telemetry")]
     public class TelemetryController : Controller
     {
-        private ITelemetryApiRepository _telemetryApiRepository;
+        private ITelemetryRepository _telemetryApiRepository;
         private IPlayerKilled _playerKilled;
 
-        public TelemetryController(ITelemetryApiRepository telemetryApiRepository, IPlayerKilled playerKilled )
+        public TelemetryController(ITelemetryRepository telemetryApiRepository, IPlayerKilled playerKilled )
         {
             _telemetryApiRepository = telemetryApiRepository;
             _playerKilled = playerKilled;

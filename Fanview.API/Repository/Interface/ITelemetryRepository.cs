@@ -6,7 +6,7 @@ using Fanview.API.Model;
 
 namespace Fanview.API.Repository.Interface
 {
-    public interface ITelemetryApiRepository
+    public interface ITelemetryRepository
     {
         Task<IEnumerable<PlayerKill>> GetPlayerKills();
     }
