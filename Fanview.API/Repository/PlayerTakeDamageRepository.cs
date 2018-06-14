@@ -1,38 +1,23 @@
 ﻿using Fanview.API.Model;
 using Fanview.API.Repository.Interface;
-using Fanview.API.Services.Interface;
-using Fanview.API.Utility;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Fanview.API.Repository
 {
-    public class PlayerKillRepository : IPlayerKillRepository
+    public class PlayerTakeDamageRepository : IPlayerTakeDamageRepository
     {
-        private IGenericRepository<PlayerKill> _genericRepository;
-        private ILogger<PlayerKillRepository> _logger;
-        private Task<HttpResponseMessage> _pubGClientResponse;
-        private DateTime killEventlastTimeStamp = DateTime.MinValue;
-
-        public PlayerKillRepository(IGenericRepository<PlayerKill> genericRepository, ILogger<PlayerKillRepository> logger)
+        public void InsertPlayerTakeDamageTelemetry(string jsonResult)
         {
-            _genericRepository = genericRepository;
-
-            _logger = logger;
-
+            var test = new Fanview.API.Model.
+            throw new NotImplementedException();
         }
-        
 
         private IEnumerable<PlayerKill> GetLogPlayerKill(JArray jsonToJObject)
-        {
-            var result =  jsonToJObject.Where(x => x.Value<string>("_T") == "LogPlayerKill").Select(s => new PlayerKill()
+        {   
+            var result = jsonToJObject.Where(x => x.Value<string>("_T") == "LogPlayerTakeDamage").Select(s => new PlayerKill()
             {
                 AttackId = s.Value<int>("attackId"),
                 Killer = new Killer()
@@ -80,28 +65,6 @@ namespace Fanview.API.Repository
             });
 
             return result;
-        }
-
-        public async void InsertPlayerKillTelemetry(string jsonResult)
-        {  
-            var jsonToJObject = JArray.Parse(jsonResult);
-
-            var lastestKillEventTimeStamp = jsonToJObject.Where(x => x.Value<string>("_T") == "LogPlayerKill").Select(s => new {EventTimeStamp = s.Value<string>("_D") }).Last();
-
-            IEnumerable<PlayerKill> logPlayerKill = GetLogPlayerKill(jsonToJObject);
-
-            var killEventTimeStamp = logPlayerKill.Last().EventTimeStamp.ToDateTimeFormat();            
-
-            if (killEventTimeStamp > killEventlastTimeStamp)
-            {
-                Func<Task> persistDataToMongo = async () => _genericRepository.Insert(logPlayerKill, "killMessages");
-
-                await Task.Run(persistDataToMongo);
-
-                //_genericRepository.Insert(logPlayerKill, "killMessages");
-
-                killEventlastTimeStamp = killEventTimeStamp;
-            }
         }
     }
 }
