@@ -16,12 +16,12 @@ namespace Fanview.API.Repository
 {
     public class PlayerKillRepository : IPlayerKillRepository
     {
-        private IGenericRepository<PlayerKill> _genericRepository;
+        private IGenericRepository<Kill> _genericRepository;
         private ILogger<PlayerKillRepository> _logger;
         private Task<HttpResponseMessage> _pubGClientResponse;
         private DateTime killEventlastTimeStamp = DateTime.MinValue;
 
-        public PlayerKillRepository(IGenericRepository<PlayerKill> genericRepository, ILogger<PlayerKillRepository> logger)
+        public PlayerKillRepository(IGenericRepository<Kill> genericRepository, ILogger<PlayerKillRepository> logger)
         {
             _genericRepository = genericRepository;
 
@@ -30,9 +30,9 @@ namespace Fanview.API.Repository
         }
         
 
-        private IEnumerable<PlayerKill> GetLogPlayerKill(JArray jsonToJObject)
+        private IEnumerable<Kill> GetLogPlayerKill(JArray jsonToJObject)
         {
-            var result =  jsonToJObject.Where(x => x.Value<string>("_T") == "LogPlayerKill").Select(s => new PlayerKill()
+            var result =  jsonToJObject.Where(x => x.Value<string>("_T") == "LogPlayerKill").Select(s => new Kill()
             {
                 AttackId = s.Value<int>("attackId"),
                 Killer = new Killer()
@@ -83,18 +83,18 @@ namespace Fanview.API.Repository
         }
 
         public async void InsertPlayerKillTelemetry(string jsonResult)
-        {  
+        {              
             var jsonToJObject = JArray.Parse(jsonResult);
 
             var lastestKillEventTimeStamp = jsonToJObject.Where(x => x.Value<string>("_T") == "LogPlayerKill").Select(s => new {EventTimeStamp = s.Value<string>("_D") }).Last();
 
-            IEnumerable<PlayerKill> logPlayerKill = GetLogPlayerKill(jsonToJObject);
+            IEnumerable<Kill> logPlayerKill = GetLogPlayerKill(jsonToJObject);
 
             var killEventTimeStamp = logPlayerKill.Last().EventTimeStamp.ToDateTimeFormat();            
 
             if (killEventTimeStamp > killEventlastTimeStamp)
             {
-                Func<Task> persistDataToMongo = async () => _genericRepository.Insert(logPlayerKill, "killMessages");
+                Func<Task> persistDataToMongo = async () => _genericRepository.Insert(logPlayerKill, "Kill");
 
                 await Task.Run(persistDataToMongo);
 

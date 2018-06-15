@@ -22,6 +22,7 @@ namespace FanviewPollingService.Services
                                                          .AddSingleton<IHttpClientBuilder, HttpClientBuilder>()
                                                          .AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>))                                                           
                                                          .AddTransient<IPlayerKillRepository, PlayerKillRepository>()
+                                                         .AddTransient<ITakeDamageRepository, TakeDamageRepository>()
                                                          .AddTransient<ITelemetryRepository,TelemetryRepository>()
                                                          .BuildServiceProvider();
             return serviceProvider;

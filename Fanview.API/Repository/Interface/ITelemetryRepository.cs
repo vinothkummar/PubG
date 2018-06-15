@@ -10,6 +10,6 @@ namespace Fanview.API.Repository.Interface
     {
         void GetTelemetry();
 
-        Task<IEnumerable<PlayerKill>> GetPlayerKills();
+        Task<IEnumerable<Kill>> GetPlayerKills();
     }
 }

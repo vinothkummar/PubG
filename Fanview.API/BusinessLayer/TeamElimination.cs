@@ -9,7 +9,7 @@ namespace Fanview.API.BusinessLayer
 {
     public class TeamElimination : IKillingRule
     {
-        public IEnumerable<string> PlayerKilledOrTeamEliminiation(IEnumerable<PlayerKill> playerKilled)
+        public IEnumerable<string> PlayerKilledOrTeamEliminiation(IEnumerable<Kill> playerKilled)
         {
 
             var  groupByTeam = playerKilled.Select(s => new Victim() { AccountId= s.Victim.AccountId, Name = s.Victim.Name, TeamId =s.Victim.TeamId , Health = s.Victim.Health}).GroupBy(g => g.TeamId);

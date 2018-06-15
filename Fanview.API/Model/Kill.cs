@@ -8,7 +8,7 @@ using System.Text;
 namespace Fanview.API.Model
 {
     [BsonDiscriminator(RootClass = true)]
-    public class PlayerKill
+    public class Kill
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]

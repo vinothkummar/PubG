@@ -10,7 +10,7 @@ namespace Fanview.API.BusinessLayer
 {
     public class IndividualPlayerKilled : IKillingRule
     {
-        public IEnumerable<string> PlayerKilledOrTeamEliminiation(IEnumerable<PlayerKill> playerKilled)
+        public IEnumerable<string> PlayerKilledOrTeamEliminiation(IEnumerable<Kill> playerKilled)
         {
             var result = playerKilled                                     
                                      .Select(s => new
@@ -45,7 +45,7 @@ namespace Fanview.API.BusinessLayer
 
         }
 
-        private static int FindPlayerLeft(IEnumerable<PlayerKill> playerKilled, List<string> killMessages)
+        private static int FindPlayerLeft(IEnumerable<Kill> playerKilled, List<string> killMessages)
         {
           var  lostHealthCount = playerKilled.OrderByDescending(o => o.EventTimeStamp)
                                                 .Where(cn => cn.Victim.Health == 0).Count();

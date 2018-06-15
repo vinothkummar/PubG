@@ -28,7 +28,7 @@ namespace Fanview.API.Controllers
 
         // GET: api/Telemetry
         [HttpGet("PlayerKilled")]
-        public IEnumerable<PlayerKill> GetPlayerKilled()
+        public IEnumerable<Kill> GetPlayerKilled()
         {
             var result = _telemetryApiRepository.GetPlayerKills();
 

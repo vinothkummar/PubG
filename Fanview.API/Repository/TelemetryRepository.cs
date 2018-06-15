@@ -15,25 +15,29 @@ namespace Fanview.API.Repository
     {
         private IHttpClientBuilder _httpClientBuilder;
         private IHttpClientRequest _httpClientRequest;        
-        private IGenericRepository<PlayerKill> _genericRepository;
+        private IGenericRepository<Kill> _genericRepository;
         private IPlayerKillRepository _playerKillRepository;
+        private ITakeDamageRepository _takeDamageRepository;
         private ILogger<PlayerKillRepository> _logger;
         private Task<HttpResponseMessage> _pubGClientResponse;
         
 
-        public TelemetryRepository(IHttpClientBuilder httpClientBuilder, IHttpClientRequest httpClientRequest, IGenericRepository<PlayerKill> genericRepository, IPlayerKillRepository playerKillRepository, ILogger<PlayerKillRepository> logger)
+        public TelemetryRepository(IHttpClientBuilder httpClientBuilder, IHttpClientRequest httpClientRequest, IGenericRepository<Kill> genericRepository, 
+                                   IPlayerKillRepository playerKillRepository, ITakeDamageRepository takeDamageRepository,
+                                   ILogger<PlayerKillRepository> logger)
         {
             _httpClientBuilder = httpClientBuilder;
             _httpClientRequest = httpClientRequest;          
             _genericRepository = genericRepository;
             _playerKillRepository = playerKillRepository;
+            _takeDamageRepository = takeDamageRepository;
             _logger = logger;
         }
-        public Task<IEnumerable<PlayerKill>> GetPlayerKills()
+        public Task<IEnumerable<Kill>> GetPlayerKills()
         {
             
-            var result = _genericRepository.GetAll("killMessages");
-
+            var result = _genericRepository.GetAll("Kill");
+        
             return result;
         }
 
@@ -56,6 +60,8 @@ namespace Fanview.API.Repository
                     var jsonResult = _pubGClientResponse.Result.Content.ReadAsStringAsync().Result;
 
                     await Task.Run(async () => _playerKillRepository.InsertPlayerKillTelemetry(jsonResult));
+
+                    await Task.Run(async () => _takeDamageRepository.InsertTakeDamageTelemetry(jsonResult));
 
                     //InsertPlayerKillTelemetry(jsonResult);
 

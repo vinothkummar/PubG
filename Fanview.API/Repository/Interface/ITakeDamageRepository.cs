@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace Fanview.API.Repository.Interface
 {
-    public interface IPlayerTakeDamageRepository
+    public interface ITakeDamageRepository
     {
-        void InsertPlayerTakeDamageTelemetry(string jsonResult);
+        void InsertTakeDamageTelemetry(string jsonResult);
     }
 }

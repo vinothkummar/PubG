@@ -8,6 +8,6 @@ namespace Fanview.API.BusinessLayer.Contracts
 {
     public interface IKillingRule
     {
-        IEnumerable<string> PlayerKilledOrTeamEliminiation(IEnumerable<PlayerKill> playerKilled);
+        IEnumerable<string> PlayerKilledOrTeamEliminiation(IEnumerable<Kill> playerKilled);
     }
 }
