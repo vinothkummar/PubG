@@ -63,7 +63,7 @@ namespace Fanview.API.Repository
                     Ranking = (int)s["victim"]["ranking"],
                     AccountId = (string)s["victim"]["accountId"]
                 },
-                DamageTypeCategory = (string)s["damageTypeCategory"],
+                DamageTypeCategory = (string)s["damageTypeCategory"],               
                 DamageCauserName = (string)s["damageCauserName"],
                 Distance = (float)s["distance"],
                 Common = new Common()

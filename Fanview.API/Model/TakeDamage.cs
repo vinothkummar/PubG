@@ -22,6 +22,8 @@ namespace Fanview.API.Model
         [BsonElement("damageTypeCategory")]
         public string DamageTypeCategory { get; set; }
         [BsonElement("damageReason")]
+        public string DamageReason { get; set; }
+        [BsonElement("damage")]
         public int Damage { get; set; }
         [BsonElement("damageCauserName")]
         public string DamageCauserName { get; set; }
