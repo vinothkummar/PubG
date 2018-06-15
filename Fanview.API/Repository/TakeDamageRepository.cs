@@ -88,6 +88,7 @@ namespace Fanview.API.Repository
                     AccountId = (string)s["victim"]["accountId"]
                 },
                 DamageTypeCategory = (string)s["damageTypeCategory"],
+                DamageReason = (string)s["damageReason"],
                 Damage = (int)s["damage"],
                 DamageCauserName = (string)s["damageCauserName"],                
                 Common = new Common()
