@@ -14,15 +14,15 @@ using Fanview.API.BusinessLayer.Contracts;
 namespace Fanview.API.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Telemetry")]
-    public class TelemetryController : Controller
+    [Route("api/Kill")]
+    public class KillController : Controller
     {
-        private ITelemetryRepository _telemetryApiRepository;
+        private IPlayerKillRepository _playerKillRepository;
         private IPlayerKilled _playerKilled;
 
-        public TelemetryController(ITelemetryRepository telemetryApiRepository, IPlayerKilled playerKilled )
+        public KillController(IPlayerKillRepository playerKillRepository, IPlayerKilled playerKilled )
         {
-            _telemetryApiRepository = telemetryApiRepository;
+            _playerKillRepository = playerKillRepository;
             _playerKilled = playerKilled;
         }
 
@@ -30,8 +30,7 @@ namespace Fanview.API.Controllers
         [HttpGet("PlayerKilled")]
         public IEnumerable<Kill> GetPlayerKilled()
         {
-            var result = _telemetryApiRepository.GetPlayerKills();
-
+            var result = _playerKillRepository.GetPlayerKills();
 
             return result.Result.Count() > 0 ? result.Result: null;           
         }

@@ -103,5 +103,13 @@ namespace Fanview.API.Repository
                 killEventlastTimeStamp = killEventTimeStamp;
             }
         }
+
+        public async Task<IEnumerable<Kill>> GetPlayerKills()
+        {
+
+            var result = _genericRepository.GetAll("Kill");
+
+            return await result;
+        }
     }
 }

@@ -33,13 +33,7 @@ namespace Fanview.API.Repository
             _takeDamageRepository = takeDamageRepository;
             _logger = logger;
         }
-        public Task<IEnumerable<Kill>> GetPlayerKills()
-        {
-            
-            var result = _genericRepository.GetAll("Kill");
-        
-            return result;
-        }
+      
 
         public async void GetTelemetry()
         {

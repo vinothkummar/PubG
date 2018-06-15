@@ -23,6 +23,14 @@ namespace Fanview.API.Repository
             _genericRepository = genericRepository;
             _logger = logger;
         }
+
+        public Task<IEnumerable<TakeDamage>> GetPlayerTakeDamage()
+        {
+            var result = _genericRepository.GetAll("TakeDamage");
+
+            return result;
+        }
+
         public async void InsertTakeDamageTelemetry(string jsonResult)
         {
             var jsonToJObject = JArray.Parse(jsonResult);

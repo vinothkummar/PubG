@@ -10,12 +10,13 @@ namespace Fanview.API.BusinessLayer
 {
     public class PlayerKilled : IPlayerKilled
     {
-        private ITelemetryRepository _telemetryApiRepository;
+       
         List<IKillingRule> _rules = new List<IKillingRule>();
+        private IPlayerKillRepository _playerKillRepository;
 
-        public PlayerKilled(ITelemetryRepository telemetryApiRepository)
+        public PlayerKilled(IPlayerKillRepository playerKillRepository)
         {
-            _telemetryApiRepository = telemetryApiRepository;
+            _playerKillRepository = playerKillRepository;
 
             _rules.Add(new IndividualPlayerKilled());
             _rules.Add(new TeamElimination());
@@ -23,7 +24,7 @@ namespace Fanview.API.BusinessLayer
 
         public IEnumerable<string> GetPlayerKilled()
         {
-            var resultFromDb = _telemetryApiRepository.GetPlayerKills().Result;
+            var resultFromDb = _playerKillRepository.GetPlayerKills().Result;
 
             var playerKilledOrTeamEliminatedMessages = new List<string>();
 
