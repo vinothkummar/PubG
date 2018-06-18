@@ -30,15 +30,21 @@ namespace Fanview.API.Controllers
         [HttpGet("PlayerKilled")]
         public IEnumerable<Kill> GetPlayerKilled()
         {
-            var result = _playerKillRepository.GetPlayerKills();
+            var result = _playerKillRepository.GetPlayerKilled();
 
             return result.Result.Count() > 0 ? result.Result: null;           
         }
 
-        [HttpGet("PlayerKilledMediaText")]
+        [HttpGet("PlayerKilled/Media")]
         public IEnumerable<string> GetPlayerKilledForMediaStream()
         {
             return _playerKilled.GetPlayerKilled();
+        }
+
+        [HttpGet("PlayerKilled/Media/Last4")]
+        public IEnumerable<string> GetLast4PlayerKilledForMediaStream()
+        {
+            return _playerKilled.GetLast4PlayerKilled();
         }
 
         // GET: api/Telemetry/5

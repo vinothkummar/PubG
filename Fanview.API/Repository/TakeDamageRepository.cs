@@ -24,11 +24,11 @@ namespace Fanview.API.Repository
             _logger = logger;
         }
 
-        public Task<IEnumerable<TakeDamage>> GetPlayerTakeDamage()
+        public async Task<IEnumerable<TakeDamage>> GetPlayerTakeDamage()
         {
             var result = _genericRepository.GetAll("TakeDamage");
 
-            return result;
+            return await result;
         }
 
         public async void InsertTakeDamageTelemetry(string jsonResult)
@@ -47,7 +47,7 @@ namespace Fanview.API.Repository
 
                 await Task.Run(persistDataToMongo);
 
-                //_genericRepository.Insert(logPlayerTakeDamage, "TakeDamage");
+                //c_genericRepository.Insert(logPlayerTakeDamage, "TakeDamage");
 
                 killEventlastTimeStamp = killEventTimeStamp;
             }

@@ -10,6 +10,9 @@ namespace Fanview.API.Repository.Interface
     {
         void InsertPlayerKillTelemetry(string jsonResult);
 
-        Task<IEnumerable<Kill>> GetPlayerKills();
+        Task<IEnumerable<Kill>> GetPlayerKilled();
+
+        Task<IEnumerable<Kill>> GetLast4PlayerKilled();
+
     }
 }

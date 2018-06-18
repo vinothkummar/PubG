@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace FanviewPollingService.Repository
 {
@@ -34,11 +35,9 @@ namespace FanviewPollingService.Repository
         
         public async Task<IEnumerable<T>> GetAll(string collectionName)
         {
-           var collection = database.GetCollection<T>(collectionName);
-            return await collection.Find(new BsonDocument()).ToListAsync();
-           
+            return await Task.FromResult(database.GetCollection<T>(collectionName).AsQueryable());           
         }
-
+        
         public async void Insert(IEnumerable<T> entity, string collectionName)
         {
            var collection = database.GetCollection<T>(collectionName);

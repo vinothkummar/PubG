@@ -19,6 +19,7 @@ namespace Fanview.API.BusinessLayer
                                          KillerName = s.Killer.Name,
                                          VictimName = s.Victim.Name,
                                          DamageCause = s.DamageCauserName,
+                                        // DamageReason = s.DamageReason,
                                          VictimTeamId = s.Victim.TeamId,
                                          KillerTeamId = s.Killer.TeamId,
                                          VictimHealth = s.Victim.Health,
@@ -26,18 +27,37 @@ namespace Fanview.API.BusinessLayer
 
             var killMessages = new List<string>();
 
+            var teamCount = new List<int>();
+
+            string killText;
+
             foreach (var item in result)
-            {
+            {                
                 var playerLeftCount = FindPlayerLeft(playerKilled, killMessages);
 
                 var playerLeft = playerLeftCount == 1 ? "winner" : playerLeftCount.ToString() + " LEFT";
 
-                var killText = $"{item.TimeKilled.ToDateTimeFormat().ToString("mm:ss")}  " +
-                    $"{item.KillerName.ToUpper()} {item.KillerTeamId} KILLED  {item.VictimName.ToUpper()} " +
+                    killText = $"{item.TimeKilled.ToDateTimeFormat().ToString("mm:ss")}  " +
+                    $"{item.KillerName.ToUpper()} {item.KillerTeamId} KILLED  {item.VictimName.ToUpper()} " + //BY {item.DamageReason}
                     $"{item.VictimTeamId} WITH {ReadAssets.GetDamageCauserName(item.DamageCause).ToUpper()}   " +
                     $"{playerLeft}";
                  
                 killMessages.Add(killText);
+
+                teamCount.Add(item.VictimTeamId);
+
+                if(teamCount.Where(cn => cn == item.VictimTeamId).Count() == 2)
+                {
+                    var teamLeftCount = FindTeamLeft(playerKilled, killMessages);
+
+                    var teamLeft = teamLeftCount == 1 ? "winner" : teamLeftCount.ToString() + " LEFT";
+
+                    killText = $"{item.TimeKilled.ToDateTimeFormat().ToString("mm:ss")} " +
+                               $" TEAM {item.VictimTeamId} HAS BEEN ELIMINATED " +
+                               $"{teamLeft}";
+
+                    killMessages.Add(killText);
+                }
 
             }
 
@@ -45,12 +65,26 @@ namespace Fanview.API.BusinessLayer
 
         }
 
-        private static int FindPlayerLeft(IEnumerable<Kill> playerKilled, List<string> killMessages)
+        private int FindPlayerLeft(IEnumerable<Kill> playerKilled, List<string> killMessages)
         {
-          var  lostHealthCount = playerKilled.OrderByDescending(o => o.EventTimeStamp)
-                                                .Where(cn => cn.Victim.Health == 0).Count();
+            var teamEliminatedMessageCount = killMessages.Where(cn => cn.Contains("TEAM")).Count();
 
-            return lostHealthCount - killMessages.Count();
+            var  lostHealthCount = playerKilled.Where(cn => cn.Victim.Health == 0).Count();
+
+            return (lostHealthCount - killMessages.Count() ) + teamEliminatedMessageCount;
+        }
+
+        private int FindTeamLeft(IEnumerable<Kill> playerKilled, List<string> killMessages)
+        {
+            var playerKilledMessageCount = killMessages.Where(cn => cn.Contains("KILLED")).Count();
+
+
+            var TeamCount = playerKilled.GroupBy(x => x.Victim.TeamId).Count();
+
+            var teamEliminatedCount = killMessages.Where(cn => cn.Contains("TEAM")).Count() != 0 ? 
+                                      killMessages.Where(cn => cn.Contains("TEAM")).Count() + 1 : 1;
+
+            return (TeamCount - teamEliminatedCount);
         }
     }
 }

@@ -30,7 +30,7 @@ namespace Fanview.API.Repository
         }
         
 
-        private IEnumerable<Kill> GetLogPlayerKill(JArray jsonToJObject)
+        private IEnumerable<Kill> GetLogPlayerKilled(JArray jsonToJObject)
         {
             var result =  jsonToJObject.Where(x => x.Value<string>("_T") == "LogPlayerKill").Select(s => new Kill()
             {
@@ -88,7 +88,7 @@ namespace Fanview.API.Repository
 
             var lastestKillEventTimeStamp = jsonToJObject.Where(x => x.Value<string>("_T") == "LogPlayerKill").Select(s => new {EventTimeStamp = s.Value<string>("_D") }).Last();
 
-            IEnumerable<Kill> logPlayerKill = GetLogPlayerKill(jsonToJObject);
+            IEnumerable<Kill> logPlayerKill = GetLogPlayerKilled(jsonToJObject);
 
             var killEventTimeStamp = logPlayerKill.Last().EventTimeStamp.ToDateTimeFormat();            
 
@@ -104,12 +104,20 @@ namespace Fanview.API.Repository
             }
         }
 
-        public async Task<IEnumerable<Kill>> GetPlayerKills()
-        {
+        public async Task<IEnumerable<Kill>> GetPlayerKilled()
+        { 
 
-            var result = _genericRepository.GetAll("Kill");
+            var response = _genericRepository.GetAll("Kill");
 
-            return await result;
+            return await response;
+        }
+
+        public async Task<IEnumerable<Kill>> GetLast4PlayerKilled()
+        { 
+            var response = _genericRepository.GetAll("Kill").Result.TakeLast(4);
+
+            return await Task.FromResult(response);
+
         }
     }
 }

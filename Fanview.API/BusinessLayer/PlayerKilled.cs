@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Fanview.API.BusinessLayer.Contracts;
 using Fanview.API.Repository.Interface;
-using Fanview.API.Utility;
+using Fanview.API.Model;
 
 namespace Fanview.API.BusinessLayer
 {
@@ -13,31 +13,54 @@ namespace Fanview.API.BusinessLayer
        
         List<IKillingRule> _rules = new List<IKillingRule>();
         private IPlayerKillRepository _playerKillRepository;
+        private ITakeDamageRepository _takeDamageRepository;
 
-        public PlayerKilled(IPlayerKillRepository playerKillRepository)
+        public PlayerKilled(IPlayerKillRepository playerKillRepository, ITakeDamageRepository takeDamageRepository)
         {
             _playerKillRepository = playerKillRepository;
+            _takeDamageRepository = takeDamageRepository;
 
             _rules.Add(new IndividualPlayerKilled());
-            _rules.Add(new TeamElimination());
+           
+        }
+
+        public IEnumerable<string> GetLast4PlayerKilled()
+        {
+
+            var playerKilledOrTeamEliminatedMessages = new List<string>();
+
+            var kills =  _playerKillRepository.GetLast4PlayerKilled().Result;
+
+            foreach (var rule in _rules)
+            {
+                var output = rule.PlayerKilledOrTeamEliminiation(kills);
+
+                if (output != null)
+                {
+                    playerKilledOrTeamEliminatedMessages.AddRange(output);
+                }
+            }
+
+
+            return playerKilledOrTeamEliminatedMessages.OrderByDescending(o => o);
         }
 
         public IEnumerable<string> GetPlayerKilled()
         {
-            var resultFromDb = _playerKillRepository.GetPlayerKills().Result;
-
             var playerKilledOrTeamEliminatedMessages = new List<string>();
+
+            var kills = _playerKillRepository.GetPlayerKilled().Result;            
 
             foreach (var rule in _rules)
             {
-                var output = rule.PlayerKilledOrTeamEliminiation(resultFromDb);
+                var output = rule.PlayerKilledOrTeamEliminiation(kills);
 
                 if (output != null)
                 {
                     playerKilledOrTeamEliminatedMessages = output.ToList();
                 }
             }
-                
+
 
             return playerKilledOrTeamEliminatedMessages;
         }
