@@ -46,7 +46,10 @@ namespace Fanview.API.BusinessLayer
 
                 teamCount.Add(item.VictimTeamId);
 
-                if(teamCount.Where(cn => cn == item.VictimTeamId).Count() == 2)
+                var teamPlayerCount = playerKilled.Where(cn => cn.Victim.TeamId == item.VictimTeamId).Count();
+
+
+                if (teamCount.Where(cn => cn == item.VictimTeamId).Count() == teamPlayerCount)
                 {
                     var teamLeftCount = FindTeamLeft(playerKilled, killMessages);
 
@@ -77,7 +80,6 @@ namespace Fanview.API.BusinessLayer
         private int FindTeamLeft(IEnumerable<Kill> playerKilled, List<string> killMessages)
         {
             var playerKilledMessageCount = killMessages.Where(cn => cn.Contains("KILLED")).Count();
-
 
             var TeamCount = playerKilled.GroupBy(x => x.Victim.TeamId).Count();
 
