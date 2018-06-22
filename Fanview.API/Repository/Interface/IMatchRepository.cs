@@ -8,6 +8,8 @@ namespace Fanview.API.Repository.Interface
 {
     public interface IMatchRepository
     {
+        void PollMatchSessionId(string eventName);
+        void InsertEvent(string jsonResult);
         Task<JObject> GetMatchesByID(string id);
     }
 }

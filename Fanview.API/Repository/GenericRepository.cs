@@ -43,7 +43,13 @@ namespace FanviewPollingService.Repository
            var collection = database.GetCollection<T>(collectionName);
            await collection.InsertManyAsync(entity);
         }
-        
+
+        public async void Insert(T entity, string collectionName)
+        {
+            var collection = database.GetCollection<T>(collectionName);
+            await collection.InsertOneAsync(entity);
+        }
+
         public void Save()
         {
             throw new NotImplementedException();

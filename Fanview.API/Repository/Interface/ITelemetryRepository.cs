@@ -8,7 +8,7 @@ namespace Fanview.API.Repository.Interface
 {
     public interface ITelemetryRepository
     {
-        void GetTelemetry();
+        void PollTelemetry();
 
         
     }

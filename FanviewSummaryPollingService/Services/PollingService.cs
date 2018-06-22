@@ -5,14 +5,13 @@ using PeterKottas.DotNetCore.WindowsService.Base;
 using PeterKottas.DotNetCore.WindowsService.Interfaces;
 using System;
 
-namespace FanviewPollingService.Services
+namespace FanviewEventPollingService.Services
 {
     public class PollingService : MicroService, IMicroService
     {
         private IMicroServiceController controller;
-
-        private ITelemetryRepository _telemetryRepository;
-
+        private string eventName;
+        private IMatchRepository _matchRepository;
         private ILogger<PollingService> _logger;
 
         public PollingService()
@@ -20,13 +19,15 @@ namespace FanviewPollingService.Services
             controller = null;
         }
 
-        public PollingService(IMicroServiceController controller)
+        public PollingService(IMicroServiceController controller, string eventName)
         {           
             this.controller = controller;
 
+            this.eventName = eventName;
+
             var servicesProvider = ServiceConfiguration.BuildDI();
             
-            _telemetryRepository = servicesProvider.GetService<ITelemetryRepository>();
+           _matchRepository  = servicesProvider.GetService<IMatchRepository>();
 
             _logger = servicesProvider.GetService<ILogger<PollingService>>();
         }
@@ -38,11 +39,11 @@ namespace FanviewPollingService.Services
         {
             StartBase(); 
 
-            Timers.Start("Poller", 1000, () =>
+            Timers.Start("Poller", 10000, () =>
             {
                 _logger.LogInformation( "Service Started Polling " + Environment.NewLine );
 
-                _telemetryRepository.PollTelemetry();
+                _matchRepository.PollMatchSessionId(eventName);
 
                 _logger.LogInformation( "Service Completed Polling "+ Environment.NewLine );
             });

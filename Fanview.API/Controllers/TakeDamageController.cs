@@ -25,7 +25,8 @@ namespace Fanview.API.Controllers
         {
             var result = _takeDamageRepository.GetPlayerTakeDamage();
 
-            return result.Result.Count() > 0 ? result.Result : null;
+            // return result.Result.Count() > 0 ? result.Result : null;
+            return result.Result;
         }
 
         // GET: api/TakeDamage/5

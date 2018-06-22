@@ -11,6 +11,7 @@ namespace Fanview.API.Repository.Interface
         Task<IEnumerable<T>> GetAll(string collectionName);
         Task<IEnumerable<T>> FindBy(Expression<Func<T, bool>> predicate, string collectionName);
         void Insert(IEnumerable<T> entity, string collectionName);
+        void Insert(T entity, string collectionName);
         void Delete(T entity);
         void Update(T entity);
         void Save();

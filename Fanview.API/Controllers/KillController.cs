@@ -32,7 +32,8 @@ namespace Fanview.API.Controllers
         {
             var result = _playerKillRepository.GetPlayerKilled();
 
-            return result.Result.Count() > 0 ? result.Result: null;           
+            //return result.Result.Count() > 0 ? result.Result: null;           
+            return result.Result;
         }
 
         [HttpGet("PlayerKilled/Media")]
