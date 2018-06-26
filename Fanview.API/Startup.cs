@@ -11,6 +11,7 @@ using Microsoft.Extensions.Options;
 
 using Fanview.API.MiddlewareExtensions;
 using Newtonsoft.Json.Serialization;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Fanview.API
 {
@@ -38,6 +39,12 @@ namespace Fanview.API
             //                    options.SerializerSettings.ContractResolver = new DefaultContractResolver());
             //new CamelCasePropertyNamesContractResolver()
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Version = "v1", Title = "Fanview.API" });
+               
+            });
+
 
             services.AddCustomServices();
             
@@ -52,6 +59,9 @@ namespace Fanview.API
             }
 
             app.UseMvc();
+            app.UseSwagger();
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Fanview APi"); });
+
         }
     }
 }
