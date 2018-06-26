@@ -14,7 +14,8 @@ using Fanview.API.BusinessLayer.Contracts;
 namespace Fanview.API.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Kill")]
+    [Route("api/[controller]")]
+    [ApiController]
     public class KillController : Controller
     {
         private IPlayerKillRepository _playerKillRepository;
@@ -36,13 +37,13 @@ namespace Fanview.API.Controllers
             return result.Result;
         }
 
-        [HttpGet("PlayerKilled/Media")]
+        [HttpGet("PlayerKilled/Media", Name = "GetPlayerKilledForMediaStream")]
         public IEnumerable<string> GetPlayerKilledForMediaStream()
         {
             return _playerKilled.GetPlayerKilled();
         }
 
-        [HttpGet("PlayerKilled/Media/Last4")]
+        [HttpGet("PlayerKilled/Media/Last4", Name = "GetLast4PlayerKilledForMediaStream")]
         public IEnumerable<string> GetLast4PlayerKilledForMediaStream()
         {
             return _playerKilled.GetLast4PlayerKilled();
