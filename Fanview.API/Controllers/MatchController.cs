@@ -12,7 +12,7 @@ using Newtonsoft.Json.Linq;
 namespace Fanview.API.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Match")]
+    [Route("api/[controller]")]
     public class MatchController : Controller
     {
         private IMatchRepository _matchRepository;
@@ -31,10 +31,10 @@ namespace Fanview.API.Controllers
         }
 
         // GET: api/Match/5
-        [HttpGet("ById/{id}", Name = "GetMatch")]
+        [HttpGet("ById/{id}", Name = "GetMatch")]        
         public Task<JObject> GetMatch(string id)
         {
-            var result = _matchRepository.GetMatchesByID(id);
+            var result = _matchRepository.GetMatchesDetailsByID(id);
             return result;
            
         }

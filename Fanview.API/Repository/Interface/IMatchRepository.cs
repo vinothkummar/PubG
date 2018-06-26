@@ -10,6 +10,7 @@ namespace Fanview.API.Repository.Interface
     {
         void PollMatchSessionId(string eventName);
         void InsertEvent(string jsonResult);
-        Task<JObject> GetMatchesByID(string id);
+        Task<JObject> GetMatchesDetailsByID(string id);
+        Task<JObject> GetMatchIdByTournament(string tournament);
     }
 }

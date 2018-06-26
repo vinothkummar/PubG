@@ -19,7 +19,7 @@ namespace FanviewEventPollingService.Services
 
             var serviceProvider = new ServiceCollection().AddLogging(configure => configure.AddSerilog())
                                                          .AddSingleton<IHttpClientRequest, HttpClientRequest>()
-                                                         .AddSingleton<IHttpClientBuilder, HttpClientBuilder>()
+                                                         .AddSingleton<IClientBuilder, ClientBuilder>()
                                                          .AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>))                                                           
                                                          .AddTransient<IPlayerKillRepository, PlayerKillRepository>()
                                                          .AddTransient<ITakeDamageRepository, TakeDamageRepository>()

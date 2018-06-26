@@ -15,24 +15,27 @@ namespace Fanview.API.Repository
 {
     public class MatchRepository : IMatchRepository
     {
-        private IHttpClientBuilder _httpClientBuilder;
+        private IClientBuilder _httpClientBuilder;
         private IHttpClientRequest _httpClientRequest;
+        private IAPIRequestBuilder _aPIRequestBuilder;
         private IGenericRepository<Event> _genericRepository;
         private ILogger<MatchRepository> _logger;
         private Task<HttpResponseMessage> _pubGClientResponse;
         private DateTime _lastMatchCreatedTimeStamp = DateTime.MinValue;
 
-        public MatchRepository(IHttpClientBuilder httpClientBuilder, IHttpClientRequest httpClientRequest,
+        public MatchRepository(IClientBuilder httpClientBuilder, IHttpClientRequest httpClientRequest,
+                                      IAPIRequestBuilder aPIRequestBuilder,
                                       IGenericRepository<Event> genericRepository, ILogger<MatchRepository> logger)
         {
             _httpClientBuilder = httpClientBuilder;
             _httpClientRequest = httpClientRequest;
+            _aPIRequestBuilder = aPIRequestBuilder;           
             _genericRepository = genericRepository;          
             _logger = logger;
         }
-        public async Task<JObject> GetMatchesByID(string id)
+        public async Task<JObject> GetMatchesDetailsByID(string id)
         {            
-            var clientResponse = _httpClientRequest.GetAsync(await _httpClientBuilder.CreateRequestHeader(), "matches/"+id).Result;
+            var clientResponse = _httpClientRequest.GetAsync(await _aPIRequestBuilder.CreateRequestHeader(), "matches/"+id).Result;
 
             var jsonResult = clientResponse.Content.ReadAsStringAsync().Result;
 
@@ -107,6 +110,11 @@ namespace Fanview.API.Repository
                 EventsAttributes = new EventsAttributes() { CreatedAT = (string)s["attributes"]["createdAt"] }
             });
             return result;
+        }
+
+        public Task<JObject> GetMatchIdByTournament(string tournament)
+        {
+            throw new NotImplementedException();
         }
     }
 }

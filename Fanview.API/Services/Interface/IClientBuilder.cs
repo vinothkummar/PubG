@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Fanview.API.Services.Interface
 {
-    public interface IHttpClientBuilder
+    public interface IClientBuilder
     {
         Task<HttpClient> CreateRequestHeader();
     }

@@ -10,7 +10,7 @@ using Fanview.API.Model;
 namespace Fanview.API.Controllers
 {
     [Produces("application/json")]
-    [Route("api/TakeDamage")]
+    [Route("api/[controller]")]
     public class TakeDamageController : Controller
     {
         private ITakeDamageRepository _takeDamageRepository;

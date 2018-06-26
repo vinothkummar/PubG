@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Fanview.API.Services
 {
-    public class HttpClientBuilder : IHttpClientBuilder
+    public class ClientBuilder : IClientBuilder
     {
         private IConfiguration _configuration;
 
-        public HttpClientBuilder()
+        public ClientBuilder()
         {
             _configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json", true, true).Build();
             

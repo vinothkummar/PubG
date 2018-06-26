@@ -27,7 +27,7 @@ namespace PollingServiceTest
         {
             services.AddLogging();
             services.AddSingleton<IHttpClientRequest, HttpClientRequest>();
-            services.AddSingleton<IHttpClientBuilder, HttpClientBuilder>();
+            services.AddSingleton<IClientBuilder, ClientBuilder>();
             services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddTransient<IPlayerKillRepository, PlayerKillRepository>();
         }
