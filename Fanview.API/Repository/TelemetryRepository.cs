@@ -37,8 +37,7 @@ namespace Fanview.API.Repository
 
         public async void PollTelemetry()
         {
-            //var query = "pc-na/2018/06/07/00/59/0e690669-69ee-11e8-9d58-0a5864650332-telemetry.json";
-            var query = "pc-na/2018/06/11/18/20/11d976d4-6da4-11e8-ba97-0a586464d535-telemetry.json";
+            var query = "2018/06/26/13/13/c845762d-7942-11e8-af88-0a5864603b03-telemetry.json";
             try
             {
                 _logger.LogInformation("Telemetery Request Started" + Environment.NewLine);

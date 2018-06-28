@@ -13,10 +13,14 @@ namespace Fanview.API.Model
         [BsonElement("id")]
         public string Id { get; set; }
         [BsonElement("type")]
-        public string Type { get; set; }       
-        [BsonElement("relationsShips")]
-        public EventRelationships relationships { get; set; }
-        [BsonElement("eventsDate")]
-        public IEnumerable<EventsDate> EventsDate { get; set; }
+        public string Type { get; set; }
+        [BsonElement("createdAt")]
+        public string CreatedAT { get; set; }
+        [BsonElement("eventName")]
+        public string EventName { get; set; }
+        //[BsonElement("relationsShips")]
+        //public EventRelationships relationships { get; set; }
+        //[BsonElement("eventsDate")]
+        //public IEnumerable<EventsDate> EventsDate { get; set; }
     }
 }

@@ -10,6 +10,7 @@ using System.Net.Http;
 using System.Net;
 using System.Linq;
 using Fanview.API.Utility;
+using System.Collections.Generic;
 
 namespace Fanview.API.Repository
 {
@@ -17,25 +18,24 @@ namespace Fanview.API.Repository
     {
         private IClientBuilder _httpClientBuilder;
         private IHttpClientRequest _httpClientRequest;
-        private IAPIRequestBuilder _aPIRequestBuilder;
+        //private IAPIRequestBuilder _aPIRequestBuilder;
         private IGenericRepository<Event> _genericRepository;
         private ILogger<MatchRepository> _logger;
         private Task<HttpResponseMessage> _pubGClientResponse;
-        private DateTime _lastMatchCreatedTimeStamp = DateTime.MinValue;
 
         public MatchRepository(IClientBuilder httpClientBuilder, IHttpClientRequest httpClientRequest,
-                                      IAPIRequestBuilder aPIRequestBuilder,
+                                      //IAPIRequestBuilder aPIRequestBuilder,
                                       IGenericRepository<Event> genericRepository, ILogger<MatchRepository> logger)
         {
             _httpClientBuilder = httpClientBuilder;
             _httpClientRequest = httpClientRequest;
-            _aPIRequestBuilder = aPIRequestBuilder;           
+            //_aPIRequestBuilder = aPIRequestBuilder;           
             _genericRepository = genericRepository;          
             _logger = logger;
         }
         public async Task<JObject> GetMatchesDetailsByID(string id)
         {            
-            var clientResponse = _httpClientRequest.GetAsync(await _aPIRequestBuilder.CreateRequestHeader(), "matches/"+id).Result;
+            var clientResponse = _httpClientRequest.GetAsync(await _httpClientBuilder.CreateRequestHeader(), "matches/"+id).Result;
 
             var jsonResult = clientResponse.Content.ReadAsStringAsync().Result;
 
@@ -54,64 +54,73 @@ namespace Fanview.API.Repository
 
                 if (_pubGClientResponse.Result.StatusCode == HttpStatusCode.OK && _pubGClientResponse != null)
                 {
-                    _logger.LogInformation("Event Response Json" + Environment.NewLine);
+                    _logger.LogInformation("Reading Event Response Json" + Environment.NewLine);
 
                     var jsonResult = _pubGClientResponse.Result.Content.ReadAsStringAsync().Result;
 
-                    InsertEvent(jsonResult);
+                    InsertEvent(jsonResult, eventName);
 
-                    _logger.LogInformation("Completed Loading Telemetery Response Json" + Environment.NewLine);
+                    _logger.LogInformation("Completed Loading Event Response Json" + Environment.NewLine);
                 }
 
-                _logger.LogInformation("Telemetery Request Completed" + Environment.NewLine);
+                _logger.LogInformation("Event Poll Request Completed" + Environment.NewLine);
             }
             catch (Exception ex)
             {
-
+                _logger.LogInformation("Event Poll Request Completed {Exception}" + Environment.NewLine, ex);
                 throw;
             }
 
         }
 
-        public void InsertEvent(string jsonResult)
+        public async void InsertEvent(string jsonResult, string eventName)
         {
             var jsonToJObject = JObject.Parse(jsonResult);
 
-           // var currentMatchCreatedTimeStamp = jsonToJObject["included"].ToArray().Select(s => s["attributes"])
-           //                                           .Select(s1 => s1["createdAt"]).OrderBy(o => o).Last()
-           //                                           .ToString();
-
-            
-            
-            var eventTournament =  GetTournament(jsonToJObject);
+            var eventTournament =  CreateEventObject(jsonToJObject, eventName);
 
 
+             var tournamentMatchIds = GetTournamentMatchId();
+             
+             if (tournamentMatchIds.Result.Where(cn => eventTournament.Select(s => s.Id).Contains(cn.Id)).Count() == 0){
 
-            //if (currentMatchCreatedTimeStamp.ToDateTimeFormat() > _lastMatchCreatedTimeStamp)
-            //{
-            //Func<Task> persistDataToMongo = async () => _genericRepository.Insert(matchSummaryData, "MatchPlayerStats");
+                Func<Task> persistDataToMongo = async () => _genericRepository.Insert(eventTournament, "TournamentMatchId");
 
-            //await Task.Run(persistDataToMongo);
-
-            _genericRepository.Insert(eventTournament, "Tournament");
-
-            //    _lastMatchCreatedTimeStamp = currentMatchCreatedTimeStamp.ToDateTimeFormat();
-            //}
+                await Task.Run(persistDataToMongo);
+               // _genericRepository.Insert(eventTournament, "Tournament");
+            }
         }
 
-        private Event GetTournament(JObject jsonToJObject)
-        {
-            var result = jsonToJObject.SelectToken("data").ToObject<Event>();
+        private IEnumerable<Event> CreateEventObject(JObject jsonToJObject, string eventName)
+        {  
+            var eventRoundId = jsonToJObject.SelectToken("data.relationships.matches.data").Select(s => new Matches() {Id = (string)s["id"]});
 
-            result.EventsDate = jsonToJObject["included"].Select(s => new EventsDate()
+            var eventRoundCreated = jsonToJObject["included"].Select(s => new EventsDate()
             {
                 Id = (string)s["id"],
-                Type = (string)s["type"],
-                EventsAttributes = new EventsAttributes() { CreatedAT = (string)s["attributes"]["createdAt"] }
+                Type = (string)s["type"],               
+                CreatedAT = (string)s["attributes"]["createdAt"]
             });
-            return result;
+
+           var tournamentMatches = eventRoundCreated.Join(eventRoundId, erc => erc.Id, er => er.Id, (erc, er) => new { erc, er })
+                             .Select(s => new Event() {
+                                 Id = s.erc.Id,
+                                 Type = s.erc.Type,
+                                 CreatedAT = s.erc.CreatedAT,
+                                 EventName = eventName
+                             }).OrderBy(o => o.CreatedAT);
+
+          
+            return tournamentMatches;
         }
 
+        public async Task<IEnumerable<Event>> GetTournamentMatchId()
+        {
+
+            var response = _genericRepository.GetAll("TournamentMatchId");
+
+            return await response;
+        }
         public Task<JObject> GetMatchIdByTournament(string tournament)
         {
             throw new NotImplementedException();
