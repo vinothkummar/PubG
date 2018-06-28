@@ -28,30 +28,5 @@ namespace Fanview.API.Controllers
             // return result.Result.Count() > 0 ? result.Result : null;
             return result.Result;
         }
-
-        // GET: api/TakeDamage/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-        
-        // POST: api/TakeDamage
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
-        
-        // PUT: api/TakeDamage/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-        
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }
