@@ -50,6 +50,12 @@ namespace FanviewPollingService.Repository
             await collection.InsertOneAsync(entity);
         }
 
+        //public async void Insert(IAsyncEnumerable<T> entity, string collectionName)
+        //{
+        //    var collection = database.GetCollection<T>(collectionName);
+        //    await collection.InsertOneAsync(entity);
+        //}
+
         public void Save()
         {
             throw new NotImplementedException();

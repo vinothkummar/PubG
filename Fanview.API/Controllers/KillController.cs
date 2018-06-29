@@ -49,29 +49,29 @@ namespace Fanview.API.Controllers
             return _playerKilled.GetLast4PlayerKilled();
         }
 
-        // GET: api/Telemetry/5
-        [HttpGet("PlayerKill/{id}", Name = "GetTelemetry")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+        //// GET: api/Telemetry/5
+        //[HttpGet("PlayerKill/{id}", Name = "GetTelemetry")]
+        //public string Get(int id)
+        //{
+        //    return "value";
+        //}
 
-        // POST: api/Telemetry
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
+        //// POST: api/Telemetry
+        //[HttpPost]
+        //public void Post([FromBody]string value)
+        //{
+        //}
         
-        // PUT: api/Telemetry/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
+        //// PUT: api/Telemetry/5
+        //[HttpPut("{id}")]
+        //public void Put(int id, [FromBody]string value)
+        //{
+        //}
         
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        //// DELETE: api/ApiWithActions/5
+        //[HttpDelete("{id}")]
+        //public void Delete(int id)
+        //{
+        //}
     }
 }

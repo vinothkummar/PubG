@@ -4,51 +4,44 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Fanview.API.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Fanview.API.Services.Interface;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Fanview.API.Repository.Interface;
-using Newtonsoft.Json.Linq;
+using Fanview.API.Model;
 
 namespace Fanview.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TeamController : ControllerBase
+    public class PlayerController : ControllerBase
     {
-        private ITeamRepository _teamRepository;
+        private ITeamPlayerRepository _teamPlayerRepository;
 
-        public TeamController(ITeamRepository teamRepository)
+        public PlayerController(ITeamPlayerRepository teamPlayerRepository)
         {
-            _teamRepository = teamRepository;
+            _teamPlayerRepository = teamPlayerRepository;
         }
-        //// GET: api/Team
+
+        //// GET: api/Player
         //[HttpGet]
         //public IEnumerable<string> Get()
         //{
         //    return new string[] { "value1", "value2" };
         //}
 
-        //// GET: api/Team/5
+        //// GET: api/Player/5
         //[HttpGet("{id}", Name = "Get")]
         //public string Get(int id)
         //{
         //    return "value";
         //}
-        //// [HttpGet("PlayerKilled/Media", Name = "GetPlayerKilledForMediaStream")]
-        //// POST: api/Team
+
+        // POST: api/Player
         [HttpPost("Create")]
-        public void Post([FromBody] Team value)
+        public void Post([FromBody] TeamPlayer value)
         {
-            _teamRepository.InsertTeam(value);
+            _teamPlayerRepository.InsertTeamPlayer(value);
         }
 
-        //// PUT: api/Team/5
+        //// PUT: api/Player/5
         //[HttpPut("{id}")]
         //public void Put(int id, [FromBody] string value)
         //{

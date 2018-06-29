@@ -25,6 +25,7 @@ namespace Fanview.API.MiddlewareExtensions
             services.AddTransient(typeof(IPlayerKilled), typeof(PlayerKilled));
             services.AddTransient(typeof(IMatchSummaryRepository), typeof(MatchSummaryRepository));
             services.AddTransient(typeof(ITeamRepository), typeof(TeamRepository));
+            services.AddTransient(typeof(ITeamPlayerRepository), typeof(TeamPlayerRepository));
         }
     }
 }

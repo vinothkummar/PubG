@@ -23,12 +23,12 @@ namespace Fanview.API.Controllers
             _matchRepository = matchRepository;           
         }
 
-        // GET: api/Match
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
+        //// GET: api/Match
+        //[HttpGet]
+        //public IEnumerable<string> Get()
+        //{
+        //    return new string[] { "value1", "value2" };
+        //}
 
         // GET: api/Match/5
         [HttpGet("ById/{id}", Name = "GetMatch")]        
@@ -39,22 +39,22 @@ namespace Fanview.API.Controllers
            
         }
         
-        // POST: api/Match
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
+        //// POST: api/Match
+        //[HttpPost]
+        //public void Post([FromBody]string value)
+        //{
+        //}
         
-        // PUT: api/Match/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
+        //// PUT: api/Match/5
+        //[HttpPut("{id}")]
+        //public void Put(int id, [FromBody]string value)
+        //{
+        //}
         
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        //// DELETE: api/ApiWithActions/5
+        //[HttpDelete("{id}")]
+        //public void Delete(int id)
+        //{
+        //}
     }
 }

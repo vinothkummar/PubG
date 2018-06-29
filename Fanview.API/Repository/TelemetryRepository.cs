@@ -18,12 +18,13 @@ namespace Fanview.API.Repository
         private IGenericRepository<Kill> _genericRepository;
         private IPlayerKillRepository _playerKillRepository;
         private ITakeDamageRepository _takeDamageRepository;
+        private IPlayerVehicleLeaveRepository _playerVehicleLeaveRepository;
         private ILogger<PlayerKillRepository> _logger;
         private Task<HttpResponseMessage> _pubGClientResponse;
         
 
         public TelemetryRepository(IClientBuilder httpClientBuilder, IHttpClientRequest httpClientRequest, IGenericRepository<Kill> genericRepository, 
-                                   IPlayerKillRepository playerKillRepository, ITakeDamageRepository takeDamageRepository,
+                                   IPlayerKillRepository playerKillRepository, ITakeDamageRepository takeDamageRepository, IPlayerVehicleLeaveRepository playerVehicleLeaveRepository,
                                    ILogger<PlayerKillRepository> logger)
         {
             _httpClientBuilder = httpClientBuilder;
@@ -31,6 +32,7 @@ namespace Fanview.API.Repository
             _genericRepository = genericRepository;
             _playerKillRepository = playerKillRepository;
             _takeDamageRepository = takeDamageRepository;
+            _playerVehicleLeaveRepository = playerVehicleLeaveRepository;
             _logger = logger;
         }
       
@@ -54,7 +56,7 @@ namespace Fanview.API.Repository
 
                     await Task.Run(async () =>  _playerKillRepository.InsertPlayerKillTelemetry(jsonResult));
 
-                    //await Task.Run(async () => _takeDamageRepository.InsertTakeDamageTelemetry(jsonResult));
+                    await Task.Run(async () => _playerVehicleLeaveRepository.InsertVehicleLeaveTelemetry(jsonResult));
 
                     //InsertPlayerKillTelemetry(jsonResult);
 

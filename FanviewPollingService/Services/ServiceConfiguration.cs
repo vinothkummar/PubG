@@ -15,13 +15,14 @@ namespace FanviewPollingService.Services
 
         public static IServiceProvider BuildDI()
         {
-            
+
 
             var serviceProvider = new ServiceCollection().AddLogging(configure => configure.AddSerilog())
                                                          .AddSingleton<IHttpClientRequest, HttpClientRequest>()
                                                          .AddSingleton<IClientBuilder, ClientBuilder>()
-                                                         .AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>))                                                           
+                                                         .AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>))
                                                          .AddTransient<IPlayerKillRepository, PlayerKillRepository>()
+                                                         .AddTransient<IPlayerVehicleLeaveRepository, PlayerVehicleLeaveRepository>()
                                                          .AddTransient<ITakeDamageRepository, TakeDamageRepository>()
                                                          .AddTransient<ITelemetryRepository,TelemetryRepository>()
                                                          .BuildServiceProvider();
