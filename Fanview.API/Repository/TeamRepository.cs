@@ -20,6 +20,13 @@ namespace Fanview.API.Repository
             _logger = logger;
         }
 
+        public async Task<IEnumerable<Team>> GetTeam()
+        { 
+            var response = _genericRepository.GetAll("Team");
+
+            return await response;
+        }
+
         public async void InsertTeam(Team team)
         {
             Func<Task> persistDataToMongo = async () => _genericRepository.Insert(team, "Team");

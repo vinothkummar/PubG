@@ -9,5 +9,7 @@ namespace Fanview.API.Repository.Interface
     public interface ITeamRepository
     {
         void InsertTeam(Team team);
+
+        Task<IEnumerable<Team>> GetTeam();
     }
 }

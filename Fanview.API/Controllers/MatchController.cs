@@ -16,11 +16,12 @@ namespace Fanview.API.Controllers
     public class MatchController : Controller
     {
         private IMatchRepository _matchRepository;
+        private IMatchSummaryRepository _matchSummaryRepository;
 
-
-        public MatchController(IMatchRepository matchRepository)
+        public MatchController(IMatchRepository matchRepository, IMatchSummaryRepository matchSummaryRepository)
         {
-            _matchRepository = matchRepository;           
+            _matchRepository = matchRepository;
+            _matchSummaryRepository = matchSummaryRepository;
         }
 
         //// GET: api/Match
@@ -36,25 +37,20 @@ namespace Fanview.API.Controllers
         {
             var result = _matchRepository.GetMatchesDetailsByID(id);
             return result;
-           
         }
-        
-        //// POST: api/Match
-        //[HttpPost]
-        //public void Post([FromBody]string value)
-        //{
-        //}
-        
-        //// PUT: api/Match/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody]string value)
-        //{
-        //}
-        
-        //// DELETE: api/ApiWithActions/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
+
+        // POST: api/Match
+        [HttpPost("PollSummary/{matchId}", Name = "PostSummary")]
+        public void PostSummary(string matchId)
+        {
+            _matchSummaryRepository.PollMatchSummary(matchId);
+        }
+
+        // POST: api/Match
+        [HttpPost("PollParticipantStats/{matchId}", Name = "PostParticipantStats")]
+        public void PParticipantStats(string matchId)
+        {
+            _matchSummaryRepository.PollMatchParticipantStats(matchId);
+        }       
     }
 }

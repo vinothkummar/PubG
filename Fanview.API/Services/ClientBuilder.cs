@@ -1,6 +1,7 @@
 ﻿using Fanview.API.Services.Interface;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -13,7 +14,8 @@ namespace Fanview.API.Services
 
         public ClientBuilder()
         {
-            _configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json", true, true).Build();
+            var path = Directory.GetCurrentDirectory();
+            _configuration = new ConfigurationBuilder().SetBasePath(path).AddJsonFile("appsettings.json", true, true).Build();
             
         }
         public async Task<HttpClient> CreateRequestHeader()

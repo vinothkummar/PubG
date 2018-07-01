@@ -1,16 +1,15 @@
-﻿using Fanview.API.Repository.Interface;
+﻿using Fanview.API.Model;
+using Fanview.API.Repository.Interface;
 using Fanview.API.Services.Interface;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Threading.Tasks;
-using Fanview.API.Model;
-using Microsoft.Extensions.Logging;
 using System;
-using System.Net.Http;
-using System.Net;
-using System.Linq;
-using Fanview.API.Utility;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Fanview.API.Repository
 {
@@ -18,24 +17,23 @@ namespace Fanview.API.Repository
     {
         private IClientBuilder _httpClientBuilder;
         private IHttpClientRequest _httpClientRequest;
-        //private IAPIRequestBuilder _aPIRequestBuilder;
         private IGenericRepository<Event> _genericRepository;
         private ILogger<MatchRepository> _logger;
         private Task<HttpResponseMessage> _pubGClientResponse;
 
-        public MatchRepository(IClientBuilder httpClientBuilder, IHttpClientRequest httpClientRequest,
-                                      //IAPIRequestBuilder aPIRequestBuilder,
-                                      IGenericRepository<Event> genericRepository, ILogger<MatchRepository> logger)
+        public MatchRepository(IClientBuilder httpClientBuilder, 
+                               IHttpClientRequest httpClientRequest,                               
+                               IGenericRepository<Event> genericRepository,
+                               ILogger<MatchRepository> logger)
         {
             _httpClientBuilder = httpClientBuilder;
-            _httpClientRequest = httpClientRequest;
-            //_aPIRequestBuilder = aPIRequestBuilder;           
+            _httpClientRequest = httpClientRequest;            
             _genericRepository = genericRepository;          
             _logger = logger;
         }
         public async Task<JObject> GetMatchesDetailsByID(string id)
         {            
-            var clientResponse = _httpClientRequest.GetAsync(await _httpClientBuilder.CreateRequestHeader(), "matches/"+id).Result;
+            var clientResponse = _httpClientRequest.GetAsync(await _httpClientBuilder.CreateRequestHeader(), "shards/pc-tournaments/matches/" + id).Result;
 
             var jsonResult = clientResponse.Content.ReadAsStringAsync().Result;
 
