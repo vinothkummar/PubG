@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Fanview.API.Model;
+using Fanview.API.Repository.Interface;
 
 namespace Fanview.API.Controllers
 {
@@ -12,6 +13,12 @@ namespace Fanview.API.Controllers
     [ApiController]
     public class EventInfoController : ControllerBase
     {
+        private IEventScheduleRepository _eventScheduleRepository;
+
+        public EventInfoController(IEventScheduleRepository eventScheduleRepository)
+        {
+            _eventScheduleRepository = eventScheduleRepository;
+        }
         // GET: api/EventInfo
         [HttpGet("Location")]
         public EventLocation Get()
@@ -25,7 +32,18 @@ namespace Fanview.API.Controllers
             location.Country = "Germany";
 
             return location;
+        }
 
+        [HttpGet("Schedule/{dayCount}", Name = "GetDailySchedule")]
+        public async Task<EventInfo> GetDailySchedule(string dayCount="Day-1")
+        {
+            return await _eventScheduleRepository.GetDailySchedule(dayCount);
+        }
+
+        [HttpGet("Schedule/Event", Name = "GetScheduleEvents")]
+        public async Task<Object> GetScheduleEvents()
+        {
+            return await _eventScheduleRepository.GetScheduledEvents();
         }
     }
 }
