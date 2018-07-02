@@ -8,27 +8,30 @@ using System.IO;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Linq;
+using MongoDB.Driver.Linq;
 
 namespace FanviewPollingService.Repository
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {   
         private IMongoDatabase database;
+        private IMongoCollection<T> _collection;
         private IConfiguration _configuration;
 
         public GenericRepository()
         {  
             _configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", true, true).Build();          
             var client = new MongoClient(this._configuration["Logging:AppSettings:ConnectionString"]);
-            database = client.GetDatabase("FanviewPubGDb");            
-        }
-        
-        public void Delete(T entity)
-        {
-            throw new NotImplementedException();
+            database = client.GetDatabase("FanviewPubGDb");
+           
         }
 
-        public async Task<IEnumerable<T>> FindBy(Expression<Func<T, bool>> predicate, string collectionName)
+        public IMongoCollection<T> GetDbCollection(string collectionName)
+        {
+            return database.GetCollection<T>(collectionName);
+        }
+
+        public void Delete(T entity)
         {
             throw new NotImplementedException();
         }
@@ -50,12 +53,7 @@ namespace FanviewPollingService.Repository
             await collection.InsertOneAsync(entity);
         }
 
-        //public async void Insert(IAsyncEnumerable<T> entity, string collectionName)
-        //{
-        //    var collection = database.GetCollection<T>(collectionName);
-        //    await collection.InsertOneAsync(entity);
-        //}
-
+   
         public void Save()
         {
             throw new NotImplementedException();

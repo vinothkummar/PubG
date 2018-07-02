@@ -14,7 +14,7 @@ namespace Fanview.API.MiddlewareExtensions
         public static void AddCustomServices(this IServiceCollection services)
         {
             services.AddSingleton<IHttpClientRequest, HttpClientRequest>();
-            services.AddSingleton<ClientBuilder, ClientBuilder>();
+            services.AddSingleton<IClientBuilder, ClientBuilder>();
             services.AddSingleton(typeof(IAPIRequestBuilder), typeof(APIRequestBuilder));
             services.AddSingleton(typeof(IServiceRequest), typeof(ServiceRequest));
             services.AddSingleton(typeof(IMatchRepository), typeof(MatchRepository));
@@ -26,6 +26,7 @@ namespace Fanview.API.MiddlewareExtensions
             services.AddTransient(typeof(IMatchSummaryRepository), typeof(MatchSummaryRepository));
             services.AddTransient(typeof(ITeamRepository), typeof(TeamRepository));
             services.AddTransient(typeof(ITeamPlayerRepository), typeof(TeamPlayerRepository));
+            services.AddTransient<ITeamLineUp, TeamLineUp>();
         }
     }
 }

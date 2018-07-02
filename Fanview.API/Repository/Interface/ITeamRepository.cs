@@ -11,5 +11,7 @@ namespace Fanview.API.Repository.Interface
         void InsertTeam(Team team);
 
         Task<IEnumerable<Team>> GetTeam();
+
+        Task<IEnumerable<TeamLineUp>> GetTeamLine(string teamId);
     }
 }
