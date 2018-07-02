@@ -14,6 +14,8 @@ namespace Fanview.API.Model
         public string Id { get; set; }
         [BsonElement("teamId")]
         public string TeamId { get; set; }
+        [BsonElement("matchId")]
+        public string MatchId { get; set; }
         [BsonElement("playerName")]
         public string PlayerName { get; set; }
         [BsonElement("pubgAccountId")]
