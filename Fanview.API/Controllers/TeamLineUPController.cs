@@ -20,6 +20,14 @@ namespace Fanview.API.Controllers
             _teamRepository = teamRepository;
         }
         // GET: api/TeamLineUP/5
+        /// <summary>
+        ///Returns teamlineup       
+        /// </summary>
+        /// <remarks>
+        /// Sample request: api/TeamLineUP/{teamId}          
+        /// Input Parameters: 5b369085a510862ec07c824a
+        /// </remarks>
+        /// <param name='teamId'>5b369085a510862ec07c824a</param>
         [HttpGet("{teamId}", Name = "Get")]
         public Task<IEnumerable<TeamLineUp>> Get(string teamId)
         {

@@ -19,14 +19,14 @@ namespace Fanview.API.Controllers
         {
             _takeDamageRepository = takeDamageRepository;
         }
-        // GET: api/TakeDamage        
-        [HttpGet("PlayerTakeDamaged")]
-        public IEnumerable<TakeDamage> Get()
-        {
-            var result = _takeDamageRepository.GetPlayerTakeDamage();
+        //// GET: api/TakeDamage        
+        //[HttpGet("PlayerTakeDamaged")]
+        //public IEnumerable<TakeDamage> Get()
+        //{
+        //    var result = _takeDamageRepository.GetPlayerTakeDamage();
 
-            // return result.Result.Count() > 0 ? result.Result : null;
-            return result.Result;
-        }
+        //    // return result.Result.Count() > 0 ? result.Result : null;
+        //    return result.Result;
+        //}
     }
 }

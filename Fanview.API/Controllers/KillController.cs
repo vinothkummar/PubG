@@ -27,51 +27,24 @@ namespace Fanview.API.Controllers
             _playerKilled = playerKilled;
         }
 
-        // GET: api/Telemetry
-        [HttpGet("PlayerKilled")]
-        public IEnumerable<Kill> GetPlayerKilled()
-        {
-            var result = _playerKillRepository.GetPlayerKilled();
-
-            //return result.Result.Count() > 0 ? result.Result: null;           
-            return result.Result;
-        }
-
-        [HttpGet("PlayerKilled/Media", Name = "GetPlayerKilledForMediaStream")]
-        public IEnumerable<string> GetPlayerKilledForMediaStream()
-        {
-            return _playerKilled.GetPlayerKilled();
-        }
-
-        [HttpGet("PlayerKilled/Media/Last4", Name = "GetLast4PlayerKilledForMediaStream")]
-        public IEnumerable<string> GetLast4PlayerKilledForMediaStream()
-        {
-            return _playerKilled.GetLast4PlayerKilled();
-        }
-
-        //// GET: api/Telemetry/5
-        //[HttpGet("PlayerKill/{id}", Name = "GetTelemetry")]
-        //public string Get(int id)
+        //// GET: api/Telemetry
+        //[HttpGet("PlayerKilled")]
+        //public IEnumerable<Kill> GetPlayerKilled()
         //{
-        //    return "value";
+        //    var result = _playerKillRepository.GetPlayerKilled();
+        //    return result.Result;
         //}
 
-        //// POST: api/Telemetry
-        //[HttpPost]
-        //public void Post([FromBody]string value)
+        //[HttpGet("PlayerKilled/Media", Name = "GetPlayerKilledForMediaStream")]
+        //public IEnumerable<string> GetPlayerKilledForMediaStream()
         //{
+        //    return _playerKilled.GetPlayerKilled();
         //}
-        
-        //// PUT: api/Telemetry/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody]string value)
+
+        //[HttpGet("PlayerKilled/Media/Last4", Name = "GetLast4PlayerKilledForMediaStream")]
+        //public IEnumerable<string> GetLast4PlayerKilledForMediaStream()
         //{
-        //}
-        
-        //// DELETE: api/ApiWithActions/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
+        //    return _playerKilled.GetLast4PlayerKilled();
         //}
     }
 }

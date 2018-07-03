@@ -27,37 +27,12 @@ namespace Fanview.API.Controllers
         {
             _teamRepository = teamRepository;
         }
-        //// GET: api/Team
-        //[HttpGet]
-        //public IEnumerable<string> Get()
-        //{
-        //    return new string[] { "value1", "value2" };
-        //}
 
-        //// GET: api/Team/5
-        //[HttpGet("{id}", Name = "Get")]
-        //public string Get(int id)
+        ////// POST: api/Team
+        //[HttpPost("Create")]
+        //public void Post([FromBody] Team value)
         //{
-        //    return "value";
-        //}
-        //// [HttpGet("PlayerKilled/Media", Name = "GetPlayerKilledForMediaStream")]
-        //// POST: api/Team
-        [HttpPost("Create")]
-        public void Post([FromBody] Team value)
-        {
-            _teamRepository.InsertTeam(value);
-        }
-
-        //// PUT: api/Team/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
-
-        //// DELETE: api/ApiWithActions/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
+        //    _teamRepository.InsertTeam(value);
         //}
     }
 }

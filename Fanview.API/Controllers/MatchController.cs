@@ -24,33 +24,26 @@ namespace Fanview.API.Controllers
             _matchSummaryRepository = matchSummaryRepository;
         }
 
-        //// GET: api/Match
-        //[HttpGet]
-        //public IEnumerable<string> Get()
+        //// GET: api/Match/5
+        //[HttpGet("ById/{id}", Name = "GetMatch")]        
+        //public Task<JObject> GetMatch(string id)
         //{
-        //    return new string[] { "value1", "value2" };
+        //    var result = _matchRepository.GetMatchesDetailsByID(id);
+        //    return result;
         //}
 
-        // GET: api/Match/5
-        [HttpGet("ById/{id}", Name = "GetMatch")]        
-        public Task<JObject> GetMatch(string id)
-        {
-            var result = _matchRepository.GetMatchesDetailsByID(id);
-            return result;
-        }
+        //// POST: api/Match
+        //[HttpPost("PollSummary/{matchId}", Name = "PostSummary")]
+        //public void PostSummary(string matchId)
+        //{
+        //    _matchSummaryRepository.PollMatchSummary(matchId);
+        //}
 
-        // POST: api/Match
-        [HttpPost("PollSummary/{matchId}", Name = "PostSummary")]
-        public void PostSummary(string matchId)
-        {
-            _matchSummaryRepository.PollMatchSummary(matchId);
-        }
-
-        // POST: api/Match
-        [HttpPost("PollParticipantStats/{matchId}", Name = "PostParticipantStats")]
-        public void PParticipantStats(string matchId)
-        {
-            _matchSummaryRepository.PollMatchParticipantStats(matchId);
-        }       
+        //// POST: api/Match
+        //[HttpPost("PollParticipantStats/{matchId}", Name = "PostParticipantStats")]
+        //public void PParticipantStats(string matchId)
+        //{
+        //    _matchSummaryRepository.PollMatchParticipantStats(matchId);
+        //}       
     }
 }
