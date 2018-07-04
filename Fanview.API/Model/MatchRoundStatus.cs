@@ -11,6 +11,7 @@ namespace Fanview.API.Model
         NotStarted,        
         Active,        
         Completed,
-        Next
+        Next,
+        Scheduled
     }
 }

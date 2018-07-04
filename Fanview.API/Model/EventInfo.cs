@@ -10,8 +10,7 @@ namespace Fanview.API.Model
         public string Name { get; set; }
         public string DayCount { get; set; }
         public string GamePerspective { get; set; }
-        public List<DateTime> ScheduleDateTime { get; set; }
-        public MatchRoundStatus  MatchRoundStatus { get; set; }
+        public List<MatchDailyRoundStatus> ScheduleTimeAndStatus { get; set; }
     }
 
 }
