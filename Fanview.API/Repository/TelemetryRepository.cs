@@ -54,7 +54,7 @@ namespace Fanview.API.Repository
 
                     var jsonResult = _pubGClientResponse.Result.Content.ReadAsStringAsync().Result;
 
-                    await Task.Run(async () =>  _playerKillRepository.InsertPlayerKillTelemetry(jsonResult));
+                    await Task.Run(async () =>  _playerKillRepository.InsertPlayerKillTelemetry(jsonResult, string.Empty));
 
                     await Task.Run(async () => _playerVehicleLeaveRepository.InsertVehicleLeaveTelemetry(jsonResult));
 

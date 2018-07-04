@@ -8,7 +8,9 @@ namespace Fanview.API.Repository.Interface
 {
     public interface IPlayerKillRepository
     {
-        void InsertPlayerKillTelemetry(string jsonResult);
+        void InsertPlayerKillTelemetry(string jsonResult, string matchId);
+
+        void PollTelemetryPlayerKilled(string jsonResult);
 
         Task<IEnumerable<Kill>> GetPlayerKilled();
 

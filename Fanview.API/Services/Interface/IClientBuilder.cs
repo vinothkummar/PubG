@@ -9,5 +9,7 @@ namespace Fanview.API.Services.Interface
     public interface IClientBuilder
     {
         Task<HttpClient> CreateRequestHeader();
+
+        Task<HttpClient> CreateRequestHeader(string BaseUrl);
     }
 }

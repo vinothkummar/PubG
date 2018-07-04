@@ -13,6 +13,8 @@ namespace Fanview.API.Model
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
+        [BsonElement("matchId")]
+        public string MatchId { get; set; }
         [BsonElement("attackid")]
         public int AttackId { get; set; }
         [BsonElement("killer")]

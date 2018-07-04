@@ -27,22 +27,22 @@ namespace Fanview.API.Controllers
             _playerKilled = playerKilled;
         }
 
-        //// GET: api/Telemetry
-        //[HttpGet("PlayerKilled")]
-        //public IEnumerable<Kill> GetPlayerKilled()
-        //{
-        //    var result = _playerKillRepository.GetPlayerKilled();
-        //    return result.Result;
-        //}
+        // GET: api/Telemetry
+        [HttpGet("PlayerKilled")]
+        public IEnumerable<Kill> GetPlayerKilled()
+        {
+            var result = _playerKillRepository.GetPlayerKilled();
+            return result.Result;
+        }
 
-        //[HttpGet("PlayerKilled/Media", Name = "GetPlayerKilledForMediaStream")]
-        //public IEnumerable<string> GetPlayerKilledForMediaStream()
+        //[HttpGet("Killiprinter/All", Name = "GetAllKilliprinterForGraphics")]
+        //public IEnumerable<string> GetAllKilliprinterForGraphics()
         //{
         //    return _playerKilled.GetPlayerKilled();
         //}
 
-        //[HttpGet("PlayerKilled/Media/Last4", Name = "GetLast4PlayerKilledForMediaStream")]
-        //public IEnumerable<string> GetLast4PlayerKilledForMediaStream()
+        //[HttpGet("Killiprinter/All", Name = "GetLast4KilliprinterForGraphics")]
+        //public IEnumerable<string> GetLast4KilliprinterForGraphics()
         //{
         //    return _playerKilled.GetLast4PlayerKilled();
         //}

@@ -29,5 +29,17 @@ namespace Fanview.API.Services
 
             return await Task.FromResult(client);
         }
+
+        public async Task<HttpClient> CreateRequestHeader(string baseUrl)
+        {
+            var client = new HttpClient();
+            client.BaseAddress = new Uri(baseUrl);
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            //client.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + this._configuration["Logging:AppSettings:ApplicationKey"]);
+            //client.Timeout = TimeSpan.FromMilliseconds(500);
+
+            return await Task.FromResult(client);
+        }
     }
 }

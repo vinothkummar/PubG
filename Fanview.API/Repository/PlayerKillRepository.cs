@@ -20,9 +20,16 @@ namespace Fanview.API.Repository
         private ILogger<PlayerKillRepository> _logger;
         private Task<HttpResponseMessage> _pubGClientResponse;
         private DateTime killEventlastTimeStamp = DateTime.MinValue;
+        private IClientBuilder _httpClientBuilder;
+        private IHttpClientRequest _httpClientRequest;
 
-        public PlayerKillRepository(IGenericRepository<Kill> genericRepository, ILogger<PlayerKillRepository> logger)
+        public PlayerKillRepository(IClientBuilder httpClientBuilder,
+                                    IHttpClientRequest httpClientRequest,
+                                    IGenericRepository<Kill> genericRepository,
+                                    ILogger<PlayerKillRepository> logger)
         {
+            _httpClientBuilder = httpClientBuilder;
+            _httpClientRequest = httpClientRequest;  
             _genericRepository = genericRepository;
 
             _logger = logger;
@@ -30,10 +37,11 @@ namespace Fanview.API.Repository
         }
         
 
-        private IEnumerable<Kill> GetLogPlayerKilled(JArray jsonToJObject)
+        private IEnumerable<Kill> GetLogPlayerKilled(JArray jsonToJObject, string matchId)
         {
             var result =  jsonToJObject.Where(x => x.Value<string>("_T") == "LogPlayerKill").Select(s => new Kill()
             {
+                MatchId = matchId,
                 AttackId = s.Value<int>("attackId"),
                 Killer = new Killer()
                 {
@@ -82,13 +90,13 @@ namespace Fanview.API.Repository
             return result;
         }
 
-        public async void InsertPlayerKillTelemetry(string jsonResult)
+        public async void InsertPlayerKillTelemetry(string jsonResult, string matchId)
         {              
             var jsonToJObject = JArray.Parse(jsonResult);
 
             var lastestKillEventTimeStamp = jsonToJObject.Where(x => x.Value<string>("_T") == "LogPlayerKill").Select(s => new {EventTimeStamp = s.Value<string>("_D") }).Last();
 
-            IEnumerable<Kill> logPlayerKill = GetLogPlayerKilled(jsonToJObject);
+            IEnumerable<Kill> logPlayerKill = GetLogPlayerKilled(jsonToJObject, matchId);
 
             var killEventTimeStamp = logPlayerKill.Last().EventTimeStamp.ToDateTimeFormat();            
 
@@ -118,6 +126,61 @@ namespace Fanview.API.Repository
 
             return await Task.FromResult(response);
 
+        }
+
+        public async void PollTelemetryPlayerKilled(string matchId)
+        {
+            try
+            {
+                _logger.LogInformation("Match Request Started" + Environment.NewLine);
+
+                //_pubGClientResponse = Task.Run(async () => await _servicerRequest.GetAsync(await _httpClient.CreateRequestHeader(), query));
+
+                _pubGClientResponse = _httpClientRequest.GetAsync(await _httpClientBuilder.CreateRequestHeader(), "shards/pc-tournaments/matches/" + matchId);
+
+                if (_pubGClientResponse.Result.StatusCode == HttpStatusCode.OK && _pubGClientResponse != null)
+                {
+                    _logger.LogInformation("Match Player Stats  Response Json" + Environment.NewLine);
+
+                    var jsonResult = _pubGClientResponse.Result.Content.ReadAsStringAsync().Result;
+
+                    var _telemetryResponse = _httpClientRequest.GetAsync(await _httpClientBuilder.CreateRequestHeader(GetTelemetryUrl(jsonResult)), string.Empty);
+
+                    var telemetryJsonResult = _telemetryResponse.Result.Content.ReadAsStringAsync().Result;
+
+                    await Task.Run(async () => InsertPlayerKillTelemetry(telemetryJsonResult, matchId));
+
+                    //await Task.Run(async () => InsertMatchPlayerStats(jsonResult));
+
+                    //await Task.Run(async () => _takeDamageRepository.InsertTakeDamageTelemetry(jsonResult));
+
+                    //InsertMatchSummary(jsonResult);
+
+                    _logger.LogInformation("Completed Loading Match Player Stats  Response Json" + Environment.NewLine);
+                }
+
+                _logger.LogInformation("Match Player Stats  Request Completed" + Environment.NewLine);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        private string GetTelemetryUrl(string jsonResult)
+        {
+            var jsonToJObject = JObject.Parse(jsonResult);
+
+            var match = jsonToJObject.SelectToken("data").ToObject<MatchSummary>();
+
+            JArray playerResultsIncluded = (JArray)jsonToJObject["included"];
+
+            var telemetryAssets = playerResultsIncluded.Where(x => x.Value<string>("type") == "asset");
+
+            var telemetryUrl = (string)telemetryAssets.Select(s => s.SelectToken("attributes.URL")).ElementAtOrDefault(0);
+
+            return telemetryUrl;
         }
     }
 }
