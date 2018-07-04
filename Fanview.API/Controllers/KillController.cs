@@ -28,23 +28,49 @@ namespace Fanview.API.Controllers
         }
 
         // GET: api/Telemetry
-        [HttpGet("PlayerKilled")]
-        public IEnumerable<Kill> GetPlayerKilled()
+        /// <summary>
+        /// Returns Player Killed for the given Match Id     
+        /// </summary>
+        /// <remarks>
+        /// Sample request: api/Kill/{matchId}          
+        /// Input Parameter: f84d39a1-8218-4438-9bf5-7150f9e0f093
+        /// </remarks>
+        /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
+        [HttpGet("PlayerKilled/{matchId}")]
+        public IEnumerable<Kill> GetPlayerKilled(string matchId)
         {
-            var result = _playerKillRepository.GetPlayerKilled();
+            var result = _playerKillRepository.GetPlayerKilled(matchId);
             return result.Result;
         }
 
-        //[HttpGet("Killiprinter/All", Name = "GetAllKilliprinterForGraphics")]
-        //public IEnumerable<string> GetAllKilliprinterForGraphics()
-        //{
-        //    return _playerKilled.GetPlayerKilled();
-        //}
+        // GET: api/Telemetry
+        /// <summary>
+        /// Returns Killiprinter text for the given Match Id     
+        /// </summary>
+        /// <remarks>
+        /// Sample request: Killiprinter/All/{matchId}          
+        /// Input Parameter: f84d39a1-8218-4438-9bf5-7150f9e0f093
+        /// </remarks>
+        /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
+        [HttpGet("KilliprinterText/{matchId}/All", Name = "GetAllKilliprinterForGraphics")]
+        public IEnumerable<string> GetAllKilliprinterTextForGraphics(string matchId)
+        {
+            return _playerKilled.GetPlayerKilledText(matchId);
+        }
 
-        //[HttpGet("Killiprinter/All", Name = "GetLast4KilliprinterForGraphics")]
-        //public IEnumerable<string> GetLast4KilliprinterForGraphics()
-        //{
-        //    return _playerKilled.GetLast4PlayerKilled();
-        //}
+        // GET: api/Telemetry
+        /// <summary>
+        /// Returns Last 4 Killiprinter text for the given Match Id     
+        /// </summary>
+        /// <remarks>
+        /// Sample request: Killiprinter/All/{matchId}          
+        /// Input Parameter: f84d39a1-8218-4438-9bf5-7150f9e0f093
+        /// </remarks>
+        /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
+        [HttpGet("KilliprinterText/{matchId}/Last4", Name = "GetLast4KilliprinterForGraphics")]
+        public IEnumerable<string> GetLast4KilliprinterTextForGraphics(string matchId)
+        {
+            return _playerKilled.GetLast4PlayerKilledText(matchId);
+        }
     }
 }

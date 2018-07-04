@@ -4,6 +4,8 @@ using Fanview.API.Services.Interface;
 using Fanview.API.Utility;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using MongoDB.Bson;
+using MongoDB.Driver;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -112,17 +114,19 @@ namespace Fanview.API.Repository
             }
         }
 
-        public async Task<IEnumerable<Kill>> GetPlayerKilled()
-        { 
+        public async Task<IEnumerable<Kill>> GetPlayerKilled(string matchId)
+        {
 
-            var response = _genericRepository.GetAll("Kill");
+            var response = _genericRepository.GetAll("Kill").Result.Where(cn => cn.MatchId == matchId);
 
-            return await response;
+           // var response = _genericRepository.GetMongoDbCollection("Kill").FindAsyn(new BsonDocument());
+
+            return await Task.FromResult(response);
         }
 
-        public async Task<IEnumerable<Kill>> GetLast4PlayerKilled()
+        public async Task<IEnumerable<Kill>> GetLast4PlayerKilled(string matchId)
         { 
-            var response = _genericRepository.GetAll("Kill").Result.TakeLast(4);
+            var response = _genericRepository.GetAll("Kill").Result.Where(cn => cn.MatchId == matchId).TakeLast(4);
 
             return await Task.FromResult(response);
 

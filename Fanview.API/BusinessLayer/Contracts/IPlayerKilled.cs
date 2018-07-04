@@ -8,8 +8,8 @@ namespace Fanview.API.BusinessLayer.Contracts
 {
     public interface IPlayerKilled
     {
-        IEnumerable<string> GetPlayerKilled();
+        IEnumerable<string> GetPlayerKilledText(string matchID);
 
-        IEnumerable<string> GetLast4PlayerKilled();
+        IEnumerable<string> GetLast4PlayerKilledText (string matchID);
     }
 }

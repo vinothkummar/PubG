@@ -26,7 +26,7 @@ namespace FanviewPollingService.Repository
            
         }
 
-        public IMongoCollection<T> GetDbCollection(string collectionName)
+        public IMongoCollection<T> GetMongoDbCollection(string collectionName)
         {
             return database.GetCollection<T>(collectionName);
         }

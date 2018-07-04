@@ -12,9 +12,12 @@ namespace Fanview.API.Repository.Interface
 
         void PollTelemetryPlayerKilled(string jsonResult);
 
-        Task<IEnumerable<Kill>> GetPlayerKilled();
+        Task<IEnumerable<Kill>> GetPlayerKilled(string matchId);
 
-        Task<IEnumerable<Kill>> GetLast4PlayerKilled();
+        Task<IEnumerable<Kill>> GetLast4PlayerKilled(string matchId);
+
+        
+
 
     }
 }

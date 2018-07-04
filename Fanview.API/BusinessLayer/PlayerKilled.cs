@@ -24,12 +24,12 @@ namespace Fanview.API.BusinessLayer
            
         }
 
-        public IEnumerable<string> GetLast4PlayerKilled()
+        public IEnumerable<string> GetLast4PlayerKilledText(string matchId)
         {
 
             var playerKilledOrTeamEliminatedMessages = new List<string>();
 
-            var kills =  _playerKillRepository.GetLast4PlayerKilled().Result;
+            var kills =  _playerKillRepository.GetLast4PlayerKilled(matchId).Result;
 
             foreach (var rule in _rules)
             {
@@ -45,11 +45,11 @@ namespace Fanview.API.BusinessLayer
             return playerKilledOrTeamEliminatedMessages.OrderByDescending(o => o);
         }
 
-        public IEnumerable<string> GetPlayerKilled()
+        public IEnumerable<string> GetPlayerKilledText(string matchId)
         {
             var playerKilledOrTeamEliminatedMessages = new List<string>();
 
-            var kills = _playerKillRepository.GetPlayerKilled().Result;            
+            var kills = _playerKillRepository.GetPlayerKilled(matchId).Result;            
 
             foreach (var rule in _rules)
             {

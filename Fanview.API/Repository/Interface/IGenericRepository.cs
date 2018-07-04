@@ -10,7 +10,7 @@ namespace Fanview.API.Repository.Interface
 {
     public interface IGenericRepository<T> where T : class
     {
-        IMongoCollection<T> GetDbCollection(string collectionName);
+        IMongoCollection<T> GetMongoDbCollection(string collectionName);
         Task<IEnumerable<T>> GetAll(string collectionName);
         void Insert(IEnumerable<T> entity, string collectionName);
         void Insert(T entity, string collectionName);

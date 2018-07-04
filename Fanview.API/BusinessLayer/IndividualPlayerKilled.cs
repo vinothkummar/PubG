@@ -38,8 +38,8 @@ namespace Fanview.API.BusinessLayer
                 var playerLeft = playerLeftCount == 1 ? "winner" : playerLeftCount.ToString() + " LEFT";
 
                     killText = $"{item.TimeKilled.ToDateTimeFormat().ToString("mm:ss")}  " +
-                    $"{item.KillerName.ToUpper()} {item.KillerTeamId} KILLED  {item.VictimName.ToUpper()} " + //BY {item.DamageReason}
-                    $"{item.VictimTeamId} WITH {ReadAssets.GetDamageCauserName(item.DamageCause).ToUpper()}   " +
+                    $"{item.KillerName.ToUpper()} KILLED  {item.VictimName.ToUpper()} " + //BY {item.DamageReason}
+                    $"WITH {ReadAssets.GetDamageCauserName(item.DamageCause).ToUpper()} " +
                     $"{playerLeft}";
                  
                 killMessages.Add(killText);
