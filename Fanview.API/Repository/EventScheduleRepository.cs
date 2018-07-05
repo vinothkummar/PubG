@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Fanview.API.Model;
+using Fanview.API.BusinessLayer;
 using Fanview.API.Repository.Interface;
 using Microsoft.Extensions.Logging;
+using Fanview.API.BusinessLayer.Contracts;
 
 namespace Fanview.API.Repository
 {
@@ -12,12 +14,15 @@ namespace Fanview.API.Repository
     {
         private IGenericRepository<EventInfo> _eventInfoRepository;
         private ILogger<EventScheduleRepository> _logger;
+        private readonly IEvent_logic _mylogic;
+        
 
         public EventScheduleRepository(IGenericRepository<EventInfo> eventInfoRepository,
-                               ILogger<EventScheduleRepository> logger)
+                               ILogger<EventScheduleRepository> logger,IEvent_logic mylogic)
         {
             _eventInfoRepository = eventInfoRepository;
             _logger = logger;
+            _mylogic = mylogic;
         }
         public void CreateMultipleEventGameSchedule(List<EventInfo> eventInfos)
         {
@@ -48,11 +53,6 @@ namespace Fanview.API.Repository
         
         private IEnumerable<EventInfo> GetTournamentEventSchedule()
         {
-            var early_Morning = new TimeSpan(9, 00, 00);
-            var late_Morning = new TimeSpan(11, 00, 00);
-            var late_Afternoon = new TimeSpan(15, 00, 00);
-            var early_Afternoon = new TimeSpan(13, 00, 00);
-            var finish_time = new TimeSpan(18, 00, 00);
            var tournamentEventScheduleInfo = new List<EventInfo>() {
                 new EventInfo(){
                     ScheduleTimeAndStatus = new List<MatchDailyRoundStatus>()
@@ -115,77 +115,11 @@ namespace Fanview.API.Repository
                     Name = "PubG 2018 Global Invitation"                   
                     }
             };
-            foreach (var item in tournamentEventScheduleInfo)
-            {
-                
-                    var myrange = Enumerable.Range(25, 30);
-                    var date = DateTime.Now.Date;
-                    var day = date.Day;
-                    var time =DateTime.Now - date;
-                    
-                    if (time <= early_Morning)
-                    {
-                        item.ScheduleTimeAndStatus[0].matchRoundStatus = MatchRoundStatus.Next;
-                        item.ScheduleTimeAndStatus[1].matchRoundStatus = MatchRoundStatus.Scheduled;
-                        item.ScheduleTimeAndStatus[2].matchRoundStatus = MatchRoundStatus.Scheduled;
-                        item.ScheduleTimeAndStatus[3].matchRoundStatus = MatchRoundStatus.Scheduled;
-                        break;
-                    }
-                   else if (time > early_Morning && time <= late_Morning)
-                    {
 
-                        item.ScheduleTimeAndStatus[0].matchRoundStatus = MatchRoundStatus.Active;
-                        item.ScheduleTimeAndStatus[1].matchRoundStatus = MatchRoundStatus.Next;
-                        item.ScheduleTimeAndStatus[2].matchRoundStatus = MatchRoundStatus.Scheduled;
-                        item.ScheduleTimeAndStatus[3].matchRoundStatus = MatchRoundStatus.Scheduled;
-                        break;
-
-
-                    }
-                    else if (time > late_Morning && time <= early_Afternoon)
-                    {
-
-                        item.ScheduleTimeAndStatus[0].matchRoundStatus = MatchRoundStatus.Completed;
-                        item.ScheduleTimeAndStatus[1].matchRoundStatus = MatchRoundStatus.Active;
-                        item.ScheduleTimeAndStatus[2].matchRoundStatus = MatchRoundStatus.Next;
-                        item.ScheduleTimeAndStatus[3].matchRoundStatus = MatchRoundStatus.Scheduled;
-                        break;
-
-                    }
-                   else if (time > early_Afternoon && time <= late_Afternoon)
-                    {
-
-                        item.ScheduleTimeAndStatus[0].matchRoundStatus = MatchRoundStatus.Completed;
-                        item.ScheduleTimeAndStatus[1].matchRoundStatus = MatchRoundStatus.Completed;
-                        item.ScheduleTimeAndStatus[2].matchRoundStatus = MatchRoundStatus.Active;
-                        item.ScheduleTimeAndStatus[3].matchRoundStatus = MatchRoundStatus.Next;
-                        break;
-
-
-                    }
-                else if (time >late_Afternoon && time <= finish_time)
-                {
-
-                    item.ScheduleTimeAndStatus[0].matchRoundStatus = MatchRoundStatus.Completed;
-                    item.ScheduleTimeAndStatus[1].matchRoundStatus = MatchRoundStatus.Completed;
-                    item.ScheduleTimeAndStatus[2].matchRoundStatus = MatchRoundStatus.Completed;
-                    item.ScheduleTimeAndStatus[3].matchRoundStatus = MatchRoundStatus.Active;
-                    break;
-
-
-                }
-                else
-                    {
-                        item.ScheduleTimeAndStatus[0].matchRoundStatus = MatchRoundStatus.Completed;
-                        item.ScheduleTimeAndStatus[1].matchRoundStatus = MatchRoundStatus.Completed;
-                        item.ScheduleTimeAndStatus[2].matchRoundStatus = MatchRoundStatus.Completed;
-                        item.ScheduleTimeAndStatus[3].matchRoundStatus = MatchRoundStatus.Completed;
-                        break;
-
-                    }
-                }
+           
             
-            return tournamentEventScheduleInfo;
+           var logiclist= _mylogic.EventSchedule(tournamentEventScheduleInfo);
+            return logiclist;
         }
     }
 }
