@@ -22,22 +22,7 @@ namespace Fanview.API.BusinessLayer
             this.late_Afternoon = new TimeSpan(15, 00, 00);
             this.finish_time = new TimeSpan(18, 00, 00);
         }
-        public void getvalue(EventInfo myinfo)
-        {
-            var myvar = new List<MatchRoundStatus>();
-            for (var i = 0; i <= myinfo.ScheduleTimeAndStatus.Count; i++)
-            {
 
-
-                foreach (var value in (Enum.GetValues(typeof(MatchRoundStatus))))
-                {
-
-                    myinfo.ScheduleTimeAndStatus[i].matchRoundStatus = ((MatchRoundStatus)value);
-                }
-            }
-
-
-        }
 
         public IEnumerable<EventInfo> EventSchedule(IEnumerable<EventInfo> myinfo)
         {
@@ -52,19 +37,27 @@ namespace Fanview.API.BusinessLayer
                 if (time < early_Morning)
                 {
 
-                    item.ScheduleTimeAndStatus[0].matchRoundStatus = MatchRoundStatus.Next;
-                    item.ScheduleTimeAndStatus[1].matchRoundStatus = MatchRoundStatus.Scheduled;
-                    item.ScheduleTimeAndStatus[2].matchRoundStatus = MatchRoundStatus.Scheduled;
-                    item.ScheduleTimeAndStatus[3].matchRoundStatus = MatchRoundStatus.Scheduled;
+                    //item.ScheduleTimeAndStatus[0].matchRoundStatus = MatchRoundStatus.Next;
+                    //item.ScheduleTimeAndStatus[1].matchRoundStatus = MatchRoundStatus.Scheduled;
+                    //item.ScheduleTimeAndStatus[2].matchRoundStatus = MatchRoundStatus.Scheduled;
+                    //item.ScheduleTimeAndStatus[3].matchRoundStatus = MatchRoundStatus.Scheduled;
+                    item.ScheduleTimeAndStatus[0].matchRoundStatus =nameof( MatchRoundStatus.Next);
+                    item.ScheduleTimeAndStatus[1].matchRoundStatus =nameof( MatchRoundStatus.Scheduled);
+                    item.ScheduleTimeAndStatus[2].matchRoundStatus =nameof( MatchRoundStatus.Scheduled);
+                    item.ScheduleTimeAndStatus[3].matchRoundStatus= nameof(MatchRoundStatus.Scheduled);
                     break;
                 }
                 else if (time > early_Morning && time <= late_Morning)
                 {
 
-                    item.ScheduleTimeAndStatus[0].matchRoundStatus = MatchRoundStatus.Active;
-                    item.ScheduleTimeAndStatus[1].matchRoundStatus = MatchRoundStatus.Next;
-                    item.ScheduleTimeAndStatus[2].matchRoundStatus = MatchRoundStatus.Scheduled;
-                    item.ScheduleTimeAndStatus[3].matchRoundStatus = MatchRoundStatus.Scheduled;
+                    //item.ScheduleTimeAndStatus[0].matchRoundStatus = MatchRoundStatus.Active;
+                    //item.ScheduleTimeAndStatus[1].matchRoundStatus = MatchRoundStatus.Next;
+                    //item.ScheduleTimeAndStatus[2].matchRoundStatus = MatchRoundStatus.Scheduled;
+                    //item.ScheduleTimeAndStatus[3].matchRoundStatus = MatchRoundStatus.Scheduled;
+                    item.ScheduleTimeAndStatus[0].matchRoundStatus = nameof(MatchRoundStatus.Active);
+                    item.ScheduleTimeAndStatus[1].matchRoundStatus= nameof(MatchRoundStatus.Next);
+                    item.ScheduleTimeAndStatus[2].matchRoundStatus = nameof(MatchRoundStatus.Scheduled);
+                    item.ScheduleTimeAndStatus[3].matchRoundStatus = nameof(MatchRoundStatus.Scheduled);
                     break;
 
 
@@ -72,20 +65,28 @@ namespace Fanview.API.BusinessLayer
                 else if (time > late_Morning && time <= early_Afternoon)
                 {
 
-                    item.ScheduleTimeAndStatus[0].matchRoundStatus = MatchRoundStatus.Completed;
-                    item.ScheduleTimeAndStatus[1].matchRoundStatus = MatchRoundStatus.Active;
-                    item.ScheduleTimeAndStatus[2].matchRoundStatus = MatchRoundStatus.Next;
-                    item.ScheduleTimeAndStatus[3].matchRoundStatus = MatchRoundStatus.Scheduled;
+                    //item.ScheduleTimeAndStatus[0].matchRoundStatus = MatchRoundStatus.Completed;
+                    //item.ScheduleTimeAndStatus[1].matchRoundStatus = MatchRoundStatus.Active;
+                    //item.ScheduleTimeAndStatus[2].matchRoundStatus = MatchRoundStatus.Next;
+                    //item.ScheduleTimeAndStatus[3].matchRoundStatus = MatchRoundStatus.Scheduled;
+                    item.ScheduleTimeAndStatus[0].matchRoundStatus= nameof(MatchRoundStatus.Completed);
+                    item.ScheduleTimeAndStatus[1].matchRoundStatus = nameof(MatchRoundStatus.Active);
+                    item.ScheduleTimeAndStatus[2].matchRoundStatus = nameof(MatchRoundStatus.Next);
+                    item.ScheduleTimeAndStatus[3].matchRoundStatus = nameof(MatchRoundStatus.Scheduled);
                     break;
 
                 }
                 else if (time > early_Afternoon && time <= late_Afternoon)
                 {
 
-                    item.ScheduleTimeAndStatus[0].matchRoundStatus = MatchRoundStatus.Completed;
-                    item.ScheduleTimeAndStatus[1].matchRoundStatus = MatchRoundStatus.Completed;
-                    item.ScheduleTimeAndStatus[2].matchRoundStatus = MatchRoundStatus.Active;
-                    item.ScheduleTimeAndStatus[3].matchRoundStatus = MatchRoundStatus.Next;
+                    //item.ScheduleTimeAndStatus[0].matchRoundStatus = MatchRoundStatus.Completed;
+                    //item.ScheduleTimeAndStatus[1].matchRoundStatus = MatchRoundStatus.Completed;
+                    //item.ScheduleTimeAndStatus[2].matchRoundStatus = MatchRoundStatus.Active;
+                    //item.ScheduleTimeAndStatus[3].matchRoundStatus = MatchRoundStatus.Next;
+                    item.ScheduleTimeAndStatus[0].matchRoundStatus= nameof(MatchRoundStatus.Completed);
+                    item.ScheduleTimeAndStatus[1].matchRoundStatus= nameof(MatchRoundStatus.Completed);
+                    item.ScheduleTimeAndStatus[2].matchRoundStatus = nameof(MatchRoundStatus.Active);
+                    item.ScheduleTimeAndStatus[3].matchRoundStatus= nameof(MatchRoundStatus.Next);
                     break;
 
 
@@ -93,20 +94,28 @@ namespace Fanview.API.BusinessLayer
                 else if (time > late_Afternoon && time <= finish_time)
                 {
 
-                    item.ScheduleTimeAndStatus[0].matchRoundStatus = MatchRoundStatus.Completed;
-                    item.ScheduleTimeAndStatus[1].matchRoundStatus = MatchRoundStatus.Completed;
-                    item.ScheduleTimeAndStatus[2].matchRoundStatus = MatchRoundStatus.Completed;
-                    item.ScheduleTimeAndStatus[3].matchRoundStatus = MatchRoundStatus.Active;
+                    //item.ScheduleTimeAndStatus[0].matchRoundStatus = MatchRoundStatus.Completed;
+                    //item.ScheduleTimeAndStatus[1].matchRoundStatus = MatchRoundStatus.Completed;
+                    //item.ScheduleTimeAndStatus[2].matchRoundStatus = MatchRoundStatus.Completed;
+                    //item.ScheduleTimeAndStatus[3].matchRoundStatus = MatchRoundStatus.Active;
+                    item.ScheduleTimeAndStatus[0].matchRoundStatus = nameof(MatchRoundStatus.Completed);
+                    item.ScheduleTimeAndStatus[1].matchRoundStatus = nameof(MatchRoundStatus.Completed);
+                    item.ScheduleTimeAndStatus[2].matchRoundStatus = nameof(MatchRoundStatus.Completed);
+                    item.ScheduleTimeAndStatus[3].matchRoundStatus= nameof(MatchRoundStatus.Active);
                     break;
 
 
                 }
                 else
                 {
-                    item.ScheduleTimeAndStatus[0].matchRoundStatus = MatchRoundStatus.Completed;
-                    item.ScheduleTimeAndStatus[1].matchRoundStatus = MatchRoundStatus.Completed;
-                    item.ScheduleTimeAndStatus[2].matchRoundStatus = MatchRoundStatus.Completed;
-                    item.ScheduleTimeAndStatus[3].matchRoundStatus = MatchRoundStatus.Completed;
+                    //item.ScheduleTimeAndStatus[0].matchRoundStatus = MatchRoundStatus.Completed;
+                    //item.ScheduleTimeAndStatus[1].matchRoundStatus = MatchRoundStatus.Completed;
+                    //item.ScheduleTimeAndStatus[2].matchRoundStatus = MatchRoundStatus.Completed;
+                    //item.ScheduleTimeAndStatus[3].matchRoundStatus = MatchRoundStatus.Completed;
+                    item.ScheduleTimeAndStatus[0].matchRoundStatus = nameof(MatchRoundStatus.Completed);
+                    item.ScheduleTimeAndStatus[1].matchRoundStatus = nameof(MatchRoundStatus.Completed);
+                    item.ScheduleTimeAndStatus[2].matchRoundStatus = nameof(MatchRoundStatus.Completed);
+                    item.ScheduleTimeAndStatus[3].matchRoundStatus = nameof(MatchRoundStatus.Completed);
                     break;
 
                 }

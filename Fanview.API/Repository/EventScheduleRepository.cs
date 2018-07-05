@@ -57,10 +57,10 @@ namespace Fanview.API.Repository
                 new EventInfo(){
                     ScheduleTimeAndStatus = new List<MatchDailyRoundStatus>()
                     {
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,25,09,00,00), matchRoundStatus = MatchRoundStatus.Scheduled},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,25,11,00,00), matchRoundStatus = MatchRoundStatus.Scheduled},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,25,13,00,00), matchRoundStatus = MatchRoundStatus.Scheduled},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,25,15,00,00), matchRoundStatus = MatchRoundStatus.Scheduled},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,25,09,00,00),matchRoundStatus=nameof(MatchRoundStatus.Scheduled)},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,25,11,00,00),matchRoundStatus=nameof(MatchRoundStatus.Scheduled)},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,25,13,00,00),matchRoundStatus=nameof(MatchRoundStatus.Scheduled)},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,25,15,00,00),matchRoundStatus=nameof(MatchRoundStatus.Scheduled)},
                     },
                     DayCount = "Day-1",
                     GamePerspective = "TPP",
@@ -69,10 +69,10 @@ namespace Fanview.API.Repository
                 new EventInfo(){
                      ScheduleTimeAndStatus = new List<MatchDailyRoundStatus>()
                     {
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,26,09,00,00), matchRoundStatus = MatchRoundStatus.Scheduled},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,26,11,00,00), matchRoundStatus = MatchRoundStatus.Scheduled},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,26,13,00,00), matchRoundStatus = MatchRoundStatus.Scheduled},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,26,15,00,00), matchRoundStatus = MatchRoundStatus.Scheduled},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,26,09,00,00), matchRoundStatus =nameof( MatchRoundStatus.Scheduled)},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,26,11,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,26,13,00,00), matchRoundStatus =nameof( MatchRoundStatus.Scheduled)},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,26,15,00,00), matchRoundStatus =nameof( MatchRoundStatus.Scheduled)},
                     },
                     DayCount = "Day-2",
                     GamePerspective = "TPP",
@@ -81,10 +81,10 @@ namespace Fanview.API.Repository
                 new EventInfo(){
                     ScheduleTimeAndStatus = new List<MatchDailyRoundStatus>()
                     {
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,27,09,00,00), matchRoundStatus = MatchRoundStatus.Scheduled},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,27,11,00,00), matchRoundStatus = MatchRoundStatus.Scheduled},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,27,13,00,00), matchRoundStatus = MatchRoundStatus.Scheduled},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,27,15,00,00), matchRoundStatus = MatchRoundStatus.Scheduled},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,27,09,00,00), matchRoundStatus =nameof( MatchRoundStatus.Scheduled)},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,27,11,00,00), matchRoundStatus =nameof( MatchRoundStatus.Scheduled)},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,27,13,00,00), matchRoundStatus =nameof( MatchRoundStatus.Scheduled)},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,27,15,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
                     },                     
                     DayCount = "Event-Matches",
                     GamePerspective = "",
@@ -93,10 +93,10 @@ namespace Fanview.API.Repository
                 new EventInfo(){
                     ScheduleTimeAndStatus = new List<MatchDailyRoundStatus>()
                     {
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,28,09,00,00), matchRoundStatus = MatchRoundStatus.Scheduled},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,28,11,00,00), matchRoundStatus = MatchRoundStatus.Scheduled},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,28,13,00,00), matchRoundStatus = MatchRoundStatus.Scheduled},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,28,15,00,00), matchRoundStatus = MatchRoundStatus.Scheduled},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,28,09,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,28,11,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,28,13,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,28,15,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
                     },
                     DayCount = "Day-3",
                     GamePerspective = "FPP",
@@ -105,10 +105,10 @@ namespace Fanview.API.Repository
                 new EventInfo(){
                    ScheduleTimeAndStatus = new List<MatchDailyRoundStatus>()
                     {
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,29,09,00,00), matchRoundStatus = MatchRoundStatus.Scheduled},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,29,11,00,00), matchRoundStatus = MatchRoundStatus.Scheduled},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,29,13,00,00), matchRoundStatus = MatchRoundStatus.Scheduled},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,29,15,00,00), matchRoundStatus = MatchRoundStatus.Scheduled},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,29,09,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,29,11,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,29,13,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,29,15,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
                     },
                     DayCount = "Day-4",
                     GamePerspective = "FPP",

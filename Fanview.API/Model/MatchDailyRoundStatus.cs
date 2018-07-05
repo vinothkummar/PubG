@@ -8,7 +8,8 @@ namespace Fanview.API.Model
     public class MatchDailyRoundStatus
     {
         public DateTime ScheduleTime { get; set; }
-        public MatchRoundStatus matchRoundStatus { get; set; }
+        //public MatchRoundStatus matchRoundStatus { get; set; }
+        public string matchRoundStatus{ get; set; }
             
         
     }
