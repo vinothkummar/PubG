@@ -118,7 +118,7 @@ namespace Fanview.API.Repository
             foreach (var item in tournamentEventScheduleInfo)
             {
                 
-                    var myrange = Enumerable.Range(25, 29);
+                    var myrange = Enumerable.Range(25, 30);
                     var date = DateTime.Now.Date;
                     var day = date.Day;
                     var time =DateTime.Now - date;
