@@ -9,5 +9,7 @@ namespace Fanview.API.Model
     {
         public DateTime ScheduleTime { get; set; }
         public MatchRoundStatus matchRoundStatus { get; set; }
+            
+        
     }
 }

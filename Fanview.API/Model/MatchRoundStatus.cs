@@ -13,5 +13,7 @@ namespace Fanview.API.Model
         Completed,
         Next,
         Scheduled
+         
     }
+    
 }

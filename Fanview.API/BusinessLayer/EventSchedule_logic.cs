@@ -16,12 +16,29 @@ namespace Fanview.API.BusinessLayer
         public TimeSpan early_Afternoon {get;set;}
         public EventSchedule_logic()
         {
-            this.early_Morning= new TimeSpan(9, 00, 00);
-            this.late_Morning= new TimeSpan(11, 00, 00);
+            this.early_Morning = new TimeSpan(9, 00, 00);
+            this.late_Morning = new TimeSpan(11, 00, 00);
             this.early_Afternoon = new TimeSpan(13, 00, 00);
             this.late_Afternoon = new TimeSpan(15, 00, 00);
+            this.finish_time = new TimeSpan(18, 00, 00);
+        }
+        public void getvalue(EventInfo myinfo)
+        {
+            var myvar = new List<MatchRoundStatus>();
+            for (var i = 0; i <= myinfo.ScheduleTimeAndStatus.Count; i++)
+            {
+
+
+                foreach (var value in (Enum.GetValues(typeof(MatchRoundStatus))))
+                {
+
+                    myinfo.ScheduleTimeAndStatus[i].matchRoundStatus = ((MatchRoundStatus)value);
+                }
+            }
+
 
         }
+
         public IEnumerable<EventInfo> EventSchedule(IEnumerable<EventInfo> myinfo)
         {
             foreach (var item in myinfo)
@@ -32,8 +49,9 @@ namespace Fanview.API.BusinessLayer
                 var day = date.Day;
                 var time = DateTime.Now - date;
 
-                if (time <= early_Morning)
+                if (time < early_Morning)
                 {
+
                     item.ScheduleTimeAndStatus[0].matchRoundStatus = MatchRoundStatus.Next;
                     item.ScheduleTimeAndStatus[1].matchRoundStatus = MatchRoundStatus.Scheduled;
                     item.ScheduleTimeAndStatus[2].matchRoundStatus = MatchRoundStatus.Scheduled;
@@ -88,13 +106,15 @@ namespace Fanview.API.BusinessLayer
                     item.ScheduleTimeAndStatus[0].matchRoundStatus = MatchRoundStatus.Completed;
                     item.ScheduleTimeAndStatus[1].matchRoundStatus = MatchRoundStatus.Completed;
                     item.ScheduleTimeAndStatus[2].matchRoundStatus = MatchRoundStatus.Completed;
-                    item.ScheduleTimeAndStatus[3].matchRoundStatus = MatchRoundStatus.Active;
+                    item.ScheduleTimeAndStatus[3].matchRoundStatus = MatchRoundStatus.Completed;
                     break;
 
                 }
             }
+            
             return myinfo;
 
         }
+
     }
 }
