@@ -116,12 +116,25 @@ namespace Fanview.API.Repository
 
         public async Task<IEnumerable<Kill>> GetPlayerKilled(string matchId)
         {
+            _logger.LogInformation("GetPlayedKilled Repository Function call started" + Environment.NewLine);
+            try
+            {
+                var response = _genericRepository.GetAll("Kill").Result.Where(cn => cn.MatchId == matchId);
 
-            var response = _genericRepository.GetAll("Kill").Result.Where(cn => cn.MatchId == matchId);
+                // var response = _genericRepository.GetMongoDbCollection("Kill").FindAsyn(new BsonDocument());
 
-           // var response = _genericRepository.GetMongoDbCollection("Kill").FindAsyn(new BsonDocument());
+                _logger.LogInformation("GetPlayedKilled Repository Function call completed" + Environment.NewLine);
 
-            return await Task.FromResult(response);
+                return await Task.FromResult(response);
+
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError(exception, "GetPlayedKilled");
+
+                throw;
+            }
+            
         }
 
         public async Task<IEnumerable<Kill>> GetLast4PlayerKilled(string matchId)

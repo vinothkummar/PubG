@@ -38,7 +38,7 @@ namespace Fanview.API.Repository
                 ScheduledDate = s.ScheduleTimeAndStatus.Select(t => t.ScheduleTime).First().ToString("MMM-dd"),
                 GamePerspective = s.GamePerspective,
                 DayCount = s.DayCount,
-                Rounds = "4 ROUNDS"
+                Rounds = s.DayCount.StartsWith("Day") ? "4 Round" : "Event Matches"
             });
 
             return await Task.FromResult(scheduleEvents);
@@ -81,7 +81,7 @@ namespace Fanview.API.Repository
                         new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,27,15,00,00), matchRoundStatus = MatchRoundStatus.Scheduled},
                     },                     
                     DayCount = "Event-Matches",
-                    GamePerspective = "",
+                    GamePerspective = "TPP",
                     Name = "PubG 2018 Global Invitation"                    
                     },
                 new EventInfo(){
