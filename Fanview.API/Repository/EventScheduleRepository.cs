@@ -27,8 +27,9 @@ namespace Fanview.API.Repository
         public async Task<EventInfo> GetDailySchedule(string daycount)
         {
             var dailySchedule = GetTournamentEventSchedule().SingleOrDefault(cn => cn.DayCount.ToLower() == daycount.ToLower());
-
-            return await Task.FromResult(dailySchedule);
+            var result = Task.FromResult(dailySchedule);
+            return await result;
+           
         }
 
         public async Task<Object> GetScheduledEvents()
@@ -47,7 +48,12 @@ namespace Fanview.API.Repository
         
         private IEnumerable<EventInfo> GetTournamentEventSchedule()
         {
-            var tournamentEventScheduleInfo = new List<EventInfo>() {
+            var early_Morning = new TimeSpan(9, 00, 00);
+            var late_Morning = new TimeSpan(11, 00, 00);
+            var late_Afternoon = new TimeSpan(15, 00, 00);
+            var early_Afternoon = new TimeSpan(13, 00, 00);
+            var finish_time = new TimeSpan(18, 00, 00);
+           var tournamentEventScheduleInfo = new List<EventInfo>() {
                 new EventInfo(){
                     ScheduleTimeAndStatus = new List<MatchDailyRoundStatus>()
                     {
@@ -109,7 +115,76 @@ namespace Fanview.API.Repository
                     Name = "PubG 2018 Global Invitation"                   
                     }
             };
+            foreach (var item in tournamentEventScheduleInfo)
+            {
+                
+                    var myrange = Enumerable.Range(25, 29);
+                    var date = DateTime.Now.Date;
+                    var day = date.Day;
+                    var time =DateTime.Now - date;
+                    
+                    if (time <= early_Morning)
+                    {
+                        item.ScheduleTimeAndStatus[0].matchRoundStatus = MatchRoundStatus.Next;
+                        item.ScheduleTimeAndStatus[1].matchRoundStatus = MatchRoundStatus.Scheduled;
+                        item.ScheduleTimeAndStatus[2].matchRoundStatus = MatchRoundStatus.Scheduled;
+                        item.ScheduleTimeAndStatus[3].matchRoundStatus = MatchRoundStatus.Scheduled;
+                        break;
+                    }
+                   else if (time > early_Morning && time <= late_Morning)
+                    {
 
+                        item.ScheduleTimeAndStatus[0].matchRoundStatus = MatchRoundStatus.Active;
+                        item.ScheduleTimeAndStatus[1].matchRoundStatus = MatchRoundStatus.Next;
+                        item.ScheduleTimeAndStatus[2].matchRoundStatus = MatchRoundStatus.Scheduled;
+                        item.ScheduleTimeAndStatus[3].matchRoundStatus = MatchRoundStatus.Scheduled;
+                        break;
+
+
+                    }
+                    else if (time > late_Morning && time <= early_Afternoon)
+                    {
+
+                        item.ScheduleTimeAndStatus[0].matchRoundStatus = MatchRoundStatus.Completed;
+                        item.ScheduleTimeAndStatus[1].matchRoundStatus = MatchRoundStatus.Active;
+                        item.ScheduleTimeAndStatus[2].matchRoundStatus = MatchRoundStatus.Next;
+                        item.ScheduleTimeAndStatus[3].matchRoundStatus = MatchRoundStatus.Scheduled;
+                        break;
+
+                    }
+                   else if (time > early_Afternoon && time <= late_Afternoon)
+                    {
+
+                        item.ScheduleTimeAndStatus[0].matchRoundStatus = MatchRoundStatus.Completed;
+                        item.ScheduleTimeAndStatus[1].matchRoundStatus = MatchRoundStatus.Completed;
+                        item.ScheduleTimeAndStatus[2].matchRoundStatus = MatchRoundStatus.Active;
+                        item.ScheduleTimeAndStatus[3].matchRoundStatus = MatchRoundStatus.Next;
+                        break;
+
+
+                    }
+                else if (time >late_Afternoon && time <= finish_time)
+                {
+
+                    item.ScheduleTimeAndStatus[0].matchRoundStatus = MatchRoundStatus.Completed;
+                    item.ScheduleTimeAndStatus[1].matchRoundStatus = MatchRoundStatus.Completed;
+                    item.ScheduleTimeAndStatus[2].matchRoundStatus = MatchRoundStatus.Completed;
+                    item.ScheduleTimeAndStatus[3].matchRoundStatus = MatchRoundStatus.Active;
+                    break;
+
+
+                }
+                else
+                    {
+                        item.ScheduleTimeAndStatus[0].matchRoundStatus = MatchRoundStatus.Completed;
+                        item.ScheduleTimeAndStatus[1].matchRoundStatus = MatchRoundStatus.Completed;
+                        item.ScheduleTimeAndStatus[2].matchRoundStatus = MatchRoundStatus.Completed;
+                        item.ScheduleTimeAndStatus[3].matchRoundStatus = MatchRoundStatus.Completed;
+                        break;
+
+                    }
+                }
+            
             return tournamentEventScheduleInfo;
         }
     }
