@@ -19,6 +19,7 @@ namespace Fanview.API.Controllers
         {
             _teamRepository = teamRepository;
         }
+
         // GET: api/TeamLineUP/5
         /// <summary>
         ///Returns teamlineup       

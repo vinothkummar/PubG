@@ -9,5 +9,6 @@ namespace Fanview.API.Repository.Interface
     {
         void PollMatchSummary(string matchId);
         void PollMatchParticipantStats(string matchId);
+        void CreateAndMapTestTeamPlayerFromMatchHistory(string matchId);
     }
 }
