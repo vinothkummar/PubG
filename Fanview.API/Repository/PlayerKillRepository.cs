@@ -133,8 +133,7 @@ namespace Fanview.API.Repository
                 _logger.LogError(exception, "GetPlayedKilled");
 
                 throw;
-            }
-            
+            }            
         }
 
         public async Task<IEnumerable<Kill>> GetLast4PlayerKilled(string matchId)
@@ -142,7 +141,6 @@ namespace Fanview.API.Repository
             var response = _genericRepository.GetAll("Kill").Result.Where(cn => cn.MatchId == matchId).TakeLast(4);
 
             return await Task.FromResult(response);
-
         }
 
         public async void PollTelemetryPlayerKilled(string matchId)

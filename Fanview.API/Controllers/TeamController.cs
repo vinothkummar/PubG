@@ -1,19 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Fanview.API.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Fanview.API.Services.Interface;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Fanview.API.Model;
 using Fanview.API.Repository.Interface;
-using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Fanview.API.Controllers
 {
@@ -28,11 +17,19 @@ namespace Fanview.API.Controllers
             _teamRepository = teamRepository;
         }
 
-        ////// POST: api/Team
-        //[HttpPost("Create")]
-        //public void Post([FromBody] Team value)
-        //{
-        //    _teamRepository.InsertTeam(value);
-        //}
+        // GET: api/TeamLineUP/5
+        /// <summary>
+        ///Returns teamlineup       
+        /// </summary>
+        /// <remarks>
+        /// Sample request: api/Team/LineUp/{teamId}          
+        /// Input Parameters: 5b369085a510862ec07c824a ;  5b3e63846c0810ce58c299a5
+        /// </remarks>
+        /// <param name='teamId'>5b369085a510862ec07c824a</param>
+        [HttpGet("LineUp/{teamId}", Name = "Get")]
+        public Task<IEnumerable<TeamLineUp>> Get(string teamId)
+        {
+            return _teamRepository.GetTeamLine(teamId);
+        }
     }
 }

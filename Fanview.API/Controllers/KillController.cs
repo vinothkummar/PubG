@@ -29,7 +29,7 @@ namespace Fanview.API.Controllers
             _logger = logger;
         }
 
-        // GET: api/Telemetry
+        
         /// <summary>
         /// Returns Player Killed for the given Match Id     
         /// </summary>
@@ -45,7 +45,7 @@ namespace Fanview.API.Controllers
             return result.Result;
         }
 
-        // GET: api/Telemetry
+       
         /// <summary>
         /// Returns Killiprinter Text Message for the given Match Id     
         /// </summary>
@@ -74,8 +74,7 @@ namespace Fanview.API.Controllers
             }
           
         }
-
-        // GET: api/Telemetry
+       
         /// <summary>
         /// Returns Last 4 Killiprinter Text Message for the given Match Id     
         /// </summary>
