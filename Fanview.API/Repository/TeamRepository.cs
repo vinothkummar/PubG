@@ -15,14 +15,17 @@ namespace Fanview.API.Repository
     {
         private IGenericRepository<Team> _team;
         private IGenericRepository<MatchPlayerStats> _matchPlayerStats;
+        private IGenericRepository<TeamPlayer> _teamPlayers;
         private ILogger<TeamRepository> _logger;
 
         public TeamRepository(IGenericRepository<Team> team,
-                              IGenericRepository<MatchPlayerStats> matchPlayerStats,
+                              IGenericRepository<MatchPlayerStats> matchPlayerStats,                              
+                              IGenericRepository<TeamPlayer> teamPlayers,
                               ILogger<TeamRepository> logger)
         {
             _team = team;
             _matchPlayerStats = matchPlayerStats;
+            _teamPlayers = teamPlayers;
 
             _logger = logger;
         }
@@ -33,7 +36,94 @@ namespace Fanview.API.Repository
 
             return await response;
         }
-     
+
+        public async Task<IEnumerable<TeamLineUp>> GetTeamMatchup(string teamId1, string teamId2)
+        {
+            var teamCollection = _team.GetMongoDbCollection("Team");
+
+            var teamPlayerCollection = _teamPlayers.GetMongoDbCollection("TeamPlayers");
+
+            var teams = await teamCollection.FindAsync(Builders<Team>.Filter.Where(cn => cn.Id == teamId1 || cn.Id == teamId2)).Result.ToListAsync();
+
+            var teamPlayers = await teamPlayerCollection.FindAsync(Builders<TeamPlayer>.Filter.Where(cn => cn.TeamId == teamId1 || cn.TeamId == teamId2)).Result.ToListAsync();
+
+            var teamLineups = new List<TeamLineUp>();
+
+            var query = teams.GroupJoin(teamPlayers, tp => tp.Id, t => t.TeamId, (t, tp) => new
+            {
+                TeamId = t.Id,
+                TeamName = t.Name,
+                TeamPlayers = tp.Select(s => s.PlayerName)
+            });
+
+            var teamLineupMatch = new List<TeamLineUp>();
+
+            foreach (var obj in query)
+            {
+                var teamLineup = new TeamLineUp();
+
+                teamLineup.TeamId = obj.TeamId;
+                teamLineup.TeamName = obj.TeamName;
+
+                var tmPlayers = new List<TeamLineUpPlayers>();
+
+                foreach (var players in obj.TeamPlayers)
+                {
+                    tmPlayers.Add(new TeamLineUpPlayers() { PlayerName = players });
+                }
+
+                teamLineup.TeamPlayer = tmPlayers;
+
+                teamLineupMatch.Add(teamLineup);
+            }
+
+
+
+            return await Task.FromResult(teamLineupMatch);
+            
+        }
+
+        public async Task<TeamLineUp> GetTeamProfile(string teamId1)
+        {
+            var teamCollection = _team.GetMongoDbCollection("Team");
+
+            var teamPlayerCollection = _teamPlayers.GetMongoDbCollection("TeamPlayers");
+
+            var teams = await teamCollection.FindAsync(Builders<Team>.Filter.Where(cn => cn.Id == teamId1)).Result.ToListAsync();
+
+            var teamPlayers = await teamPlayerCollection.FindAsync(Builders<TeamPlayer>.Filter.Where(cn => cn.TeamId == teamId1)).Result.ToListAsync();
+
+            var teamLineups = new List<TeamLineUp>();
+
+            var query = teams.GroupJoin(teamPlayers, tp => tp.Id, t => t.TeamId, (t, tp) => new
+            {
+                TeamId = t.Id,
+                TeamName = t.Name,
+                TeamPlayers = tp.Select(s => s.PlayerName)
+            });
+
+            var teamLineupMatch = new TeamLineUp();
+
+            foreach (var obj in query)
+            {
+                teamLineupMatch.TeamId = obj.TeamId;
+                teamLineupMatch.TeamName = obj.TeamName;
+
+                var tmPlayers = new List<TeamLineUpPlayers>();
+
+                foreach (var players in obj.TeamPlayers)
+                {
+                    tmPlayers.Add(new TeamLineUpPlayers() { PlayerName = players });
+                }
+
+                teamLineupMatch.TeamPlayer = tmPlayers;
+            }
+
+
+
+            return await Task.FromResult(teamLineupMatch);
+        }
+
         public async void InsertTeam(Team team)
         {
             Func<Task> persistDataToMongo = async () => _team.Insert(team, "Team");
