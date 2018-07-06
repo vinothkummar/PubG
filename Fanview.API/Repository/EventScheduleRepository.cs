@@ -32,8 +32,8 @@ namespace Fanview.API.Repository
         public async Task<EventInfo> GetDailySchedule(string daycount)
         {
             var dailySchedule = GetTournamentEventSchedule().SingleOrDefault(cn => cn.DayCount.ToLower() == daycount.ToLower());
-            var result = Task.FromResult(dailySchedule);
-            return await result;
+            return await Task.FromResult(dailySchedule);
+            
            
         }
 
@@ -118,8 +118,8 @@ namespace Fanview.API.Repository
 
            
             
-           var logiclist= _mylogic.EventSchedule(tournamentEventScheduleInfo);
-            return logiclist;
+           return _mylogic.EventSchedule(tournamentEventScheduleInfo);
+            
         }
     }
 }
