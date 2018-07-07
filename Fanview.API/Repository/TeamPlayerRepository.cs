@@ -40,6 +40,15 @@ namespace Fanview.API.Repository
             return teamPlayer;
         }
 
+        public async Task<IEnumerable<TeamPlayer>> GetTeamPlayers(string matchId)
+        {
+            var teamPlayerCollection = _genericTeamPlayerRepository.GetMongoDbCollection("TeamPlayers");
+
+            var teamPlayer = await teamPlayerCollection.FindAsync(Builders<TeamPlayer>.Filter.Where(cn => cn.MatchId == matchId)).Result.ToListAsync();
+
+            return teamPlayer;
+        }
+
         public async void InsertTeamPlayer(TeamPlayer teamPlayer)
         {
             Func<Task> persistDataToMongo = async () => _genericTeamPlayerRepository.Insert(teamPlayer, "TeamPlayers");

@@ -6,17 +6,17 @@ using Fanview.API.BusinessLayer.Contracts;
 using Fanview.API.Model;
 using Fanview.API.Utility;
 using Microsoft.Extensions.Logging;
+using Fanview.API.Repository.Interface;
 
 namespace Fanview.API.BusinessLayer
 {
     public class IndividualPlayerKilled : IKillingRule
-    {
-        private ILogger<IndividualPlayerKilled> _logger;
+    {       
         private IReadAssets _readAssets;
-
+        
         public IndividualPlayerKilled(IReadAssets readAssets)
         {            
-            _readAssets = readAssets;
+            _readAssets = readAssets;            
         }
         public IEnumerable<KilliPrinter> PlayerKilledOrTeamEliminiated(IEnumerable<Kill> playerKilled)
         {
@@ -27,7 +27,6 @@ namespace Fanview.API.BusinessLayer
                                            KillerName = s.Killer.Name,
                                            VictimName = s.Victim.Name,
                                            DamageCause = s.DamageCauserName,
-                                         // DamageReason = s.DamageReason,
                                            VictimTeamId = s.Victim.TeamId,
                                            KillerTeamId = s.Killer.TeamId,
                                            VictimHealth = s.Victim.Health,

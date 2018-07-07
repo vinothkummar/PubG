@@ -13,16 +13,15 @@ namespace Fanview.API.BusinessLayer
     {
        
         List<IKillingRule> _rules = new List<IKillingRule>();
-        private IPlayerKillRepository _playerKillRepository;
-        private ITakeDamageRepository _takeDamageRepository;
+        private IPlayerKillRepository _playerKillRepository;       
         private ILogger<PlayerKilled> _logger;
         private IReadAssets _readAssets;
 
-        public PlayerKilled(IPlayerKillRepository playerKillRepository, ITakeDamageRepository takeDamageRepository,
-                            ILogger<PlayerKilled> logger, IReadAssets readAssets)
+        public PlayerKilled(IPlayerKillRepository playerKillRepository,                           
+                            ILogger<PlayerKilled> logger,
+                            IReadAssets readAssets)
         {
             _playerKillRepository = playerKillRepository;
-            _takeDamageRepository = takeDamageRepository;            
             _logger = logger;
             _readAssets = readAssets;
 

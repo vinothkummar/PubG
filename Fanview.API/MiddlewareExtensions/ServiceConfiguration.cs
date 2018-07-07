@@ -27,6 +27,7 @@ namespace Fanview.API.MiddlewareExtensions
             services.AddTransient(typeof(ITeamRepository), typeof(TeamRepository));
             services.AddTransient(typeof(ITeamPlayerRepository), typeof(TeamPlayerRepository));
             services.AddSingleton(typeof(IEventScheduleRepository), typeof(EventScheduleRepository));
+            services.AddTransient(typeof(IRanking), typeof(Ranking));
             services.AddSingleton<IReadAssets, ReadAssets>();
             services.AddTransient<ITeamLineUp, TeamLineUp>();
         }

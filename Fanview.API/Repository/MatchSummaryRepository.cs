@@ -10,6 +10,7 @@ using System.Net.Http;
 using System.Net;
 using Newtonsoft.Json.Linq;
 using Fanview.API.Utility;
+using MongoDB.Driver;
 
 namespace Fanview.API.Repository
 {
@@ -150,11 +151,7 @@ namespace Fanview.API.Repository
 
                     var jsonResult = _pubGClientResponse.Result.Content.ReadAsStringAsync().Result;
 
-                    await Task.Run(async () => InsertMatchPlayerStats(jsonResult));
-
-                    //await Task.Run(async () => _takeDamageRepository.InsertTakeDamageTelemetry(jsonResult));
-
-                    //InsertMatchSummary(jsonResult);
+                    await Task.Run(async () => InsertMatchPlayerStats(jsonResult, matchId));
 
                     _logger.LogInformation("Completed Loading Match Player Stats  Response Json" + Environment.NewLine);
                 }
@@ -168,33 +165,22 @@ namespace Fanview.API.Repository
             }
         }
 
-        private async void InsertMatchPlayerStats(string jsonResult)
+        private async void InsertMatchPlayerStats(string jsonResult, string matchId)
         {
             var jsonToJObject = JObject.Parse(jsonResult);
 
-            var CurrentMatchCreatedTimeStamp = (string)jsonToJObject["data"]["attributes"]["createdAt"];
+            var matchPlayerStatsCollection = _genericMatchPlayerStatsRepository.GetMongoDbCollection("MatchPlayerStats");
 
-            var matchPlayerStats = GetMatchPlayerStas(jsonToJObject);
+            var isMatchStatsExists = await matchPlayerStatsCollection.FindAsync(Builders<MatchPlayerStats>.Filter.Where(cn => cn.MatchId == matchId)).Result.ToListAsync();
 
-            //var CurrentMatchCreatedTimeStamp = matchSummaryData.Attributes.CreatedAT.ToDateTimeFormat();
+            if (isMatchStatsExists.FirstOrDefault().MatchId != matchId)
+            {
+                var matchPlayerStats = GetMatchPlayerStas(jsonToJObject);
 
-            //if (CurrentMatchCreatedTimeStamp.ToDateTimeFormat() > LastMatchCreatedTimeStamp)
-            //{
-                
-              
+                Func<Task> persistDataToMongo = async () => _genericMatchPlayerStatsRepository.Insert(matchPlayerStats, "MatchPlayerStats");
 
-                    Func<Task> persistDataToMongo = async () => _genericMatchPlayerStatsRepository.Insert(matchPlayerStats, "MatchPlayerStats");
-
-                    await Task.Run(persistDataToMongo);
-
-               
-
-                    
-
-            //_genericRepository.Insert(matchSummaryData, "MatchSummary");
-
-            //    LastMatchCreatedTimeStamp = CurrentMatchCreatedTimeStamp.ToDateTimeFormat();
-            //}
+                await Task.Run(persistDataToMongo);
+            }
         }
         private IEnumerable<MatchPlayerStats> GetMatchPlayerStas(JObject jsonToJObject)
         {
@@ -277,8 +263,26 @@ namespace Fanview.API.Repository
 
         }
 
-      
+        public async Task<IEnumerable<MatchPlayerStats>> GetPlayerMatchStats(string matchId)
+        {
+            _logger.LogInformation("GetPlayerMatchStats Repository Function call started" + Environment.NewLine);
+            try
+            {
+                var response = _genericMatchPlayerStatsRepository.GetAll("MatchPlayerStats").Result.Where(cn => cn.MatchId == matchId);
 
+                // var response = _genericRepository.GetMongoDbCollection("Kill").FindAsyn(new BsonDocument());
 
+                _logger.LogInformation("GetPlayerMatchStats Repository Function call completed" + Environment.NewLine);
+
+                return await Task.FromResult(response);
+
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError(exception, "GetPlayerMatchStats");
+
+                throw;
+            }
+        }
     }
 }
