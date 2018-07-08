@@ -22,6 +22,7 @@ namespace Fanview.API.Repository
         private IGenericRepository<MatchPlayerStats> _genericMatchPlayerStatsRepository;
         private IGenericRepository<TeamPlayer> _genericTeamPlayerRepository;
         private ITeamRepository _teamRepository;
+        private ITeamPlayerRepository _teamPlayerRepository;
         private ILogger<PlayerKillRepository> _logger;
         private Task<HttpResponseMessage> _pubGClientResponse;
         private DateTime LastMatchCreatedTimeStamp = DateTime.MinValue;
@@ -32,6 +33,7 @@ namespace Fanview.API.Repository
                                       IGenericRepository<MatchPlayerStats> genericMatchPlayerStatsRepository,
                                       IGenericRepository<TeamPlayer> genericTeamPlayerRepository,
                                       ITeamRepository teamRepository,
+                                      ITeamPlayerRepository teamPlayerRepository,
                                       ILogger<PlayerKillRepository> logger)
         {
             _httpClientBuilder = httpClientBuilder;            
@@ -40,6 +42,7 @@ namespace Fanview.API.Repository
             _genericMatchPlayerStatsRepository = genericMatchPlayerStatsRepository;
             _genericTeamPlayerRepository = genericTeamPlayerRepository;
             _teamRepository = teamRepository;
+            _teamPlayerRepository = teamPlayerRepository;
             _logger = logger;
         }
 
@@ -175,14 +178,14 @@ namespace Fanview.API.Repository
 
             if (isMatchStatsExists.FirstOrDefault().MatchId != matchId)
             {
-                var matchPlayerStats = GetMatchPlayerStas(jsonToJObject);
+                var matchPlayerStats = GetMatchPlayerStas(jsonToJObject, matchId);
 
                 Func<Task> persistDataToMongo = async () => _genericMatchPlayerStatsRepository.Insert(matchPlayerStats, "MatchPlayerStats");
 
                 await Task.Run(persistDataToMongo);
             }
         }
-        private IEnumerable<MatchPlayerStats> GetMatchPlayerStas(JObject jsonToJObject)
+        private IEnumerable<MatchPlayerStats> GetMatchPlayerStas(JObject jsonToJObject, string matchId)
         {
             var match = jsonToJObject.SelectToken("data").ToObject<MatchSummary>();
 
@@ -214,6 +217,8 @@ namespace Fanview.API.Repository
                 ParticipantAttributes = s.SelectToken("attributes").ToObject<ParticipantAttributes>()
             });
 
+            var teamPlayers = _teamPlayerRepository.GetTeamPlayers(matchId);
+
             var teamParticipants = new List<MatchPlayerStats>();
 
             foreach (var item in matchRoster)
@@ -230,6 +235,7 @@ namespace Fanview.API.Repository
                                 teamParticipant.RosterId = item.Id;
                                 teamParticipant.ParticipantId = item2.Id;                              
                                 teamParticipant.stats = item2.ParticipantAttributes.stats;
+                                teamParticipant.TeamId = teamPlayers.Result.Where(cn => cn.PubgAccountId == item2.ParticipantAttributes.stats.PlayerId).First().TeamId;
                                 teamParticipants.Add(teamParticipant);
                         }
                     }
