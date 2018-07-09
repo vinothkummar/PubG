@@ -14,15 +14,15 @@ namespace Fanview.API.Repository
     {
         private IGenericRepository<EventInfo> _eventInfoRepository;
         private ILogger<EventScheduleRepository> _logger;
-        private readonly IEvent_logic _mylogic;
+        private readonly IEvent_logic _Ievent_logic;
         
 
         public EventScheduleRepository(IGenericRepository<EventInfo> eventInfoRepository,
-                               ILogger<EventScheduleRepository> logger,IEvent_logic mylogic)
+                               ILogger<EventScheduleRepository> logger,IEvent_logic Ievent_logic)
         {
             _eventInfoRepository = eventInfoRepository;
             _logger = logger;
-            _mylogic = mylogic;
+            _Ievent_logic =Ievent_logic ;
         }
         public void CreateMultipleEventGameSchedule(List<EventInfo> eventInfos)
         {
@@ -118,7 +118,7 @@ namespace Fanview.API.Repository
 
            
             
-           return _mylogic.EventSchedule(tournamentEventScheduleInfo);
+           return _Ievent_logic.EventSchedule(tournamentEventScheduleInfo);
             
         }
     }
