@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Fanview.API.Repository.Interface;
 using Fanview.API.Model;
+using Fanview.API.Repository;
 
 namespace Fanview.API.Controllers
 {
@@ -18,7 +19,9 @@ namespace Fanview.API.Controllers
         public PlayerController(ITeamPlayerRepository teamPlayerRepository)
         {
             _teamPlayerRepository = teamPlayerRepository;
+            
         }
+
 
         //// POST: api/Player
         //[HttpPost("Create")]

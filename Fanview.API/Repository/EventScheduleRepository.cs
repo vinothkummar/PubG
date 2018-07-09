@@ -14,15 +14,15 @@ namespace Fanview.API.Repository
     {
         private IGenericRepository<EventInfo> _eventInfoRepository;
         private ILogger<EventScheduleRepository> _logger;
-        private readonly IEvent_logic _Ievent_logic;
+        private readonly IEvent_logic _event_logic;
         
 
         public EventScheduleRepository(IGenericRepository<EventInfo> eventInfoRepository,
-                               ILogger<EventScheduleRepository> logger,IEvent_logic Ievent_logic)
+                               ILogger<EventScheduleRepository> logger,IEvent_logic event_logic)
         {
             _eventInfoRepository = eventInfoRepository;
             _logger = logger;
-            _Ievent_logic =Ievent_logic ;
+            _event_logic =event_logic ;
         }
         public void CreateMultipleEventGameSchedule(List<EventInfo> eventInfos)
         {
@@ -89,7 +89,8 @@ namespace Fanview.API.Repository
                     },                     
                     DayCount = "Event-Matches",
                     GamePerspective = "",
-                    Name = "PubG 2018 Global Invitation"                    
+                    Name = "PubG 2018 Global Invitation"
+                    
                     },
                 new EventInfo(){
                     ScheduleTimeAndStatus = new List<MatchDailyRoundStatus>()
@@ -119,7 +120,7 @@ namespace Fanview.API.Repository
 
            
             
-           return _Ievent_logic.EventSchedule(tournamentEventScheduleInfo);
+           return _event_logic.EventSchedule(tournamentEventScheduleInfo);
             
         }
     }
