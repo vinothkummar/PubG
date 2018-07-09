@@ -33,7 +33,7 @@ namespace Fanview.API.Repository
         {
             var dailySchedule = GetTournamentEventSchedule().SingleOrDefault(cn => cn.DayCount.ToLower() == daycount.ToLower());
             return await Task.FromResult(dailySchedule);
-            
+            //commit
            
         }
 
