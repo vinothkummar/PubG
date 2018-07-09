@@ -176,7 +176,7 @@ namespace Fanview.API.Repository
 
             var isMatchStatsExists = await matchPlayerStatsCollection.FindAsync(Builders<MatchPlayerStats>.Filter.Where(cn => cn.MatchId == matchId)).Result.ToListAsync();
 
-            if (isMatchStatsExists.FirstOrDefault().MatchId != matchId)
+            if (isMatchStatsExists.Count()  == 0 || isMatchStatsExists == null )
             {
                 var matchPlayerStats = GetMatchPlayerStas(jsonToJObject, matchId);
 
@@ -275,6 +275,28 @@ namespace Fanview.API.Repository
             try
             {
                 var response = _genericMatchPlayerStatsRepository.GetAll("MatchPlayerStats").Result.Where(cn => cn.MatchId == matchId);
+
+                // var response = _genericRepository.GetMongoDbCollection("Kill").FindAsyn(new BsonDocument());
+
+                _logger.LogInformation("GetPlayerMatchStats Repository Function call completed" + Environment.NewLine);
+
+                return await Task.FromResult(response);
+
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError(exception, "GetPlayerMatchStats");
+
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<MatchPlayerStats>> GetPlayerMatchStats(string matchId1, string matchId2, string matchId3, string matchId4)
+        {
+            _logger.LogInformation("GetPlayerMatchStats Repository Function call started" + Environment.NewLine);
+            try
+            {
+                var response = _genericMatchPlayerStatsRepository.GetAll("MatchPlayerStats").Result.Where(cn => cn.MatchId == matchId1 || cn.MatchId == matchId2 || cn.MatchId == matchId3 || cn.MatchId == matchId4);
 
                 // var response = _genericRepository.GetMongoDbCollection("Kill").FindAsyn(new BsonDocument());
 
