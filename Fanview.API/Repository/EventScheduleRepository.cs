@@ -44,7 +44,8 @@ namespace Fanview.API.Repository
                 ScheduledDate = s.ScheduleTimeAndStatus.Select(t => t.ScheduleTime).First().ToString("MMM-dd"),
                 GamePerspective = s.GamePerspective,
                 DayCount = s.DayCount,
-                Rounds = "4 ROUNDS"
+                Rounds = "4 ROUNDS",
+                Name=s.Name
             });
 
             return await Task.FromResult(scheduleEvents);
