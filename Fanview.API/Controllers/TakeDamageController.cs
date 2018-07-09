@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Fanview.API.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
-using Fanview.API.Repository.Interface;
-using Fanview.API.Model;
 
 namespace Fanview.API.Controllers
 {

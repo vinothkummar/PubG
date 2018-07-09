@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Fanview.API.Services.Interface;
-using Microsoft.AspNetCore.Http;
+﻿using Fanview.API.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
-using Fanview.API.Repository.Interface;
 using Newtonsoft.Json.Linq;
+using System.Threading.Tasks;
 
 
 namespace Fanview.API.Controllers
@@ -53,6 +48,13 @@ namespace Fanview.API.Controllers
         public void PostPlayerKilled(string matchId)
         {
             _playerKillRepository.PollTelemetryPlayerKilled(matchId);
+        }
+
+        // POST: api/Match
+        [HttpPost("CreateDummyTeamPlayers/{matchId}", Name = "PostDummyTestTeamPlayers")]
+        public void PostDummyTestTeamPlayers(string matchId)
+        {
+            _matchSummaryRepository.CreateAndMapTestTeamPlayerFromMatchHistory(matchId);
         }
     }
 }

@@ -10,6 +10,7 @@ using System.Net.Http;
 using System.Net;
 using Newtonsoft.Json.Linq;
 using Fanview.API.Utility;
+using MongoDB.Driver;
 
 namespace Fanview.API.Repository
 {
@@ -19,6 +20,7 @@ namespace Fanview.API.Repository
         private IHttpClientRequest _httpClientRequest;
         private IGenericRepository<MatchSummary> _genericMatchSummaryRepository;
         private IGenericRepository<MatchPlayerStats> _genericMatchPlayerStatsRepository;
+        private IGenericRepository<TeamPlayer> _genericTeamPlayerRepository;
         private ITeamRepository _teamRepository;
         private ILogger<PlayerKillRepository> _logger;
         private Task<HttpResponseMessage> _pubGClientResponse;
@@ -28,6 +30,7 @@ namespace Fanview.API.Repository
                                       IHttpClientRequest httpClientRequest,                                      
                                       IGenericRepository<MatchSummary> genericMatchSummaryRepository,
                                       IGenericRepository<MatchPlayerStats> genericMatchPlayerStatsRepository,
+                                      IGenericRepository<TeamPlayer> genericTeamPlayerRepository,
                                       ITeamRepository teamRepository,
                                       ILogger<PlayerKillRepository> logger)
         {
@@ -35,6 +38,7 @@ namespace Fanview.API.Repository
             _httpClientRequest = httpClientRequest;
             _genericMatchSummaryRepository = genericMatchSummaryRepository;
             _genericMatchPlayerStatsRepository = genericMatchPlayerStatsRepository;
+            _genericTeamPlayerRepository = genericTeamPlayerRepository;
             _teamRepository = teamRepository;
             _logger = logger;
         }
@@ -147,11 +151,7 @@ namespace Fanview.API.Repository
 
                     var jsonResult = _pubGClientResponse.Result.Content.ReadAsStringAsync().Result;
 
-                    await Task.Run(async () => InsertMatchPlayerStats(jsonResult));
-
-                    //await Task.Run(async () => _takeDamageRepository.InsertTakeDamageTelemetry(jsonResult));
-
-                    //InsertMatchSummary(jsonResult);
+                    await Task.Run(async () => InsertMatchPlayerStats(jsonResult, matchId));
 
                     _logger.LogInformation("Completed Loading Match Player Stats  Response Json" + Environment.NewLine);
                 }
@@ -165,60 +165,23 @@ namespace Fanview.API.Repository
             }
         }
 
-        private async void InsertMatchPlayerStats(string jsonResult)
+        private async void InsertMatchPlayerStats(string jsonResult, string matchId)
         {
             var jsonToJObject = JObject.Parse(jsonResult);
 
-            var CurrentMatchCreatedTimeStamp = (string)jsonToJObject["data"]["attributes"]["createdAt"];
+            var matchPlayerStatsCollection = _genericMatchPlayerStatsRepository.GetMongoDbCollection("MatchPlayerStats");
 
-            var matchPlayerStats = GetMatchPlayerStas(jsonToJObject);
+            var isMatchStatsExists = await matchPlayerStatsCollection.FindAsync(Builders<MatchPlayerStats>.Filter.Where(cn => cn.MatchId == matchId)).Result.ToListAsync();
 
-            //var dummyTeamPlayers = CreateDummyTeamPlayers(matchPlayerStats);
+            if (isMatchStatsExists.FirstOrDefault().MatchId != matchId)
+            {
+                var matchPlayerStats = GetMatchPlayerStas(jsonToJObject);
 
-            //var CurrentMatchCreatedTimeStamp = matchSummaryData.Attributes.CreatedAT.ToDateTimeFormat();
+                Func<Task> persistDataToMongo = async () => _genericMatchPlayerStatsRepository.Insert(matchPlayerStats, "MatchPlayerStats");
 
-            //if (CurrentMatchCreatedTimeStamp.ToDateTimeFormat() > LastMatchCreatedTimeStamp)
-            //{
-                    Func<Task> persistDataToMongo = async () => _genericMatchPlayerStatsRepository.Insert(matchPlayerStats, "MatchPlayerStats");
-
-                    await Task.Run(persistDataToMongo);
-
-            //_genericRepository.Insert(matchSummaryData, "MatchSummary");
-
-            //    LastMatchCreatedTimeStamp = CurrentMatchCreatedTimeStamp.ToDateTimeFormat();
-            //}
+                await Task.Run(persistDataToMongo);
+            }
         }
-
-        private TeamPlayer CreateDummyTeamPlayers(IEnumerable<MatchPlayerStats> matchPlayers)
-        {
-
-            var teamPlayers = new List<TeamPlayer>();
-
-            var team = _teamRepository.GetTeam().Result;
-
-            var teamParticipants = matchPlayers.GroupBy(g => g.RosterId);
-           
-                foreach (var item1 in teamParticipants)
-                {
-                    foreach (var item2 in item1)
-                    {
-                        var teamPlayer = new TeamPlayer();
-
-                        teamPlayer.MatchId = item2.MatchId;                       
-                        teamPlayer.PlayerName = item2.stats.Name;
-                        teamPlayer.PubgAccountId = item2.stats.PlayerId;
-
-                        teamPlayers.Add(teamPlayer);
-                    }
-                }
-            
-           
-
-            
-
-            throw new NotImplementedException();
-        }
-
         private IEnumerable<MatchPlayerStats> GetMatchPlayerStas(JObject jsonToJObject)
         {
             var match = jsonToJObject.SelectToken("data").ToObject<MatchSummary>();
@@ -275,5 +238,51 @@ namespace Fanview.API.Repository
             return teamParticipants;
         }
 
+        public void CreateAndMapTestTeamPlayerFromMatchHistory(string matchId)
+        {
+            var teamPlayers = new List<TeamPlayer>();
+
+            var matchPlayerStatus = _genericMatchPlayerStatsRepository.GetAll("MatchPlayerStats").Result;
+
+            foreach (var item1 in matchPlayerStatus.Where(cn => cn.MatchId == matchId).GroupBy(g => g.TeamId))
+            {
+                foreach (var item2 in item1)
+                {
+                    var teamPlayer = new TeamPlayer();
+
+                    teamPlayer.MatchId = item2.MatchId;
+                    teamPlayer.PlayerName = item2.stats.Name;
+                    teamPlayer.PubgAccountId = item2.stats.PlayerId;
+                    teamPlayer.TeamId = item2.TeamId;
+
+                    teamPlayers.Add(teamPlayer);
+                }
+            }
+
+            _genericTeamPlayerRepository.Insert(teamPlayers, "TeamPlayers");
+
+        }
+
+        public async Task<IEnumerable<MatchPlayerStats>> GetPlayerMatchStats(string matchId)
+        {
+            _logger.LogInformation("GetPlayerMatchStats Repository Function call started" + Environment.NewLine);
+            try
+            {
+                var response = _genericMatchPlayerStatsRepository.GetAll("MatchPlayerStats").Result.Where(cn => cn.MatchId == matchId);
+
+                // var response = _genericRepository.GetMongoDbCollection("Kill").FindAsyn(new BsonDocument());
+
+                _logger.LogInformation("GetPlayerMatchStats Repository Function call completed" + Environment.NewLine);
+
+                return await Task.FromResult(response);
+
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError(exception, "GetPlayerMatchStats");
+
+                throw;
+            }
+        }
     }
 }

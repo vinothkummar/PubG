@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Fanview.API.Model;
-using Fanview.API.BusinessLayer;
 using Fanview.API.Repository.Interface;
 using Microsoft.Extensions.Logging;
-using Fanview.API.BusinessLayer.Contracts;
 
 namespace Fanview.API.Repository
 {
@@ -14,15 +12,12 @@ namespace Fanview.API.Repository
     {
         private IGenericRepository<EventInfo> _eventInfoRepository;
         private ILogger<EventScheduleRepository> _logger;
-        private readonly IEvent_logic _event_logic;
-        
 
         public EventScheduleRepository(IGenericRepository<EventInfo> eventInfoRepository,
-                               ILogger<EventScheduleRepository> logger,IEvent_logic event_logic)
+                               ILogger<EventScheduleRepository> logger)
         {
             _eventInfoRepository = eventInfoRepository;
             _logger = logger;
-            _event_logic =event_logic ;
         }
         public void CreateMultipleEventGameSchedule(List<EventInfo> eventInfos)
         {
@@ -32,9 +27,8 @@ namespace Fanview.API.Repository
         public async Task<EventInfo> GetDailySchedule(string daycount)
         {
             var dailySchedule = GetTournamentEventSchedule().SingleOrDefault(cn => cn.DayCount.ToLower() == daycount.ToLower());
+
             return await Task.FromResult(dailySchedule);
-            //commit
-           
         }
 
         public async Task<Object> GetScheduledEvents()
@@ -44,7 +38,7 @@ namespace Fanview.API.Repository
                 ScheduledDate = s.ScheduleTimeAndStatus.Select(t => t.ScheduleTime).First().ToString("MMM-dd"),
                 GamePerspective = s.GamePerspective,
                 DayCount = s.DayCount,
-                Name=s.Name
+                Rounds = s.DayCount.StartsWith("Day") ? "4 Round" : "Event Matches"
             });
 
             return await Task.FromResult(scheduleEvents);
@@ -53,14 +47,14 @@ namespace Fanview.API.Repository
         
         private IEnumerable<EventInfo> GetTournamentEventSchedule()
         {
-           var tournamentEventScheduleInfo = new List<EventInfo>() {
+            var tournamentEventScheduleInfo = new List<EventInfo>() {
                 new EventInfo(){
                     ScheduleTimeAndStatus = new List<MatchDailyRoundStatus>()
                     {
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,25,09,00,00),matchRoundStatus=nameof(MatchRoundStatus.Scheduled)},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,25,11,00,00),matchRoundStatus=nameof(MatchRoundStatus.Scheduled)},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,25,13,00,00),matchRoundStatus=nameof(MatchRoundStatus.Scheduled)},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,25,15,00,00),matchRoundStatus=nameof(MatchRoundStatus.Scheduled)},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,25,09,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,25,11,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,25,13,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,25,15,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
                     },
                     DayCount = "Day-1",
                     GamePerspective = "TPP",
@@ -69,10 +63,10 @@ namespace Fanview.API.Repository
                 new EventInfo(){
                      ScheduleTimeAndStatus = new List<MatchDailyRoundStatus>()
                     {
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,26,09,00,00), matchRoundStatus =nameof( MatchRoundStatus.Scheduled)},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,26,09,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
                         new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,26,11,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,26,13,00,00), matchRoundStatus =nameof( MatchRoundStatus.Scheduled)},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,26,15,00,00), matchRoundStatus =nameof( MatchRoundStatus.Scheduled)},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,26,13,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,26,15,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
                     },
                     DayCount = "Day-2",
                     GamePerspective = "TPP",
@@ -81,15 +75,14 @@ namespace Fanview.API.Repository
                 new EventInfo(){
                     ScheduleTimeAndStatus = new List<MatchDailyRoundStatus>()
                     {
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,27,09,00,00), matchRoundStatus =nameof( MatchRoundStatus.Scheduled)},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,27,11,00,00), matchRoundStatus =nameof( MatchRoundStatus.Scheduled)},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,27,13,00,00), matchRoundStatus =nameof( MatchRoundStatus.Scheduled)},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,27,09,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,27,11,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,27,13,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
                         new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,27,15,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
                     },                     
                     DayCount = "Event-Matches",
-                    GamePerspective = "",
-                    Name = "PubG 2018 Global Invitation"
-                    
+                    GamePerspective = "TPP",
+                    Name = "PubG 2018 Global Invitation"                    
                     },
                 new EventInfo(){
                     ScheduleTimeAndStatus = new List<MatchDailyRoundStatus>()
@@ -117,10 +110,7 @@ namespace Fanview.API.Repository
                     }
             };
 
-           
-            
-           return _event_logic.EventSchedule(tournamentEventScheduleInfo);
-            
+            return tournamentEventScheduleInfo;
         }
     }
 }

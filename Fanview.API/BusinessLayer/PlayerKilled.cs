@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Fanview.API.BusinessLayer.Contracts;
 using Fanview.API.Repository.Interface;
 using Fanview.API.Model;
+using Microsoft.Extensions.Logging;
 
 namespace Fanview.API.BusinessLayer
 {
@@ -12,15 +13,19 @@ namespace Fanview.API.BusinessLayer
     {
        
         List<IKillingRule> _rules = new List<IKillingRule>();
-        private IPlayerKillRepository _playerKillRepository;
-        private ITakeDamageRepository _takeDamageRepository;
+        private IPlayerKillRepository _playerKillRepository;       
+        private ILogger<PlayerKilled> _logger;
+        private IReadAssets _readAssets;
 
-        public PlayerKilled(IPlayerKillRepository playerKillRepository, ITakeDamageRepository takeDamageRepository)
+        public PlayerKilled(IPlayerKillRepository playerKillRepository,                           
+                            ILogger<PlayerKilled> logger,
+                            IReadAssets readAssets)
         {
             _playerKillRepository = playerKillRepository;
-            _takeDamageRepository = takeDamageRepository;
+            _logger = logger;
+            _readAssets = readAssets;
 
-            _rules.Add(new IndividualPlayerKilled());
+            _rules.Add(new IndividualPlayerKilled(_readAssets));
            
         }
 
@@ -33,7 +38,7 @@ namespace Fanview.API.BusinessLayer
 
             foreach (var rule in _rules)
             {
-                var output = rule.PlayerKilledOrTeamEliminiation(kills);
+                var output = rule.PlayerKilledOrTeamEliminiatedText(kills);
 
                 if (output != null)
                 {
@@ -42,27 +47,60 @@ namespace Fanview.API.BusinessLayer
             }
 
 
-            return playerKilledOrTeamEliminatedMessages.OrderByDescending(o => o);
+            return playerKilledOrTeamEliminatedMessages;
         }
 
         public IEnumerable<string> GetPlayerKilledText(string matchId)
         {
-            var playerKilledOrTeamEliminatedMessages = new List<string>();
+            _logger.LogInformation("GetPlayedKilledText Business Layer Function call started" + Environment.NewLine);
 
-            var kills = _playerKillRepository.GetPlayerKilled(matchId).Result;            
+            try
+            {
+                var playerKilledOrTeamEliminatedMessages = new List<string>();
+
+                var kills = _playerKillRepository.GetPlayerKilled(matchId).Result;
+
+                foreach (var rule in _rules)
+                {
+                    var output = rule.PlayerKilledOrTeamEliminiatedText(kills);
+
+                    if (output != null)
+                    {
+                        playerKilledOrTeamEliminatedMessages = output.ToList();
+                    }
+                }
+
+                _logger.LogInformation("GetPlayedKilledText Business Layer Function call completed" + Environment.NewLine);
+
+                return playerKilledOrTeamEliminatedMessages;
+
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError(exception, "GetPlayerKilledText");
+
+                throw;
+            }
+           
+        }
+
+        public IEnumerable<KilliPrinter> GetPlayerKilled(string matchId)
+        {
+            var playerKilledOrTeamEliminatedMessages = new List<KilliPrinter>();
+
+            var kills = _playerKillRepository.GetPlayerKilled(matchId).Result;
 
             foreach (var rule in _rules)
             {
-                var output = rule.PlayerKilledOrTeamEliminiation(kills);
+                var output = rule.PlayerKilledOrTeamEliminiated(kills);
 
                 if (output != null)
                 {
                     playerKilledOrTeamEliminatedMessages = output.ToList();
                 }
             }
-
-
             return playerKilledOrTeamEliminatedMessages;
         }
+        
     }
 }

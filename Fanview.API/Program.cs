@@ -9,20 +9,54 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.WindowsServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Events;
 
 namespace Fanview.API
 {
     public class Program
     {
+        static string SpecialFileName
+        {
+            get
+            {
+                return string.Format("Fanview-Api-log-{0:yyyy-MM-dd_hh-mm-ss-tt}", DateTime.Now);
+            }
+        }
         public static void Main(string[] args)
-        {          
+        {
+            var fileName = Path.Combine(Path.GetFullPath(@"../../../../../" + "FanViewAPILog"), SpecialFileName);
 
-            BuildWebHost(args).Run();
+            //Log.Logger = new LoggerConfiguration().WriteTo.File(fileName).CreateLogger();
+            Log.Logger = new LoggerConfiguration()
+           .MinimumLevel.Debug()
+           .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+           .Enrich.FromLogContext()
+           .WriteTo.File(fileName)
+           .CreateLogger();
+
+            try
+            {
+                Log.Information("Starting web host");
+                BuildWebHost(args).Run();                
+                //return 0;
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Host terminated unexpectedly");
+                //return 1;
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
+            
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+                .UseSerilog()
                 .Build();
     }
 }
