@@ -29,7 +29,5 @@ namespace Fanview.API.MiddlewareExtensions
             services.AddSingleton(typeof(IEventScheduleRepository), typeof(EventScheduleRepository));
             services.AddTransient(typeof(IEvent_logic), typeof(EventSchedule_logic));
             services.AddTransient<ITeamLineUp, TeamLineUp>();
-            
         }
-    }
-}
+        } }
