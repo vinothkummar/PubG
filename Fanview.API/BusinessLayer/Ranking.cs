@@ -39,7 +39,7 @@ namespace Fanview.API.BusinessLayer
             _teamKill = new IndividualPlayerKilled(readAssets);
         }
 
-        public async Task<IEnumerable<MatchRanking>> GetMatchRanking(string matchId)
+        public async Task<IEnumerable<MatchRanking>> CalculateMatchRanking(string matchId)
         {
             var kills = _playerKillRepository.GetPlayerKilled(matchId).Result;
 
@@ -167,7 +167,7 @@ namespace Fanview.API.BusinessLayer
 
                
 
-                var teamsScroingPoints = GetMatchRanking(matchId).Result;
+                var teamsScroingPoints = CalculateMatchRanking(matchId).Result;
 
                 var matchRankingCollection = _genericMatchRankingRepository.GetMongoDbCollection("MatchRanking");
 

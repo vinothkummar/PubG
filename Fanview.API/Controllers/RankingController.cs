@@ -35,8 +35,9 @@ namespace Fanview.API.Controllers
         [HttpGet("MatchRank/{matchId}", Name = "GetMatchRanking")]
         public async Task<IEnumerable<MatchRanking>> GetMatchRanking(string matchId)
         {
-             
-            return await _ranking.GetMatchRanking(matchId);
+
+            // return await _ranking.GetMatchRanking(matchId);
+            return null;
         }
 
         /// <summary>
