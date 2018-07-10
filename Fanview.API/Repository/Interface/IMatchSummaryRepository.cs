@@ -11,8 +11,8 @@ namespace Fanview.API.Repository.Interface
         void PollMatchSummary(string matchId);
         void PollMatchParticipantStats(string matchId);
         void CreateAndMapTestTeamPlayerFromMatchHistory(string matchId);
+        Task PollMatchRoundRankingData(string matchId);
         Task<IEnumerable<MatchPlayerStats>> GetPlayerMatchStats(string matchId);
-
         Task<IEnumerable<MatchPlayerStats>> GetPlayerMatchStats(string matchId1, string matchId2, string matchId3, string matchId4);
     }
 }

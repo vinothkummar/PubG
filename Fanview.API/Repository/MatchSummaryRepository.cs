@@ -21,19 +21,23 @@ namespace Fanview.API.Repository
         private IGenericRepository<MatchSummary> _genericMatchSummaryRepository;
         private IGenericRepository<MatchPlayerStats> _genericMatchPlayerStatsRepository;
         private IGenericRepository<TeamPlayer> _genericTeamPlayerRepository;
+        private IGenericRepository<MatchRanking> _genericMatchRankingRepository;
         private ITeamRepository _teamRepository;
         private ITeamPlayerRepository _teamPlayerRepository;
+        private IPlayerKillRepository _playerKillRepository;       
         private ILogger<PlayerKillRepository> _logger;
         private Task<HttpResponseMessage> _pubGClientResponse;
         private DateTime LastMatchCreatedTimeStamp = DateTime.MinValue;
-        
+
         public MatchSummaryRepository(IClientBuilder httpClientBuilder,
-                                      IHttpClientRequest httpClientRequest,                                      
+                                      IHttpClientRequest httpClientRequest,
                                       IGenericRepository<MatchSummary> genericMatchSummaryRepository,
                                       IGenericRepository<MatchPlayerStats> genericMatchPlayerStatsRepository,
                                       IGenericRepository<TeamPlayer> genericTeamPlayerRepository,
+                                      IGenericRepository<MatchRanking> genericMatchRankingRepository,
                                       ITeamRepository teamRepository,
                                       ITeamPlayerRepository teamPlayerRepository,
+                                      IPlayerKillRepository playerKillRepository,
                                       ILogger<PlayerKillRepository> logger)
         {
             _httpClientBuilder = httpClientBuilder;            
@@ -41,8 +45,10 @@ namespace Fanview.API.Repository
             _genericMatchSummaryRepository = genericMatchSummaryRepository;
             _genericMatchPlayerStatsRepository = genericMatchPlayerStatsRepository;
             _genericTeamPlayerRepository = genericTeamPlayerRepository;
+            _genericMatchRankingRepository = genericMatchRankingRepository;
             _teamRepository = teamRepository;
             _teamPlayerRepository = teamPlayerRepository;
+            _playerKillRepository = playerKillRepository;
             _logger = logger;
         }
 
@@ -310,6 +316,25 @@ namespace Fanview.API.Repository
                 _logger.LogError(exception, "GetPlayerMatchStats");
 
                 throw;
+            }
+        }
+
+        public async Task PollMatchRoundRankingData(string matchId)
+        {
+            try
+            {
+                _logger.LogInformation("Match Round Ranking Data Request Started" + Environment.NewLine);               
+
+                await Task.Run(async () => PollMatchParticipantStats(matchId));
+
+                await Task.Run(async () => _playerKillRepository.PollTelemetryPlayerKilled(matchId));
+
+                _logger.LogInformation("Match Round Ranking Data Request Completed" + Environment.NewLine);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
             }
         }
     }
