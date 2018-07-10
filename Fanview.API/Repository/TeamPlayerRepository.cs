@@ -48,6 +48,10 @@ namespace Fanview.API.Repository
 
             return teamPlayer;
         }
+        public async Task<IEnumerable<TeamPlayer>> GetAllTeamPlayer()
+        {
+            return await _genericTeamPlayerRepository.GetAll("TeamPlayers");
+        }
 
         public async void InsertTeamPlayer(TeamPlayer teamPlayer)
         {

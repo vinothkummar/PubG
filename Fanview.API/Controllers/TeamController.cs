@@ -31,20 +31,42 @@ namespace Fanview.API.Controllers
         {
             return _teamRepository.GetTeamLine(teamId);
         }
-
-        /// <summary>
-        /// Returns Team MatchUp Response for the given teamId1 And teamId2     
-        /// </summary>
-        /// <remarks>
-        /// Sample request: MatchUp/{playerId1}/And/{playerId2}
-        /// </remarks>
-        /// <param name='teamId1'>5b369085a510862ec07c824a</param>
-        /// <param name='teamId2'>5b36912ca510862ec07c8251</param>
         [HttpGet("MatchUp/{teamId1}/And/{teamId2}", Name = "GetTeamMatchup")]
         public Task<IEnumerable<TeamLineUp>> GetTeamMatchup(string teamId1, string teamId2)
         {
             return _teamRepository.GetTeamMatchup(teamId1, teamId2);
         }
+        //GET:api/Team
+        /// <summary>
+        /// Returns All Teams  
+        /// </summary>
+        /// <remarks>
+        /// Sample request: GetAllTeam
+        /// </remarks>
+
+        [HttpGet("Team", Name = "GetAllTeam")]
+        public Task<IEnumerable<Team>> GetAllTeam()
+        {
+            return _teamRepository.GetAllTeam();
+        }
+
+
+
+        //GET:api/TeamPlayer
+        /// <summary>
+        /// Returns All Team Players    
+        /// </summary>
+        /// <remarks>
+        /// Sample request: GetAllTeam
+        /// </remarks>
+
+        [HttpGet("TeamPlayers", Name = "GetAllPlayer")]
+        public Task<IEnumerable<TeamPlayer>> GetAllPlayer()
+        {
+            return _teamRepository.GetTeamPlayers();
+        }
+
+
 
         /// <summary>
         /// Returns Team Profile for the given teamId1     
