@@ -14,12 +14,14 @@ namespace Fanview.API.Repository
     {
         private IGenericRepository<TeamPlayer> _genericTeamPlayerRepository;
         private ILogger<TeamRepository> _logger;
+        private IGenericRepository<Team> _gebericTeamRepository;
 
-        public TeamPlayerRepository(IGenericRepository<TeamPlayer> genericRepository, ILogger<TeamRepository> logger)
+        public TeamPlayerRepository(IGenericRepository<TeamPlayer> genericRepository, ILogger<TeamRepository> logger,IGenericRepository<Team> teamgenericRepository)
         {
             _genericTeamPlayerRepository = genericRepository;
 
             _logger = logger;
+            _gebericTeamRepository= teamgenericRepository;
         }
 
         public async Task<IEnumerable<TeamPlayer>> GetPlayerMatchup(string playerId1, string playerId2)
@@ -39,6 +41,45 @@ namespace Fanview.API.Repository
 
             return teamPlayer;
         }
+        public async Task<IEnumerable<TeamPlayer>> GetTeamPlayers()
+        {
+            var teamplayers = await _genericTeamPlayerRepository.GetAll("TeamPlayers");
+
+            var unique = teamplayers.GroupBy(t => new { t.PlayerName, t.Id, t.MatchId, t.PubgAccountId }).Select(g => g.First()).ToList();
+            return unique;
+        }
+        public async Task <TeamLineUp> GetTeamandPlayers()
+        {
+            var teams = await _gebericTeamRepository.GetAll("Team");
+            var teamplayers = await _genericTeamPlayerRepository.GetAll("TeamPlayers");
+            var unique = teamplayers.GroupBy(t => new { t.PlayerName, t.Id, t.MatchId, t.PubgAccountId }).Select(g => g.First());
+            
+
+            var myquery = teams.GroupJoin(unique, tp => tp.Id, t => t.TeamId, (t, tp) => new
+            {
+                TeamId = t.Id,
+                TeamName = t.Name,
+                TeamPlayers = tp.Select(s => s.PlayerName)
+            });
+            var teamLine = new TeamLineUp();
+            foreach (var obj in myquery)
+            {
+                
+                teamLine.TeamName = obj.TeamName;
+
+                var tmPlayers = new List<TeamLineUpPlayers>();
+
+                foreach (var players in obj.TeamPlayers)
+                {
+                    tmPlayers.Add(new TeamLineUpPlayers() { PlayerName = players });
+                }
+
+                teamLine.TeamPlayer = tmPlayers;
+            }
+
+            return await Task.FromResult(teamLine);
+
+        }
 
         public async Task<IEnumerable<TeamPlayer>> GetTeamPlayers(string matchId)
         {
@@ -47,6 +88,11 @@ namespace Fanview.API.Repository
             var teamPlayer = await teamPlayerCollection.FindAsync(Builders<TeamPlayer>.Filter.Where(cn => cn.MatchId == matchId)).Result.ToListAsync();
 
             return teamPlayer;
+        }
+      
+        public async Task<IEnumerable<TeamPlayer>> GetAllTeamPlayer()
+        {
+            return await _genericTeamPlayerRepository.GetAll("TeamPlayers");
         }
 
         public async Task<IEnumerable<TeamPlayer>> GetTeamPlayers(string matchId1, string matchId2, string matchId3, string matchId4)
