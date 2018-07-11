@@ -41,7 +41,7 @@ namespace Fanview.API.BusinessLayer
 
         public async Task<IEnumerable<MatchRanking>> CalculateMatchRanking(string matchId)
         {
-            var kills = _playerKillRepository.GetPlayerKilled(matchId).Result;
+            var kills = _playerKillRepository.GetPlayerKilled(matchId).Result.ToList();
 
             var matchPlayerStats = _matchSummaryRepository.GetPlayerMatchStats(matchId).Result;
 
@@ -81,6 +81,30 @@ namespace Fanview.API.BusinessLayer
                                                                  });            
 
             return await Task.FromResult(teamMatchRankingScrore);           
+        }
+
+        public async Task<IEnumerable<MatchRanking>> GetMatchRankings(string matchId)
+        {
+            var matchRankingCollection = _genericMatchRankingRepository.GetMongoDbCollection("MatchRanking");
+
+            var matchRankingScore = matchRankingCollection.FindAsync(Builders<MatchRanking>.Filter.Where(cn => cn.MatchId == matchId)).Result.ToListAsync();
+
+            var i = 1;
+
+            var matchStandings = matchRankingScore.Result.Select(s => new MatchRanking()
+            {
+                MatchId = s.MatchId,
+                TeamId = s.TeamId,
+                TeamName = s.TeamName,
+                KillPoints = s.KillPoints,
+                RankPoints = s.RankPoints,
+                TotalPoints = s.TotalPoints,
+                TeamRank = $"#{i++}",
+                PubGOpenApiTeamId = s.PubGOpenApiTeamId
+            });
+
+            return await Task.FromResult(matchStandings);
+
         }
 
         public async Task<IEnumerable<DailyMatchRankingScore>> GetSummaryRanking(string matchId1, string matchId2, string matchId3, string matchId4)
@@ -159,36 +183,31 @@ namespace Fanview.API.BusinessLayer
         }
         public async Task<IEnumerable<MatchRanking>> PollAndGetMatchRanking(string matchId)
         {
-            Task taskA = Task.Factory.StartNew(() =>  _matchSummaryRepository.PollMatchRoundRankingData(matchId));
-
-            await Task.Delay(6000);
-
-            Task<IEnumerable<MatchRanking>> matchRankings =  Task<IEnumerable<MatchRanking>>.Factory.StartNew(() => {
-
-               
-
-                var teamsScroingPoints = CalculateMatchRanking(matchId).Result;
-
-                var matchRankingCollection = _genericMatchRankingRepository.GetMongoDbCollection("MatchRanking");
-
-                var matchRankingScore = matchRankingCollection.FindAsync(Builders<MatchRanking>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result;
-
-                if (matchRankingScore == null)
-                {
-                    _genericMatchRankingRepository.Insert(teamsScroingPoints, "MatchRanking");
-                }
-
-                return teamsScroingPoints;
-            });
-
             
-          
 
-            return await await Task.FromResult(matchRankings);
+                //Task taskA = Task.Factory.StartNew(() =>  _matchSummaryRepository.PollMatchRoundRankingData(matchId));
+                await _matchSummaryRepository.PollMatchRoundRankingData(matchId);
 
+                await Task.Delay(3000);
 
-           
-        }  
+                Task<IEnumerable<MatchRanking>> matchRankings = Task<IEnumerable<MatchRanking>>.Factory.StartNew(() =>
+                {
+                    var teamsScroingPoints = CalculateMatchRanking(matchId).Result;
+
+                    var matchRankingCollection = _genericMatchRankingRepository.GetMongoDbCollection("MatchRanking");
+
+                    var matchRankingScore = matchRankingCollection.FindAsync(Builders<MatchRanking>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result;
+
+                    if (matchRankingScore == null)
+                    {
+                    _genericMatchRankingRepository.Insert(teamsScroingPoints, "MatchRanking");
+                    }
+
+                    return teamsScroingPoints;
+                });
+
+                return await await Task.FromResult(matchRankings);
+        }
 
         private IEnumerable<TeamRankPoints> GetTeamEliminatedPosition(IEnumerable<Kill> kills, string matchId)
         {
@@ -221,15 +240,17 @@ namespace Fanview.API.BusinessLayer
                 }
             }
 
-            //var lastTeamStands = kills.Where(cn => !teamsRankPoints.Select(s => s.OpenApiVictimTeamId).Contains(cn.Victim.TeamId)).Select(l => new TeamRankPoints() {TeamId =  };
 
-            var lastTeamStands = kills.Join(teamPlayers, pk => pk.Killer.AccountId, tp => tp.PubgAccountId,
+            if (teamsRankPoints.Count() < 20 )
+            {
+                var lastTeamStands = kills.Join(teamPlayers, pk => pk.Killer.AccountId, tp => tp.PubgAccountId,
                                                    (pk, tp) => new { pk, tp }).Where(cn => !teamsRankPoints.Select(t => t.OpenApiVictimTeamId).Contains(cn.pk.Killer.TeamId))
-                                                   .Select(r => new TeamRankPoints() { TeamId = r.tp.TeamId, Positions = 1, OpenApiVictimTeamId = r.pk.Killer.TeamId, PlayerAccountId = r.pk.Killer.AccountId  }).GroupBy(g => g.PlayerAccountId).FirstOrDefault().ElementAtOrDefault(0);
-;
+                                                   .Select(r => new TeamRankPoints() { TeamId = r.tp.TeamId, Positions = 1, OpenApiVictimTeamId = r.pk.Killer.TeamId, PlayerAccountId = r.pk.Killer.AccountId }).GroupBy(g => g.PlayerAccountId).FirstOrDefault().ElementAtOrDefault(0);
 
+                teamsRankPoints.Add(lastTeamStands);
 
-            teamsRankPoints.Add(lastTeamStands);
+            }
+
 
             return teamsRankPoints;
         }
@@ -286,6 +307,6 @@ namespace Fanview.API.BusinessLayer
             var position = 20 - i;
             i++;
             return position;
-        }        
+        }       
     }
 }

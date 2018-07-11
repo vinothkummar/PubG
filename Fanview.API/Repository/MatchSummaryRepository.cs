@@ -241,7 +241,7 @@ namespace Fanview.API.Repository
                                 teamParticipant.RosterId = item.Id;
                                 teamParticipant.ParticipantId = item2.Id;                              
                                 teamParticipant.stats = item2.ParticipantAttributes.stats;
-                                teamParticipant.TeamId = teamPlayers.Result.Where(cn => cn.PubgAccountId == item2.ParticipantAttributes.stats.PlayerId).First().TeamId;
+                                teamParticipant.TeamId = teamPlayers.Result.Where(cn => cn.PubgAccountId == item2.ParticipantAttributes.stats.PlayerId).FirstOrDefault().TeamId;
                                 teamParticipants.Add(teamParticipant);
                         }
                     }
