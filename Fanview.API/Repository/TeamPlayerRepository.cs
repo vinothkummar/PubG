@@ -16,12 +16,12 @@ namespace Fanview.API.Repository
         private ILogger<TeamRepository> _logger;
         private IGenericRepository<Team> _gebericTeamRepository;
 
-        public TeamPlayerRepository(IGenericRepository<TeamPlayer> genericRepository, ILogger<TeamRepository> logger,IGenericRepository<Team> genericRepository1)
+        public TeamPlayerRepository(IGenericRepository<TeamPlayer> genericRepository, ILogger<TeamRepository> logger,IGenericRepository<Team> teamgenericRepository)
         {
             _genericTeamPlayerRepository = genericRepository;
 
             _logger = logger;
-            _gebericTeamRepository= genericRepository1;
+            _gebericTeamRepository= teamgenericRepository;
         }
 
         public async Task<IEnumerable<TeamPlayer>> GetPlayerMatchup(string playerId1, string playerId2)
@@ -89,6 +89,7 @@ namespace Fanview.API.Repository
 
             return teamPlayer;
         }
+      
         public async Task<IEnumerable<TeamPlayer>> GetAllTeamPlayer()
         {
             return await _genericTeamPlayerRepository.GetAll("TeamPlayers");
