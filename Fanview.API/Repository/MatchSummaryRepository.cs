@@ -21,17 +21,23 @@ namespace Fanview.API.Repository
         private IGenericRepository<MatchSummary> _genericMatchSummaryRepository;
         private IGenericRepository<MatchPlayerStats> _genericMatchPlayerStatsRepository;
         private IGenericRepository<TeamPlayer> _genericTeamPlayerRepository;
+        private IGenericRepository<MatchRanking> _genericMatchRankingRepository;
         private ITeamRepository _teamRepository;
+        private ITeamPlayerRepository _teamPlayerRepository;
+        private IPlayerKillRepository _playerKillRepository;       
         private ILogger<PlayerKillRepository> _logger;
         private Task<HttpResponseMessage> _pubGClientResponse;
         private DateTime LastMatchCreatedTimeStamp = DateTime.MinValue;
-        
+
         public MatchSummaryRepository(IClientBuilder httpClientBuilder,
-                                      IHttpClientRequest httpClientRequest,                                      
+                                      IHttpClientRequest httpClientRequest,
                                       IGenericRepository<MatchSummary> genericMatchSummaryRepository,
                                       IGenericRepository<MatchPlayerStats> genericMatchPlayerStatsRepository,
                                       IGenericRepository<TeamPlayer> genericTeamPlayerRepository,
+                                      IGenericRepository<MatchRanking> genericMatchRankingRepository,
                                       ITeamRepository teamRepository,
+                                      ITeamPlayerRepository teamPlayerRepository,
+                                      IPlayerKillRepository playerKillRepository,
                                       ILogger<PlayerKillRepository> logger)
         {
             _httpClientBuilder = httpClientBuilder;            
@@ -39,7 +45,10 @@ namespace Fanview.API.Repository
             _genericMatchSummaryRepository = genericMatchSummaryRepository;
             _genericMatchPlayerStatsRepository = genericMatchPlayerStatsRepository;
             _genericTeamPlayerRepository = genericTeamPlayerRepository;
+            _genericMatchRankingRepository = genericMatchRankingRepository;
             _teamRepository = teamRepository;
+            _teamPlayerRepository = teamPlayerRepository;
+            _playerKillRepository = playerKillRepository;
             _logger = logger;
         }
 
@@ -173,16 +182,16 @@ namespace Fanview.API.Repository
 
             var isMatchStatsExists = await matchPlayerStatsCollection.FindAsync(Builders<MatchPlayerStats>.Filter.Where(cn => cn.MatchId == matchId)).Result.ToListAsync();
 
-            if (isMatchStatsExists.FirstOrDefault().MatchId != matchId)
+            if (isMatchStatsExists.Count()  == 0 || isMatchStatsExists == null )
             {
-                var matchPlayerStats = GetMatchPlayerStas(jsonToJObject);
+                var matchPlayerStats = GetMatchPlayerStas(jsonToJObject, matchId);
 
                 Func<Task> persistDataToMongo = async () => _genericMatchPlayerStatsRepository.Insert(matchPlayerStats, "MatchPlayerStats");
 
                 await Task.Run(persistDataToMongo);
             }
         }
-        private IEnumerable<MatchPlayerStats> GetMatchPlayerStas(JObject jsonToJObject)
+        private IEnumerable<MatchPlayerStats> GetMatchPlayerStas(JObject jsonToJObject, string matchId)
         {
             var match = jsonToJObject.SelectToken("data").ToObject<MatchSummary>();
 
@@ -214,6 +223,8 @@ namespace Fanview.API.Repository
                 ParticipantAttributes = s.SelectToken("attributes").ToObject<ParticipantAttributes>()
             });
 
+            var teamPlayers = _teamPlayerRepository.GetTeamPlayers(matchId);
+
             var teamParticipants = new List<MatchPlayerStats>();
 
             foreach (var item in matchRoster)
@@ -230,6 +241,7 @@ namespace Fanview.API.Repository
                                 teamParticipant.RosterId = item.Id;
                                 teamParticipant.ParticipantId = item2.Id;                              
                                 teamParticipant.stats = item2.ParticipantAttributes.stats;
+                                teamParticipant.TeamId = teamPlayers.Result.Where(cn => cn.PubgAccountId == item2.ParticipantAttributes.stats.PlayerId).FirstOrDefault().TeamId;
                                 teamParticipants.Add(teamParticipant);
                         }
                     }
@@ -282,6 +294,47 @@ namespace Fanview.API.Repository
                 _logger.LogError(exception, "GetPlayerMatchStats");
 
                 throw;
+            }
+        }
+
+        public async Task<IEnumerable<MatchPlayerStats>> GetPlayerMatchStats(string matchId1, string matchId2, string matchId3, string matchId4)
+        {
+            _logger.LogInformation("GetPlayerMatchStats Repository Function call started" + Environment.NewLine);
+            try
+            {
+                var response = _genericMatchPlayerStatsRepository.GetAll("MatchPlayerStats").Result.Where(cn => cn.MatchId == matchId1 || cn.MatchId == matchId2 || cn.MatchId == matchId3 || cn.MatchId == matchId4);
+
+                // var response = _genericRepository.GetMongoDbCollection("Kill").FindAsyn(new BsonDocument());
+
+                _logger.LogInformation("GetPlayerMatchStats Repository Function call completed" + Environment.NewLine);
+
+                return await Task.FromResult(response);
+
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError(exception, "GetPlayerMatchStats");
+
+                throw;
+            }
+        }
+
+        public async Task PollMatchRoundRankingData(string matchId)
+        {
+            try
+            {
+                _logger.LogInformation("Match Round Ranking Data Request Started" + Environment.NewLine);               
+
+                await Task.Run(async () => PollMatchParticipantStats(matchId));
+
+                await Task.Run(async () => _playerKillRepository.PollTelemetryPlayerKilled(matchId));
+
+                _logger.LogInformation("Match Round Ranking Data Request Completed" + Environment.NewLine);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
             }
         }
     }
