@@ -45,14 +45,14 @@ namespace Fanview.API.Repository
         {
             var teamplayers = await _genericTeamPlayerRepository.GetAll("TeamPlayers");
 
-            var unique = teamplayers.GroupBy(t => new { t.PlayerName, t.Id, t.MatchId, t.PubgAccountId }).Select(g => g.First()).ToList();
+            var unique = teamplayers.GroupBy(t => t.PlayerName).Select(g => g.First()).ToList();
             return unique;
         }
         public async Task <TeamLineUp> GetTeamandPlayers()
         {
             var teams = await _gebericTeamRepository.GetAll("Team");
             var teamplayers = await _genericTeamPlayerRepository.GetAll("TeamPlayers");
-            var unique = teamplayers.GroupBy(t => new { t.PlayerName, t.Id, t.MatchId, t.PubgAccountId }).Select(g => g.First());
+            var unique = teamplayers.GroupBy(t => new { t.PlayerName }).Select(g => g.First());
             
 
             var myquery = teams.GroupJoin(unique, tp => tp.Id, t => t.TeamId, (t, tp) => new

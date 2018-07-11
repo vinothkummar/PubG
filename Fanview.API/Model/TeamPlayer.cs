@@ -21,5 +21,7 @@ namespace Fanview.API.Model
         public string PlayerName { get; set; }
         [BsonElement("pubgAccountId")]
         public string PubgAccountId { get; set; }
+        public Boolean PlayerStatus { get; set; }
+        public Location Location { get; set; }
     }
 }
