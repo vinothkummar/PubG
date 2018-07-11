@@ -18,6 +18,6 @@ namespace Fanview.API.Repository.Interface
 
         Task<TeamLineUp> GetTeamProfile(string teamId1);
         Task<IEnumerable<Team>> GetAllTeam();
-        Task<IEnumerable<TeamPlayer>> GetTeamPlayers();
+        
     }
 }

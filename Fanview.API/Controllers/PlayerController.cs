@@ -54,5 +54,30 @@ namespace Fanview.API.Controllers
             return _teamPlayerRepository.GetPlayerProfile(playerId1);
         }
 
+        //GET:api/TeamPlayer
+        /// <summary>
+        /// Returns All Team Players    
+        /// </summary>
+        /// <remarks>
+        /// Sample request: GetAllTeam
+        /// </remarks>
+
+        [HttpGet("players", Name = "GetAllPlayer")]
+        public Task<IEnumerable<TeamPlayer>> GetAllPlayer()
+        {
+            return _teamPlayerRepository.GetTeamPlayers();
+        }
+        //GET:api/TeamLineUp
+        /// <summary>
+        /// Returns All players in team
+        /// </summary>
+        /// <remarks>
+        /// Sample request: GetAllTeam
+        /// </remarks>
+        [HttpGet("TeamPlayers", Name = "GetAllPlayerinTeam")]
+        public Task<TeamLineUp> GetAllTeamPlayers()
+        {
+            return _teamPlayerRepository.GetTeamandPlayers();
+        }
     }
 }

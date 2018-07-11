@@ -12,5 +12,7 @@ namespace Fanview.API.Repository.Interface
         Task<TeamPlayer> GetPlayerProfile(string playerId1);
         void InsertTeamPlayer(TeamPlayer teamPlayer);
         Task<IEnumerable<TeamPlayer>> GetTeamPlayers(string matchId);
+        Task<IEnumerable<TeamPlayer>> GetTeamPlayers();
+        Task<TeamLineUp> GetTeamandPlayers();
     }
 }

@@ -52,19 +52,7 @@ namespace Fanview.API.Controllers
 
 
 
-        //GET:api/TeamPlayer
-        /// <summary>
-        /// Returns All Team Players    
-        /// </summary>
-        /// <remarks>
-        /// Sample request: GetAllTeam
-        /// </remarks>
 
-        [HttpGet("TeamPlayers", Name = "GetAllPlayer")]
-        public Task<IEnumerable<TeamPlayer>> GetAllPlayer()
-        {
-            return _teamRepository.GetTeamPlayers();
-        }
 
 
 
