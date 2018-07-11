@@ -55,7 +55,7 @@ namespace Fanview.API.Repository
             var unique = teamplayers.GroupBy(t => new { t.PlayerName, t.Id, t.MatchId, t.PubgAccountId }).Select(g => g.First());
             
 
-            var myquery = teams.GroupJoin(teamplayers, tp => tp.Id, t => t.TeamId, (t, tp) => new
+            var myquery = teams.GroupJoin(unique, tp => tp.Id, t => t.TeamId, (t, tp) => new
             {
                 TeamId = t.Id,
                 TeamName = t.Name,

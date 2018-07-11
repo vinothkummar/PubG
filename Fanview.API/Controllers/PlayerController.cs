@@ -59,7 +59,7 @@ namespace Fanview.API.Controllers
         /// Returns All Team Players    
         /// </summary>
         /// <remarks>
-        /// Sample request: GetAllTeam
+        /// Sample request: GetAllPlayers
         /// </remarks>
 
         [HttpGet("players", Name = "GetAllPlayer")]
@@ -69,10 +69,10 @@ namespace Fanview.API.Controllers
         }
         //GET:api/TeamLineUp
         /// <summary>
-        /// Returns All players in team
+        /// Returns All players in a specific team 
         /// </summary>
         /// <remarks>
-        /// Sample request: GetAllTeam
+        /// Sample request: GetAllTeamPlayers
         /// </remarks>
         [HttpGet("TeamPlayers", Name = "GetAllPlayerinTeam")]
         public Task<TeamLineUp> GetAllTeamPlayers()
