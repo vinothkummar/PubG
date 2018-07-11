@@ -107,6 +107,33 @@ namespace Fanview.API.BusinessLayer
 
         }
 
+        public Task<IEnumerable<MatchRanking>> GetTournamentRankings()
+        {
+            var matchRankingCollection = _genericMatchRankingRepository.GetAll("MatchRanking");
+            var i = 1;
+            var tournamentRankingStandings = matchRankingCollection.Result
+                                        .GroupBy(g => g.PubGOpenApiTeamId)
+                                        .Select(s => new MatchRanking()
+                                        {
+                                            PubGOpenApiTeamId = s.Key,                                            
+                                            TeamName = s.FirstOrDefault().TeamName,
+                                            KillPoints = s.Sum(a => a.KillPoints),
+                                            RankPoints = s.Sum(a => a.RankPoints),
+                                            TotalPoints = s.Sum(a => a.TotalPoints)
+                                        }).OrderByDescending(o => o.TotalPoints).Select(k => new MatchRanking() {
+                                            PubGOpenApiTeamId = k.PubGOpenApiTeamId,                                            
+                                            TeamName = k.TeamName,
+                                            KillPoints = k.KillPoints,
+                                            RankPoints = k.RankPoints,
+                                            TotalPoints = k.TotalPoints,
+                                            TeamRank = $"#{i++}"
+                                        });
+
+
+            return Task.FromResult(tournamentRankingStandings);
+          
+        }
+
         public async Task<IEnumerable<DailyMatchRankingScore>> GetSummaryRanking(string matchId1, string matchId2, string matchId3, string matchId4)
         { 
             var kills = _playerKillRepository.GetPlayerKilled(matchId1,matchId2, matchId3, matchId4).Result;
@@ -307,6 +334,6 @@ namespace Fanview.API.BusinessLayer
             var position = 20 - i;
             i++;
             return position;
-        }       
+        }
     }
 }

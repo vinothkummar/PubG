@@ -58,5 +58,17 @@ namespace Fanview.API.Controllers
         {
           return  await _ranking.GetSummaryRanking(matchId1, matchId2, matchId3, matchId4);
         }
+
+        /// <summary>
+        /// Returns Tournament Rankings         
+        /// </summary>
+        /// <remarks>
+        /// Sample request: TournamentRankings        
+        /// </remarks>        
+        [HttpGet("TournamentRankings", Name = "GetTournamentRanking")]
+        public async Task<IEnumerable<MatchRanking>> GetTournamentRanking()
+        {
+            return await _ranking.GetTournamentRankings();
+        }
     }
 }
