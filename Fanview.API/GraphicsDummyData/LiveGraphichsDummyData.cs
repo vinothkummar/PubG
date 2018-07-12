@@ -644,7 +644,7 @@ namespace Fanview.API.GraphicsDummyData
              
     
             };
-            var LiveStatue=livestatue.Teams.Select(x => x.TeamPlayers.OrderBy(m => m.PlayerStatus));
+            var LiveStatue = livestatue.Teams.Select(x => x.TeamPlayers.OrderBy(m => m.PlayerStatus));
             return livestatue;
         }
         public LivePlayerStats GetDummyLiveplayerstats()
@@ -798,38 +798,93 @@ namespace Fanview.API.GraphicsDummyData
         {
             var livekilllist = new LiveKillList
             {
-                MatchName = "Match1",
+                MatchName = "TPP Round 1",
                 MatchId = 1,
                 DamageLists = new List<DamageList>
                 {
                     new DamageList
                     {
                         PlayerRank=1,
-                        PlayerName="Player1",
+                        PlayerName="POLLADERUC",
                         PlayerId=1,
-                        DamageDealt=10.0
+                        DamageDealt=543,
+                        TeamId=1
                     },
                     new DamageList
                     {
-                        PlayerRank=4,
-                        PlayerName="Player2",
-                        PlayerId=2,
-                        DamageDealt=3.0
+                        PlayerRank= 2,
+                        PlayerName="4AMCPT",
+                        PlayerId=1,
+                        DamageDealt=493,
+                        TeamId= 2
+
+
                     },
                     new DamageList
                     {
                         PlayerRank=2,
-                        PlayerName="Player3",
-                        PlayerId=3,
-                        DamageDealt=8.0
+                        PlayerName="OMGxiaohaixxxx",
+                        PlayerId=10,
+                        DamageDealt=443,
+                        TeamId=3
                     },
                     new DamageList
                     {
-                        PlayerRank=3,
-                        PlayerName="Player4",
-                        PlayerId=4,
-                        DamageDealt=5.0
+                        PlayerRank=4,
+                        PlayerName="Jeemzz",
+                        PlayerId=14,
+                        DamageDealt=393,
+                        TeamId=4
                     },
+                    new DamageList
+                    {
+                        PlayerRank=5,
+                        PlayerName="MiracU",
+                        PlayerId=17,
+                        DamageDealt=343,
+                        TeamId=4
+                    },
+                    new DamageList
+                    {
+                        PlayerRank=6,
+                        PlayerName="Voxsic",
+                        PlayerId=21,
+                        DamageDealt=293,
+                        TeamId=6
+                    },
+                    new DamageList
+                    {
+                        PlayerRank=7,
+                        PlayerName="Mossy",
+                        PlayerId=25,
+                        DamageDealt=243,
+                        TeamId=7
+                    },
+                    new DamageList
+                    {
+                        PlayerRank=8,
+                        PlayerName="Jeemzz",
+                        PlayerId=14,
+                        DamageDealt=193,
+                        TeamId=8
+                    },
+                     new DamageList
+                    {
+                        PlayerRank=9,
+                        PlayerName="MiracU",
+                        PlayerId=17,
+                        DamageDealt=143,
+                        TeamId=9
+                    },
+                     new DamageList
+                    {
+                        PlayerRank=10,
+                        PlayerName="Voxsic",
+                        PlayerId=21,
+                        DamageDealt=93,
+                        TeamId=10
+                    },
+
 
                 }
             };
@@ -861,16 +916,194 @@ namespace Fanview.API.GraphicsDummyData
         {
             var killerleaderlist = new KillLeaderList
             {
-                MatchName = "Match1",
+                MatchName = "TPP Round 1",
                 MatchID = 1,
-                KillLeader = new KillLeader
+                DamageLists = new List<DamageList>
                 {
-                    kills = new int[] { 76, 77, 78, 79 },
-                    DamageDealt = 3.0,
-                    SurvivlTime = new TimeSpan(9, 0, 0),
+                    new DamageList
+                    {
+                        PlayerRank=1,
+                        PlayerName="POLLADERUC",
+                        PlayerId=1,
+                        DamageDealt=543,
+                        TeamId=1
+                    },
+                    new DamageList
+                    {
+                        PlayerRank= 2,
+                        PlayerName="4AMCPT",
+                        PlayerId=1,
+                        DamageDealt=493,
+                        TeamId= 2
+
+
+                    },
+                    new DamageList
+                    {
+                        PlayerRank=2,
+                        PlayerName="OMGxiaohaixxxx",
+                        PlayerId=10,
+                        DamageDealt=443,
+                        TeamId=3
+                    },
+                    new DamageList
+                    {
+                        PlayerRank=4,
+                        PlayerName="Jeemzz",
+                        PlayerId=14,
+                        DamageDealt=393,
+                        TeamId=4
+                    },
+                    new DamageList
+                    {
+                        PlayerRank=5,
+                        PlayerName="MiracU",
+                        PlayerId=17,
+                        DamageDealt=343,
+                        TeamId=4
+                    },
+                    new DamageList
+                    {
+                        PlayerRank=6,
+                        PlayerName="Voxsic",
+                        PlayerId=21,
+                        DamageDealt=293,
+                        TeamId=6
+                    },
+                    new DamageList
+                    {
+                        PlayerRank=7,
+                        PlayerName="Mossy",
+                        PlayerId=25,
+                        DamageDealt=243,
+                        TeamId=7
+                    },
+                    new DamageList
+                    {
+                        PlayerRank=8,
+                        PlayerName="Jeemzz",
+                        PlayerId=14,
+                        DamageDealt=193,
+                        TeamId=8
+                    },
+                     new DamageList
+                    {
+                        PlayerRank=9,
+                        PlayerName="MiracU",
+                        PlayerId=17,
+                        DamageDealt=143,
+                        TeamId=9
+                    },
+                     new DamageList
+                    {
+                        PlayerRank=10,
+                        PlayerName="Voxsic",
+                        PlayerId=21,
+                        DamageDealt=93,
+                        TeamId=10
+                    },
+
+
                 }
+
             };
             return killerleaderlist;
+        }
+        public LiveDamageList GetDamagelist()
+        {
+            var Livedamagelist = new LiveDamageList()
+            {
+                MatchName = "TPP Round 1",
+                MatchId = 1,
+                damageLists = new List<DamageList>
+                {
+                    new DamageList
+                    {
+                        PlayerRank=1,
+                        PlayerName="POLLADERUC",
+                        PlayerId=1,
+                        DamageDealt=543,
+                        TeamId=1
+                    },
+                    new DamageList
+                    {
+                        PlayerRank= 2,
+                        PlayerName="4AMCPT",
+                        PlayerId=1,
+                        DamageDealt=493,
+                        TeamId= 2
+
+
+                    },
+                    new DamageList
+                    {
+                        PlayerRank=2,
+                        PlayerName="OMGxiaohaixxxx",
+                        PlayerId=10,
+                        DamageDealt=443,
+                        TeamId=3
+                    },
+                    new DamageList
+                    {
+                        PlayerRank=4,
+                        PlayerName="Jeemzz",
+                        PlayerId=14,
+                        DamageDealt=393,
+                        TeamId=4
+                    },
+                    new DamageList
+                    {
+                        PlayerRank=5,
+                        PlayerName="MiracU",
+                        PlayerId=17,
+                        DamageDealt=343,
+                        TeamId=4
+                    },
+                    new DamageList
+                    {
+                        PlayerRank=6,
+                        PlayerName="Voxsic",
+                        PlayerId=21,
+                        DamageDealt=293,
+                        TeamId=6
+                    },
+                    new DamageList
+                    {
+                        PlayerRank=7,
+                        PlayerName="Mossy",
+                        PlayerId=25,
+                        DamageDealt=243,
+                        TeamId=7
+                    },
+                    new DamageList
+                    {
+                        PlayerRank=8,
+                        PlayerName="Jeemzz",
+                        PlayerId=14,
+                        DamageDealt=193,
+                        TeamId=8
+                    },
+                     new DamageList
+                    {
+                        PlayerRank=9,
+                        PlayerName="MiracU",
+                        PlayerId=17,
+                        DamageDealt=143,
+                        TeamId=9
+                    },
+                     new DamageList
+                    {
+                        PlayerRank=10,
+                        PlayerName="Voxsic",
+                        PlayerId=21,
+                        DamageDealt=93,
+                        TeamId=10
+                    },
+
+
+                }
+            };
+            return Livedamagelist; 
         }
        
        
