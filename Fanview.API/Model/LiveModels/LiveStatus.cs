@@ -11,6 +11,5 @@ namespace Fanview.API.Model.LiveModels
         public string MatchName { get; set; }
         public int MatchID { get; set; }
         public IEnumerable<Team> Teams { get; set; }
-        public IEnumerable<TeamPlayer> TeamPlayers { get; set; }
     }
 }
