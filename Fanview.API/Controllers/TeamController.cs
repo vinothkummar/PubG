@@ -31,11 +31,15 @@ namespace Fanview.API.Controllers
         {
             return _teamRepository.GetTeamLine(teamId);
         }
+
+
         [HttpGet("MatchUp/{teamId1}/And/{teamId2}", Name = "GetTeamMatchup")]
         public Task<IEnumerable<TeamLineUp>> GetTeamMatchup(string teamId1, string teamId2)
         {
             return _teamRepository.GetTeamMatchup(teamId1, teamId2);
         }
+
+
         //GET:api/Team
         /// <summary>
         /// Returns All Teams  
@@ -43,12 +47,12 @@ namespace Fanview.API.Controllers
         /// <remarks>
         /// Sample request: GetAllTeam
         /// </remarks>
-
         [HttpGet("Team", Name = "GetAllTeam")]
         public Task<IEnumerable<Team>> GetAllTeam()
         {
             return _teamRepository.GetAllTeam();
         }
+        
 
 
 

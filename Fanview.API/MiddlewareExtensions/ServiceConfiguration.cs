@@ -30,6 +30,7 @@ namespace Fanview.API.MiddlewareExtensions
             services.AddTransient(typeof(IRanking), typeof(Ranking));
             services.AddSingleton<IReadAssets, ReadAssets>();
             services.AddTransient<ITeamLineUp, TeamLineUp>();
+            services.AddSingleton(typeof(ILiveRepository), typeof(LiveRepository));
         }
     }
 }

@@ -5,6 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Fanview.API.Model.LiveModels;
+using Fanview.API.Repository;
+using Fanview.API.Repository.Interface;
+
+
 
 namespace Fanview.API.Controllers
 {
@@ -12,44 +16,25 @@ namespace Fanview.API.Controllers
     [ApiController]
     public class LiveController : ControllerBase
     {
-        // GET: api/Live
-        /// <summary>
-        /// Returns Live Team status      
-        /// </summary>
-        /// <remarks>
-        /// Sample request: api/Live/Status          
-        /// Read live status from a Match Id Parameter.      
-        /// </remarks>
-        /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
-        //[HttpGet("Status/{matchId}", Name = "GetLiveStatus")]
-        //public LiveStatus GetLiveStatus(int matchId)
-        //{
-        //    return null;
-        //}
+        private ILiveRepository _liveRepository;
 
-        // GET: api/Live
-        /// <summary>
-        /// Returns Live Team Ranking on the Team Standings.      
-        /// </summary>
-        /// <remarks>
-        /// Sample request: api/Live/Status          
-        /// Read live status from a Match Id Parameter.      
-        /// </remarks>
-        /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
-        //[HttpGet("Rankig/{matchId}", Name = "GetLiveStatus")]
-        //public LiveStatus GetLiveStatus(int matchId)
-        //{
-        //    return null;
-        //}
+        public LiveController(ILiveRepository liveRepository)
+        {
+            _liveRepository = liveRepository;
+        }
 
-        // GET: api/Live
         /// <summary>
-        /// Returns Live Team Ranking on the Team Standings.      
+        /// Returns Teams Live Status    
         /// </summary>
         /// <remarks>
-        /// Sample request: api/Live/PlayerStats        
-        /// Read live status from a Match Id Parameter.      
+        /// Sample request: api/Status/{matchId}          
+        /// Input Parameter: f84d39a1-8218-4438-9bf5-7150f9e0f093
         /// </remarks>
         /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
+        [HttpGet("Status/{matchId}", Name = "GetLiveStatus")]
+        public Task<LiveStatus> GetLiveStatus(string matchId)
+        {
+            return _liveRepository.GetLiveStatus(matchId);
+        }
     }
 }

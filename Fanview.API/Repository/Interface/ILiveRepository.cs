@@ -6,8 +6,8 @@ using Fanview.API.Model.LiveModels;
 
 namespace Fanview.API.Repository.Interface
 {
-    public interface ILiveStatusRepository
+    public interface ILiveRepository
     {
-        Task<LiveStatus> GetMatchLiveStatus();
+        Task<LiveStatus> GetLiveStatus(string matchId);
     }
 }
