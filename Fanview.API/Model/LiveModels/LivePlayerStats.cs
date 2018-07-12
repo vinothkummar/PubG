@@ -9,11 +9,11 @@ namespace Fanview.API.Model.LiveModels
     {
         public string MatchName { get; set; }
         public string MatchdID { get; set; }
-        public int playerID { get; set; }
-        public string playerName { get; set; }
-        public int teamid { get; set; }
-        public string teamName { get; set; }
-        public playerstats livePlayerStats { get; set; }
-        public LiveTeamStats liveteamstat { get; set; }
+        public int PlayerID { get; set; }
+        public string PlayerName { get; set; }
+        public int Teamid { get; set; }
+        public string TeamName { get; set; }
+        public PlayerStats PlayerStats { get; set; }
+        public LiveTeamStats TeamStats { get; set; }
     }
 }

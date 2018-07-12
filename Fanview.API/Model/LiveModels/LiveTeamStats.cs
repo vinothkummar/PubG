@@ -4,10 +4,9 @@
     {
         public string MatchName { get; set; }
         public int MatchId { get; set; }
-        public int teamId { get; set; }
-        public string teamName { get; set; }
-        public playerstats stats { get; set; }
-
+        public int TeamId { get; set; }
+        public string TeamName { get; set; }
+        public PlayerStats stats { get; set; }
 
     }
 }

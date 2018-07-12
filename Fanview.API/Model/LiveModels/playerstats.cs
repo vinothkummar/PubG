@@ -1,8 +1,8 @@
 ﻿namespace Fanview.API.Model.LiveModels
 {
-    public class playerstats
+    public class PlayerStats
     {
-        public Kill kills { get; set; }
-        public double damageDealt { get; set; }
+        public Kill Kills { get; set; }
+        public double DamageDealt { get; set; }
     }
 }

@@ -26,5 +26,30 @@ namespace Fanview.API.Controllers
         {
             return null;
         }
+
+        // GET: api/Live
+        /// <summary>
+        /// Returns Live Team Ranking on the Team Standings.      
+        /// </summary>
+        /// <remarks>
+        /// Sample request: api/Live/Status          
+        /// Read live status from a Match Id Parameter.      
+        /// </remarks>
+        /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
+        //[HttpGet("Rankig/{matchId}", Name = "GetLiveStatus")]
+        //public LiveStatus GetLiveStatus(int matchId)
+        //{
+        //    return null;
+        //}
+
+        // GET: api/Live
+        /// <summary>
+        /// Returns Live Team Ranking on the Team Standings.      
+        /// </summary>
+        /// <remarks>
+        /// Sample request: api/Live/PlayerStats        
+        /// Read live status from a Match Id Parameter.      
+        /// </remarks>
+        /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
     }
 }
