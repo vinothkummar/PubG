@@ -18,9 +18,10 @@ namespace Fanview.API.Controllers
         /// </summary>
         /// <remarks>
         /// Sample request: api/Live/Status          
-        /// Read live status from a Match Id Parameter.
-        /// </remarks>       
-        [HttpGet("Status", Name = "GetLiveStatus")]
+        /// Read live status from a Match Id Parameter.      
+        /// </remarks>
+        /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
+        [HttpGet("Status/{matchId}", Name = "GetLiveStatus")]
         public LiveStatus GetLiveStatus(int matchId)
         {
             return null;
