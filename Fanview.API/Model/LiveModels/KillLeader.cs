@@ -4,8 +4,8 @@ using System;
 
 public class KillLeader
 {
-    public int kill { get; set; }
+    public int[] kills { get; set; }
     public double DamageDealt { get; set; }
-    public DateTime SurvivlTime { get; set; }
+    public TimeSpan SurvivlTime { get; set; }
 }
 }

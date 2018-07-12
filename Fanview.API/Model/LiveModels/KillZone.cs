@@ -9,8 +9,8 @@ namespace Fanview.API.Model.LiveModels
     {
         public string MatchName { get; set; }
         public int MatchId { get; set; }
-        public Kill kills { get; set; }
+        public int[] kills { get; set; }
         public string KillerName { get; set; }
-        public Location Location { get; set; }
+        public Livelocation Location { get; set; }
     }
 }

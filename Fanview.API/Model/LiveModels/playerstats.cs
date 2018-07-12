@@ -2,7 +2,7 @@
 {
     public class PlayerStats
     {
-        public Kill Kills { get; set; }
+        public int Kills { get; set; }
         public double DamageDealt { get; set; }
     }
 }
