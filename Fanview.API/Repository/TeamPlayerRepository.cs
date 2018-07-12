@@ -7,7 +7,6 @@ using Fanview.API.Repository.Interface;
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using MoreLinq.Extensions;
 
 namespace Fanview.API.Repository
 {
@@ -45,49 +44,21 @@ namespace Fanview.API.Repository
         //I'm changing this part of code
         public async Task<IEnumerable<TeamPlayer>> GetTeamPlayers()
         {
-            var teamplayers = await _genericTeamPlayerRepository.GetAll("TeamPlayers");
-            var list = teamplayers.ToList();
-            var playername = teamplayers.Select(x => x.PlayerName).ToList();
-            var distinct = teamplayers.Select(x => x.PlayerName).Distinct().ToList();
-            var unique = teamplayers.DistinctBy(x =>new { x.PlayerName, x.PlayerStatus, x.PubgAccountId }).ToList();
-            //var unique = teamplayers.GroupBy(t => new { t.PlayerName, t.Id, t.MatchId, t.PubgAccountId }).Select(g => g.First()).ToList();
-            return unique;
+            //var teamplayers = await _genericTeamPlayerRepository.GetAll("TeamPlayers");
+            //var list = teamplayers.ToList();
+            //var playername = teamplayers.Select(x => x.PlayerName).ToList();
+            //var distinct = teamplayers.Select(x => x.PlayerName).Distinct().ToList();
+            //var unique = teamplayers.DistinctBy(x =>new { x.PlayerName, x.PlayerStatus, x.PubgAccountId }).ToList();
+            ////var unique = teamplayers.GroupBy(t => new { t.PlayerName, t.Id, t.MatchId, t.PubgAccountId }).Select(g => g.First()).ToList();
+            //return unique;
+            return null;
         }
         ////I'm changing this part of code 
         public async Task<TeamLineUp> GetTeamandPlayers()
         {
-            var teams = await _gebericTeamRepository.GetAll("Team");
-        var teamplayers = await _genericTeamPlayerRepository.GetAll("TeamPlayers");
-        var unique = teamplayers.GroupBy(t => new { t.PlayerName, }).Select(g => g.First());
 
 
-        var myquery = teams.GroupJoin(unique, tp => tp.Id, t => t.TeamId, (t, tp) => new
-        {
-                TeamId = t.Id,
-                TeamName = t.Name,
-                TeamPlayers = tp.Select(s => s.PlayerName)
-            });
-            myquery.DistinctBy(x => x.TeamPlayers);
-            var teamLine = new TeamLineUp();
-            foreach (var obj in myquery)
-            {
-
-                teamLine.TeamName = obj.TeamName;
-
-                var tmPlayers = new List<TeamLineUpPlayers>();
-
-                foreach (var players in obj.TeamPlayers)
-                {
-                    tmPlayers.Add(new TeamLineUpPlayers() { PlayerName = players });
-                }
-                var notdistinct = tmPlayers;
-                var dictinc = tmPlayers.DistinctBy(x => x.PlayerName).ToList();
-
-    teamLine.TeamPlayer = dictinc;
-   
-            }
-           
-            return await Task.FromResult(teamLine);
+            return null;
 
         }
 
