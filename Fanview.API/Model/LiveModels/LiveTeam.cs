@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Fanview.API.Model.LiveModels
 {
-    public class Team
+    public class LiveTeam
     {
         public string Id { get; set; }
         public string Name { get; set; }
-        public IEnumerable<TeamPlayer> TeamPlayers { get; set; }
+        public IEnumerable<LiveTeamPlayers> TeamPlayers { get; set; }
     }
 }
