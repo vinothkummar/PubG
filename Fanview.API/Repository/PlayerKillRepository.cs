@@ -1,4 +1,6 @@
-﻿using Fanview.API.Model;
+﻿using Fanview.API.GraphicsDummyData;
+using Fanview.API.Model;
+using Fanview.API.Model.LiveModels;
 using Fanview.API.Repository.Interface;
 using Fanview.API.Services.Interface;
 using Fanview.API.Utility;
@@ -19,6 +21,7 @@ namespace Fanview.API.Repository
     public class PlayerKillRepository : IPlayerKillRepository
     {
         private IGenericRepository<Kill> _genericRepository;
+        private LiveGraphichsDummyData _data;
         private ILogger<PlayerKillRepository> _logger;
         private Task<HttpResponseMessage> _pubGClientResponse;
         private DateTime killEventlastTimeStamp = DateTime.MinValue;
@@ -33,6 +36,7 @@ namespace Fanview.API.Repository
             _httpClientBuilder = httpClientBuilder;
             _httpClientRequest = httpClientRequest;  
             _genericRepository = genericRepository;
+            _data = new LiveGraphichsDummyData();
 
             _logger = logger;
 
@@ -220,6 +224,11 @@ namespace Fanview.API.Repository
 
                 throw;
             }
+        }
+
+        public Task<KillLeaderList> GetKillLeaderList(string matchId)
+        {
+          return  Task.FromResult(_data.GetKillLeaderlist());
         }
     }
 }

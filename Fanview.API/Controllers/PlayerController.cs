@@ -54,30 +54,30 @@ namespace Fanview.API.Controllers
             return _teamPlayerRepository.GetPlayerProfile(playerId1);
         }
 
-        //GET:api/TeamPlayer
-        /// <summary>
-        /// Returns All Team Players    
-        /// </summary>
-        /// <remarks>
-        /// Sample request: GetAllPlayers
-        /// </remarks>
+        ////GET:api/TeamPlayer
+        ///// <summary>
+        ///// Returns All Team Players    
+        ///// </summary>
+        ///// <remarks>
+        ///// Sample request: GetAllPlayers
+        ///// </remarks>
+        //[HttpGet("players", Name = "GetAllPlayer")]
+        //public Task<IEnumerable<TeamPlayer>> GetAllPlayer()
+        //{
+        //    return _teamPlayerRepository.GetTeamPlayers();
+        //}
 
-        [HttpGet("players", Name = "GetAllPlayer")]
-        public Task<IEnumerable<TeamPlayer>> GetAllPlayer()
-        {
-            return _teamPlayerRepository.GetTeamPlayers();
-        }
-        //GET:api/TeamLineUp
-        /// <summary>
-        /// Returns All players in a specific team 
-        /// </summary>
-        /// <remarks>
-        /// Sample request: GetAllTeamPlayers
-        /// </remarks>
-        [HttpGet("TeamPlayers", Name = "GetAllPlayerinTeam")]
-        public Task<TeamLineUp> GetAllTeamPlayers()
-        {
-            return _teamPlayerRepository.GetTeamandPlayers();
-        }
+        ////GET:api/TeamLineUp
+        ///// <summary>
+        ///// Returns All players in a specific team 
+        ///// </summary>
+        ///// <remarks>
+        ///// Sample request: GetAllTeamPlayers
+        ///// </remarks>
+        //[HttpGet("TeamPlayers", Name = "GetAllPlayerinTeam")]
+        //public Task<TeamLineUp> GetAllTeamPlayers()
+        //{
+        //    return _teamPlayerRepository.GetTeamandPlayers();
+        //}
     }
 }

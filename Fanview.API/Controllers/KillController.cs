@@ -9,6 +9,7 @@ using Fanview.API.Model;
 using Fanview.API.Utility;
 using Fanview.API.BusinessLayer.Contracts;
 using Microsoft.Extensions.Logging;
+using Fanview.API.Model.LiveModels;
 
 namespace Fanview.API.Controllers
 {
@@ -117,6 +118,21 @@ namespace Fanview.API.Controllers
         public IEnumerable<KilliPrinter> GetLast4KilliprinterForGraphics(string matchId)
         {
             return _playerKilled.GetPlayerKilled(matchId).TakeLast(4);
+        }
+
+        /// <summary>
+        /// Return Kill Leadear Board List     
+        /// </summary>
+        /// <remarks>
+        /// Sample request: api/KillLeaderList/{matchId}          
+        /// Input Parameter: f84d39a1-8218-4438-9bf5-7150f9e0f093
+        /// </remarks>
+        /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
+        [HttpGet("KillLeaderList/{matchId}")]
+        public Task<KillLeaderList> GetKillLeaderList(string matchId)
+        {
+           return _playerKillRepository.GetKillLeaderList(matchId);
+            
         }
     }
 }

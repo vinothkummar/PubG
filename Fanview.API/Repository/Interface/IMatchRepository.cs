@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Fanview.API.Model.LiveModels;
 
 namespace Fanview.API.Repository.Interface
 {
@@ -14,5 +15,7 @@ namespace Fanview.API.Repository.Interface
         Task<JObject> GetMatchesDetailsByID(string id);
         Task<JObject> GetMatchIdByTournament(string tournament);
         Task<IEnumerable<Event>> GetTournamentMatchId();
+
+        Task<FlightPath> GetFlightPath();
     }
 }

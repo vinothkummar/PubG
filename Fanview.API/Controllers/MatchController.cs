@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Fanview.API.Model;
 using Fanview.API.BusinessLayer.Contracts;
 using System.Collections.Generic;
-
+using Fanview.API.Model.LiveModels;
 
 namespace Fanview.API.Controllers
 {
@@ -28,6 +28,22 @@ namespace Fanview.API.Controllers
             _matchSummaryRepository = matchSummaryRepository;
             _playerKillRepository = playerKillRepository;
             _ranking = ranking;
+        }
+
+
+        /// <summary>
+        /// Returns Flight Path Info
+        /// </summary>
+        /// <remarks>
+        /// This Api Currently ServingStatic Information
+        /// Sample request: api/Status/{matchId}          
+        /// Input Parameter: f84d39a1-8218-4438-9bf5-7150f9e0f093
+        /// </remarks>
+        /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
+        [HttpGet("FlighPath/{matchId}", Name = "GetFlightPath")]
+        public Task<FlightPath> GetFlightPath(string matchId)
+        {
+            return _matchRepository.GetFlightPath();
         }
 
         // GET: api/Match/5
@@ -81,5 +97,6 @@ namespace Fanview.API.Controllers
         {
            return await _ranking.PollAndGetMatchRanking(matchId);          
         }
+
     }
 }

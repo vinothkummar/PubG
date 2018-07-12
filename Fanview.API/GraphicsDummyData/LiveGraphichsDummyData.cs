@@ -8,8 +8,7 @@ using Fanview.API.Model.LiveModels;
 namespace Fanview.API.GraphicsDummyData
 {
     public class LiveGraphichsDummyData
-    {
-        
+    {    
         public LiveStatus GetDummyLiveStatus()
         {
             var livestatue= new LiveStatus()
@@ -678,6 +677,7 @@ namespace Fanview.API.GraphicsDummyData
             };
             return Liveplayerstats;
         }
+
         public KillZone GetLiveKillzone()
         {
             var LiveKillZone = new KillZone
@@ -891,22 +891,22 @@ namespace Fanview.API.GraphicsDummyData
             return livekilllist;
         }
         public FlightPath GetFlightPath()
-        {
+        {           
             var flightPath = new FlightPath
             {
-                MatchName = "Match1",
+                MatchName = "TPP Round 1",
                 MatchId = 1,
                 FlightPathStart = new Livelocation
                 {
-                    X = 2.0,
-                    Y = 3.0,
-                    Z = 4.0
+                    X = 416793.3125,
+                    Y = 0,
+                    Z = 150088
                 },
                 FlightPathEnd = new Livelocation
                 {
-                    X = 4.0,
-                    Y = 5.0,
-                    Z = 6.0
+                    X = 351509.375,
+                    Y = 439020.15625,
+                    Z = 150088
                 }
 
             };
@@ -918,22 +918,26 @@ namespace Fanview.API.GraphicsDummyData
             {
                 MatchName = "TPP Round 1",
                 MatchID = 1,
-                DamageLists = new List<DamageList>
+                PlayerList = new List<DamageList>
                 {
                     new DamageList
                     {
                         PlayerRank=1,
                         PlayerName="POLLADERUC",
                         PlayerId=1,
-                        DamageDealt=543,
+                        DamageDealt=208.603271,
+                        Kills = 4,
+                        TimeSurvived = 1460,
                         TeamId=1
                     },
                     new DamageList
                     {
                         PlayerRank= 2,
                         PlayerName="4AMCPT",
+                        Kills = 0,
+                        TimeSurvived = 1300,
                         PlayerId=1,
-                        DamageDealt=493,
+                        DamageDealt=115.129242,
                         TeamId= 2
 
 
@@ -943,7 +947,9 @@ namespace Fanview.API.GraphicsDummyData
                         PlayerRank=2,
                         PlayerName="OMGxiaohaixxxx",
                         PlayerId=10,
-                        DamageDealt=443,
+                        DamageDealt=115.129242,
+                        Kills = 5,
+                        TimeSurvived = 1200,
                         TeamId=3
                     },
                     new DamageList
@@ -952,6 +958,8 @@ namespace Fanview.API.GraphicsDummyData
                         PlayerName="Jeemzz",
                         PlayerId=14,
                         DamageDealt=393,
+                        Kills = 5,
+                        TimeSurvived = 1200,
                         TeamId=4
                     },
                     new DamageList
@@ -960,6 +968,8 @@ namespace Fanview.API.GraphicsDummyData
                         PlayerName="MiracU",
                         PlayerId=17,
                         DamageDealt=343,
+                        Kills = 10,
+                        TimeSurvived = 1704,
                         TeamId=4
                     },
                     new DamageList
@@ -968,6 +978,8 @@ namespace Fanview.API.GraphicsDummyData
                         PlayerName="Voxsic",
                         PlayerId=21,
                         DamageDealt=293,
+                        Kills = 0,
+                        TimeSurvived = 1001,
                         TeamId=6
                     },
                     new DamageList
@@ -975,7 +987,9 @@ namespace Fanview.API.GraphicsDummyData
                         PlayerRank=7,
                         PlayerName="Mossy",
                         PlayerId=25,
-                        DamageDealt=243,
+                        DamageDealt=75,
+                        Kills = 1,
+                        TimeSurvived = 995,
                         TeamId=7
                     },
                     new DamageList
@@ -984,6 +998,8 @@ namespace Fanview.API.GraphicsDummyData
                         PlayerName="Jeemzz",
                         PlayerId=14,
                         DamageDealt=193,
+                        Kills = 5,
+                        TimeSurvived = 1200,
                         TeamId=8
                     },
                      new DamageList
@@ -991,7 +1007,9 @@ namespace Fanview.API.GraphicsDummyData
                         PlayerRank=9,
                         PlayerName="MiracU",
                         PlayerId=17,
-                        DamageDealt=143,
+                        DamageDealt=165.026154,
+                        Kills = 0,
+                        TimeSurvived = 1297,
                         TeamId=9
                     },
                      new DamageList
@@ -1000,6 +1018,8 @@ namespace Fanview.API.GraphicsDummyData
                         PlayerName="Voxsic",
                         PlayerId=21,
                         DamageDealt=93,
+                        Kills = 0,
+                        TimeSurvived = 1128,
                         TeamId=10
                     },
 
@@ -1015,7 +1035,7 @@ namespace Fanview.API.GraphicsDummyData
             {
                 MatchName = "TPP Round 1",
                 MatchId = 1,
-                damageLists = new List<DamageList>
+                DamageList = new List<DamageList>
                 {
                     new DamageList
                     {
@@ -1105,7 +1125,5 @@ namespace Fanview.API.GraphicsDummyData
             };
             return Livedamagelist; 
         }
-       
-       
     }
 }

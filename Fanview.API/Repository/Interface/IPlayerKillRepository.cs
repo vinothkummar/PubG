@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Fanview.API.Model.LiveModels;
 
 namespace Fanview.API.Repository.Interface
 {
@@ -17,6 +18,8 @@ namespace Fanview.API.Repository.Interface
         Task<IEnumerable<Kill>> GetPlayerKilled(string matchId1, string matchId2, string matchId3, string matchId4);
 
         Task<IEnumerable<Kill>> GetLast4PlayerKilled(string matchId);
+
+        Task<KillLeaderList> GetKillLeaderList(string matchId);
 
         
 

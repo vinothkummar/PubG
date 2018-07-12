@@ -1,4 +1,6 @@
-﻿using Fanview.API.Model;
+﻿using Fanview.API.GraphicsDummyData;
+using Fanview.API.Model;
+using Fanview.API.Model.LiveModels;
 using Fanview.API.Repository.Interface;
 using Fanview.API.Services.Interface;
 using Microsoft.Extensions.Logging;
@@ -19,6 +21,7 @@ namespace Fanview.API.Repository
         private IHttpClientRequest _httpClientRequest;
         private IGenericRepository<Event> _genericRepository;
         private ILogger<MatchRepository> _logger;
+        private LiveGraphichsDummyData _data;
         private Task<HttpResponseMessage> _pubGClientResponse;
 
         public MatchRepository(IClientBuilder httpClientBuilder, 
@@ -30,6 +33,7 @@ namespace Fanview.API.Repository
             _httpClientRequest = httpClientRequest;            
             _genericRepository = genericRepository;          
             _logger = logger;
+            _data = new LiveGraphichsDummyData();
         }
         public async Task<JObject> GetMatchesDetailsByID(string id)
         {            
@@ -122,6 +126,11 @@ namespace Fanview.API.Repository
         public Task<JObject> GetMatchIdByTournament(string tournament)
         {
             throw new NotImplementedException();
+        }
+
+        public Task<FlightPath> GetFlightPath()
+        {
+            return Task.FromResult(_data.GetFlightPath());
         }
     }
 }

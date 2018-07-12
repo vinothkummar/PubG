@@ -5,12 +5,11 @@ using System.Threading.Tasks;
 
 namespace Fanview.API.Model.LiveModels
 {
-    public class KillLeaderList
+    public class LiveDamageList
     {
         public string MatchName { get; set; }
-        public int MatchID { get; set; }
-        public IEnumerable<DamageList> PlayerList { get; set; }
-    }
+        public int MatchId { get; set; }
+        public IEnumerable<DamageList> DamageList {get; set;}
 
-    
+    }
 }
