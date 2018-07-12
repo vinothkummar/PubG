@@ -9,7 +9,7 @@ namespace Fanview.API.Model.LiveModels
     {
         public string MatchName { get; set; }
         public int MatchId { get; set; }
-        public Location FlightPathStart { get; set; }
-        public Location FlightPathEnd { get; set; }
+        public Livelocation FlightPathStart { get; set; }
+        public Livelocation FlightPathEnd { get; set; }
     }
 }

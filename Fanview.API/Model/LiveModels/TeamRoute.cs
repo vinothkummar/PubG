@@ -7,9 +7,9 @@ namespace Fanview.API.Model.LiveModels
 {
     public class TeamRoute
     {
-        public string TeamName { get; set; }
-        public int RoundId { get; set; }
-        public Route routs { get; set; }
+        public string MatchName { get; set; }
+        public int MatchId { get; set; }
+        public Route Routs { get; set; }
         public Safezone[] Safezones { get; set; }
     }
 }

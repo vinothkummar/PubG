@@ -4,7 +4,7 @@
     {
         public int SafeZoneId { get; set; }
         public double Radius { get; set; }
-        public Location Position { get; set; }
+        public Livelocation Position { get; set; }
 
     }
 }
