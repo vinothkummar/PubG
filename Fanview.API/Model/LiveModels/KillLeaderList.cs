@@ -9,7 +9,7 @@ namespace Fanview.API.Model.LiveModels
     {
         public string MatchName { get; set; }
         public int MatchID { get; set; }
-        public KillLeader KillLeader { get; set; }
+        public IEnumerable<DamageList> DamageLists { get; set; }
     }
 
     
