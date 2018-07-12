@@ -9,12 +9,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="BusinessLayer\DataProcess\**" />
+    <Content Remove="BusinessLayer\DataProcess\**" />
+    <EmbeddedResource Remove="BusinessLayer\DataProcess\**" />
+    <None Remove="BusinessLayer\DataProcess\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="project.json" />
     <Content Remove="web.config" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="BusinessLayer\DataProcess\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

@@ -10,7 +10,7 @@ namespace Fanview.API.Model.LiveModels
     {
         public string MatchName { get; set; }
         public int MatchID { get; set; }
-        public Team[] Teams { get; set; }
-        public TeamPlayer[] TeamPlayers { get; set; }
+        public IEnumerable<Team> Teams { get; set; }
+        public IEnumerable<TeamPlayer> TeamPlayers { get; set; }
     }
 }
