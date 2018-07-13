@@ -1103,7 +1103,7 @@ namespace Fanview.API.GraphicsDummyData
             };
             return Livedamagelist;
         }
-        public IEnumerable<KillZone> GetKillZone()
+        public IEnumerable<KillZone> GetLiveKillzone()
         {
             var killZones = new List<KillZone>
             {
@@ -1117,7 +1117,8 @@ namespace Fanview.API.GraphicsDummyData
                     Z=1208.98
                 },
                 KillerName="DTN_iLGO",
-                KillerId=1
+                KillerId=1,
+                TeamId=4
 
                 },
                 new KillZone{
@@ -1130,10 +1131,11 @@ namespace Fanview.API.GraphicsDummyData
                     Z=1078.32
                 },
                 KillerName="Lunatichai_Tio",
-                KillerId=3
+                KillerId=3,
+                TeamId=5
 
                 },
-                   new KillZone{
+                new KillZone{
                 MatchId= "f84d39a1-8218-4438-9bf5-7150f9e0f093",
                 MatchName="Day-1-2",
                 Location=new Livelocation
@@ -1188,11 +1190,11 @@ namespace Fanview.API.GraphicsDummyData
                 },
                 KillerName= "LH-FLUX_Retri",
                 KillerId=7,
-                TeamId=67
+                TeamId=15
 
 
                 },
-                             new KillZone{
+                new KillZone{
                 MatchId= "f84d39a1-8218-4438-9bf5-7150f9e0f093",
                 MatchName="Day-2-3",
                 Location=new Livelocation
@@ -1203,7 +1205,7 @@ namespace Fanview.API.GraphicsDummyData
                 },
                 KillerName= "LH-FLUX_Retri",
                 KillerId =8,
-                TeamId=5-4-2
+                TeamId=5
 
 
                 },
