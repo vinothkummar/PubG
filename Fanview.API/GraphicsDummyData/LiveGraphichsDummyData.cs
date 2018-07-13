@@ -810,15 +810,15 @@ namespace Fanview.API.GraphicsDummyData
                         PlayerRank=1,
                         PlayerName="POLLADERUC",
                         PlayerId=1,
-                        DamageDealt=543,
-                        TeamId=1
+                        Kills=10,
+                        TeamId =1
                     },
                     new DamageList
                     {
                         PlayerRank= 2,
                         PlayerName="4AMCPT",
                         PlayerId=1,
-                        DamageDealt=493,
+                        Kills=9,
                         TeamId= 2
 
 
@@ -828,7 +828,7 @@ namespace Fanview.API.GraphicsDummyData
                         PlayerRank=2,
                         PlayerName="OMGxiaohaixxxx",
                         PlayerId=10,
-                        DamageDealt=443,
+                        Kills=8,
                         TeamId=3
                     },
                     new DamageList
@@ -836,7 +836,7 @@ namespace Fanview.API.GraphicsDummyData
                         PlayerRank=4,
                         PlayerName="Jeemzz",
                         PlayerId=14,
-                        DamageDealt=393,
+                        Kills=7,
                         TeamId=4
                     },
                     new DamageList
@@ -844,7 +844,7 @@ namespace Fanview.API.GraphicsDummyData
                         PlayerRank=5,
                         PlayerName="MiracU",
                         PlayerId=17,
-                        DamageDealt=343,
+                        Kills=6,
                         TeamId=4
                     },
                     new DamageList
@@ -852,7 +852,7 @@ namespace Fanview.API.GraphicsDummyData
                         PlayerRank=6,
                         PlayerName="Voxsic",
                         PlayerId=21,
-                        DamageDealt=293,
+                        Kills=5,
                         TeamId=6
                     },
                     new DamageList
@@ -860,7 +860,7 @@ namespace Fanview.API.GraphicsDummyData
                         PlayerRank=7,
                         PlayerName="Mossy",
                         PlayerId=25,
-                        DamageDealt=243,
+                        Kills=4,
                         TeamId=7
                     },
                     new DamageList
@@ -868,7 +868,7 @@ namespace Fanview.API.GraphicsDummyData
                         PlayerRank=8,
                         PlayerName="Jeemzz",
                         PlayerId=14,
-                        DamageDealt=193,
+                        Kills=3,
                         TeamId=8
                     },
                      new DamageList
@@ -876,7 +876,7 @@ namespace Fanview.API.GraphicsDummyData
                         PlayerRank=9,
                         PlayerName="MiracU",
                         PlayerId=17,
-                        DamageDealt=143,
+                        Kills=2,
                         TeamId=9
                     },
                      new DamageList
@@ -884,7 +884,7 @@ namespace Fanview.API.GraphicsDummyData
                         PlayerRank=10,
                         PlayerName="Voxsic",
                         PlayerId=21,
-                        DamageDealt=93,
+                        Kills=1,
                         TeamId=10
                     },
 
@@ -929,7 +929,6 @@ namespace Fanview.API.GraphicsDummyData
                         PlayerName="POLLADERUC",
                         PlayerId=1,
                         DamageDealt=208.603271,
-                        Kills = 4,
                         TimeSurvived = 1460,
                         TeamId=1
                     },
@@ -940,7 +939,6 @@ namespace Fanview.API.GraphicsDummyData
                         Kills = 0,
                         TimeSurvived = 1300,
                         PlayerId=1,
-                        DamageDealt=115.129242,
                         TeamId= 2
 
 
@@ -950,7 +948,6 @@ namespace Fanview.API.GraphicsDummyData
                         PlayerRank=2,
                         PlayerName="OMGxiaohaixxxx",
                         PlayerId=10,
-                        DamageDealt=115.129242,
                         Kills = 5,
                         TimeSurvived = 1200,
                         TeamId=3
@@ -960,7 +957,6 @@ namespace Fanview.API.GraphicsDummyData
                         PlayerRank=4,
                         PlayerName="Jeemzz",
                         PlayerId=14,
-                        DamageDealt=393,
                         Kills = 5,
                         TimeSurvived = 1200,
                         TeamId=4
@@ -970,7 +966,6 @@ namespace Fanview.API.GraphicsDummyData
                         PlayerRank=5,
                         PlayerName="MiracU",
                         PlayerId=17,
-                        DamageDealt=343,
                         Kills = 10,
                         TimeSurvived = 1704,
                         TeamId=4
@@ -980,7 +975,6 @@ namespace Fanview.API.GraphicsDummyData
                         PlayerRank=6,
                         PlayerName="Voxsic",
                         PlayerId=21,
-                        DamageDealt=293,
                         Kills = 0,
                         TimeSurvived = 1001,
                         TeamId=6
@@ -990,7 +984,6 @@ namespace Fanview.API.GraphicsDummyData
                         PlayerRank=7,
                         PlayerName="Mossy",
                         PlayerId=25,
-                        DamageDealt=200,
                         Kills = 1,
                         TimeSurvived = 995,
                         TeamId=7
@@ -1010,7 +1003,6 @@ namespace Fanview.API.GraphicsDummyData
                         PlayerRank=9,
                         PlayerName="MiracU",
                         PlayerId=17,
-                        DamageDealt=150,
                         Kills = 0,
                         TimeSurvived = 1297,
                         TeamId=9
@@ -1020,7 +1012,6 @@ namespace Fanview.API.GraphicsDummyData
                         PlayerRank=10,
                         PlayerName="Voxsic",
                         PlayerId=21,
-                        DamageDealt=100,
                         Kills = 0,
                         TimeSurvived = 1128,
                         TeamId=10
