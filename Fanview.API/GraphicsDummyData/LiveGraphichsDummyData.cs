@@ -681,24 +681,8 @@ namespace Fanview.API.GraphicsDummyData
             };
             return Liveplayerstats;
         }
-        public KillZone GetLiveKillzone()
-        {
-            var LiveKillZone = new KillZone
-            {
-                MatchName = "Match1",
-                MatchId = 1,
-                // kills = new int[] { 76, 77, 78, 79, 80 },
-                //KillerName = "Player1",
-                Location = new Livelocation
-                {
-                    X = 1.0,
-                    Y = 1.0,
-                    Z = 1.0
-                }
+     
 
-            };
-            return LiveKillZone;
-        }
         public TeamLanding GetTeamLanding()
         {
             var teamlanding = new TeamLanding
@@ -1118,6 +1102,115 @@ namespace Fanview.API.GraphicsDummyData
                 }
             };
             return Livedamagelist;
+        }
+        public IEnumerable<KillZone> GetKillZone()
+        {
+            var killZones = new List<KillZone>
+            {
+                new KillZone{
+                MatchId= "5b45e498040bbeb6a89877f6",
+                MatchName="Day-1",
+                Location=new Livelocation
+                {
+                    X =574472,
+                    Y=306982.281,
+                    Z=1208.98
+                },
+                KillerName="DTN_iLGO",
+                KillerId=1
+
+                },
+                new KillZone{
+                MatchId= "f84d39a1-8218-4438-9bf5-7150f9e0f093",
+                MatchName="Day-1-1",
+                Location=new Livelocation
+                {
+                    X =574533.3,
+                    Y=302502.062,
+                    Z=1078.32
+                },
+                KillerName="Lunatichai_Tio",
+                KillerId=3
+
+                },
+                   new KillZone{
+                MatchId= "f84d39a1-8218-4438-9bf5-7150f9e0f093",
+                MatchName="Day-1-2",
+                Location=new Livelocation
+                {
+                    X =559835.438,
+                    Y=306535.3,
+                    Z=1602.49
+                },
+                KillerName="Erangel_Main",
+                KillerId=4,
+                TeamId=2
+
+                },
+             new KillZone{
+                MatchId= "f84d39a1-8218-4438-9bf5-7150f9e0f093",
+                MatchName="Day-2-3",
+                Location=new Livelocation
+                {
+                    X =527530.3,
+                    Y= 322461.9,
+                    Z=928.57
+                },
+                KillerName="KDG_Phenom",
+                KillerId=5,
+                TeamId=3
+                
+
+                },
+                   new KillZone{
+                MatchId= "f84d39a1-8218-4438-9bf5-7150f9e0f093",
+                MatchName="Day-2-3",
+                Location=new Livelocation
+                {
+                    X =562411.5,
+                    Y= 306754.438,
+                    Z=1252.07
+                },
+                KillerName="ACTOZ_I_Jaehyeon",
+                KillerId=6,
+                TeamId=10
+
+
+                },
+                        new KillZone{
+                MatchId= "f84d39a1-8218-4438-9bf5-7150f9e0f093",
+                MatchName="Day-2-5",
+                Location=new Livelocation
+                {
+                    X =562411.5,
+                    Y= 306754.438,
+                    Z=1252.07
+                },
+                KillerName= "LH-FLUX_Retri",
+                KillerId=7,
+                TeamId=67
+
+
+                },
+                             new KillZone{
+                MatchId= "f84d39a1-8218-4438-9bf5-7150f9e0f093",
+                MatchName="Day-2-3",
+                Location=new Livelocation
+                {
+                    X =527530.3,
+                    Y= 322461.9,
+                    Z=928.57
+                },
+                KillerName= "LH-FLUX_Retri",
+                KillerId =8,
+                TeamId=5-4-2
+
+
+                },
+
+
+            };
+            return killZones;
         }
     }
 }
