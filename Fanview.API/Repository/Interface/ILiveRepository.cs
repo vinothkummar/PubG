@@ -9,5 +9,11 @@ namespace Fanview.API.Repository.Interface
     public interface ILiveRepository
     {
         Task<LiveStatus> GetLiveStatus(string matchId);
+
+        Task<LiveDamageList> GetLiveDamageList(string matchId);
+
+        Task<LiveKillList> GetLiveKillList(string matchId);
+
+        Task<LivePlayerStats> GetLivePlayerStats(string matchId);
     }
 }

@@ -3,6 +3,7 @@ using Fanview.API.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Fanview.API.Model.LiveModels;
 
 namespace Fanview.API.Controllers
 {
@@ -39,6 +40,38 @@ namespace Fanview.API.Controllers
             return _teamRepository.GetTeamMatchup(teamId1, teamId2);
         }
 
+
+
+        /// <summary>
+        ///Returns TeamRoute       
+        /// </summary>
+        /// <remarks>
+        /// Sample request: api/Team/Route    
+        /// This Api Currently Serving the Static Information
+        /// Input Parameters: 5b369085a510862ec07c824a 
+        /// </remarks>
+        /// <param name='teamId'>5b369085a510862ec07c824a</param>
+        [HttpGet("Route/{teamId}", Name = "GetTeamRoute")]
+        public Task<TeamRoute> GetTeamRoute(string teamId)
+        {
+            return _teamRepository.GetTeamRoute();
+        }
+
+
+        /// <summary>
+        /// Returns Team Landing     
+        /// </summary>
+        /// <remarks>
+        /// Sample request: api/Team/Landing  
+        /// This Api Currently Serving the Static Information
+        /// Input Parameters: 5b369085a510862ec07c824a 
+        /// </remarks>
+        /// <param name='teamId'>5b369085a510862ec07c824a</param>
+        [HttpGet("Landings/{teamId}", Name = "GetTeamLandings")]
+        public Task<TeamLanding> GetTeamLandings(string teamId)
+        {
+            return _teamRepository.GetTeamLanding();
+        }
 
         //GET:api/Team
         /// <summary>

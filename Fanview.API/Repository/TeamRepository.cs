@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
+using Fanview.API.Model.LiveModels;
+using Fanview.API.GraphicsDummyData;
 
 namespace Fanview.API.Repository
 {
@@ -16,6 +18,7 @@ namespace Fanview.API.Repository
         private IGenericRepository<Team> _team;
         private IGenericRepository<MatchPlayerStats> _matchPlayerStats;
         private IGenericRepository<TeamPlayer> _teamPlayers;
+        private LiveGraphichsDummyData _data;
         private ILogger<TeamRepository> _logger;
 
         public TeamRepository(IGenericRepository<Team> team,
@@ -26,6 +29,8 @@ namespace Fanview.API.Repository
             _team = team;
             _matchPlayerStats = matchPlayerStats;
             _teamPlayers = teamPlayers;
+
+            _data = new LiveGraphichsDummyData();
 
             _logger = logger;
         }
@@ -159,6 +164,16 @@ namespace Fanview.API.Repository
                                                                                    }
                                                                                });
             return await Task.FromResult(teamLineUp);
+        }
+
+        public Task<TeamRoute> GetTeamRoute()
+        {
+            return Task.FromResult(_data.GetTeamRoute());
+        }
+
+        public Task<TeamLanding> GetTeamLanding()
+        {
+            return Task.FromResult(_data.GetTeamLanding());
         }
     }
 }

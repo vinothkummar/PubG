@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Fanview.API.Model;
+using Fanview.API.Model.LiveModels;
 
 namespace Fanview.API.Repository.Interface
 {
@@ -18,6 +19,11 @@ namespace Fanview.API.Repository.Interface
 
         Task<TeamLineUp> GetTeamProfile(string teamId1);
         Task<IEnumerable<Team>> GetAllTeam();
-        
+
+        Task<TeamRoute> GetTeamRoute();
+
+        Task<TeamLanding> GetTeamLanding();
+
+
     }
 }

@@ -21,8 +21,6 @@ namespace Fanview.API.Repository.Interface
 
         Task<KillLeaderList> GetKillLeaderList(string matchId);
 
-        
-
-
+        Task<KillZone> GetKillZone(string matchId);
     }
 }

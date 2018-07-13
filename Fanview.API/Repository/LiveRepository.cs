@@ -22,5 +22,20 @@ namespace Fanview.API.Repository
         {
             return Task.FromResult(_data.GetDummyLiveStatus());
         }
+
+        public Task<LiveDamageList> GetLiveDamageList(string matchId)
+        {
+            return Task.FromResult(_data.GetDamagelist());
+        }
+
+        public Task<LiveKillList> GetLiveKillList(string matchId)
+        {
+            return Task.FromResult(_data.GetLiveKillList());
+        }
+
+        public Task<LivePlayerStats> GetLivePlayerStats(string matchId)
+        {
+            return Task.FromResult(_data.GetDummyLiveplayerstats());
+        }
     }
 }

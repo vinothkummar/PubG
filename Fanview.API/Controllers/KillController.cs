@@ -124,15 +124,32 @@ namespace Fanview.API.Controllers
         /// Return Kill Leadear Board List     
         /// </summary>
         /// <remarks>
-        /// Sample request: api/KillLeaderList/{matchId}          
+        /// Sample request: api/Kill/LeaderList/{matchId} 
+        /// This Api Currently Serving the Static Information
         /// Input Parameter: f84d39a1-8218-4438-9bf5-7150f9e0f093
         /// </remarks>
         /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
-        [HttpGet("KillLeaderList/{matchId}")]
+        [HttpGet("LeaderList/{matchId}")]
         public Task<KillLeaderList> GetKillLeaderList(string matchId)
         {
            return _playerKillRepository.GetKillLeaderList(matchId);
             
+        }
+
+        /// <summary>
+        /// Return Kill Zone     
+        /// </summary>
+        /// <remarks>
+        /// Sample request: api/Kill/Zone/{matchId}   
+        /// This Api Currently Serving the Static Information 
+        /// Input Parameter: f84d39a1-8218-4438-9bf5-7150f9e0f093
+        /// </remarks>
+        /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
+        [HttpGet("Zone/{matchId}")]
+        public Task<KillZone> GetKillZone(string matchId)
+        {
+            return _playerKillRepository.GetKillZone(matchId);
+
         }
     }
 }

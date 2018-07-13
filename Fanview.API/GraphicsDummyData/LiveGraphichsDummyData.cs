@@ -8,14 +8,14 @@ using Fanview.API.Model.LiveModels;
 namespace Fanview.API.GraphicsDummyData
 {
     public class LiveGraphichsDummyData
-    {    
+    {
         public LiveStatus GetDummyLiveStatus()
         {
-            var livestatue= new LiveStatus()
+            var liveStatus = new LiveStatus()
             {
-                MatchName="Day-1",
-                MatchID=1,
-                Teams=new List<LiveTeam>
+                MatchName = "Day-1",
+                MatchID = 1,
+                Teams = new List<LiveTeam>
                 {
                     new LiveTeam
                     {
@@ -61,24 +61,25 @@ namespace Fanview.API.GraphicsDummyData
                                 PlayeId=1,
                                 PlayerStatus=true
                             },
+                            new LiveTeamPlayers
+                            {
+                                PlayerName="player4",
+                                PlayeId=4,
+                                PlayerStatus=true
+                            } ,
                              new LiveTeamPlayers
                             {
                                 PlayerName="player2",
                                 PlayeId=2,
-                                PlayerStatus=false
+                                PlayerStatus=true
                             },
                              new LiveTeamPlayers
                             {
                                 PlayerName="player3",
                                 PlayeId=3,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player4",
-                                PlayeId=4,
                                 PlayerStatus=false
-                            } }
+                           },
+                            }
                     },
                      new LiveTeam
                     {
@@ -96,7 +97,7 @@ namespace Fanview.API.GraphicsDummyData
                             {
                                 PlayerName="player2",
                                 PlayeId=2,
-                                PlayerStatus=false
+                                PlayerStatus=true
                             },
                              new LiveTeamPlayers
                             {
@@ -551,17 +552,11 @@ namespace Fanview.API.GraphicsDummyData
                         Id="18",
                            TeamPlayers=new List<LiveTeamPlayers>
                         {
-                            new LiveTeamPlayers
-                            {
-                                PlayerName="player1",
-                                PlayeId=1,
-                                PlayerStatus=true
-                            },
                              new LiveTeamPlayers
                             {
                                 PlayerName="player2",
                                 PlayeId=2,
-                                PlayerStatus=false
+                                PlayerStatus=true
                             },
                              new LiveTeamPlayers
                             {
@@ -573,40 +568,46 @@ namespace Fanview.API.GraphicsDummyData
                             {
                                 PlayerName="player4",
                                 PlayeId=4,
+                                PlayerStatus=true
+                            },
+                            new LiveTeamPlayers
+                            {
+                                PlayerName="player1",
+                                PlayeId=1,
                                 PlayerStatus=false
-                            } }
+                            }}
                     },
-                      new LiveTeam
-                    {
-                        Name="Team19",
-                        Id="19",
-                           TeamPlayers=new List<LiveTeamPlayers>
+                          new LiveTeam
                         {
-                            new LiveTeamPlayers
+                            Name="Team19",
+                            Id="19",
+                               TeamPlayers=new List<LiveTeamPlayers>
                             {
-                                PlayerName="player1",
-                                PlayeId=1,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player2",
-                                PlayeId=2,
-                                PlayerStatus=false
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player3",
-                                PlayeId=3,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player4",
-                                PlayeId=4,
-                                PlayerStatus=false
-                            } }
-                    },
+                                new LiveTeamPlayers
+                                {
+                                    PlayerName="player1",
+                                    PlayeId=1,
+                                    PlayerStatus=true
+                                },
+                                 new LiveTeamPlayers
+                                {
+                                    PlayerName="player2",
+                                    PlayeId=2,
+                                    PlayerStatus=true
+                                },
+                                 new LiveTeamPlayers
+                                {
+                                    PlayerName="player3",
+                                    PlayeId=3,
+                                    PlayerStatus=true
+                                },
+                                 new LiveTeamPlayers
+                                {
+                                    PlayerName="player4",
+                                    PlayeId=4,
+                                    PlayerStatus=false
+                                } }
+                        },
                       new LiveTeam
                     {
                         Name="Team20",
@@ -621,15 +622,15 @@ namespace Fanview.API.GraphicsDummyData
                             },
                              new LiveTeamPlayers
                             {
-                                PlayerName="player2",
-                                PlayeId=2,
-                                PlayerStatus=false
-                            },
-                             new LiveTeamPlayers
-                            {
                                 PlayerName="player3",
                                 PlayeId=3,
                                 PlayerStatus=true
+                            },
+                             new LiveTeamPlayers
+                            {
+                                PlayerName="player2",
+                                PlayeId=2,
+                                PlayerStatus=false
                             },
                              new LiveTeamPlayers
                             {
@@ -640,11 +641,14 @@ namespace Fanview.API.GraphicsDummyData
                     },
 
                 },
-             
-    
+
+
             };
-            var LiveStatue = livestatue.Teams.Select(x => x.TeamPlayers.OrderBy(m => m.PlayerStatus));
-            return livestatue;
+
+            return liveStatus;
+
+
+
         }
         public LivePlayerStats GetDummyLiveplayerstats()
         {
@@ -677,15 +681,14 @@ namespace Fanview.API.GraphicsDummyData
             };
             return Liveplayerstats;
         }
-
         public KillZone GetLiveKillzone()
         {
             var LiveKillZone = new KillZone
             {
                 MatchName = "Match1",
                 MatchId = 1,
-                kills = new int[] { 76, 77, 78, 79, 80 },
-                KillerName = "Player1",
+                // kills = new int[] { 76, 77, 78, 79, 80 },
+                //KillerName = "Player1",
                 Location = new Livelocation
                 {
                     X = 1.0,
@@ -891,7 +894,7 @@ namespace Fanview.API.GraphicsDummyData
             return livekilllist;
         }
         public FlightPath GetFlightPath()
-        {           
+        {
             var flightPath = new FlightPath
             {
                 MatchName = "TPP Round 1",
@@ -987,7 +990,7 @@ namespace Fanview.API.GraphicsDummyData
                         PlayerRank=7,
                         PlayerName="Mossy",
                         PlayerId=25,
-                        DamageDealt=75,
+                        DamageDealt=200,
                         Kills = 1,
                         TimeSurvived = 995,
                         TeamId=7
@@ -1007,7 +1010,7 @@ namespace Fanview.API.GraphicsDummyData
                         PlayerRank=9,
                         PlayerName="MiracU",
                         PlayerId=17,
-                        DamageDealt=165.026154,
+                        DamageDealt=150,
                         Kills = 0,
                         TimeSurvived = 1297,
                         TeamId=9
@@ -1017,7 +1020,7 @@ namespace Fanview.API.GraphicsDummyData
                         PlayerRank=10,
                         PlayerName="Voxsic",
                         PlayerId=21,
-                        DamageDealt=93,
+                        DamageDealt=100,
                         Kills = 0,
                         TimeSurvived = 1128,
                         TeamId=10
@@ -1123,7 +1126,7 @@ namespace Fanview.API.GraphicsDummyData
 
                 }
             };
-            return Livedamagelist; 
+            return Livedamagelist;
         }
     }
 }
