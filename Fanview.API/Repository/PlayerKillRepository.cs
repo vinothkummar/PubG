@@ -231,7 +231,7 @@ namespace Fanview.API.Repository
           return  Task.FromResult(_data.GetKillLeaderlist());
         }
 
-        public Task<KillZone> GetKillZone(string matchId)
+        public Task<IEnumerable<KillZone>> GetKillZone(string matchId)
         {
             return Task.FromResult(_data.GetLiveKillzone());
         }
