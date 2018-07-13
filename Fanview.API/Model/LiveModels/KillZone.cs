@@ -10,6 +10,9 @@ namespace Fanview.API.Model.LiveModels
     {
         public string MatchName { get; set; }
         public int MatchId { get; set; }
-        public IEnumerable<LiveKiller> killers { get; set; }
+        public string KillerName { get; set; }
+        public int KillerId { get; set; }
+        public int TeamId { get; set; }
+        public Livelocation location { get; set; }
     }
 }
