@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Fanview.API.Model.LiveModels;
+using Newtonsoft.Json.Linq;
 
 namespace Fanview.API.Repository.Interface
 {
@@ -22,5 +23,8 @@ namespace Fanview.API.Repository.Interface
         Task<KillLeaderList> GetKillLeaderList(string matchId);
 
         Task<KillZone> GetKillZone(string matchId);
+
+        void InsertLiveEventTelemetry(JObject[] jsonResult);
+
     }
 }

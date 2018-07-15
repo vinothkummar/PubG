@@ -235,5 +235,13 @@ namespace Fanview.API.Repository
         {
             return Task.FromResult(_data.GetLiveKillzone());
         }
+
+        public void InsertLiveEventTelemetry(JObject[] jsonResult)
+        {
+            var matchId = jsonResult.Where(cn => (string)cn["_T"] == "EventMatchJoin").ToList();
+            var jsonToJObject = jsonResult.Where(cn => (string)cn["_T"] == "EventKill").ToList();
+
+            
+        }
     }
 }
