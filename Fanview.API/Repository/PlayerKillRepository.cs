@@ -21,6 +21,7 @@ namespace Fanview.API.Repository
     public class PlayerKillRepository : IPlayerKillRepository
     {
         private IGenericRepository<Kill> _genericRepository;
+        private IGenericRepository<CreatePlayer> _genericPlayerRepository;
         private LiveGraphichsDummyData _data;
         private ILogger<PlayerKillRepository> _logger;
         private Task<HttpResponseMessage> _pubGClientResponse;
@@ -31,11 +32,13 @@ namespace Fanview.API.Repository
         public PlayerKillRepository(IClientBuilder httpClientBuilder,
                                     IHttpClientRequest httpClientRequest,
                                     IGenericRepository<Kill> genericRepository,
+                                    IGenericRepository<CreatePlayer> genericPlayerRepository,
                                     ILogger<PlayerKillRepository> logger)
         {
             _httpClientBuilder = httpClientBuilder;
             _httpClientRequest = httpClientRequest;  
             _genericRepository = genericRepository;
+            _genericPlayerRepository = genericPlayerRepository;
             _data = new LiveGraphichsDummyData();
 
             _logger = logger;
@@ -82,12 +85,12 @@ namespace Fanview.API.Repository
                 Distance = (float)s["distance"],
                 Common = new Common()
                 {
-                    MatchId = (string)s["common"]["matchId"],
-                    MapName = (string)s["common"]["mapName"],
+                   // MatchId = (string)s["common"]["matchId"],
+                   // MapName = (string)s["common"]["mapName"],
                     IsGame = (float)s["common"]["isGame"]
 
                 },
-                Version = (int)s["_V"],
+               // Version = (int)s["_V"],
                 EventTimeStamp = (string)s["_D"],
                 EventType = (string)s["_T"]
 
@@ -102,20 +105,64 @@ namespace Fanview.API.Repository
 
             var lastestKillEventTimeStamp = jsonToJObject.Where(x => x.Value<string>("_T") == "LogPlayerKill").Select(s => new {EventTimeStamp = s.Value<string>("_D") }).Last();
 
-            IEnumerable<Kill> logPlayerKill = GetLogPlayerKilled(jsonToJObject, matchId);
+            var playerCreated = _genericPlayerRepository.GetMongoDbCollection("PlayerCreated");
 
-            var killEventTimeStamp = logPlayerKill.Last().EventTimeStamp.ToDateTimeFormat();            
+            var isPlayerCreated = await playerCreated.FindAsync(Builders<CreatePlayer>.Filter.Where(cn => cn.MatchId == matchId)).Result.ToListAsync();
 
-            if (killEventTimeStamp > killEventlastTimeStamp)
+            if (isPlayerCreated.Count() == 0 || isPlayerCreated == null){
+
+                IEnumerable<CreatePlayer> logPlayerCreate = GetLogPlayerCreated(jsonToJObject, matchId);
+
+                Func<Task> persistPlayerToMongo = async () => _genericPlayerRepository.Insert(logPlayerCreate, "PlayerCreated");
+
+                await Task.Run(persistPlayerToMongo);
+            }
+
+            var kills = _genericRepository.GetMongoDbCollection("Kill");
+
+            var isKillExists = await kills.FindAsync(Builders<Kill>.Filter.Where(cn => cn.MatchId == matchId)).Result.ToListAsync();
+
+            if (isKillExists.Count() == 0 || isKillExists == null)
             {
+                IEnumerable<Kill> logPlayerKill = GetLogPlayerKilled(jsonToJObject, matchId);
+
                 Func<Task> persistDataToMongo = async () => _genericRepository.Insert(logPlayerKill, "Kill");
 
                 await Task.Run(persistDataToMongo);
-
-                //_genericRepository.Insert(logPlayerKill, "killMessages");
-
-                killEventlastTimeStamp = killEventTimeStamp;
             }
+
+            //var killEventTimeStamp = logPlayerKill.Last().EventTimeStamp.ToDateTimeFormat();            
+
+            //if (killEventTimeStamp > killEventlastTimeStamp)
+            //{
+                
+
+            //    //_genericRepository.Insert(logPlayerKill, "killMessages");
+
+            //    killEventlastTimeStamp = killEventTimeStamp;
+            //}
+        }
+
+        private IEnumerable<CreatePlayer> GetLogPlayerCreated(JArray jsonToJObject, string matchId)
+        {
+            var result = jsonToJObject.Where(x => x.Value<string>("_T") == "LogPlayerCreate").Select(s => new CreatePlayer()
+            {
+                MatchId = matchId,                
+                Name = (string)s["character"]["name"],
+                TeamId = (string)s["character"]["teamId"],
+                Health = (float)s["character"]["health"],
+                Location = new Location()
+                {
+                    x = (float)s["character"]["location"]["x"],
+                    y = (float)s["character"]["location"]["y"],
+                    z = (float)s["character"]["location"]["z"],
+                },
+                AccountId = (string)s["character"]["accountId"],
+                EventTimeStamp = (string)s["_D"],
+                EventType = (string)s["_T"]
+            });
+
+            return result;
         }
 
         public async Task<IEnumerable<Kill>> GetPlayerKilled(string matchId)

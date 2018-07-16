@@ -15,13 +15,18 @@ namespace Fanview.API.Repository
         private IGenericRepository<TeamPlayer> _genericTeamPlayerRepository;
         private ILogger<TeamRepository> _logger;
         private IGenericRepository<Team> _gebericTeamRepository;
+        private IGenericRepository<CreatePlayer> _genericPlayerRepository;
 
-        public TeamPlayerRepository(IGenericRepository<TeamPlayer> genericRepository, ILogger<TeamRepository> logger,IGenericRepository<Team> teamgenericRepository)
+        public TeamPlayerRepository(IGenericRepository<TeamPlayer> genericRepository, ILogger<TeamRepository> logger,
+            IGenericRepository<Team> teamgenericRepository,
+            IGenericRepository<CreatePlayer> genericPlayerRepository
+            )
         {
             _genericTeamPlayerRepository = genericRepository;
 
             _logger = logger;
             _gebericTeamRepository= teamgenericRepository;
+            _genericPlayerRepository = genericPlayerRepository;
         }
 
         public async Task<IEnumerable<TeamPlayer>> GetPlayerMatchup(string playerId1, string playerId2)
@@ -90,6 +95,15 @@ namespace Fanview.API.Repository
             Func<Task> persistDataToMongo = async () => _genericTeamPlayerRepository.Insert(teamPlayer, "TeamPlayers");
 
             await Task.Run(persistDataToMongo);
+        }
+
+        public async Task<IEnumerable<CreatePlayer>> GetPlayersCreated(string matchId)
+        {
+            var playerCreatedCollection = _genericPlayerRepository.GetMongoDbCollection("PlayerCreated");
+
+            var playerCreated = await playerCreatedCollection.FindAsync(Builders<CreatePlayer>.Filter.Where(cn => cn.MatchId == matchId)).Result.ToListAsync();
+
+            return playerCreated;
         }
     }
 }
