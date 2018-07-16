@@ -45,11 +45,14 @@ namespace Fanview.API.BusinessLayer
 
             var matchPlayerStats = _matchSummaryRepository.GetPlayerMatchStats(matchId).Result;
 
-            var teamEliminationPosition = GetTeamEliminatedPosition(kills, matchId);
+            var teams = _teamRepository.GetTeam().Result.Select(s => new { TeamId = s.Id, TeamName = s.Name });
+
+            var totalTeamCount = teams.Count();
+            var teamEliminationPosition = GetTeamEliminatedPosition(kills, matchId, totalTeamCount );
 
             var rankScorePoints =  _genericRankPointsRepository.GetAll("RankPoints").Result;
 
-            var teams = _teamRepository.GetTeam().Result.Select(s => new { TeamId = s.Id, TeamName = s.Name });
+            
 
             var playerKillPointsWithTeam = matchPlayerStats.Select(m => new { m.MatchId, TeamId = m.TeamId, PlayerAccountId = m.stats.PlayerId, KillPoints = m.stats.Kills * 15 })
                                                            .GroupBy(g => new { g.TeamId, g.MatchId })
@@ -236,7 +239,7 @@ namespace Fanview.API.BusinessLayer
                 return await await Task.FromResult(matchRankings);
         }
 
-        private IEnumerable<TeamRankPoints> GetTeamEliminatedPosition(IEnumerable<Kill> kills, string matchId)
+        private IEnumerable<TeamRankPoints> GetTeamEliminatedPosition(IEnumerable<Kill> kills, string matchId, int totalTeamCount)
         {
             var teamPlayers = _teamPlayerRespository.GetTeamPlayers(matchId).Result;
 
@@ -272,7 +275,7 @@ namespace Fanview.API.BusinessLayer
             {
                 teamCount.Add(item.VictimTeamId);
 
-                var teamPlayerCount = kills.Where(cn => cn.Victim.TeamId == item.VictimTeamId).Count();
+                var teamPlayerCount = playersCreated.Where(cn => cn.TeamId == item.VictimTeamId.ToString()).Count();
 
                 if (teamCount.Where(cn => cn == item.VictimTeamId).Count() == teamPlayerCount)
                 {
@@ -280,6 +283,24 @@ namespace Fanview.API.BusinessLayer
                     teamsRankPoints.Add(teamRankFinishing);
                     i++;
                 }
+            }
+
+            
+
+            if (teamsRankPoints.Count()< 20 && totalTeamCount < 20)
+            {
+                var noOfteamEliminated = teamsRankPoints.Count();
+                var teamDifference = 20 - noOfteamEliminated;
+
+                teamsRankPoints = teamsRankPoints.Select(c => new TeamRankPoints()
+                {
+                    MatchId = c.MatchId,
+                    TeamId = c.TeamId,
+                    Name = c.Name,
+                    OpenApiVictimTeamId = c.OpenApiVictimTeamId,
+                    PlayerAccountId = c.PlayerAccountId,
+                    Positions = c.Positions - teamDifference
+                }).ToList();
             }
 
 
