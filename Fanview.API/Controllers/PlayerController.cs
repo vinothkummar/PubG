@@ -61,11 +61,11 @@ namespace Fanview.API.Controllers
         ///// <remarks>
         ///// Sample request: GetAllPlayers
         ///// </remarks>
-        //[HttpGet("players", Name = "GetAllPlayer")]
-        //public Task<IEnumerable<TeamPlayer>> GetAllPlayer()
-        //{
-        //    return _teamPlayerRepository.GetTeamPlayers();
-        //}
+        [HttpGet("players", Name = "GetAllPlayer")]
+        public Task<IEnumerable<TeamPlayer>> GetAllPlayer()
+        {
+            return _teamPlayerRepository.GetTeamPlayers();
+        }
 
         ////GET:api/TeamLineUp
         ///// <summary>
@@ -74,10 +74,10 @@ namespace Fanview.API.Controllers
         ///// <remarks>
         ///// Sample request: GetAllTeamPlayers
         ///// </remarks>
-        //[HttpGet("TeamPlayers", Name = "GetAllPlayerinTeam")]
-        //public Task<TeamLineUp> GetAllTeamPlayers()
-        //{
-        //    return _teamPlayerRepository.GetTeamandPlayers();
-        //}
+        [HttpGet("TeamPlayers", Name = "GetAllPlayerinTeam")]
+        public Task<TeamLineUp> GetAllTeamPlayers()
+        {
+            return _teamPlayerRepository.GetTeamandPlayers();
+        }
     }
 }
