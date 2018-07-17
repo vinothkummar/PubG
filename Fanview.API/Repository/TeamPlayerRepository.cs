@@ -49,14 +49,10 @@ namespace Fanview.API.Repository
         //I'm changing this part of code
         public async Task<IEnumerable<TeamPlayer>> GetTeamPlayers()
         {
-            //var teamplayers = await _genericTeamPlayerRepository.GetAll("TeamPlayers");
-            //var list = teamplayers.ToList();
-            //var playername = teamplayers.Select(x => x.PlayerName).ToList();
-            //var distinct = teamplayers.Select(x => x.PlayerName).Distinct().ToList();
-            //var unique = teamplayers.DistinctBy(x =>new { x.PlayerName, x.PlayerStatus, x.PubgAccountId }).ToList();
-            ////var unique = teamplayers.GroupBy(t => new { t.PlayerName, t.Id, t.MatchId, t.PubgAccountId }).Select(g => g.First()).ToList();
-            //return unique;
-            return null;
+            var teamplayers = await _genericTeamPlayerRepository.GetAll("TeamPlayers");
+            var list = teamplayers.ToList();
+            var mydistinc = teamplayers.GroupBy(o => new { o.PlayerName, o.PubgAccountId }).Select(o => o.FirstOrDefault()).ToList();
+            return mydistinc;
         }
         ////I'm changing this part of code 
         public async Task<TeamLineUp> GetTeamandPlayers()
