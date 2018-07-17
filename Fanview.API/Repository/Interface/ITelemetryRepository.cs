@@ -10,6 +10,8 @@ namespace Fanview.API.Repository.Interface
     {
         void PollTelemetry();
 
+        void ReadUDPStreamFromFile();
+
         
     }
 }

@@ -9,10 +9,10 @@ namespace Fanview.API.Model.LiveModels
     public class KillZone
     {
         public string MatchName { get; set; }
-        public int MatchId { get; set; }
+        public string MatchId { get; set; }
         public string KillerName { get; set; }
         public int KillerId { get; set; }
         public int TeamId { get; set; }
-        public Livelocation Location { get; set; }
+        public LiveLocation Location { get; set; }
     }
 }

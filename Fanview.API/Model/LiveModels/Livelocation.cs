@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Fanview.API.Model.LiveModels
 {
-    public class Livelocation
+    public class LiveLocation
     {
         public double X { get; set; }
         public double Y { get; set; }

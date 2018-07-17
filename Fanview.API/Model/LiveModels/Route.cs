@@ -5,7 +5,7 @@
         public string TeamID { get; set; }
         public string TeamRank { get; set; }
         public string TeamName { get; set; }
-        public Livelocation TeamRoute { get; set; }
+        public LiveLocation TeamRoute { get; set; }
         public Safezone Safezone { get; set; }
     }
 }

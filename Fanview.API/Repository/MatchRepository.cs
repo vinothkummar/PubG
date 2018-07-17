@@ -104,17 +104,42 @@ namespace Fanview.API.Repository
                 CreatedAT = (string)s["attributes"]["createdAt"]
             });
 
-           var tournamentMatches = eventRoundCreated.Join(eventRoundId, erc => erc.Id, er => er.Id, (erc, er) => new { erc, er })
-                             .Select(s => new Event() {
-                                 Id = s.erc.Id,
-                                 Type = s.erc.Type,
-                                 CreatedAT = s.erc.CreatedAT,
-                                 EventName = eventName
-                             }).OrderBy(o => o.CreatedAT);
+           
+            var tMatches = eventRoundCreated.Join(eventRoundId, erc => erc.Id, er => er.Id, (erc, er) => new { erc, er })
+                              .OrderBy(o => o.erc.CreatedAT)
+                              .Select(s => new Event()
+                              {
+                                  Id = s.erc.Id,
+                                  Type = s.erc.Type,
+                                  CreatedAT = s.erc.CreatedAT,
+                                  EventName = eventName,                                
+                              });
 
-          
-            return tournamentMatches;
+            var eventMatches = new List<Event>();
+
+            var i = 1;
+
+            foreach (var item in tMatches)
+            {
+                var match = new Event()
+                            {
+                                Id = item.Id,
+                                Type = item.Type,
+                                CreatedAT = item.CreatedAT,
+                                EventName = eventName,
+                                MatchId = i++
+                            };
+
+                eventMatches.Add(match);
+
+               
+            }
+
+
+            return eventMatches;
         }
+
+       
 
         public async Task<IEnumerable<Event>> GetTournamentMatchId()
         {

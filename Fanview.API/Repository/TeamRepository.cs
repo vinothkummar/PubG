@@ -89,9 +89,7 @@ namespace Fanview.API.Repository
         }
         public async Task<IEnumerable<Team>> GetAllTeam()
         {
-            var result= await _team.GetAll("Team");
-            var teamplayers = await _teamPlayers.GetAll("TeamPlayers");
-            var unique = teamplayers.GroupBy(t => new { t.PlayerName, t.Id, t.MatchId, t.PubgAccountId }).Select(g => g.First()).ToList();
+            var result= await _team.GetAll("Team");            
             return result;
         }
       
