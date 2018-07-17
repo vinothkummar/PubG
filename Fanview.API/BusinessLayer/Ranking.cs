@@ -17,7 +17,7 @@ namespace Fanview.API.BusinessLayer
         private IMatchSummaryRepository _matchSummaryRepository;
         private IPlayerKillRepository _playerKillRepository;
         private IGenericRepository<RankPoints> _genericRankPointsRepository;
-        private IGenericRepository<MatchRanking> _genericMatchRankingRepository;
+        private IGenericRepository<MatchRanking> _genericMatchRankingRepository;       
         private ITeamRepository _teamRepository;
         private ITeamPlayerRepository _teamPlayerRespository;
         private IKillingRule _teamKill;        
@@ -25,7 +25,7 @@ namespace Fanview.API.BusinessLayer
         public Ranking(ILogger<Ranking> logger, IMatchSummaryRepository matchSummaryRepository, 
                        IPlayerKillRepository playerKillRepository, 
                        IGenericRepository<RankPoints> genericRankPointsRepository,
-                       IGenericRepository<MatchRanking> genericMatchRankingRepository,
+                       IGenericRepository<MatchRanking> genericMatchRankingRepository,                       
                        ITeamRepository teamRepository,
                        ITeamPlayerRepository teamPlayerRepository, IReadAssets readAssets)
         {
@@ -33,7 +33,7 @@ namespace Fanview.API.BusinessLayer
             _matchSummaryRepository = matchSummaryRepository;
             _playerKillRepository = playerKillRepository;
             _genericRankPointsRepository = genericRankPointsRepository;
-            _genericMatchRankingRepository = genericMatchRankingRepository;
+            _genericMatchRankingRepository = genericMatchRankingRepository;           
             _teamRepository = teamRepository;
             _teamPlayerRespository = teamPlayerRepository;
             _teamKill = new IndividualPlayerKilled(readAssets);
@@ -45,11 +45,14 @@ namespace Fanview.API.BusinessLayer
 
             var matchPlayerStats = _matchSummaryRepository.GetPlayerMatchStats(matchId).Result;
 
-            var teamEliminationPosition = GetTeamEliminatedPosition(kills, matchId);
+            var teams = _teamRepository.GetTeam().Result.Select(s => new { TeamId = s.Id, TeamName = s.Name });
+
+            var totalTeamCount = teams.Count();
+            var teamEliminationPosition = GetTeamEliminatedPosition(kills, matchId, totalTeamCount );
 
             var rankScorePoints =  _genericRankPointsRepository.GetAll("RankPoints").Result;
 
-            var teams = _teamRepository.GetTeam().Result.Select(s => new { TeamId = s.Id, TeamName = s.Name });
+            
 
             var playerKillPointsWithTeam = matchPlayerStats.Select(m => new { m.MatchId, TeamId = m.TeamId, PlayerAccountId = m.stats.PlayerId, KillPoints = m.stats.Kills * 15 })
                                                            .GroupBy(g => new { g.TeamId, g.MatchId })
@@ -236,15 +239,30 @@ namespace Fanview.API.BusinessLayer
                 return await await Task.FromResult(matchRankings);
         }
 
-        private IEnumerable<TeamRankPoints> GetTeamEliminatedPosition(IEnumerable<Kill> kills, string matchId)
+        private IEnumerable<TeamRankPoints> GetTeamEliminatedPosition(IEnumerable<Kill> kills, string matchId, int totalTeamCount)
         {
             var teamPlayers = _teamPlayerRespository.GetTeamPlayers(matchId).Result;
 
-            var playersKilled = kills.Join(teamPlayers, pk => pk.Victim.AccountId, tp => tp.PubgAccountId,
-                                                   (pk, tp) => new { pk, tp }).Select(s => new
+            //var playersKilled = kills.Join(teamPlayers, pk => pk.Victim.AccountId, tp => tp.PubgAccountId,
+            //                                       (pk, tp) => new { pk, tp }).Select(s => new
+            //                                       {
+            //                                           VictimTeamId = s.pk.Victim.TeamId,
+            //                                           TeamId = s.tp.TeamId,
+            //                                           PlayerAccountId = s.tp.PubgAccountId
+
+            //                                       });
+
+            var playersCreated = _teamPlayerRespository.GetPlayersCreated(matchId).Result;
+
+            var playersKilled = kills.Join(playersCreated, pk => pk.Victim.AccountId, pc => pc.AccountId,
+                                                   (pk, pc) => new { pk, pc })
+                                                   .Join(teamPlayers, pkpc => pkpc.pc.AccountId, 
+                                                   tp => tp.PubgAccountId, (pkpc, tp) => new {pkpc,tp})
+                                                   .Select(s => new
                                                    {
-                                                       VictimTeamId = s.pk.Victim.TeamId,
-                                                       TeamId = s.tp.TeamId,
+                                                       VictimTeamId = s.pkpc.pk.Victim.TeamId,
+                                                       pubgTeamId = s.pkpc.pc.TeamId,
+                                                       fanviewTeamId = s.tp.TeamId,
                                                        PlayerAccountId = s.tp.PubgAccountId
 
                                                    });
@@ -257,18 +275,36 @@ namespace Fanview.API.BusinessLayer
             {
                 teamCount.Add(item.VictimTeamId);
 
-                var teamPlayerCount = kills.Where(cn => cn.Victim.TeamId == item.VictimTeamId).Count();
+                var teamPlayerCount = playersCreated.Where(cn => cn.TeamId == item.VictimTeamId.ToString()).Count();
 
                 if (teamCount.Where(cn => cn == item.VictimTeamId).Count() == teamPlayerCount)
                 {
-                    var teamRankFinishing = new TeamRankPoints() { TeamId = item.TeamId, Positions = GetTeamFinishingPositions(i), OpenApiVictimTeamId = item.VictimTeamId, PlayerAccountId = item.PlayerAccountId };
+                    var teamRankFinishing = new TeamRankPoints() { TeamId = item.fanviewTeamId, Positions = GetTeamFinishingPositions(i), OpenApiVictimTeamId = item.VictimTeamId, PlayerAccountId = item.PlayerAccountId };
                     teamsRankPoints.Add(teamRankFinishing);
                     i++;
                 }
             }
 
+            
 
-            if (teamsRankPoints.Count() < 20 )
+            if (teamsRankPoints.Count()< 20 && totalTeamCount < 20)
+            {
+                var noOfteamEliminated = teamsRankPoints.Count();
+                var teamDifference = 20 - noOfteamEliminated;
+
+                teamsRankPoints = teamsRankPoints.Select(c => new TeamRankPoints()
+                {
+                    MatchId = c.MatchId,
+                    TeamId = c.TeamId,
+                    Name = c.Name,
+                    OpenApiVictimTeamId = c.OpenApiVictimTeamId,
+                    PlayerAccountId = c.PlayerAccountId,
+                    Positions = c.Positions - teamDifference
+                }).ToList();
+            }
+
+
+            if (teamsRankPoints.Count() < 20 && teamsRankPoints.Count()!= playersCreated.Select(s => s.TeamId).Distinct().Count())
             {
                 var lastTeamStands = kills.Join(teamPlayers, pk => pk.Killer.AccountId, tp => tp.PubgAccountId,
                                                    (pk, tp) => new { pk, tp }).Where(cn => !teamsRankPoints.Select(t => t.OpenApiVictimTeamId).Contains(cn.pk.Killer.TeamId))

@@ -8,6 +8,10 @@ using Microsoft.Extensions.Logging;
 using Fanview.API.Services.Interface;
 using System.Net.Http;
 using System.Net;
+using Newtonsoft;
+using Newtonsoft.Json.Linq;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace Fanview.API.Repository
 {
@@ -71,5 +75,69 @@ namespace Fanview.API.Repository
                 throw;
             }
         }
+
+        public async void ReadUDPStreamFromFile()
+        {
+            _logger.LogInformation("UDP Streaming Read Started " + Environment.NewLine);
+            try
+            {
+                var folderPathToReadFromFile = @"C:\Users\Vinoth\Documents\Fanview\Old\test_live_main";
+
+                var folderPathToMoveProcessedFile = @"C:\Users\Vinoth\Documents\Fanview\Old\FileProcessed";
+
+                foreach (var file in Directory.EnumerateFiles(folderPathToReadFromFile, "*.log"))
+                {
+                    _logger.LogInformation("Reading Streaming Data from file"+ file + Environment.NewLine);
+
+                    string contents = File.ReadAllText(file);
+
+                    var objects = Deserializeobjects(contents);
+
+                    var array = objects.ToArray();
+
+                    _playerKillRepository.InsertLiveEventTelemetry(array);
+
+                   
+
+                    var sections = file.Split('\\');
+
+                    var fileName = sections[sections.Length - 1];
+                   
+                    File.Move(file, folderPathToMoveProcessedFile + "\\" + fileName);
+                }
+            }
+            catch (Exception exception)
+            {
+
+                throw exception;
+            }
+            
+
+            //_logger.LogInformation("Telemetery Request Started " + Environment.NewLine);
+
+            //JObject o1 = JObject.Parse(File.ReadAllText(@"C:\Users\Vinoth\Documents\Fanview\Old\test_live_logs13b"));
+
+            ////read Json directly from a file
+            //using (StreamReader file = File.OpenText(@"C:\Users\Vinoth\Documents\Fanview\Old\test_live_logs13b"))
+            //using (JsonTextReader reader = new JsonTextReader(file))
+            //{
+            //    JObject o2 = (JObject)JObject.ReadFrom(reader);
+            //}
+        }
+
+        private IEnumerable<JObject> Deserializeobjects(string jsonInput)
+        {
+            var serializer = new JsonSerializer();
+            using(var strReader = new StringReader(jsonInput)){
+                using(var jsonReader = new JsonTextReader(strReader))
+                {
+                    jsonReader.SupportMultipleContent = true;
+                    while (jsonReader.Read())
+                    {
+                        yield return (JObject)serializer.Deserialize(jsonReader);
+                    }
+                }
+            }
+        }    
     }
 }

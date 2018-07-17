@@ -699,7 +699,7 @@ namespace Fanview.API.GraphicsDummyData
                         {
                             PlayeId=1,
                             PlayerName="Player1",
-                            location=new Livelocation
+                            location=new LiveLocation
                             {
                                 X=1.0,
                                 Y=2.0,
@@ -710,7 +710,7 @@ namespace Fanview.API.GraphicsDummyData
                         {
                             PlayeId=2,
                             PlayerName="Player2",
-                            location=new Livelocation
+                            location=new LiveLocation
                             {
                                 X=2.0,
                                 Y=2.0,
@@ -721,7 +721,7 @@ namespace Fanview.API.GraphicsDummyData
                         {
                             PlayeId=3,
                             PlayerName="Player3",
-                            location=new Livelocation
+                            location=new LiveLocation
                             {
                                 X=3.0,
                                 Y=4.0,
@@ -733,7 +733,7 @@ namespace Fanview.API.GraphicsDummyData
                         {
                             PlayeId=4,
                             PlayerName="Player4",
-                            location=new Livelocation
+                            location=new LiveLocation
                             {
                                 X=4.0,
                                 Y=5.0,
@@ -757,7 +757,7 @@ namespace Fanview.API.GraphicsDummyData
                     TeamID = "1",
                     TeamName = "Team1",
                     TeamRank = "3",
-                    TeamRoute = new Livelocation
+                    TeamRoute = new LiveLocation
                     {
                         X = 1.0,
                         Y = 2.0,
@@ -766,7 +766,7 @@ namespace Fanview.API.GraphicsDummyData
                     Safezone = new Safezone
                     {
                         SafeZoneId = 1,
-                        Position = new Livelocation
+                        Position = new LiveLocation
                         {
                             X = 2.0,
                             Y = 3.0,
@@ -883,13 +883,13 @@ namespace Fanview.API.GraphicsDummyData
             {
                 MatchName = "TPP Round 1",
                 MatchId = 1,
-                FlightPathStart = new Livelocation
+                FlightPathStart = new LiveLocation
                 {
                     X = 416793.3125,
                     Y = 0,
                     Z = 150088
                 },
-                FlightPathEnd = new Livelocation
+                FlightPathEnd = new LiveLocation
                 {
                     X = 351509.375,
                     Y = 439020.15625,
@@ -1110,7 +1110,7 @@ namespace Fanview.API.GraphicsDummyData
                 new KillZone{
                 MatchId= "5b45e498040bbeb6a89877f6",
                 MatchName="Day-1",
-                Location=new Livelocation
+                Location=new LiveLocation
                 {
                     X =574472,
                     Y=306982.281,
@@ -1124,7 +1124,7 @@ namespace Fanview.API.GraphicsDummyData
                 new KillZone{
                 MatchId= "f84d39a1-8218-4438-9bf5-7150f9e0f093",
                 MatchName="Day-1-1",
-                Location=new Livelocation
+                Location=new LiveLocation
                 {
                     X =574533.3,
                     Y=302502.062,
@@ -1138,7 +1138,7 @@ namespace Fanview.API.GraphicsDummyData
                 new KillZone{
                 MatchId= "f84d39a1-8218-4438-9bf5-7150f9e0f093",
                 MatchName="Day-1-2",
-                Location=new Livelocation
+                Location=new LiveLocation
                 {
                     X =559835.438,
                     Y=306535.3,
@@ -1152,7 +1152,7 @@ namespace Fanview.API.GraphicsDummyData
              new KillZone{
                 MatchId= "f84d39a1-8218-4438-9bf5-7150f9e0f093",
                 MatchName="Day-2-3",
-                Location=new Livelocation
+                Location=new LiveLocation
                 {
                     X =527530.3,
                     Y= 322461.9,
@@ -1167,7 +1167,7 @@ namespace Fanview.API.GraphicsDummyData
                    new KillZone{
                 MatchId= "f84d39a1-8218-4438-9bf5-7150f9e0f093",
                 MatchName="Day-2-3",
-                Location=new Livelocation
+                Location=new LiveLocation
                 {
                     X =562411.5,
                     Y= 306754.438,
@@ -1182,7 +1182,7 @@ namespace Fanview.API.GraphicsDummyData
                         new KillZone{
                 MatchId= "f84d39a1-8218-4438-9bf5-7150f9e0f093",
                 MatchName="Day-2-5",
-                Location=new Livelocation
+                Location=new LiveLocation
                 {
                     X =562411.5,
                     Y= 306754.438,
@@ -1197,7 +1197,7 @@ namespace Fanview.API.GraphicsDummyData
                 new KillZone{
                 MatchId= "f84d39a1-8218-4438-9bf5-7150f9e0f093",
                 MatchName="Day-2-3",
-                Location=new Livelocation
+                Location=new LiveLocation
                 {
                     X =527530.3,
                     Y= 322461.9,
