@@ -67,17 +67,17 @@ namespace Fanview.API.Controllers
             return _teamPlayerRepository.GetTeamPlayers();
         }
 
-        ////GET:api/TeamLineUp
-        ///// <summary>
-        ///// Returns All players in a specific team 
-        ///// </summary>
-        ///// <remarks>
-        ///// Sample request: GetAllTeamPlayers
-        ///// </remarks>
-        [HttpGet("TeamPlayers", Name = "GetAllPlayerinTeam")]
-        public Task<TeamLineUp> GetAllTeamPlayers()
-        {
-            return _teamPlayerRepository.GetTeamandPlayers();
-        }
+        //////GET:api/TeamLineUp
+        /////// <summary>
+        /////// Returns All players in a specific team 
+        /////// </summary>
+        /////// <remarks>
+        /////// Sample request: GetAllTeamPlayers
+        /////// </remarks>
+        //[HttpGet("TeamPlayers", Name = "GetAllPlayerinTeam")]
+        //public Task<TeamLineUp> GetAllTeamPlayers()
+        //{
+        //    return _teamPlayerRepository.GetTeamandPlayers();
+        //}
     }
 }

@@ -85,13 +85,6 @@ namespace Fanview.API.Controllers
         {
             return _teamRepository.GetAllTeam();
         }
-        
-
-
-
-
-
-
 
         /// <summary>
         /// Returns Team Profile for the given teamId1     

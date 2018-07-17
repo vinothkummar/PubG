@@ -46,7 +46,7 @@ namespace Fanview.API.Repository
 
             return teamPlayer;
         }
-        //I'm changing this part of code
+        
         public async Task<IEnumerable<TeamPlayer>> GetTeamPlayers()
         {
             var teamplayers = await _genericTeamPlayerRepository.GetAll("TeamPlayers");
@@ -54,35 +54,48 @@ namespace Fanview.API.Repository
             var mydistinc = teamplayers.GroupBy(o => new { o.PlayerName, o.PubgAccountId }).Select(o => o.FirstOrDefault()).ToList();
             return mydistinc;
         }
-        ////I'm changing this part of code 
+        
+
         public async Task<TeamLineUp> GetTeamandPlayers()
         {
 
 
             var teamPlayers = await _genericTeamPlayerRepository.GetAll("TeamPlayers");
+
             var teamplayerlist = teamPlayers.ToList();
+
             var teams = await _genericTeamRepository.GetAll("Team");
-            var teamlist = teams.ToList();
-            var unique = teamPlayers.GroupBy(o => new { o.PlayerName, o.PubgAccountId }).Select(o => o.FirstOrDefault()).ToList();
+
+            var teamlist = teams;
+
+            var unique = teamPlayers.GroupBy(o => new { o.PlayerName, o.PubgAccountId }).Select(o => o.FirstOrDefault());
+
             var query = teamlist.GroupJoin(unique, tp => tp.Id, t => t.TeamId, (t, tp) => new
             {
                 TeamId = t.Id,
                 TeamName = t.Name,
                 TeamPlayers = tp.Select(s => s.PlayerName)
             });
+
             var teamlineup = new TeamLineUp();
+
             var teamlineplayers = new List<TeamLineUpPlayers>();
+
             foreach (var teamplayer in query)
             {
                 teamlineup.TeamId = teamplayer.TeamId;
+
                 teamlineup.TeamName = teamplayer.TeamName;
+
                 foreach (var player in teamplayer.TeamPlayers)
                 {
                     teamlineplayers.Add(new TeamLineUpPlayers { PlayerName = player });
                 }
                 teamlineup.TeamPlayer = teamlineplayers;
             }
+
             var result = teamlineup;
+
             return result;
 
         }
