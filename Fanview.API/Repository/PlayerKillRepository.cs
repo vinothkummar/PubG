@@ -20,8 +20,9 @@ namespace Fanview.API.Repository
 {
     public class PlayerKillRepository : IPlayerKillRepository
     {
-        private IGenericRepository<Kill> _genericRepository;
-        private IGenericRepository<CreatePlayer> _genericPlayerRepository;
+        private IGenericRepository<Kill> _Kill;
+        private IGenericRepository<LiveEventKill> _LiveEventKill;
+        private IGenericRepository<CreatePlayer> _CreatePlayer;
         private LiveGraphichsDummyData _data;
         private ILogger<PlayerKillRepository> _logger;
         private Task<HttpResponseMessage> _pubGClientResponse;
@@ -33,13 +34,15 @@ namespace Fanview.API.Repository
                                     IHttpClientRequest httpClientRequest,
                                     IGenericRepository<Kill> genericRepository,
                                     IGenericRepository<CreatePlayer> genericPlayerRepository,
+                                    IGenericRepository<LiveEventKill> genericLiveEventKillRepository,
                                     ILogger<PlayerKillRepository> logger)
         {
             _httpClientBuilder = httpClientBuilder;
             _httpClientRequest = httpClientRequest;  
-            _genericRepository = genericRepository;
-            _genericPlayerRepository = genericPlayerRepository;
+            _Kill = genericRepository;
+            _CreatePlayer = genericPlayerRepository;
             _data = new LiveGraphichsDummyData();
+            _LiveEventKill = genericLiveEventKillRepository;
 
             _logger = logger;
 
@@ -105,7 +108,7 @@ namespace Fanview.API.Repository
 
             var lastestKillEventTimeStamp = jsonToJObject.Where(x => x.Value<string>("_T") == "LogPlayerKill").Select(s => new {EventTimeStamp = s.Value<string>("_D") }).Last();
 
-            var playerCreated = _genericPlayerRepository.GetMongoDbCollection("PlayerCreated");
+            var playerCreated = _CreatePlayer.GetMongoDbCollection("PlayerCreated");
 
             var isPlayerCreated = await playerCreated.FindAsync(Builders<CreatePlayer>.Filter.Where(cn => cn.MatchId == matchId)).Result.ToListAsync();
 
@@ -113,12 +116,12 @@ namespace Fanview.API.Repository
 
                 IEnumerable<CreatePlayer> logPlayerCreate = GetLogPlayerCreated(jsonToJObject, matchId);
 
-                Func<Task> persistPlayerToMongo = async () => _genericPlayerRepository.Insert(logPlayerCreate, "PlayerCreated");
+                Func<Task> persistPlayerToMongo = async () => _CreatePlayer.Insert(logPlayerCreate, "PlayerCreated");
 
                 await Task.Run(persistPlayerToMongo);
             }
 
-            var kills = _genericRepository.GetMongoDbCollection("Kill");
+            var kills = _Kill.GetMongoDbCollection("Kill");
 
             var isKillExists = await kills.FindAsync(Builders<Kill>.Filter.Where(cn => cn.MatchId == matchId)).Result.ToListAsync();
 
@@ -126,7 +129,7 @@ namespace Fanview.API.Repository
             {
                 IEnumerable<Kill> logPlayerKill = GetLogPlayerKilled(jsonToJObject, matchId);
 
-                Func<Task> persistDataToMongo = async () => _genericRepository.Insert(logPlayerKill, "Kill");
+                Func<Task> persistDataToMongo = async () => _Kill.Insert(logPlayerKill, "Kill");
 
                 await Task.Run(persistDataToMongo);
             }
@@ -170,7 +173,7 @@ namespace Fanview.API.Repository
             _logger.LogInformation("GetPlayedKilled Repository Function call started" + Environment.NewLine);
             try
             {
-                var response = _genericRepository.GetAll("Kill").Result.Where(cn => cn.MatchId == matchId);
+                var response = _Kill.GetAll("Kill").Result.Where(cn => cn.MatchId == matchId);
 
                 // var response = _genericRepository.GetMongoDbCollection("Kill").FindAsyn(new BsonDocument());
 
@@ -191,7 +194,7 @@ namespace Fanview.API.Repository
 
         public async Task<IEnumerable<Kill>> GetLast4PlayerKilled(string matchId)
         { 
-            var response = _genericRepository.GetAll("Kill").Result.Where(cn => cn.MatchId == matchId).TakeLast(4);
+            var response = _Kill.GetAll("Kill").Result.Where(cn => cn.MatchId == matchId).TakeLast(4);
 
             return await Task.FromResult(response);
         }
@@ -256,7 +259,7 @@ namespace Fanview.API.Repository
             _logger.LogInformation("GetPlayedKilled Repository Function call started" + Environment.NewLine);
             try
             {
-                var response = _genericRepository.GetAll("Kill").Result.Where(cn => cn.MatchId == matchId1 || cn.MatchId == matchId2 || cn.MatchId == matchId3 || cn.MatchId == matchId4);
+                var response = _Kill.GetAll("Kill").Result.Where(cn => cn.MatchId == matchId1 || cn.MatchId == matchId2 || cn.MatchId == matchId3 || cn.MatchId == matchId4);
 
                 // var response = _genericRepository.GetMongoDbCollection("Kill").FindAsyn(new BsonDocument());
 
@@ -283,12 +286,55 @@ namespace Fanview.API.Repository
             return Task.FromResult(_data.GetLiveKillzone());
         }
 
-        public void InsertLiveEventTelemetry(JObject[] jsonResult)
+        public void InsertLiveKillEventTelemetry(JObject[] jsonResult, string fileName)
         {
-            var matchId = jsonResult.Where(cn => (string)cn["_T"] == "EventMatchJoin").ToList();
-            var jsonToJObject = jsonResult.Where(cn => (string)cn["_T"] == "EventKill").ToList();
+            System.DateTime dateTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
 
-            
+            var matchId = jsonResult.Where(cn => (string)cn["_T"] == "EventMatchJoin").Select(s => s.Value<string>("matchId")).FirstOrDefault();
+
+            if (matchId != null)
+            {
+                matchId = matchId.Split(".").ElementAtOrDefault(1);
+            }
+           
+
+            var kills = jsonResult.Where(cn => (string)cn["_T"] == "EventKill").Select(s => new LiveEventKill()
+            {
+                MatchId = matchId,
+                IsDetailStatus = s.Value<bool>("isDetailStatus"),
+                IsKillerMe = s.Value<bool>("isKillerMe"),
+                KillerName = s.Value<string>("killerName"),
+                KillerLocation = new Location()
+                {
+                    x = (float)s["killerLocation"]["x"],
+                    y = (float)s["killerLocation"]["y"],
+                    z = (float)s["killerLocation"]["z"],
+                },
+                KillerTeamId = s.Value<string>("killerTeamId"),
+                IsVictimMe = s.Value<bool>("isVictimMe"),
+                VictimName = s.Value<string>("victimName"),
+                VictimLocation = new Location()
+                {
+                    x = (float)s["victimLocation"]["x"],
+                    y = (float)s["victimLocation"]["y"],
+                    z = (float)s["victimLocation"]["z"],
+                },
+                VictimTeamId = s.Value<string>("victimTeamId"),
+                DamageCauser = s.Value<string>("damageCauser"),
+                DamageReason = s.Value<string>("damageReason"),
+                IsGroggy = s.Value<bool>("isGroggy"),
+                IsStealKilled = s.Value<bool>("isStealKilled"),
+                Version = (int)s["_V"],
+                EventType = (string)s["_T"],
+                EventTimeStamp = dateTime.AddSeconds((double)s["time"]).ToString(),
+                EventSourceFileName = fileName
+
+            });
+
+            if(kills.Count() > 0){
+                _LiveEventKill.Insert(kills.ToList(), "LiveEventKill");
+            }
+
         }
     }
 }

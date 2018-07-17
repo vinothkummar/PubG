@@ -14,6 +14,8 @@ namespace Fanview.API.Model
         public string Id { get; set; }
         [BsonElement("matchId")]
         public string MatchId { get; set; }
+        [BsonElement("isDetailStatus")]
+        public bool IsDetailStatus { get; set; }
         [BsonElement("isKillerMe")]
         public bool IsKillerMe { get; set; }
         [BsonElement("killerName")]
@@ -44,6 +46,8 @@ namespace Fanview.API.Model
         public string EventTimeStamp { get; set; }
         [BsonElement("eventType")]
         public string EventType { get; set; }
+        [BsonElement("eventSourceFileName")]
+        public string EventSourceFileName { get; set; }
 
     }
 }

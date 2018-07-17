@@ -81,9 +81,9 @@ namespace Fanview.API.Repository
             _logger.LogInformation("UDP Streaming Read Started " + Environment.NewLine);
             try
             {
-                var folderPathToReadFromFile = @"C:\Users\Vinoth\Documents\Fanview\Old\test_live_main";
+                var folderPathToReadFromFile = @"C:\Users\Vinoth\Documents\Fanview\17_07_2018_Game_Log_mulitple\Match 1\test_live_multiple";
 
-                var folderPathToMoveProcessedFile = @"C:\Users\Vinoth\Documents\Fanview\Old\FileProcessed";
+                var folderPathToMoveProcessedFile = @"C:\Users\Vinoth\Documents\Fanview\17_07_2018_Game_Log_mulitple\Match 1\FileProcessed";
 
                 foreach (var file in Directory.EnumerateFiles(folderPathToReadFromFile, "*.log"))
                 {
@@ -91,17 +91,15 @@ namespace Fanview.API.Repository
 
                     string contents = File.ReadAllText(file);
 
+                    var sections = file.Split('\\');
+
+                    var fileName = sections[sections.Length - 1];
+
                     var objects = Deserializeobjects(contents);
 
                     var array = objects.ToArray();
 
-                    _playerKillRepository.InsertLiveEventTelemetry(array);
-
-                   
-
-                    var sections = file.Split('\\');
-
-                    var fileName = sections[sections.Length - 1];
+                    _playerKillRepository.InsertLiveKillEventTelemetry(array, fileName);
                    
                     File.Move(file, folderPathToMoveProcessedFile + "\\" + fileName);
                 }
