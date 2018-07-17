@@ -13,10 +13,12 @@ namespace Fanview.API.BusinessLayer
     public class IndividualPlayerKilled : IKillingRule
     {       
         private IReadAssets _readAssets;
-        
-        public IndividualPlayerKilled(IReadAssets readAssets)
+        private ITeamRepository _teamRepository;
+
+        public IndividualPlayerKilled(IReadAssets readAssets, ITeamRepository teamRepository)
         {            
-            _readAssets = readAssets;            
+            _readAssets = readAssets;
+            _teamRepository = teamRepository;
         }
         public IEnumerable<KilliPrinter> PlayerKilledOrTeamEliminiated(IEnumerable<Kill> playerKilled)
         {
@@ -186,6 +188,77 @@ namespace Fanview.API.BusinessLayer
                             .ToList();
 
             return (TeamCount - memberKeys.Count);            
+        }
+
+        public IEnumerable<KilliPrinter> LiveKilledOrTeamEliminiated(IEnumerable<LiveEventKill> playerKilled)
+        {
+            var result = playerKilled
+                                       .Select(s => new
+                                       {
+                                           TimeKilled = s.EventTimeStamp,
+                                           KillerName = s.KillerName,
+                                           VictimName = s.VictimName,
+                                           DamageCause = s.DamageCauser,
+                                           s.DamageReason,
+                                           VictimTeamId = s.VictimTeamId,
+                                           KillerTeamId = s.KillerTeamId,
+                                           s.IsGroggy
+                                           
+                                       }).OrderBy(o => o.TimeKilled);
+
+            var killiPrinter = new List<KilliPrinter>();
+
+            var teamCount = new List<int>();
+
+            foreach (var item in result.Where(c => c.IsGroggy == false))
+            {
+                var playerLeftCount = 80 - killiPrinter.Count();
+
+                var playerLeft = playerLeftCount == 1 ? "winner" : playerLeftCount.ToString() + " LEFT";
+
+                var playerKillMessage = new PlayerKilledGraphics()
+                {
+                    TimeKilled = $"{DateTime.Parse(item.TimeKilled).ToString("mm:ss")}",
+                    KillerName = $"{item.KillerName.ToUpper()}",
+                    FreeText1 = $"KILLED",
+                    VictimName = $"{item.VictimName.ToUpper()}",
+                    FreeText2 = $"WITH",
+                    DamagedCausedBy = $"{_readAssets.GetDamageCauserName(item.DamageCause).ToUpper()} ",
+                    PlayerLeft = $"{playerLeft}"
+                };
+
+
+                TeamEliminated teamEliminatedMessage = null;
+
+                teamCount.Add(item.VictimTeamId);
+
+                var teamPlayerCount = playerKilled.Where(cn => cn.VictimTeamId == item.VictimTeamId && cn.IsGroggy == false).Count();
+
+                if (teamCount.Where(cn => cn == item.VictimTeamId).Count() == teamPlayerCount )
+                {
+                    var teamEliminatedCount = killiPrinter.Where(cn => cn.TeamEliminated != null).Count() == 0 ? 1 : killiPrinter.Where(cn => cn.TeamEliminated != null).Count();
+
+                    var teamLeftCount = playerKilled.GroupBy(g => g.KillerTeamId).Count() - teamEliminatedCount ;
+                    
+                    var teamLeft = teamLeftCount == 1 ? "winner" : teamLeftCount.ToString() + " LEFT";
+
+                    teamEliminatedMessage = new TeamEliminated()
+                    {
+                        TimeElimnated = $"{DateTime.Parse(item.TimeKilled).ToString("mm:ss")}",
+                        FreeText1 = $"Team",
+                        TeamId = $"{item.VictimTeamId}",
+                        FreeText2 = $"HAS BEEN ELIMINATED",
+                        TeamLeft = $"{teamLeft}"
+                    };
+                }
+
+                var killMessage = new KilliPrinter() { PlayerKilled = playerKillMessage, TeamEliminated = teamEliminatedMessage };
+
+
+                killiPrinter.Add(killMessage);
+            }
+
+            return killiPrinter;
         }
     }
 }

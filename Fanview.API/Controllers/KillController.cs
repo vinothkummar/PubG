@@ -92,7 +92,7 @@ namespace Fanview.API.Controllers
 
         // GET: api/Telemetry
         /// <summary>
-        /// Returns Killiprinter JSON for the given Match Id     
+        /// Returns Killiprinter JSON for the given Match Id on the match live     
         /// </summary>
         /// <remarks>
         /// Sample request: Killiprinter/{matchId}/All         
@@ -102,12 +102,12 @@ namespace Fanview.API.Controllers
         [HttpGet("Killiprinter/{matchId}/All", Name = "GetAllKilliprinterForGraphics")]
         public IEnumerable<KilliPrinter> GetAllKilliprinterForGraphics(string matchId)
         {
-            return _playerKilled.GetPlayerKilled(matchId);
+            return _playerKilled.GetLivePlayerKilled(matchId);
         }
 
         // GET: api/Telemetry
         /// <summary>
-        /// Returns Last 4 Killiprinter JSON for the given Match Id     
+        /// Returns Last 4 Killiprinter JSON for the given Match Id on the match live    
         /// </summary>
         /// <remarks>
         /// Sample request: Killiprinter/{matchId}/ Last4/Text         
@@ -117,7 +117,7 @@ namespace Fanview.API.Controllers
         [HttpGet("Killiprinter/{matchId}/Last4", Name = "GetLast4KilliprinterForGraphics")]
         public IEnumerable<KilliPrinter> GetLast4KilliprinterForGraphics(string matchId)
         {
-            return _playerKilled.GetPlayerKilled(matchId).TakeLast(4);
+            return _playerKilled.GetLivePlayerKilled(matchId).TakeLast(4);
         }
 
         /// <summary>

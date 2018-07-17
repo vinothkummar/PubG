@@ -19,8 +19,7 @@ namespace Fanview.API.BusinessLayer
         private IGenericRepository<RankPoints> _genericRankPointsRepository;
         private IGenericRepository<MatchRanking> _genericMatchRankingRepository;       
         private ITeamRepository _teamRepository;
-        private ITeamPlayerRepository _teamPlayerRespository;
-        private IKillingRule _teamKill;        
+        private ITeamPlayerRepository _teamPlayerRespository;               
 
         public Ranking(ILogger<Ranking> logger, IMatchSummaryRepository matchSummaryRepository, 
                        IPlayerKillRepository playerKillRepository, 
@@ -35,8 +34,7 @@ namespace Fanview.API.BusinessLayer
             _genericRankPointsRepository = genericRankPointsRepository;
             _genericMatchRankingRepository = genericMatchRankingRepository;           
             _teamRepository = teamRepository;
-            _teamPlayerRespository = teamPlayerRepository;
-            _teamKill = new IndividualPlayerKilled(readAssets);
+            _teamPlayerRespository = teamPlayerRepository;           
         }
 
         public async Task<IEnumerable<MatchRanking>> CalculateMatchRanking(string matchId)
@@ -213,8 +211,6 @@ namespace Fanview.API.BusinessLayer
         }
         public async Task<IEnumerable<MatchRanking>> PollAndGetMatchRanking(string matchId)
         {
-            
-
                 //Task taskA = Task.Factory.StartNew(() =>  _matchSummaryRepository.PollMatchRoundRankingData(matchId));
                 await _matchSummaryRepository.PollMatchRoundRankingData(matchId);
 
@@ -242,15 +238,6 @@ namespace Fanview.API.BusinessLayer
         private IEnumerable<TeamRankPoints> GetTeamEliminatedPosition(IEnumerable<Kill> kills, string matchId, int totalTeamCount)
         {
             var teamPlayers = _teamPlayerRespository.GetTeamPlayers(matchId).Result;
-
-            //var playersKilled = kills.Join(teamPlayers, pk => pk.Victim.AccountId, tp => tp.PubgAccountId,
-            //                                       (pk, tp) => new { pk, tp }).Select(s => new
-            //                                       {
-            //                                           VictimTeamId = s.pk.Victim.TeamId,
-            //                                           TeamId = s.tp.TeamId,
-            //                                           PlayerAccountId = s.tp.PubgAccountId
-
-            //                                       });
 
             var playersCreated = _teamPlayerRespository.GetPlayersCreated(matchId).Result;
 

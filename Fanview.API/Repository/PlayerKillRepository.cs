@@ -29,6 +29,7 @@ namespace Fanview.API.Repository
         private DateTime killEventlastTimeStamp = DateTime.MinValue;
         private IClientBuilder _httpClientBuilder;
         private IHttpClientRequest _httpClientRequest;
+        private string _matchId;
 
         public PlayerKillRepository(IClientBuilder httpClientBuilder,
                                     IHttpClientRequest httpClientRequest,
@@ -170,27 +171,48 @@ namespace Fanview.API.Repository
 
         public async Task<IEnumerable<Kill>> GetPlayerKilled(string matchId)
         {
-            _logger.LogInformation("GetPlayedKilled Repository Function call started" + Environment.NewLine);
+            _logger.LogInformation("GetPlayedKiller Repository call started" + Environment.NewLine);
             try
             {
                 var response = _Kill.GetAll("Kill").Result.Where(cn => cn.MatchId == matchId);
 
                 // var response = _genericRepository.GetMongoDbCollection("Kill").FindAsyn(new BsonDocument());
 
-                _logger.LogInformation("GetPlayedKilled Repository Function call completed" + Environment.NewLine);
+                _logger.LogInformation("GetPlayedKiller Repository call completed" + Environment.NewLine);
 
                 return await Task.FromResult(response);
 
             }
             catch (Exception exception)
             {
-                _logger.LogError(exception, "GetPlayedKilled");
+                _logger.LogError(exception, "GetPlayerKilled");
 
                 throw;
             }            
         }
 
 
+        public async Task<IEnumerable<LiveEventKill>> GetLiveKilled(string matchId)
+        {
+            _logger.LogInformation("GetLivePlayerKilled Repository call started" + Environment.NewLine);
+            try
+            {
+                var response = _LiveEventKill.GetAll("LiveEventKill").Result.Where(cn => cn.MatchId == matchId);
+
+                // var response = _genericRepository.GetMongoDbCollection("Kill").FindAsyn(new BsonDocument());
+
+                _logger.LogInformation("GetLivePlayerKilled Repository call completed" + Environment.NewLine);
+
+                return await Task.FromResult(response);
+
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError(exception, "GetlivePlayerKilled");
+
+                throw;
+            }
+        }
 
         public async Task<IEnumerable<Kill>> GetLast4PlayerKilled(string matchId)
         { 
@@ -290,17 +312,25 @@ namespace Fanview.API.Repository
         {
             System.DateTime dateTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
 
-            var matchId = jsonResult.Where(cn => (string)cn["_T"] == "EventMatchJoin").Select(s => s.Value<string>("matchId")).FirstOrDefault();
 
-            if (matchId != null)
+            if(jsonResult.Where(cn => (string)cn["_T"] == "EventMatchJoin").Count() > 0)
             {
-                matchId = matchId.Split(".").ElementAtOrDefault(1);
+               _matchId = jsonResult.Where(cn => (string)cn["_T"] == "EventMatchJoin").Select(s => s.Value<string>("matchId")).FirstOrDefault();
+
+                if (_matchId != null)
+                {
+                    _matchId = _matchId.Split(".").ElementAtOrDefault(1);
+                }
             }
+
+            
+
+            
            
 
             var kills = jsonResult.Where(cn => (string)cn["_T"] == "EventKill").Select(s => new LiveEventKill()
             {
-                MatchId = matchId,
+                MatchId = _matchId,
                 IsDetailStatus = s.Value<bool>("isDetailStatus"),
                 IsKillerMe = s.Value<bool>("isKillerMe"),
                 KillerName = s.Value<string>("killerName"),
@@ -310,7 +340,7 @@ namespace Fanview.API.Repository
                     y = (float)s["killerLocation"]["y"],
                     z = (float)s["killerLocation"]["z"],
                 },
-                KillerTeamId = s.Value<string>("killerTeamId"),
+                KillerTeamId = s.Value<int>("killerTeamId"),
                 IsVictimMe = s.Value<bool>("isVictimMe"),
                 VictimName = s.Value<string>("victimName"),
                 VictimLocation = new Location()
@@ -319,7 +349,7 @@ namespace Fanview.API.Repository
                     y = (float)s["victimLocation"]["y"],
                     z = (float)s["victimLocation"]["z"],
                 },
-                VictimTeamId = s.Value<string>("victimTeamId"),
+                VictimTeamId = s.Value<int>("victimTeamId"),
                 DamageCauser = s.Value<string>("damageCauser"),
                 DamageReason = s.Value<string>("damageReason"),
                 IsGroggy = s.Value<bool>("isGroggy"),
@@ -336,5 +366,7 @@ namespace Fanview.API.Repository
             }
 
         }
+
+       
     }
 }

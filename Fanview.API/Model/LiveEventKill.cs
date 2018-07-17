@@ -23,7 +23,7 @@ namespace Fanview.API.Model
         [BsonElement("killerLocation")]
         public Location KillerLocation { get; set; }
         [BsonElement("killerTeamId")]
-        public string KillerTeamId { get; set; }
+        public int KillerTeamId { get; set; }
         [BsonElement("isVictimMe")]
         public bool IsVictimMe { get; set; }
         [BsonElement("victimName")]
@@ -31,7 +31,7 @@ namespace Fanview.API.Model
         [BsonElement("victimLocation")]
         public Location VictimLocation { get; set; }
         [BsonElement("victimTeamId")]
-        public string VictimTeamId { get; set; }
+        public int VictimTeamId { get; set; }
         [BsonElement("damageCauser")]
         public string DamageCauser { get; set; }
         [BsonElement("damageReason")]
