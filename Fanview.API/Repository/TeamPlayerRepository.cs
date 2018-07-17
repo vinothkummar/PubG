@@ -14,7 +14,7 @@ namespace Fanview.API.Repository
     {
         private IGenericRepository<TeamPlayer> _genericTeamPlayerRepository;
         private ILogger<TeamRepository> _logger;
-        private IGenericRepository<Team> _gebericTeamRepository;
+        private IGenericRepository<Team> _genericTeamRepository;
         private IGenericRepository<CreatePlayer> _genericPlayerRepository;
 
         public TeamPlayerRepository(IGenericRepository<TeamPlayer> genericRepository, ILogger<TeamRepository> logger,
@@ -25,7 +25,7 @@ namespace Fanview.API.Repository
             _genericTeamPlayerRepository = genericRepository;
 
             _logger = logger;
-            _gebericTeamRepository= teamgenericRepository;
+            _genericTeamRepository= teamgenericRepository;
             _genericPlayerRepository = genericPlayerRepository;
         }
 
@@ -63,7 +63,31 @@ namespace Fanview.API.Repository
         {
 
 
-            return null;
+            var teamPlayers = await _genericTeamPlayerRepository.GetAll("TeamPlayers");
+            var teamplayerlist = teamPlayers.ToList();
+            var teams = await _genericTeamRepository.GetAll("Team");
+            var teamlist = teams.ToList();
+            var unique = teamPlayers.GroupBy(o => new { o.PlayerName, o.PubgAccountId }).Select(o => o.FirstOrDefault()).ToList();
+            var query = teamlist.GroupJoin(unique, tp => tp.Id, t => t.TeamId, (t, tp) => new
+            {
+                TeamId = t.Id,
+                TeamName = t.Name,
+                TeamPlayers = tp.Select(s => s.PlayerName)
+            });
+            var teamlineup = new TeamLineUp();
+            var teamlineplayers = new List<TeamLineUpPlayers>();
+            foreach (var teamplayer in query)
+            {
+                teamlineup.TeamId = teamplayer.TeamId;
+                teamlineup.TeamName = teamplayer.TeamName;
+                foreach (var player in teamplayer.TeamPlayers)
+                {
+                    teamlineplayers.Add(new TeamLineUpPlayers { PlayerName = player });
+                }
+                teamlineup.TeamPlayer = teamlineplayers;
+            }
+            var result = teamlineup;
+            return result;
 
         }
 
