@@ -14,14 +14,14 @@ namespace Fanview.API.Repository
     {
         private IGenericRepository<TeamPlayer> _genericTeamPlayerRepository;
         private ILogger<TeamRepository> _logger;
-        private IGenericRepository<Team> _gebericTeamRepository;
+        private IGenericRepository<Team> _genericTeamRepository;
 
         public TeamPlayerRepository(IGenericRepository<TeamPlayer> genericRepository, ILogger<TeamRepository> logger,IGenericRepository<Team> teamgenericRepository)
         {
             _genericTeamPlayerRepository = genericRepository;
 
             _logger = logger;
-            _gebericTeamRepository= teamgenericRepository;
+            _genericTeamRepository= teamgenericRepository;
         }
 
         public async Task<IEnumerable<TeamPlayer>> GetPlayerMatchup(string playerId1, string playerId2)
@@ -55,9 +55,10 @@ namespace Fanview.API.Repository
         {
             var teamPlayers = await _genericTeamPlayerRepository.GetAll("TeamPlayers");
             var teamplayerlist=teamPlayers.ToList();
-            var teams = await _gebericTeamRepository.GetAll("Team");
+            var teams = await _genericTeamRepository.GetAll("Team");
             var teamlist = teams.ToList();
-            var query =teamlist.GroupJoin(teamplayerlist, tp => tp.Id, t => t.TeamId, (t, tp) => new
+            var unique = teamPlayers.GroupBy(o => new { o.PlayerName, o.PubgAccountId }).Select(o=>o.FirstOrDefault()).ToList();
+            var query =teamlist.GroupJoin(unique, tp => tp.Id, t => t.TeamId, (t, tp) => new
             {
                 TeamId = t.Id,
                 TeamName = t.Name,
@@ -76,7 +77,7 @@ namespace Fanview.API.Repository
                 teamlineup.TeamPlayer = teamlineplayers;
             }
             var result = teamlineup;
-            return null;
+            return result;
 
         }
 

@@ -15,5 +15,9 @@ namespace Fanview.API.Model
         public string Id { get; set; }
         [BsonElement("name")]
         public string Name { get; set; }
+        //[BsonElement("shortname")]
+        //public string shortname { get; set; }
+        //[BsonElement("region")]
+        //public string region { get; set; }
     }
 }
