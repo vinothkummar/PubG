@@ -61,10 +61,19 @@ namespace Fanview.API.Controllers
         ///// <remarks>
         ///// Sample request: GetAllPlayers
         ///// </remarks>
-        [HttpGet("players", Name = "GetAllPlayer")]
+        [HttpGet("All", Name = "GetAllPlayer")]
         public Task<IEnumerable<TeamPlayer>> GetAllPlayer()
         {
-            return _teamPlayerRepository.GetTeamPlayers();
+            try
+            {
+                return _teamPlayerRepository.GetTeamPlayers();
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+           
         }
 
         //////GET:api/TeamLineUp

@@ -11,641 +11,641 @@ namespace Fanview.API.GraphicsDummyData
     {
         public LiveStatus GetDummyLiveStatus()
         {
-            var liveStatus = new LiveStatus()
-            {
-                MatchName = "Day-1",
-                MatchID = 1,
-                Teams = new List<LiveTeam>
-                {
-                    new LiveTeam
-                    {
-                        Name="Team1",
-                        Id="1",
-                        TeamPlayers=new List<LiveTeamPlayers>
-                        {
-                            new LiveTeamPlayers
-                            {
-                                PlayerName="player1",
-                                PlayeId=1,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player2",
-                                PlayeId=2,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player3",
-                                PlayeId=3,
-                                PlayerStatus=false
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player4",
-                                PlayeId=4,
-                                PlayerStatus=false
-                            },
-                        }
-                    },
-                      new LiveTeam
-                    {
-                        Name="Team2",
-                        Id="2",
-                        TeamPlayers=new List<LiveTeamPlayers>
-                        {
-                            new LiveTeamPlayers
-                            {
-                                PlayerName="player1",
-                                PlayeId=1,
-                                PlayerStatus=true
-                            },
-                            new LiveTeamPlayers
-                            {
-                                PlayerName="player4",
-                                PlayeId=4,
-                                PlayerStatus=true
-                            } ,
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player2",
-                                PlayeId=2,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player3",
-                                PlayeId=3,
-                                PlayerStatus=false
-                           },
-                            }
-                    },
-                     new LiveTeam
-                    {
-                        Name="Team3",
-                        Id="3",
-                           TeamPlayers=new List<LiveTeamPlayers>
-                        {
-                            new LiveTeamPlayers
-                            {
-                                PlayerName="player1",
-                                PlayeId=1,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player2",
-                                PlayeId=2,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player3",
-                                PlayeId=3,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player4",
-                                PlayeId=4,
-                                PlayerStatus=false
-                            } }
-                    },
-                     new LiveTeam
-                    {
-                        Name="Team4",
-                        Id="4",
-                           TeamPlayers=new List<LiveTeamPlayers>
-                        {
-                            new LiveTeamPlayers
-                            {
-                                PlayerName="player1",
-                                PlayeId=1,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player2",
-                                PlayeId=2,
-                                PlayerStatus=false
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player3",
-                                PlayeId=3,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player4",
-                                PlayeId=4,
-                                PlayerStatus=false
-                            } }
-                    },
-                    new LiveTeam
-                    {
-                        Name="Team5",
-                        Id="5",
-                           TeamPlayers=new List<LiveTeamPlayers>
-                        {
-                            new LiveTeamPlayers
-                            {
-                                PlayerName="player1",
-                                PlayeId=1,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player2",
-                                PlayeId=2,
-                                PlayerStatus=false
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player3",
-                                PlayeId=3,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player4",
-                                PlayeId=4,
-                                PlayerStatus=false
-                            } }
-                    },
-                    new LiveTeam
-                    {
-                        Name="Team6",
-                        Id="6",
-                           TeamPlayers=new List<LiveTeamPlayers>
-                        {
-                            new LiveTeamPlayers
-                            {
-                                PlayerName="player1",
-                                PlayeId=1,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player2",
-                                PlayeId=2,
-                                PlayerStatus=false
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player3",
-                                PlayeId=3,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player4",
-                                PlayeId=4,
-                                PlayerStatus=false
-                            } }
-                    },
-                    new LiveTeam
-                    {
-                        Name="Team7",
-                        Id="7",
-                           TeamPlayers=new List<LiveTeamPlayers>
-                        {
-                            new LiveTeamPlayers
-                            {
-                                PlayerName="player1",
-                                PlayeId=1,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player2",
-                                PlayeId=2,
-                                PlayerStatus=false
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player3",
-                                PlayeId=3,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player4",
-                                PlayeId=4,
-                                PlayerStatus=false
-                            } }
-                    },
-                    new LiveTeam
-                    {
-                        Name="Team8",
-                        Id="8",
-                           TeamPlayers=new List<LiveTeamPlayers>
-                        {
-                            new LiveTeamPlayers
-                            {
-                                PlayerName="player1",
-                                PlayeId=1,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player2",
-                                PlayeId=2,
-                                PlayerStatus=false
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player3",
-                                PlayeId=3,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player4",
-                                PlayeId=4,
-                                PlayerStatus=false
-                            } }
-                    },
-                    new LiveTeam
-                    {
-                        Name="Team9",
-                        Id="9",
-                           TeamPlayers=new List<LiveTeamPlayers>
-                        {
-                            new LiveTeamPlayers
-                            {
-                                PlayerName="player1",
-                                PlayeId=1,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player2",
-                                PlayeId=2,
-                                PlayerStatus=false
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player3",
-                                PlayeId=3,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player4",
-                                PlayeId=4,
-                                PlayerStatus=false
-                            } }
-                    },
-                     new LiveTeam
-                    {
-                        Name="Team10",
-                        Id="10",
-                           TeamPlayers=new List<LiveTeamPlayers>
-                        {
-                            new LiveTeamPlayers
-                            {
-                                PlayerName="player1",
-                                PlayeId=1,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player2",
-                                PlayeId=2,
-                                PlayerStatus=false
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player3",
-                                PlayeId=3,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player4",
-                                PlayeId=4,
-                                PlayerStatus=false
-                            } }
-                    },
-                     new LiveTeam
-                    {
-                        Name="Team11",
-                        Id="11",
-                           TeamPlayers=new List<LiveTeamPlayers>
-                        {
-                            new LiveTeamPlayers
-                            {
-                                PlayerName="player1",
-                                PlayeId=1,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player2",
-                                PlayeId=2,
-                                PlayerStatus=false
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player3",
-                                PlayeId=3,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player4",
-                                PlayeId=4,
-                                PlayerStatus=false
-                            } }
-                    },
-                     new LiveTeam
-                    {
-                        Name="Team12",
-                        Id="12",
-                           TeamPlayers=new List<LiveTeamPlayers>
-                        {
-                            new LiveTeamPlayers
-                            {
-                                PlayerName="player1",
-                                PlayeId=1,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player2",
-                                PlayeId=2,
-                                PlayerStatus=false
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player3",
-                                PlayeId=3,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player4",
-                                PlayeId=4,
-                                PlayerStatus=false
-                            } }
-                    },
-                     new LiveTeam
-                    {
-                        Name="Team13",
-                        Id="13",
-                           TeamPlayers=new List<LiveTeamPlayers>
-                        {
-                            new LiveTeamPlayers
-                            {
-                                PlayerName="player1",
-                                PlayeId=1,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player2",
-                                PlayeId=2,
-                                PlayerStatus=false
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player3",
-                                PlayeId=3,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player4",
-                                PlayeId=4,
-                                PlayerStatus=false
-                            } }
-                    },
-                      new LiveTeam
-                    {
-                        Name="Team14",
-                        Id="14",
-                           TeamPlayers=new List<LiveTeamPlayers>
-                        {
-                            new LiveTeamPlayers
-                            {
-                                PlayerName="player1",
-                                PlayeId=1,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player2",
-                                PlayeId=2,
-                                PlayerStatus=false
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player3",
-                                PlayeId=3,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player4",
-                                PlayeId=4,
-                                PlayerStatus=false
-                            } }
-                    },
-                      new LiveTeam
-                    {
-                        Name="Team15",
-                        Id="15",
-                           TeamPlayers=new List<LiveTeamPlayers>
-                        {
-                            new LiveTeamPlayers
-                            {
-                                PlayerName="player1",
-                                PlayeId=1,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player2",
-                                PlayeId=2,
-                                PlayerStatus=false
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player3",
-                                PlayeId=3,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player4",
-                                PlayeId=4,
-                                PlayerStatus=false
-                            } }
-                    },
-                      new LiveTeam
-                    {
-                        Name="Team16",
-                        Id="16",
-                           TeamPlayers=new List<LiveTeamPlayers>
-                        {
-                            new LiveTeamPlayers
-                            {
-                                PlayerName="player1",
-                                PlayeId=1,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player2",
-                                PlayeId=2,
-                                PlayerStatus=false
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player3",
-                                PlayeId=3,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player4",
-                                PlayeId=4,
-                                PlayerStatus=false
-                            } }
-                    },
-                      new LiveTeam
-                    {
-                        Name="Team17",
-                        Id="17",
-                           TeamPlayers=new List<LiveTeamPlayers>
-                        {
-                            new LiveTeamPlayers
-                            {
-                                PlayerName="player1",
-                                PlayeId=1,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player2",
-                                PlayeId=2,
-                                PlayerStatus=false
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player3",
-                                PlayeId=3,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player4",
-                                PlayeId=4,
-                                PlayerStatus=false
-                            } }
-                    },
-                      new LiveTeam
-                    {
-                        Name="Team18",
-                        Id="18",
-                           TeamPlayers=new List<LiveTeamPlayers>
-                        {
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player2",
-                                PlayeId=2,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player3",
-                                PlayeId=3,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player4",
-                                PlayeId=4,
-                                PlayerStatus=true
-                            },
-                            new LiveTeamPlayers
-                            {
-                                PlayerName="player1",
-                                PlayeId=1,
-                                PlayerStatus=false
-                            }}
-                    },
-                          new LiveTeam
-                        {
-                            Name="Team19",
-                            Id="19",
-                               TeamPlayers=new List<LiveTeamPlayers>
-                            {
-                                new LiveTeamPlayers
-                                {
-                                    PlayerName="player1",
-                                    PlayeId=1,
-                                    PlayerStatus=true
-                                },
-                                 new LiveTeamPlayers
-                                {
-                                    PlayerName="player2",
-                                    PlayeId=2,
-                                    PlayerStatus=true
-                                },
-                                 new LiveTeamPlayers
-                                {
-                                    PlayerName="player3",
-                                    PlayeId=3,
-                                    PlayerStatus=true
-                                },
-                                 new LiveTeamPlayers
-                                {
-                                    PlayerName="player4",
-                                    PlayeId=4,
-                                    PlayerStatus=false
-                                } }
-                        },
-                      new LiveTeam
-                    {
-                        Name="Team20",
-                        Id="20",
-                           TeamPlayers=new List<LiveTeamPlayers>
-                        {
-                            new LiveTeamPlayers
-                            {
-                                PlayerName="player1",
-                                PlayeId=1,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player3",
-                                PlayeId=3,
-                                PlayerStatus=true
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player2",
-                                PlayeId=2,
-                                PlayerStatus=false
-                            },
-                             new LiveTeamPlayers
-                            {
-                                PlayerName="player4",
-                                PlayeId=4,
-                                PlayerStatus=false
-                            } }
-                    },
+            //var liveStatus = new LiveStatus()
+            //{
+            //    MatchName = "Day-1",
+            //    MatchID = "1",
+            //    Teams = new List<LiveTeam>
+            //    {
+            //        new LiveTeam
+            //        {
+            //            Name="Team1",
+            //            Id="1",
+            //            TeamPlayers=new List<LiveTeamPlayers>
+            //            {
+            //                new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player1",
+            //                    PlayeId=1,
+            //                    PlayerStatus=true
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player2",
+            //                    PlayeId=2,
+            //                    PlayerStatus=true
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player3",
+            //                    PlayeId=3,
+            //                    PlayerStatus=false
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player4",
+            //                    PlayeId=4,
+            //                    PlayerStatus=false
+            //                },
+            //            }
+            //        },
+            //          new LiveTeam
+            //        {
+            //            Name="Team2",
+            //            Id="2",
+            //            TeamPlayers=new List<LiveTeamPlayers>
+            //            {
+            //                new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player1",
+            //                    PlayeId=1,
+            //                    PlayerStatus=true
+            //                },
+            //                new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player4",
+            //                    PlayeId=4,
+            //                    PlayerStatus=true
+            //                } ,
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player2",
+            //                    PlayeId=2,
+            //                    PlayerStatus=true
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player3",
+            //                    PlayeId=3,
+            //                    PlayerStatus=false
+            //               },
+            //                }
+            //        },
+            //         new LiveTeam
+            //        {
+            //            Name="Team3",
+            //            Id="3",
+            //               TeamPlayers=new List<LiveTeamPlayers>
+            //            {
+            //                new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player1",
+            //                    PlayeId=1,
+            //                    PlayerStatus=true
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player2",
+            //                    PlayeId=2,
+            //                    PlayerStatus=true
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player3",
+            //                    PlayeId=3,
+            //                    PlayerStatus=true
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player4",
+            //                    PlayeId=4,
+            //                    PlayerStatus=false
+            //                } }
+            //        },
+            //         new LiveTeam
+            //        {
+            //            Name="Team4",
+            //            Id="4",
+            //               TeamPlayers=new List<LiveTeamPlayers>
+            //            {
+            //                new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player1",
+            //                    PlayeId=1,
+            //                    PlayerStatus=true
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player2",
+            //                    PlayeId=2,
+            //                    PlayerStatus=false
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player3",
+            //                    PlayeId=3,
+            //                    PlayerStatus=true
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player4",
+            //                    PlayeId=4,
+            //                    PlayerStatus=false
+            //                } }
+            //        },
+            //        new LiveTeam
+            //        {
+            //            Name="Team5",
+            //            Id="5",
+            //               TeamPlayers=new List<LiveTeamPlayers>
+            //            {
+            //                new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player1",
+            //                    PlayeId=1,
+            //                    PlayerStatus=true
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player2",
+            //                    PlayeId=2,
+            //                    PlayerStatus=false
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player3",
+            //                    PlayeId=3,
+            //                    PlayerStatus=true
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player4",
+            //                    PlayeId=4,
+            //                    PlayerStatus=false
+            //                } }
+            //        },
+            //        new LiveTeam
+            //        {
+            //            Name="Team6",
+            //            Id="6",
+            //               TeamPlayers=new List<LiveTeamPlayers>
+            //            {
+            //                new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player1",
+            //                    PlayeId=1,
+            //                    PlayerStatus=true
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player2",
+            //                    PlayeId=2,
+            //                    PlayerStatus=false
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player3",
+            //                    PlayeId=3,
+            //                    PlayerStatus=true
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player4",
+            //                    PlayeId=4,
+            //                    PlayerStatus=false
+            //                } }
+            //        },
+            //        new LiveTeam
+            //        {
+            //            Name="Team7",
+            //            Id="7",
+            //               TeamPlayers=new List<LiveTeamPlayers>
+            //            {
+            //                new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player1",
+            //                    PlayeId=1,
+            //                    PlayerStatus=true
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player2",
+            //                    PlayeId=2,
+            //                    PlayerStatus=false
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player3",
+            //                    PlayeId=3,
+            //                    PlayerStatus=true
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player4",
+            //                    PlayeId=4,
+            //                    PlayerStatus=false
+            //                } }
+            //        },
+            //        new LiveTeam
+            //        {
+            //            Name="Team8",
+            //            Id="8",
+            //               TeamPlayers=new List<LiveTeamPlayers>
+            //            {
+            //                new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player1",
+            //                    PlayeId=1,
+            //                    PlayerStatus=true
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player2",
+            //                    PlayeId=2,
+            //                    PlayerStatus=false
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player3",
+            //                    PlayeId=3,
+            //                    PlayerStatus=true
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player4",
+            //                    PlayeId=4,
+            //                    PlayerStatus=false
+            //                } }
+            //        },
+            //        new LiveTeam
+            //        {
+            //            Name="Team9",
+            //            Id="9",
+            //               TeamPlayers=new List<LiveTeamPlayers>
+            //            {
+            //                new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player1",
+            //                    PlayeId=1,
+            //                    PlayerStatus=true
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player2",
+            //                    PlayeId=2,
+            //                    PlayerStatus=false
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player3",
+            //                    PlayeId=3,
+            //                    PlayerStatus=true
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player4",
+            //                    PlayeId=4,
+            //                    PlayerStatus=false
+            //                } }
+            //        },
+            //         new LiveTeam
+            //        {
+            //            Name="Team10",
+            //            Id="10",
+            //               TeamPlayers=new List<LiveTeamPlayers>
+            //            {
+            //                new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player1",
+            //                    PlayeId=1,
+            //                    PlayerStatus=true
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player2",
+            //                    PlayeId=2,
+            //                    PlayerStatus=false
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player3",
+            //                    PlayeId=3,
+            //                    PlayerStatus=true
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player4",
+            //                    PlayeId=4,
+            //                    PlayerStatus=false
+            //                } }
+            //        },
+            //         new LiveTeam
+            //        {
+            //            Name="Team11",
+            //            Id="11",
+            //               TeamPlayers=new List<LiveTeamPlayers>
+            //            {
+            //                new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player1",
+            //                    PlayeId=1,
+            //                    PlayerStatus=true
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player2",
+            //                    PlayeId=2,
+            //                    PlayerStatus=false
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player3",
+            //                    PlayeId=3,
+            //                    PlayerStatus=true
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player4",
+            //                    PlayeId=4,
+            //                    PlayerStatus=false
+            //                } }
+            //        },
+            //         new LiveTeam
+            //        {
+            //            Name="Team12",
+            //            Id="12",
+            //               TeamPlayers=new List<LiveTeamPlayers>
+            //            {
+            //                new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player1",
+            //                    PlayeId=1,
+            //                    PlayerStatus=true
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player2",
+            //                    PlayeId=2,
+            //                    PlayerStatus=false
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player3",
+            //                    PlayeId=3,
+            //                    PlayerStatus=true
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player4",
+            //                    PlayeId=4,
+            //                    PlayerStatus=false
+            //                } }
+            //        },
+            //         new LiveTeam
+            //        {
+            //            Name="Team13",
+            //            Id="13",
+            //               TeamPlayers=new List<LiveTeamPlayers>
+            //            {
+            //                new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player1",
+            //                    PlayeId=1,
+            //                    PlayerStatus=true
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player2",
+            //                    PlayeId=2,
+            //                    PlayerStatus=false
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player3",
+            //                    PlayeId=3,
+            //                    PlayerStatus=true
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player4",
+            //                    PlayeId=4,
+            //                    PlayerStatus=false
+            //                } }
+            //        },
+            //          new LiveTeam
+            //        {
+            //            Name="Team14",
+            //            Id="14",
+            //               TeamPlayers=new List<LiveTeamPlayers>
+            //            {
+            //                new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player1",
+            //                    PlayeId=1,
+            //                    PlayerStatus=true
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player2",
+            //                    PlayeId=2,
+            //                    PlayerStatus=false
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player3",
+            //                    PlayeId=3,
+            //                    PlayerStatus=true
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player4",
+            //                    PlayeId=4,
+            //                    PlayerStatus=false
+            //                } }
+            //        },
+            //          new LiveTeam
+            //        {
+            //            Name="Team15",
+            //            Id="15",
+            //               TeamPlayers=new List<LiveTeamPlayers>
+            //            {
+            //                new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player1",
+            //                    PlayeId=1,
+            //                    PlayerStatus=true
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player2",
+            //                    PlayeId=2,
+            //                    PlayerStatus=false
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player3",
+            //                    PlayeId=3,
+            //                    PlayerStatus=true
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player4",
+            //                    PlayeId=4,
+            //                    PlayerStatus=false
+            //                } }
+            //        },
+            //          new LiveTeam
+            //        {
+            //            Name="Team16",
+            //            Id="16",
+            //               TeamPlayers=new List<LiveTeamPlayers>
+            //            {
+            //                new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player1",
+            //                    PlayeId=1,
+            //                    PlayerStatus=true
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player2",
+            //                    PlayeId=2,
+            //                    PlayerStatus=false
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player3",
+            //                    PlayeId=3,
+            //                    PlayerStatus=true
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player4",
+            //                    PlayeId=4,
+            //                    PlayerStatus=false
+            //                } }
+            //        },
+            //          new LiveTeam
+            //        {
+            //            Name="Team17",
+            //            Id="17",
+            //               TeamPlayers=new List<LiveTeamPlayers>
+            //            {
+            //                new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player1",
+            //                    PlayeId=1,
+            //                    PlayerStatus=true
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player2",
+            //                    PlayeId=2,
+            //                    PlayerStatus=false
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player3",
+            //                    PlayeId=3,
+            //                    PlayerStatus=true
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player4",
+            //                    PlayeId=4,
+            //                    PlayerStatus=false
+            //                } }
+            //        },
+            //          new LiveTeam
+            //        {
+            //            Name="Team18",
+            //            Id="18",
+            //               TeamPlayers=new List<LiveTeamPlayers>
+            //            {
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player2",
+            //                    PlayeId=2,
+            //                    PlayerStatus=true
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player3",
+            //                    PlayeId=3,
+            //                    PlayerStatus=true
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player4",
+            //                    PlayeId=4,
+            //                    PlayerStatus=true
+            //                },
+            //                new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player1",
+            //                    PlayeId=1,
+            //                    PlayerStatus=false
+            //                }}
+            //        },
+            //              new LiveTeam
+            //            {
+            //                Name="Team19",
+            //                Id="19",
+            //                   TeamPlayers=new List<LiveTeamPlayers>
+            //                {
+            //                    new LiveTeamPlayers
+            //                    {
+            //                        PlayerName="player1",
+            //                        PlayeId=1,
+            //                        PlayerStatus=true
+            //                    },
+            //                     new LiveTeamPlayers
+            //                    {
+            //                        PlayerName="player2",
+            //                        PlayeId=2,
+            //                        PlayerStatus=true
+            //                    },
+            //                     new LiveTeamPlayers
+            //                    {
+            //                        PlayerName="player3",
+            //                        PlayeId=3,
+            //                        PlayerStatus=true
+            //                    },
+            //                     new LiveTeamPlayers
+            //                    {
+            //                        PlayerName="player4",
+            //                        PlayeId=4,
+            //                        PlayerStatus=false
+            //                    } }
+            //            },
+            //          new LiveTeam
+            //        {
+            //            Name="Team20",
+            //            Id="20",
+            //               TeamPlayers=new List<LiveTeamPlayers>
+            //            {
+            //                new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player1",
+            //                    PlayeId=1,
+            //                    PlayerStatus=true
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player3",
+            //                    PlayeId=3,
+            //                    PlayerStatus=true
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player2",
+            //                    PlayeId=2,
+            //                    PlayerStatus=false
+            //                },
+            //                 new LiveTeamPlayers
+            //                {
+            //                    PlayerName="player4",
+            //                    PlayeId=4,
+            //                    PlayerStatus=false
+            //                } }
+            //        },
 
-                },
+            //    },
 
 
-            };
+            //};
 
-            return liveStatus;
+            return null; //liveStatus;
 
 
 
@@ -697,7 +697,7 @@ namespace Fanview.API.GraphicsDummyData
                     {
                         new LiveTeamPlayers
                         {
-                            PlayeId=1,
+                            PlayeId="1",
                             PlayerName="Player1",
                             location=new LiveLocation
                             {
@@ -708,7 +708,7 @@ namespace Fanview.API.GraphicsDummyData
                         },
                          new LiveTeamPlayers
                         {
-                            PlayeId=2,
+                            PlayeId="2",
                             PlayerName="Player2",
                             location=new LiveLocation
                             {
@@ -719,7 +719,7 @@ namespace Fanview.API.GraphicsDummyData
                         },
                           new LiveTeamPlayers
                         {
-                            PlayeId=3,
+                            PlayeId="3",
                             PlayerName="Player3",
                             location=new LiveLocation
                             {
@@ -731,7 +731,7 @@ namespace Fanview.API.GraphicsDummyData
                         },
                            new LiveTeamPlayers
                         {
-                            PlayeId=4,
+                            PlayeId="4",
                             PlayerName="Player4",
                             location=new LiveLocation
                             {
@@ -744,7 +744,7 @@ namespace Fanview.API.GraphicsDummyData
 
                 }
             };
-            return teamlanding;
+            return  teamlanding;
         }
         public TeamRoute GetTeamRoute()
         {

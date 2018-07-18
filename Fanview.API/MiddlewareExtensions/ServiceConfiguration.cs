@@ -31,6 +31,7 @@ namespace Fanview.API.MiddlewareExtensions
             services.AddSingleton<IReadAssets, ReadAssets>();
             services.AddTransient<ITeamLineUp, TeamLineUp>();
             services.AddSingleton(typeof(ILiveRepository), typeof(LiveRepository));
+            services.AddTransient<ILiveStats, LiveStats>();
         }
     }
 }

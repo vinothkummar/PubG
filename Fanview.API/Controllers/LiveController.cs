@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Fanview.API.Model.LiveModels;
 using Fanview.API.Repository;
 using Fanview.API.Repository.Interface;
+using Fanview.API.BusinessLayer.Contracts;
 
 
 
@@ -17,10 +18,12 @@ namespace Fanview.API.Controllers
     public class LiveController : ControllerBase
     {
         private ILiveRepository _liveRepository;
+        private ILiveStats _liveStatus;
 
-        public LiveController(ILiveRepository liveRepository)
+        public LiveController(ILiveRepository liveRepository, ILiveStats liveStatus)
         {
             _liveRepository = liveRepository;
+            _liveStatus = liveStatus;
         }
 
         /// <summary>
@@ -35,7 +38,9 @@ namespace Fanview.API.Controllers
         [HttpGet("Status/{matchId}", Name = "GetLiveStatus")]
         public Task<LiveStatus> GetLiveStatus(string matchId)
         {
-            return _liveRepository.GetLiveStatus(matchId);
+            // return _liveRepository.GetLiveStatus(matchId);
+
+            return _liveStatus.GetLiveStatus(matchId);
         }
 
 

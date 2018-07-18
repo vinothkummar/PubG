@@ -8,8 +8,8 @@ namespace Fanview.API.Model.LiveModels
 {
     public class LiveTeam
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
-        public IEnumerable<LiveTeamPlayers> TeamPlayers { get; set; }
+        public LiveTeamPlayers TeamPlayers { get; set; }
     }
 }

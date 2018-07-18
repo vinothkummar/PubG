@@ -46,41 +46,41 @@ namespace Fanview.API.Controllers
             return _matchRepository.GetFlightPath();
         }
 
-        // GET: api/Match/5
-        [HttpGet("ById/{id}", Name = "GetMatch")]
-        public Task<JObject> GetMatch(string id)
-        {
-            var result = _matchRepository.GetMatchesDetailsByID(id);
-            return result;
-        }
+        //// GET: api/Match/5
+        //[HttpGet("ById/{id}", Name = "GetMatch")]
+        //public Task<JObject> GetMatch(string id)
+        //{
+        //    var result = _matchRepository.GetMatchesDetailsByID(id);
+        //    return result;
+        //}
 
-        // POST: api/Match/PollSummary/{matchId}
-        [HttpPost("PollSummary/{matchId}", Name = "PostSummary")]
-        public void PostSummary(string matchId)
-        {
-            _matchSummaryRepository.PollMatchSummary(matchId);
-        }
+        //// POST: api/Match/PollSummary/{matchId}
+        //[HttpPost("PollSummary/{matchId}", Name = "PostSummary")]
+        //public void PostSummary(string matchId)
+        //{
+        //    _matchSummaryRepository.PollMatchSummary(matchId);
+        //}
 
-        // POST: api/Match/PollParticipantStats/{matchId}
-        [HttpPost("PollParticipantStats/{matchId}", Name = "PostParticipantStats")]
-        public void PostParticipantStats(string matchId)
-        {
-            _matchSummaryRepository.PollMatchParticipantStats(matchId);
-        }
+        //// POST: api/Match/PollParticipantStats/{matchId}
+        //[HttpPost("PollParticipantStats/{matchId}", Name = "PostParticipantStats")]
+        //public void PostParticipantStats(string matchId)
+        //{
+        //    _matchSummaryRepository.PollMatchParticipantStats(matchId);
+        //}
 
-        // POST: api/Match
-        [HttpPost("PollTelemetryPlayerKilled/{matchId}", Name = "PostPlayerKilled")]
-        public void PostPlayerKilled(string matchId)
-        {
-            _playerKillRepository.PollTelemetryPlayerKilled(matchId);
-        }
+        //// POST: api/Match
+        //[HttpPost("PollTelemetryPlayerKilled/{matchId}", Name = "PostPlayerKilled")]
+        //public void PostPlayerKilled(string matchId)
+        //{
+        //    _playerKillRepository.PollTelemetryPlayerKilled(matchId);
+        //}
 
-        // POST: api/Match
-        [HttpPost("CreateDummyTeamPlayers/{matchId}", Name = "PostDummyTestTeamPlayers")]
-        public void PostDummyTestTeamPlayers(string matchId)
-        {
-            _matchSummaryRepository.CreateAndMapTestTeamPlayerFromMatchHistory(matchId);
-        }
+        //// POST: api/Match
+        //[HttpPost("CreateDummyTeamPlayers/{matchId}", Name = "PostDummyTestTeamPlayers")]
+        //public void PostDummyTestTeamPlayers(string matchId)
+        //{
+        //    _matchSummaryRepository.CreateAndMapTestTeamPlayerFromMatchHistory(matchId);
+        //}
 
         // POST: api/Match/PostRoundRankingData        
         /// <summary>

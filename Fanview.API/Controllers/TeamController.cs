@@ -80,7 +80,7 @@ namespace Fanview.API.Controllers
         /// <remarks>
         /// Sample request: GetAllTeam
         /// </remarks>
-        [HttpGet("Team", Name = "GetAllTeam")]
+        [HttpGet("All", Name = "GetAllTeam")]
         public Task<IEnumerable<Team>> GetAllTeam()
         {
             return _teamRepository.GetAllTeam();
