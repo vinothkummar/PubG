@@ -34,7 +34,7 @@ namespace Fanview.API.Controllers
         /// Sample request: api/Live/Status/{matchId}          
         /// Input Parameter: f84d39a1-8218-4438-9bf5-7150f9e0f093
         /// </remarks>
-        /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
+        /// <param name='matchId'>675619e6-4a11-6b92-cf2e-4c82428b78ef</param>
         [HttpGet("Status/{matchId}", Name = "GetLiveStatus")]
         public Task<LiveStatus> GetLiveStatus(string matchId)
         {

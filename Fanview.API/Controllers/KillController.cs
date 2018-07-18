@@ -30,23 +30,23 @@ namespace Fanview.API.Controllers
             _logger = logger;
         }
 
-        
-        ///// <summary>
-        ///// Returns Player Killed for the given Match Id     
-        ///// </summary>
-        ///// <remarks>
-        ///// Sample request: api/Kill/{matchId}          
-        ///// Input Parameter: f84d39a1-8218-4438-9bf5-7150f9e0f093
-        ///// </remarks>
-        ///// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
-        //[HttpGet("PlayerKilled/{matchId}")]
-        //public IEnumerable<Kill> GetPlayerKilled(string matchId)
-        //{
-        //    var result = _playerKillRepository.GetPlayerKilled(matchId);
-        //    return result.Result;
-        //}
 
-       
+        /// <summary>
+        /// Returns Player Killed for the given Match Id     
+        /// </summary>
+        /// <remarks>
+        /// Sample request: api/Kill/{matchId}          
+        /// Input Parameter: f84d39a1-8218-4438-9bf5-7150f9e0f093
+        /// </remarks>
+        /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
+        [HttpGet("PlayerKilled/{matchId}")]
+        public IEnumerable<Kill> GetPlayerKilled(string matchId)
+        {
+            var result = _playerKillRepository.GetPlayerKilled(matchId);
+            return result.Result;
+        }
+
+
         ///// <summary>
         ///// Returns Killiprinter Text Message for the given Match Id     
         ///// </summary>
@@ -65,7 +65,7 @@ namespace Fanview.API.Controllers
 
         //        return _playerKilled.GetPlayerKilledText(matchId);
 
-                
+
         //    }
         //    catch (Exception exception)
         //    {
@@ -73,9 +73,9 @@ namespace Fanview.API.Controllers
 
         //        throw;
         //    }
-          
+
         //}
-       
+
         ///// <summary>
         ///// Returns Last 4 Killiprinter Text Message for the given Match Id     
         ///// </summary>

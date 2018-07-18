@@ -45,7 +45,7 @@ namespace Fanview.API.Repository
                 ScheduledDate = s.ScheduleTimeAndStatus.Select(t => t.ScheduleTime).First().ToString("yyyy-MM-dd"),
                 GamePerspective = s.GamePerspective,
                 DayCount = s.DayCount,
-                Rounds = s.DayCount == "3"? "Event Matches" : "Day" +s.DayCount + " - 4 Rounds" 
+                Rounds = s.DayCount == "3"? "Event Matches" : "Day " +s.DayCount + " - 4 Rounds" 
             });
             var ScheduleEventsNameIncluded = new { EventName = "PUBG Global Invitational Berlin 2018", EventSchedule = scheduleEvents };
             return await Task.FromResult(ScheduleEventsNameIncluded);
