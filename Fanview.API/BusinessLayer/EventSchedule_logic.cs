@@ -32,19 +32,19 @@ namespace Fanview.API.BusinessLayer
                 if (time < early_Morning)
                 {
 
-                    item.ScheduleTimeAndStatus[0].matchRoundStatus =nameof( MatchRoundStatus.Next);
-                    item.ScheduleTimeAndStatus[1].matchRoundStatus =nameof( MatchRoundStatus.Scheduled);
-                    item.ScheduleTimeAndStatus[2].matchRoundStatus =nameof( MatchRoundStatus.Scheduled);
-                    item.ScheduleTimeAndStatus[3].matchRoundStatus= nameof(MatchRoundStatus.Scheduled);
+                    item.ScheduleTimeAndStatus[0].MatchRoundStatus =nameof( MatchRoundStatus.Next);
+                    item.ScheduleTimeAndStatus[1].MatchRoundStatus =nameof( MatchRoundStatus.Scheduled);
+                    item.ScheduleTimeAndStatus[2].MatchRoundStatus =nameof( MatchRoundStatus.Scheduled);
+                    item.ScheduleTimeAndStatus[3].MatchRoundStatus= nameof(MatchRoundStatus.Scheduled);
                     break;
                 }
                 else if (time > early_Morning && time <= late_Morning)
                 {
 
-                    item.ScheduleTimeAndStatus[0].matchRoundStatus = nameof(MatchRoundStatus.Active);
-                    item.ScheduleTimeAndStatus[1].matchRoundStatus= nameof(MatchRoundStatus.Next);
-                    item.ScheduleTimeAndStatus[2].matchRoundStatus = nameof(MatchRoundStatus.Scheduled);
-                    item.ScheduleTimeAndStatus[3].matchRoundStatus = nameof(MatchRoundStatus.Scheduled);
+                    item.ScheduleTimeAndStatus[0].MatchRoundStatus = nameof(MatchRoundStatus.Active);
+                    item.ScheduleTimeAndStatus[1].MatchRoundStatus= nameof(MatchRoundStatus.Next);
+                    item.ScheduleTimeAndStatus[2].MatchRoundStatus = nameof(MatchRoundStatus.Scheduled);
+                    item.ScheduleTimeAndStatus[3].MatchRoundStatus = nameof(MatchRoundStatus.Scheduled);
                     break;
 
 
@@ -53,10 +53,10 @@ namespace Fanview.API.BusinessLayer
                 {
 
                     
-                    item.ScheduleTimeAndStatus[0].matchRoundStatus= nameof(MatchRoundStatus.Completed);
-                    item.ScheduleTimeAndStatus[1].matchRoundStatus = nameof(MatchRoundStatus.Active);
-                    item.ScheduleTimeAndStatus[2].matchRoundStatus = nameof(MatchRoundStatus.Next);
-                    item.ScheduleTimeAndStatus[3].matchRoundStatus = nameof(MatchRoundStatus.Scheduled);
+                    item.ScheduleTimeAndStatus[0].MatchRoundStatus= nameof(MatchRoundStatus.Completed);
+                    item.ScheduleTimeAndStatus[1].MatchRoundStatus = nameof(MatchRoundStatus.Active);
+                    item.ScheduleTimeAndStatus[2].MatchRoundStatus = nameof(MatchRoundStatus.Next);
+                    item.ScheduleTimeAndStatus[3].MatchRoundStatus = nameof(MatchRoundStatus.Scheduled);
                     break;
 
                 }
@@ -64,10 +64,10 @@ namespace Fanview.API.BusinessLayer
                 {
 
                  
-                    item.ScheduleTimeAndStatus[0].matchRoundStatus= nameof(MatchRoundStatus.Completed);
-                    item.ScheduleTimeAndStatus[1].matchRoundStatus= nameof(MatchRoundStatus.Completed);
-                    item.ScheduleTimeAndStatus[2].matchRoundStatus = nameof(MatchRoundStatus.Active);
-                    item.ScheduleTimeAndStatus[3].matchRoundStatus= nameof(MatchRoundStatus.Next);
+                    item.ScheduleTimeAndStatus[0].MatchRoundStatus= nameof(MatchRoundStatus.Completed);
+                    item.ScheduleTimeAndStatus[1].MatchRoundStatus= nameof(MatchRoundStatus.Completed);
+                    item.ScheduleTimeAndStatus[2].MatchRoundStatus = nameof(MatchRoundStatus.Active);
+                    item.ScheduleTimeAndStatus[3].MatchRoundStatus= nameof(MatchRoundStatus.Next);
                     break;
 
 
@@ -76,10 +76,10 @@ namespace Fanview.API.BusinessLayer
                 {
 
                    
-                    item.ScheduleTimeAndStatus[0].matchRoundStatus = nameof(MatchRoundStatus.Completed);
-                    item.ScheduleTimeAndStatus[1].matchRoundStatus = nameof(MatchRoundStatus.Completed);
-                    item.ScheduleTimeAndStatus[2].matchRoundStatus = nameof(MatchRoundStatus.Completed);
-                    item.ScheduleTimeAndStatus[3].matchRoundStatus= nameof(MatchRoundStatus.Active);
+                    item.ScheduleTimeAndStatus[0].MatchRoundStatus = nameof(MatchRoundStatus.Completed);
+                    item.ScheduleTimeAndStatus[1].MatchRoundStatus = nameof(MatchRoundStatus.Completed);
+                    item.ScheduleTimeAndStatus[2].MatchRoundStatus = nameof(MatchRoundStatus.Completed);
+                    item.ScheduleTimeAndStatus[3].MatchRoundStatus= nameof(MatchRoundStatus.Active);
                     break;
 
 
@@ -87,10 +87,10 @@ namespace Fanview.API.BusinessLayer
                 else
                 {
                     
-                    item.ScheduleTimeAndStatus[0].matchRoundStatus = nameof(MatchRoundStatus.Completed);
-                    item.ScheduleTimeAndStatus[1].matchRoundStatus = nameof(MatchRoundStatus.Completed);
-                    item.ScheduleTimeAndStatus[2].matchRoundStatus = nameof(MatchRoundStatus.Completed);
-                    item.ScheduleTimeAndStatus[3].matchRoundStatus = nameof(MatchRoundStatus.Completed);
+                    item.ScheduleTimeAndStatus[0].MatchRoundStatus = nameof(MatchRoundStatus.Completed);
+                    item.ScheduleTimeAndStatus[1].MatchRoundStatus = nameof(MatchRoundStatus.Completed);
+                    item.ScheduleTimeAndStatus[2].MatchRoundStatus = nameof(MatchRoundStatus.Completed);
+                    item.ScheduleTimeAndStatus[3].MatchRoundStatus = nameof(MatchRoundStatus.Completed);
                     break;
 
                 }

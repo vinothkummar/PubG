@@ -7,10 +7,11 @@ namespace Fanview.API.Model
 {
     public class MatchDailyRoundStatus
     {
-        public DateTime ScheduleTime { get; set; }
-        //public MatchRoundStatus matchRoundStatus { get; set; }
-        public string matchRoundStatus{ get; set; }
-            
-        
+        public DateTime ScheduleTime { get; set; }    
+        public string MatchRoundStatus{ get; set; }
+        public string PubgMatchid { get; set; }
+        public int MatchId { get; set; }
+
+
     }
 }

@@ -33,16 +33,16 @@ namespace Fanview.API.BusinessLayer
         public async Task<LiveStatus> GetLiveStatus(string matchId)
         {
 
-            _logger.LogInformation("GetLiveStatus Business Layer call started" + Environment.NewLine);
+           
 
             var teams = _teamRepository.GetAllTeam().Result.AsQueryable();
-            _logger.LogInformation("teams" + teams.Count() + Environment.NewLine);
+            
 
             var teamPlayer = _teamPlayerRepository.GetTeamPlayers().Result.AsQueryable();
-            _logger.LogInformation("teamPlayer" + teamPlayer.Count() + Environment.NewLine);
+           
 
             var kills = _playerKillRepository.GetLiveKilled(matchId).Result.OrderBy(o => o.EventTimeStamp).AsQueryable();
-            _logger.LogInformation("Kills" + kills.Count() + Environment.NewLine);
+            
 
             var playerKilled = kills.Join(teamPlayer, pk => new { VictimTeamId = pk.VictimTeamId }, tp => new { VictimTeamId = tp.TeamIdShort }, (pk, tp) => new { pk, tp })
                                     .Join(teams, pktp => new { TeamShortId = pktp.tp.TeamIdShort }, t => new { TeamShortId = t.TeamId }, (pktp, t) => new { pktp, t })

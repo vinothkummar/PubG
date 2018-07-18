@@ -12,6 +12,8 @@ namespace Fanview.API.Repository.Interface
         void CreateMultipleEventGameSchedule(List<EventInfo> eventInfos);
         Task<EventInfo> GetDailySchedule(string daycount);
 
+        Task<IEnumerable<EventInfo>> GetDailySchedule();
+
         Task<object> GetScheduledEvents();
     }
 }

@@ -31,6 +31,13 @@ namespace Fanview.API.Repository
             return await Task.FromResult(dailySchedule);
         }
 
+        public async Task<IEnumerable<EventInfo>> GetDailySchedule()
+        {
+            var dailySchedule = GetTournamentEventSchedule();
+
+            return await Task.FromResult(dailySchedule);
+        }
+
         public async Task<Object> GetScheduledEvents()
         {
            var scheduleEvents = GetTournamentEventSchedule().Select(s => new
@@ -51,62 +58,66 @@ namespace Fanview.API.Repository
                 new EventInfo(){
                     ScheduleTimeAndStatus = new List<MatchDailyRoundStatus>()
                     {
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,25,09,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,25,11,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,25,13,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,25,15,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,25,17,00,00), MatchRoundStatus = nameof(MatchRoundStatus.Scheduled),MatchId=1},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,25,18,00,00), MatchRoundStatus = nameof(MatchRoundStatus.Scheduled),MatchId=2},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,25,19,00,00), MatchRoundStatus = nameof(MatchRoundStatus.Scheduled),MatchId=3},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,25,20,00,00), MatchRoundStatus = nameof(MatchRoundStatus.Scheduled),MatchId=4},                    
+                                
                     },
-                    DayCount = "Day-1",
+                    DayCount = "1",
                     GamePerspective = "TPP",
-                    Name = "PubG 2018 Global Invitation"
+                    Name = "PUBG Global Invitational Berlin 2018"
                     },
                 new EventInfo(){
                      ScheduleTimeAndStatus = new List<MatchDailyRoundStatus>()
                     {
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,26,09,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,26,11,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,26,13,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,26,15,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
+
+
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,26,17,00,00), MatchRoundStatus = nameof(MatchRoundStatus.Scheduled),MatchId=5},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,26,18,00,00), MatchRoundStatus = nameof(MatchRoundStatus.Scheduled),MatchId=6},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,26,19,00,00), MatchRoundStatus = nameof(MatchRoundStatus.Scheduled),MatchId=7},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,26,20,00,00), MatchRoundStatus = nameof(MatchRoundStatus.Scheduled),MatchId=8},                       
+                        
                     },
-                    DayCount = "Day-2",
+                    DayCount = "2",
                     GamePerspective = "TPP",
-                    Name = "PubG 2018 Global Invitation"
+                    Name = "PUBG Global Invitational Berlin 2018"
                     },
                 new EventInfo(){
                     ScheduleTimeAndStatus = new List<MatchDailyRoundStatus>()
                     {
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,27,09,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,27,11,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,27,13,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,27,15,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,27,17,00,00), MatchRoundStatus = nameof(MatchRoundStatus.Scheduled),MatchId=9},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,27,18,00,00), MatchRoundStatus = nameof(MatchRoundStatus.Scheduled),MatchId=10},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,27,19,00,00), MatchRoundStatus = nameof(MatchRoundStatus.Scheduled),MatchId=11},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,27,20,00,00), MatchRoundStatus = nameof(MatchRoundStatus.Scheduled),MatchId=12},
                     },                     
-                    DayCount = "Event-Matches",
-                    GamePerspective = "TPP",
-                    Name = "PubG 2018 Global Invitation"                    
+                    DayCount = "3",
+                    GamePerspective = "EventMatches",
+                    Name = "PUBG Global Invitational Berlin 2018"
                     },
                 new EventInfo(){
                     ScheduleTimeAndStatus = new List<MatchDailyRoundStatus>()
                     {
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,28,09,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,28,11,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,28,13,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,28,15,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,28,14,00,00), MatchRoundStatus = nameof(MatchRoundStatus.Scheduled),MatchId=13},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,28,15,00,00), MatchRoundStatus = nameof(MatchRoundStatus.Scheduled),MatchId=14},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,28,16,00,00), MatchRoundStatus = nameof(MatchRoundStatus.Scheduled),MatchId=15},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,28,17,00,00), MatchRoundStatus = nameof(MatchRoundStatus.Scheduled),MatchId=16},
                     },
-                    DayCount = "Day-3",
+                    DayCount = "4",
                     GamePerspective = "FPP",
-                    Name = "PubG 2018 Global Invitation"                   
+                    Name = "PUBG Global Invitational Berlin 2018"
                     },
                 new EventInfo(){
                    ScheduleTimeAndStatus = new List<MatchDailyRoundStatus>()
                     {
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,29,09,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,29,11,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,29,13,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,29,15,00,00), matchRoundStatus = nameof(MatchRoundStatus.Scheduled)},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,29,14,00,00), MatchRoundStatus = nameof(MatchRoundStatus.Scheduled),MatchId=17},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,29,15,00,00), MatchRoundStatus = nameof(MatchRoundStatus.Scheduled),MatchId=18},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,29,16,00,00), MatchRoundStatus = nameof(MatchRoundStatus.Scheduled),MatchId=19},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,29,17,00,00), MatchRoundStatus = nameof(MatchRoundStatus.Scheduled),MatchId=20},
                     },
-                    DayCount = "Day-4",
+                    DayCount = "5",
                     GamePerspective = "FPP",
-                    Name = "PubG 2018 Global Invitation"                   
+                    Name = "PUBG Global Invitational Berlin 2018"
                     }
             };
 

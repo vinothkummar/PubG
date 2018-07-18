@@ -2,6 +2,7 @@
 using Fanview.API.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Fanview.API.Controllers
@@ -30,7 +31,7 @@ namespace Fanview.API.Controllers
         public EventLocation Get()
         {
             var location = new EventLocation();
-            location.EventName = "PUBG_Global_Invitational 2018";
+            location.EventName = "PUBG Global Invitational Berlin 2018";
             location.EventPlace = "Mercedes-Benz Arena";
             location.Address1 = "Mercedes-Platz 1";
             location.PostCode = " 10243";
@@ -45,13 +46,19 @@ namespace Fanview.API.Controllers
         /// </summary>
         /// <remarks>
         /// Sample request: api/EventInfo/{dayCount}          
-        /// Input Parameters: day-1; day-2; day-3; day-4
+        /// Input Parameters: 1; 2; 3; 4
         /// </remarks>
-        /// <param name='dayCount'>day-1</param>
+        /// <param name='dayCount'>1</param>
         [HttpGet("Schedule/{dayCount}", Name = "GetDailySchedule")]
         public async Task<EventInfo> GetDailySchedule(string dayCount)
         {
             return await _eventScheduleRepository.GetDailySchedule(dayCount);
+        }
+
+        [HttpGet("Schedule", Name = "GetDailySchedules")]
+        public async Task<IEnumerable<EventInfo>> GetDailySchedules()
+        {
+            return await _eventScheduleRepository.GetDailySchedule();
         }
 
         /// <summary>
