@@ -42,13 +42,13 @@ namespace Fanview.API.Repository
         {
            var scheduleEvents = GetTournamentEventSchedule().Select(s => new
             {
-                ScheduledDate = s.ScheduleTimeAndStatus.Select(t => t.ScheduleTime).First().ToString("MMM-dd"),
+                ScheduledDate = s.ScheduleTimeAndStatus.Select(t => t.ScheduleTime).First().ToString("yyyy-MM-dd"),
                 GamePerspective = s.GamePerspective,
                 DayCount = s.DayCount,
-                Rounds = s.DayCount.StartsWith("Day") ? "4 Round" : "Event Matches"
+                Rounds = s.DayCount == "3"? "Event Matches" : "Day" +s.DayCount + " - 4 Rounds" 
             });
-
-            return await Task.FromResult(scheduleEvents);
+            var ScheduleEventsNameIncluded = new { EventName = "PUBG Global Invitational Berlin 2018", EventSchedule = scheduleEvents };
+            return await Task.FromResult(ScheduleEventsNameIncluded);
 
         }
         
@@ -92,7 +92,7 @@ namespace Fanview.API.Repository
                         new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,27,20,00,00), MatchRoundStatus = nameof(MatchRoundStatus.Scheduled),MatchId=12},
                     },                     
                     DayCount = "3",
-                    GamePerspective = "EventMatches",
+                    GamePerspective = "FPP",
                     Name = "PUBG Global Invitational Berlin 2018"
                     },
                 new EventInfo(){
