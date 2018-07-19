@@ -91,7 +91,7 @@ namespace Fanview.API.Controllers
         /// </summary>
         /// <remarks>
         /// Sample request: Profile/{teamId}
-        /// Input parameter are 1 - 20;
+        /// Input parameters are 1 - 20;
         /// </remarks>
         /// <param name='teamId1'>1</param>       
         [HttpGet("Profile/{teamId1}", Name = "GetTeamProfile")]
