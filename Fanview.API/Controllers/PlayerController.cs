@@ -26,22 +26,7 @@ namespace Fanview.API.Controllers
         ////{
         ////    _teamPlayerRepository.InsertTeamPlayer(value);
         ////}
-        
-        ///// <summary>
-        ///// Returns Player MatchUp Response for the given playerId1 And playerId2     
-        ///// </summary>
-        ///// <remarks>
-        ///// Sample request: MatchUp/{playerId1}/And/{playerId2}
-        ///// </remarks>
-        ///// <param name='playerId1'>5b3e63846c0810ce58c29997</param>
-        ///// <param name='playerId2'>5b3e63846c0810ce58c29998</param>
-        //[HttpGet("MatchUp/{playerId1}/And/{playerId2}", Name = "GetPlayerMatchup")]
-        //public Task<IEnumerable<TeamPlayer>> GetPlayerMatchup(string playerId1, string playerId2)
-        //{
-        //    return _teamPlayerRepository.GetPlayerMatchup(playerId1, playerId2);
-        //}
 
-       
         ///// <summary>
         ///// Returns Player Profile for the given playerId1     
         ///// </summary>
@@ -74,7 +59,13 @@ namespace Fanview.API.Controllers
             return _teamPlayerRepository.GetTeamPlayersTournament(playerId1, matchId);
         }
 
-        [HttpGet("Profile/{playerId1}/{playerId2}/{matchId}", Name = "GetPlayerProfileMatchUPByMatchId")]
+        [HttpGet("Profile/MatchUp/{playerId1}/{playerId2}", Name = "GetPlayerProfilesMatchUP")]
+        public Task<IEnumerable<PlayerProfileTournament>> GetPlayerProfilesMatchUP(int playerId1, int playerId2)
+        {
+            return _teamPlayerRepository.GetPlayerProfilesMatchUP(playerId1, playerId2);
+        }
+
+        [HttpGet("Profile/MatchUp/{playerId1}/{playerId2}/{matchId}", Name = "GetPlayerProfileMatchUPByMatchId")]
         public Task<IEnumerable<PlayerProfileTournament>> GetPlayerProfileMatchUPByMatchId(int playerId1, int playerId2, string matchId)
         {
             return _teamPlayerRepository.GetTeamPlayersStatsMatchUp(playerId1, playerId2, matchId);

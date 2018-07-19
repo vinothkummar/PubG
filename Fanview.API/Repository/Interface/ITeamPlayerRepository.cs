@@ -9,7 +9,7 @@ namespace Fanview.API.Repository.Interface
 {
     public interface ITeamPlayerRepository
     {        
-        Task<IEnumerable<TeamPlayer>> GetPlayerMatchup(string playerId1, string playerId2);
+       
         Task<TeamPlayer> GetPlayerProfile(string playerId1);
         void InsertTeamPlayer(TeamPlayer teamPlayer);
         Task<IEnumerable<TeamPlayer>> GetTeamPlayers(string matchId);
@@ -20,6 +20,6 @@ namespace Fanview.API.Repository.Interface
         Task<IEnumerable<PlayerProfileTournament>> GetTeamPlayersTournament(int playerId);
         Task<IEnumerable<PlayerProfileTournament>> GetTeamPlayersTournament(int playerId, string matchId);
         Task<IEnumerable<PlayerProfileTournament>> GetTeamPlayersStatsMatchUp(int playerId1, int playerId2, string matchId);
-
+        Task<IEnumerable<PlayerProfileTournament>> GetPlayerProfilesMatchUP(int playerId1, int playerId2);
     }
 }
