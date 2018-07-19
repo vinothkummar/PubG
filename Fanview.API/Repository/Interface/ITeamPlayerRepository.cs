@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Fanview.API.Model;
+using Fanview.API.Model.ViewModels;
 
 namespace Fanview.API.Repository.Interface
 {
@@ -16,5 +17,9 @@ namespace Fanview.API.Repository.Interface
         Task<IEnumerable<TeamPlayer>> GetTeamPlayers();
         Task<TeamLineUp> GetTeamandPlayers();
         Task<IEnumerable<CreatePlayer>> GetPlayersCreated(string matchId);
+        Task<IEnumerable<PlayerProfileTournament>> GetTeamPlayersTournament(int playerId);
+        Task<IEnumerable<PlayerProfileTournament>> GetTeamPlayersTournament(int playerId, string matchId);
+        Task<IEnumerable<PlayerProfileTournament>> GetTeamPlayersStatsMatchUp(int playerId1, int playerId2, string matchId);
+
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Fanview.API.Model;
+using Fanview.API.Model.ViewModels;
 using Fanview.API.Repository.Interface;
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
@@ -16,10 +17,14 @@ namespace Fanview.API.Repository
         private ILogger<TeamRepository> _logger;
         private IGenericRepository<Team> _genericTeamRepository;
         private IGenericRepository<CreatePlayer> _genericPlayerRepository;
+        private IGenericRepository<MatchPlayerStats> _genericMatchPlayerStatsRepository;
+
+
 
         public TeamPlayerRepository(IGenericRepository<TeamPlayer> genericRepository, ILogger<TeamRepository> logger,
             IGenericRepository<Team> teamgenericRepository,
-            IGenericRepository<CreatePlayer> genericPlayerRepository
+            IGenericRepository<CreatePlayer> genericPlayerRepository,
+            IGenericRepository<MatchPlayerStats> genericMatchPlayerStatsRepository           
             )
         {
             _genericTeamPlayerRepository = genericRepository;
@@ -27,6 +32,9 @@ namespace Fanview.API.Repository
             _logger = logger;
             _genericTeamRepository= teamgenericRepository;
             _genericPlayerRepository = genericPlayerRepository;
+            _genericMatchPlayerStatsRepository = genericMatchPlayerStatsRepository;
+            
+            
         }
 
         public async Task<IEnumerable<TeamPlayer>> GetPlayerMatchup(string playerId1, string playerId2)
@@ -59,8 +67,6 @@ namespace Fanview.API.Repository
 
         public async Task<TeamLineUp> GetTeamandPlayers()
         {
-
-
             var teamPlayers = await _genericTeamPlayerRepository.GetAll("TeamPlayers");
 
             var teamplayerlist = teamPlayers.ToList();
@@ -138,6 +144,172 @@ namespace Fanview.API.Repository
             var playerCreated = await playerCreatedCollection.FindAsync(Builders<CreatePlayer>.Filter.Where(cn => cn.MatchId == matchId)).Result.ToListAsync();
 
             return playerCreated;
+        }
+
+        public async Task<IEnumerable<PlayerProfileTournament>> GetTeamPlayersTournament(int playerId)
+        {
+            
+            var teamPlayerCollection = _genericTeamPlayerRepository.GetMongoDbCollection("TeamPlayers");
+
+            var teamPlayer = await teamPlayerCollection.FindAsync(Builders<TeamPlayer>.Filter.Where(cn => cn.PlayerId == playerId)).Result.ToListAsync();
+
+            var matchstats =_genericMatchPlayerStatsRepository.GetAll("MatchPlayerStats").Result;
+
+            var playerProfile = matchstats.Join(teamPlayer, ms => ms.stats.Name, tp => tp.PlayerName, (ms, tp) => new { ms, tp })
+                                          .Select(s => new
+                                          {
+                                              MatchId = s.tp.MatchId,
+                                              PlayerId = s.tp.PlayerId,
+                                              PlayerName = s.tp.PlayerName,
+                                              FullName = s.tp.FullName,
+                                              Country = s.tp.Country,
+                                              TeamId = s.tp.TeamIdShort,
+                                              Stats = new
+                                              {   Knocs = s.ms.stats.DBNOs,
+                                                  Assists = s.ms.stats.Assists,
+                                                  Boosts = s.ms.stats.Boosts,
+                                                  Damage = s.ms.stats.DamageDealt,
+                                                  HeadShort = s.ms.stats.HeadshotKills,
+                                                  Heals = s.ms.stats.Heals,
+                                                  Kills = s.ms.stats.Kills,
+                                                  TimeSurvived = s.ms.stats.TimeSurvived
+                                              }
+                                          });
+
+            var PlayerProfileGrouped = playerProfile.GroupBy(g => g.PlayerId).Select(s => new PlayerProfileTournament()
+            {
+                MatchId = s.Select(c => c.MatchId).ElementAtOrDefault(0),
+                PlayerId = s.Select(c => c.PlayerId).ElementAtOrDefault(0),
+                PlayerName = s.Select(c => c.PlayerName).ElementAtOrDefault(0),
+                FullName = s.Select(c => c.FullName).ElementAtOrDefault(0),
+                Country = s.Select(c => c.Country).ElementAtOrDefault(0),
+                stats = new Stats()
+                {   
+                    Knocks = s.Sum(a => a.Stats.Knocs),
+                    Assists = s.Sum(a => a.Stats.Assists),
+                    Boosts = s.Sum(a => a.Stats.Boosts),
+                    damage = s.Sum(a => a.Stats.Damage),
+                    headShot = s.Sum(a => a.Stats.HeadShort),
+                    Heals = s.Sum(a => a.Stats.Heals),
+                    Kills = s.Sum(a => a.Stats.Kills),
+                    TimeSruvived = s.Sum(a => a.Stats.TimeSurvived)
+                }
+            });
+
+
+           
+
+            return PlayerProfileGrouped;
+
+        }
+
+        public async Task<IEnumerable<PlayerProfileTournament>> GetTeamPlayersTournament(int playerId, string matchId)
+        {
+            var teamPlayerCollection = _genericTeamPlayerRepository.GetMongoDbCollection("TeamPlayers");
+
+            var teamPlayer = await teamPlayerCollection.FindAsync(Builders<TeamPlayer>.Filter.Where(cn => cn.PlayerId == playerId)).Result.ToListAsync();
+
+            var matchstats = _genericMatchPlayerStatsRepository.GetAll("MatchPlayerStats").Result;
+
+            var playerProfile = matchstats.Join(teamPlayer, ms => ms.stats.Name, tp => tp.PlayerName, (ms, tp) => new { ms, tp })
+                                          .Where(cn => cn.ms.MatchId == matchId)
+                                          .Select(s => new
+                                          {
+                                              MatchId = s.tp.MatchId,
+                                              PlayerId = s.tp.PlayerId,
+                                              PlayerName = s.tp.PlayerName,
+                                              FullName = s.tp.FullName,
+                                              Country = s.tp.Country,
+                                              TeamId = s.tp.TeamIdShort,
+                                              Stats = new
+                                              {
+                                                  Knocs = s.ms.stats.DBNOs,
+                                                  Assists = s.ms.stats.Assists,
+                                                  Boosts = s.ms.stats.Boosts,
+                                                  Damage = s.ms.stats.DamageDealt,
+                                                  HeadShort = s.ms.stats.HeadshotKills,
+                                                  Heals = s.ms.stats.Heals,
+                                                  Kills = s.ms.stats.Kills,
+                                                  TimeSurvived = s.ms.stats.TimeSurvived
+                                              }
+                                          });
+
+            var PlayerProfileGrouped = playerProfile.GroupBy(g => g.PlayerId).Select(s => new PlayerProfileTournament()
+            {
+                MatchId = s.Select(c => c.MatchId).ElementAtOrDefault(0),
+                PlayerId = s.Select(c => c.PlayerId).ElementAtOrDefault(0),
+                PlayerName = s.Select(c => c.PlayerName).ElementAtOrDefault(0),
+                FullName = s.Select(c => c.FullName).ElementAtOrDefault(0),
+                Country = s.Select(c => c.Country).ElementAtOrDefault(0),
+                stats = new Stats()
+                {
+                    Knocks = s.Sum(a => a.Stats.Knocs),
+                    Assists = s.Sum(a => a.Stats.Assists),
+                    Boosts = s.Sum(a => a.Stats.Boosts),
+                    damage = s.Sum(a => a.Stats.Damage),
+                    headShot = s.Sum(a => a.Stats.HeadShort),
+                    Heals = s.Sum(a => a.Stats.Heals),
+                    Kills = s.Sum(a => a.Stats.Kills),
+                    TimeSruvived = s.Sum(a => a.Stats.TimeSurvived)
+                }
+            });
+
+            return PlayerProfileGrouped;
+        }
+
+
+        public async Task<IEnumerable<PlayerProfileTournament>> GetTeamPlayersStatsMatchUp(int playerId1, int playerId2, string matchId)
+        {
+            var teamPlayerCollection = _genericTeamPlayerRepository.GetMongoDbCollection("TeamPlayers");
+
+            var teamPlayer = await teamPlayerCollection.FindAsync(Builders<TeamPlayer>.Filter.Where(cn => cn.PlayerId == playerId1 || cn.PlayerId == playerId2)).Result.ToListAsync();
+
+            var matchstats = _genericMatchPlayerStatsRepository.GetAll("MatchPlayerStats").Result;
+
+            var playerProfile = matchstats.Join(teamPlayer, ms => ms.stats.Name, tp => tp.PlayerName, (ms, tp) => new { ms, tp })
+                                          .Where(cn => cn.ms.MatchId == matchId)
+                                          .Select(s => new
+                                          {
+                                              MatchId = s.tp.MatchId,
+                                              PlayerId = s.tp.PlayerId,
+                                              PlayerName = s.tp.PlayerName,
+                                              FullName = s.tp.FullName,
+                                              Country = s.tp.Country,
+                                              TeamId = s.tp.TeamIdShort,
+                                              Stats = new
+                                              {
+                                                  Knocs = s.ms.stats.DBNOs,
+                                                  Assists = s.ms.stats.Assists,
+                                                  Boosts = s.ms.stats.Boosts,
+                                                  Damage = s.ms.stats.DamageDealt,
+                                                  HeadShort = s.ms.stats.HeadshotKills,
+                                                  Heals = s.ms.stats.Heals,
+                                                  Kills = s.ms.stats.Kills,
+                                                  TimeSurvived = s.ms.stats.TimeSurvived
+                                              }
+                                          });
+
+            var PlayerProfileGrouped = playerProfile.GroupBy(g => g.PlayerId).Select(s => new PlayerProfileTournament()
+            {
+                MatchId = s.Select(c => c.MatchId).ElementAtOrDefault(0),
+                PlayerId = s.Select(c => c.PlayerId).ElementAtOrDefault(0),
+                PlayerName = s.Select(c => c.PlayerName).ElementAtOrDefault(0),
+                FullName = s.Select(c => c.FullName).ElementAtOrDefault(0),
+                Country = s.Select(c => c.Country).ElementAtOrDefault(0),
+                stats = new Stats()
+                {
+                    Knocks = s.Sum(a => a.Stats.Knocs),
+                    Assists = s.Sum(a => a.Stats.Assists),
+                    Boosts = s.Sum(a => a.Stats.Boosts),
+                    damage = s.Sum(a => a.Stats.Damage),
+                    headShot = s.Sum(a => a.Stats.HeadShort),
+                    Heals = s.Sum(a => a.Stats.Heals),
+                    Kills = s.Sum(a => a.Stats.Kills),
+                    TimeSruvived = s.Sum(a => a.Stats.TimeSurvived)
+                }
+            });
+
+            return PlayerProfileGrouped;
         }
     }
 }
