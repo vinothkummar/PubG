@@ -22,6 +22,7 @@ namespace Fanview.API.Repository
     {
         private IGenericRepository<Kill> _Kill;
         private IGenericRepository<LiveEventKill> _LiveEventKill;
+        private IGenericRepository<EventInfo> _eventInfoRepository;
         private IGenericRepository<CreatePlayer> _CreatePlayer;
         private LiveGraphichsDummyData _data;
         private ILogger<PlayerKillRepository> _logger;
@@ -36,6 +37,7 @@ namespace Fanview.API.Repository
                                     IGenericRepository<Kill> genericRepository,
                                     IGenericRepository<CreatePlayer> genericPlayerRepository,
                                     IGenericRepository<LiveEventKill> genericLiveEventKillRepository,
+                                    IGenericRepository<EventInfo> eventInfoRepository,
                                     ILogger<PlayerKillRepository> logger)
         {
             _httpClientBuilder = httpClientBuilder;
@@ -44,6 +46,7 @@ namespace Fanview.API.Repository
             _CreatePlayer = genericPlayerRepository;
             _data = new LiveGraphichsDummyData();
             _LiveEventKill = genericLiveEventKillRepository;
+            _eventInfoRepository = eventInfoRepository;
 
             _logger = logger;
 
@@ -312,8 +315,11 @@ namespace Fanview.API.Repository
         {
             System.DateTime dateTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
 
+            //var eventInformation = _eventInfoRepository.GetMongoDbCollection("EventScheduleInfo");
 
-            if(jsonResult.Where(cn => (string)cn["_T"] == "EventMatchJoin").Count() > 0)
+            //var filter = eventInformation.FindAsync(Builders<EventInfo>.Filter.Eq("ScheduleTimeAndStatus.PubgMatchid", ""));
+
+            if (jsonResult.Where(cn => (string)cn["_T"] == "EventMatchJoin").Count() > 0)
             {
                _matchId = jsonResult.Where(cn => (string)cn["_T"] == "EventMatchJoin").Select(s => s.Value<string>("matchId")).FirstOrDefault();
 

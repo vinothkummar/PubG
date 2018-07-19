@@ -50,8 +50,8 @@ namespace Fanview.API.Repository
         public async Task<IEnumerable<TeamPlayer>> GetTeamPlayers()
         {
             var players = await _genericTeamPlayerRepository.GetAll("TeamPlayers");
-            
-            var distinctTeamPlayers = players.GroupBy(o => new { o.PlayerName, o.PubgAccountId }).Select(o => o.FirstOrDefault()).ToList();
+
+            var distinctTeamPlayers = players.GroupBy(o => new { o.PlayerName, o.PubgAccountId }).Select(o => o.FirstOrDefault());
 
             return distinctTeamPlayers;
         }

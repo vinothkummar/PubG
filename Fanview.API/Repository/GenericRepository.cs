@@ -59,9 +59,10 @@ namespace FanviewPollingService.Repository
             throw new NotImplementedException();
         }
 
-        public void Update(T entity)
+        public void Update(T entity, string collectionName, FilterDefinition<T> filter, UpdateDefinition<T> update )
         {
-            throw new NotImplementedException();
+            var collection = database.GetCollection<T>(collectionName);
+            collection.UpdateOne(filter, update);
         }
 
        

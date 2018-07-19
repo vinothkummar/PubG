@@ -3,6 +3,7 @@ using Fanview.API.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Fanview.API.Model.ViewModels;
 
 namespace Fanview.API.Controllers
 {
@@ -62,11 +63,28 @@ namespace Fanview.API.Controllers
         ///// Sample request: GetAllPlayers
         ///// </remarks>
         [HttpGet("All", Name = "GetAllPlayer")]
-        public Task<IEnumerable<TeamPlayer>> GetAllPlayer()
+        public async Task<IEnumerable<PlayerAll>> GetAllPlayer()
         {
             try
             {
-                return _teamPlayerRepository.GetTeamPlayers();
+                var result = new List<PlayerAll>();
+                foreach (var item in _teamPlayerRepository.GetTeamPlayers().Result)
+                {
+                    result.Add(
+                    new PlayerAll()
+                    {
+                        TeamId = item.TeamIdShort,
+                        PlayerId = item.PlayerId,
+                        PlayerName = item.PlayerName,
+                        FullName = item.FullName,
+                        Country = item.Country
+                    });
+
+
+                }
+
+               
+                return await Task.FromResult(result);
             }
             catch (System.Exception ex)
             {

@@ -9,11 +9,13 @@ namespace Fanview.API.Repository.Interface
 {
     public interface IEventScheduleRepository
     {
-        void CreateMultipleEventGameSchedule(List<EventInfo> eventInfos);
+        void CreateTournamentSchedule();
+
         Task<EventInfo> GetDailySchedule(string daycount);
 
         Task<IEnumerable<EventInfo>> GetDailySchedule();
 
         Task<object> GetScheduledEvents();
+        
     }
 }
