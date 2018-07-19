@@ -36,6 +36,7 @@ namespace Fanview.API.Controllers
             location.Address1 = "Mercedes-Platz 1";
             location.PostCode = " 10243";
             location.State = "Berlin";
+            location.City = "Berlin";
             location.Country = "Germany";
 
             return location;
