@@ -91,10 +91,11 @@ namespace Fanview.API.Controllers
         /// </summary>
         /// <remarks>
         /// Sample request: Profile/{teamId}
+        /// Input parameter are 1 - 20;
         /// </remarks>
-        /// <param name='teamId1'>5b369085a510862ec07c824a</param>       
+        /// <param name='teamId1'>1</param>       
         [HttpGet("Profile/{teamId1}", Name = "GetTeamProfile")]
-        public Task<TeamLineUp> GetTeamProfile(string teamId1)
+        public Task<TeamRanking> GetTeamProfile(string teamId1)
         {
             return _teamRepository.GetTeamProfile(teamId1);
         }

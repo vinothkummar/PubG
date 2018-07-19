@@ -76,10 +76,10 @@ namespace Fanview.API.Controllers
         }
 
      
-        [HttpPost("CreateScheduleEventInfo", Name = "PostScheduleInfo")]
-        public void PostScheduleInfo()
-        {
-            _eventScheduleRepository.CreateTournamentSchedule();
-        }
+        //[HttpPost("CreateScheduleEventInfo", Name = "PostScheduleInfo")]
+        //public void PostScheduleInfo()
+        //{
+        //    _eventScheduleRepository.CreateTournamentSchedule();
+        //}
     }
 }

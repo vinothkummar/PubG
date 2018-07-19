@@ -18,17 +18,20 @@ namespace Fanview.API.Repository
         private IGenericRepository<Team> _team;
         private IGenericRepository<MatchPlayerStats> _matchPlayerStats;
         private IGenericRepository<TeamPlayer> _teamPlayers;
+        private IGenericRepository<TeamRanking> _teamRankings;
         private LiveGraphichsDummyData _data;
         private ILogger<TeamRepository> _logger;
 
         public TeamRepository(IGenericRepository<Team> team,
                               IGenericRepository<MatchPlayerStats> matchPlayerStats,                              
                               IGenericRepository<TeamPlayer> teamPlayers,
+                              IGenericRepository<TeamRanking> teamRankings,
                               ILogger<TeamRepository> logger)
         {
             _team = team;
             _matchPlayerStats = matchPlayerStats;
             _teamPlayers = teamPlayers;
+            _teamRankings = teamRankings;
 
             _data = new LiveGraphichsDummyData();
 
@@ -94,45 +97,66 @@ namespace Fanview.API.Repository
         }
       
 
-        public async Task<TeamLineUp> GetTeamProfile(string teamId1)
+        public async Task<TeamRanking> GetTeamProfile(string teamId1)
         {
-            var teamCollection = _team.GetMongoDbCollection("Team");
 
-            var teamPlayerCollection = _teamPlayers.GetMongoDbCollection("TeamPlayers");
+            var teamStatsRanking = _teamRankings.GetMongoDbCollection("TeamRanking");
 
-            var teams = await teamCollection.FindAsync(Builders<Team>.Filter.Where(cn => cn.Id == teamId1)).Result.ToListAsync();
-
-            var teamPlayers = await teamPlayerCollection.FindAsync(Builders<TeamPlayer>.Filter.Where(cn => cn.TeamId == teamId1)).Result.ToListAsync();
-
-            var teamLineups = new List<TeamLineUp>();
-
-            var query = teams.GroupJoin(teamPlayers, tp => tp.Id, t => t.TeamId, (t, tp) => new
-            {
-                TeamId = t.Id,
-                TeamName = t.Name,
-                TeamPlayers = tp.Select(s => s.PlayerName)
-            });
-
-            var teamLineupMatch = new TeamLineUp();
-
-            foreach (var obj in query)
-            {
-                teamLineupMatch.TeamId = obj.TeamId;
-                teamLineupMatch.TeamName = obj.TeamName;
-
-                var tmPlayers = new List<TeamLineUpPlayers>();
-
-                foreach (var players in obj.TeamPlayers)
-                {
-                    tmPlayers.Add(new TeamLineUpPlayers() { PlayerName = players });
-                }
-
-                teamLineupMatch.TeamPlayer = tmPlayers;
-            }
+            var teamRankingsScrore = teamStatsRanking.FindAsync(Builders<TeamRanking>.Filter.Where(cn => cn.TeamId == teamId1 )).Result.ToListAsync();
 
 
+            var teamStandings = teamRankingsScrore.Result.GroupBy(g => new { MatchId = g.MatchId, TeamId = g.TeamId, TeamName = g.TeamName })
+                 .Select(s => new TeamRanking()
+               {
+                MatchId = s.Key.MatchId,
+                TeamId = s.Key.TeamId,
+                TeamName = s.Key.TeamName,                
+                Kill  = s.Sum(a => a.Kill),
+                Damage = s.Sum(a => a.Damage),
+                TotalPoints = s.Sum( a => a.TotalPoints)                             
+            }).First();
 
-            return await Task.FromResult(teamLineupMatch);
+
+            return await Task.FromResult(teamStandings);
+
+         
+            //var teamCollection = _team.GetMongoDbCollection("Team");
+
+            //var teamPlayerCollection = _teamPlayers.GetMongoDbCollection("TeamPlayers");
+
+            //var teams = await teamCollection.FindAsync(Builders<Team>.Filter.Where(cn => cn.Id == teamId1)).Result.ToListAsync();
+
+            //var teamPlayers = await teamPlayerCollection.FindAsync(Builders<TeamPlayer>.Filter.Where(cn => cn.TeamId == teamId1)).Result.ToListAsync();
+
+            //var teamLineups = new List<TeamLineUp>();
+
+            //var query = teams.GroupJoin(teamPlayers, tp => tp.Id, t => t.TeamId, (t, tp) => new
+            //{
+            //    TeamId = t.Id,
+            //    TeamName = t.Name,
+            //    TeamPlayers = tp.Select(s => s.PlayerName)
+            //});
+
+            //var teamLineupMatch = new TeamLineUp();
+
+            //foreach (var obj in query)
+            //{
+            //    teamLineupMatch.TeamId = obj.TeamId;
+            //    teamLineupMatch.TeamName = obj.TeamName;
+
+            //    var tmPlayers = new List<TeamLineUpPlayers>();
+
+            //    foreach (var players in obj.TeamPlayers)
+            //    {
+            //        tmPlayers.Add(new TeamLineUpPlayers() { PlayerName = players });
+            //    }
+
+            //    teamLineupMatch.TeamPlayer = tmPlayers;
+            //}
+
+
+
+            return null; //await Task.FromResult(teamLineupMatc);
         }
 
         public async void InsertTeam(Team team)

@@ -31,20 +31,20 @@ namespace Fanview.API.Controllers
         }
 
 
-        /// <summary>
-        /// Returns Player Killed for the given Match Id     
-        /// </summary>
-        /// <remarks>
-        /// Sample request: api/Kill/{matchId}          
-        /// Input Parameter: f84d39a1-8218-4438-9bf5-7150f9e0f093
-        /// </remarks>
-        /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
-        [HttpGet("PlayerKilled/{matchId}")]
-        public IEnumerable<Kill> GetPlayerKilled(string matchId)
-        {
-            var result = _playerKillRepository.GetPlayerKilled(matchId);
-            return result.Result;
-        }
+        ///// <summary>
+        ///// Returns Player Killed for the given Match Id     
+        ///// </summary>
+        ///// <remarks>
+        ///// Sample request: api/Kill/{matchId}          
+        ///// Input Parameter: f84d39a1-8218-4438-9bf5-7150f9e0f093
+        ///// </remarks>
+        ///// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
+        //[HttpGet("PlayerKilled/{matchId}")]
+        //public IEnumerable<Kill> GetPlayerKilled(string matchId)
+        //{
+        //    var result = _playerKillRepository.GetPlayerKilled(matchId);
+        //    return result.Result;
+        //}
 
 
         ///// <summary>

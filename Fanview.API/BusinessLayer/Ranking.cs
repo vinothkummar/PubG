@@ -17,14 +17,16 @@ namespace Fanview.API.BusinessLayer
         private IMatchSummaryRepository _matchSummaryRepository;
         private IPlayerKillRepository _playerKillRepository;
         private IGenericRepository<RankPoints> _genericRankPointsRepository;
-        private IGenericRepository<MatchRanking> _genericMatchRankingRepository;       
+        private IGenericRepository<MatchRanking> _genericMatchRankingRepository;
+        private IGenericRepository<TeamRanking> _genericTeamRankingRepository;
         private ITeamRepository _teamRepository;
         private ITeamPlayerRepository _teamPlayerRespository;               
 
         public Ranking(ILogger<Ranking> logger, IMatchSummaryRepository matchSummaryRepository, 
                        IPlayerKillRepository playerKillRepository, 
                        IGenericRepository<RankPoints> genericRankPointsRepository,
-                       IGenericRepository<MatchRanking> genericMatchRankingRepository,                       
+                       IGenericRepository<MatchRanking> genericMatchRankingRepository,
+                       IGenericRepository<TeamRanking> genericTeamRankingRepository,
                        ITeamRepository teamRepository,
                        ITeamPlayerRepository teamPlayerRepository, IReadAssets readAssets)
         {
@@ -32,7 +34,8 @@ namespace Fanview.API.BusinessLayer
             _matchSummaryRepository = matchSummaryRepository;
             _playerKillRepository = playerKillRepository;
             _genericRankPointsRepository = genericRankPointsRepository;
-            _genericMatchRankingRepository = genericMatchRankingRepository;           
+            _genericMatchRankingRepository = genericMatchRankingRepository;
+            _genericTeamRankingRepository = genericTeamRankingRepository;
             _teamRepository = teamRepository;
             _teamPlayerRespository = teamPlayerRepository;           
         }
@@ -82,6 +85,41 @@ namespace Fanview.API.BusinessLayer
                                                                  });            
 
             return await Task.FromResult(teamMatchRankingScrore);           
+        }
+
+        public async Task<IEnumerable<TeamRanking>> CalculateTeamStats(string matchId, IEnumerable<MatchRanking> matchRankings)
+        {
+            var matchPlayerStats = _matchSummaryRepository.GetPlayerMatchStats(matchId).Result;
+
+            var teams = _teamRepository.GetTeam().Result.Select(s => new { TeamId = s.Id, TeamName = s.Name, TeamShortID = s.TeamId });
+
+            
+
+            var teamPoints = matchPlayerStats.Join(teams, mp => mp.TeamId, t => t.TeamId, (mp,t) => new { mp, t })                                          
+                                           .Select(s => new {MatchId = s.mp.MatchId, TeamId = s.t.TeamId, TeamShortId = s.t.TeamShortID, TeamName = s.t.TeamName, Kills = s.mp.stats.Kills, Damage = s.mp.stats.DamageDealt })
+                                           .GroupBy(g => new { g.TeamId, g.MatchId, g.TeamShortId, g.TeamName  })
+                                                           .Select(s => new
+                                                           {
+                                                               MatchId = s.Key.MatchId,
+                                                               TeamId = s.Key.TeamId,
+                                                               TeamShortId = s.Key.TeamShortId,
+                                                               TeamName = s.Key.TeamName,
+                                                               Kills = s.Sum(g => g.Kills),
+                                                               Damage = s.Sum(t => t.Damage),
+                                                               
+                                                           });
+            var teamStandings = matchRankings.Join(teamPoints, mr => mr.TeamId, tp => tp.TeamId, (mr, tp) => new { mr, tp }).Select(s => new TeamRanking()
+            {
+                TeamId = s.tp.TeamShortId.ToString(),
+                Kill = s.tp.Kills,
+                Damage = s.tp.Damage,
+                MatchId = s.tp.MatchId,
+                TeamName = s.tp.TeamName,
+                TotalPoints = s.mr.TotalPoints
+                
+            });
+
+            return teamStandings;
         }
 
         public async Task<IEnumerable<MatchRanking>> GetMatchRankings(string matchId)
@@ -220,13 +258,20 @@ namespace Fanview.API.BusinessLayer
                 {
                     var teamsScroingPoints = CalculateMatchRanking(matchId).Result;
 
+                    var teamStats = CalculateTeamStats(matchId, teamsScroingPoints).Result;
+
                     var matchRankingCollection = _genericMatchRankingRepository.GetMongoDbCollection("MatchRanking");
 
+                   
                     var matchRankingScore = matchRankingCollection.FindAsync(Builders<MatchRanking>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result;
+
+                
 
                     if (matchRankingScore == null)
                     {
                     _genericMatchRankingRepository.Insert(teamsScroingPoints, "MatchRanking");
+
+                        _genericTeamRankingRepository.Insert(teamStats, "TeamRanking");
                     }
 
                     return teamsScroingPoints;
@@ -235,16 +280,18 @@ namespace Fanview.API.BusinessLayer
                 return await await Task.FromResult(matchRankings);
         }
 
+       
+
         private IEnumerable<TeamRankPoints> GetTeamEliminatedPosition(IEnumerable<Kill> kills, string matchId, int totalTeamCount)
         {
             var teamPlayers = _teamPlayerRespository.GetTeamPlayers(matchId).Result;
 
             var playersCreated = _teamPlayerRespository.GetPlayersCreated(matchId).Result;
 
-            var playersKilled = kills.Join(playersCreated, pk => pk.Victim.AccountId, pc => pc.AccountId,
+            var playersKilled = kills.Join(playersCreated, pk => pk.Victim.TeamId, pc => Convert.ToInt32( pc.TeamId),
                                                    (pk, pc) => new { pk, pc })
-                                                   .Join(teamPlayers, pkpc => pkpc.pc.AccountId, 
-                                                   tp => tp.PubgAccountId, (pkpc, tp) => new {pkpc,tp})
+                                                   .Join(teamPlayers, pkpc => Convert.ToInt32(pkpc.pc.TeamId), 
+                                                   tp => tp.TeamIdShort, (pkpc, tp) => new {pkpc,tp})
                                                    .Select(s => new
                                                    {
                                                        VictimTeamId = s.pkpc.pk.Victim.TeamId,

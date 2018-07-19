@@ -227,8 +227,12 @@ namespace Fanview.API.Repository
 
             var teamParticipants = new List<MatchPlayerStats>();
 
+            var rosterTeamId = 0;
+
             foreach (var item in matchRoster)
             {
+                rosterTeamId = item.RosterAttributes.Stats.TeamId;
+
                 foreach (var item1 in item.RosterRelationShips.Participant )
                 {
                     foreach (var item2 in matchParticipant)
@@ -241,7 +245,7 @@ namespace Fanview.API.Repository
                                 teamParticipant.RosterId = item.Id;
                                 teamParticipant.ParticipantId = item2.Id;                              
                                 teamParticipant.stats = item2.ParticipantAttributes.stats;
-                                teamParticipant.TeamId = teamPlayers.Result.Where(cn => cn.PubgAccountId == item2.ParticipantAttributes.stats.PlayerId).FirstOrDefault().TeamId;
+                                teamParticipant.TeamId = teamPlayers.Result.Where(cn => cn.TeamIdShort == rosterTeamId).FirstOrDefault().TeamId;
                                 teamParticipants.Add(teamParticipant);
                         }
                     }
