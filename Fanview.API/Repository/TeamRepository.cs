@@ -97,66 +97,36 @@ namespace Fanview.API.Repository
         }
       
 
-        public async Task<TeamRanking> GetTeamProfile(string teamId1)
+        public async Task<IEnumerable<TeamRanking>> GetTeamProfile(string teamId1)
         {
 
             var teamStatsRanking = _teamRankings.GetMongoDbCollection("TeamRanking");
 
-            var teamRankingsScrore = teamStatsRanking.FindAsync(Builders<TeamRanking>.Filter.Where(cn => cn.TeamId == teamId1 )).Result.ToListAsync();
+            var teamScrore = teamStatsRanking.FindAsync(Builders<TeamRanking>.Filter.Where(cn => cn.TeamId == teamId1 )).Result.ToListAsync();
 
+            var teamRanks = teamStatsRanking.AsQueryable().GroupBy(g => g.TeamId).Select(s =>
+            new
+            {
+                TeamId = s.Key,
+                TeamName = s.Select(a => a.TeamName),
+                TotalScore = s.Sum(a => a.TotalPoints)
+            }).OrderByDescending(o => o.TotalScore).ToListAsync().Result.ToList()
+            .Select((item, index) => new { TeamId = item.TeamId, TotalScore = item.TotalScore, Rank = index });
 
-            var teamStandings = teamRankingsScrore.Result.GroupBy(g => new { MatchId = g.MatchId, TeamId = g.TeamId, TeamName = g.TeamName })
+            var teamPosition = teamRanks.Where(cn => cn.TeamId == teamId1).Select(s => s.Rank).FirstOrDefault() + 1;
+
+            var teamStandings = teamScrore.Result.GroupBy(g =>  g.TeamId)
                  .Select(s => new TeamRanking()
-               {
-                MatchId = s.Key.MatchId,
-                TeamId = s.Key.TeamId,
-                TeamName = s.Key.TeamName,                
+               {           
+                TeamRank = teamPosition.ToString(),
+                TeamId = s.Key,
+                TeamName = s.Select(a => a.TeamName).ElementAtOrDefault(0),                
                 Kill  = s.Sum(a => a.Kill),
                 Damage = s.Sum(a => a.Damage),
                 TotalPoints = s.Sum( a => a.TotalPoints)                             
-            }).First();
-
+            });
 
             return await Task.FromResult(teamStandings);
-
-         
-            //var teamCollection = _team.GetMongoDbCollection("Team");
-
-            //var teamPlayerCollection = _teamPlayers.GetMongoDbCollection("TeamPlayers");
-
-            //var teams = await teamCollection.FindAsync(Builders<Team>.Filter.Where(cn => cn.Id == teamId1)).Result.ToListAsync();
-
-            //var teamPlayers = await teamPlayerCollection.FindAsync(Builders<TeamPlayer>.Filter.Where(cn => cn.TeamId == teamId1)).Result.ToListAsync();
-
-            //var teamLineups = new List<TeamLineUp>();
-
-            //var query = teams.GroupJoin(teamPlayers, tp => tp.Id, t => t.TeamId, (t, tp) => new
-            //{
-            //    TeamId = t.Id,
-            //    TeamName = t.Name,
-            //    TeamPlayers = tp.Select(s => s.PlayerName)
-            //});
-
-            //var teamLineupMatch = new TeamLineUp();
-
-            //foreach (var obj in query)
-            //{
-            //    teamLineupMatch.TeamId = obj.TeamId;
-            //    teamLineupMatch.TeamName = obj.TeamName;
-
-            //    var tmPlayers = new List<TeamLineUpPlayers>();
-
-            //    foreach (var players in obj.TeamPlayers)
-            //    {
-            //        tmPlayers.Add(new TeamLineUpPlayers() { PlayerName = players });
-            //    }
-
-            //    teamLineupMatch.TeamPlayer = tmPlayers;
-            //}
-
-
-
-            return null; //await Task.FromResult(teamLineupMatc);
         }
 
         public async void InsertTeam(Team team)
@@ -197,5 +167,6 @@ namespace Fanview.API.Repository
         {
             return Task.FromResult(_data.GetTeamLanding());
         }
+        
     }
 }

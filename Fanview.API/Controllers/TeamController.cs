@@ -95,7 +95,7 @@ namespace Fanview.API.Controllers
         /// </remarks>
         /// <param name='teamId1'>1</param>       
         [HttpGet("Profile/{teamId1}", Name = "GetTeamProfile")]
-        public Task<TeamRanking> GetTeamProfile(string teamId1)
+        public Task<IEnumerable<TeamRanking>> GetTeamProfile(string teamId1)
         {
             return _teamRepository.GetTeamProfile(teamId1);
         }
