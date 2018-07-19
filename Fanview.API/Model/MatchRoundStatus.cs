@@ -9,7 +9,7 @@ namespace Fanview.API.Model
     {   
         None,
         NotStarted,        
-        Active,        
+        InProgress,        
         Completed,
         Next,
         Scheduled

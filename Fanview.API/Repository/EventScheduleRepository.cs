@@ -59,10 +59,10 @@ namespace Fanview.API.Repository
                 new EventInfo(){
                     ScheduleTimeAndStatus = new List<MatchDailyRoundStatus>()
                     {
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,25,17,00,00), MatchRoundStatus = nameof(MatchRoundStatus.Scheduled),MatchId=1, PubgMatchid=""},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,25,18,00,00), MatchRoundStatus = nameof(MatchRoundStatus.Scheduled),MatchId=2, PubgMatchid=""},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,25,19,00,00), MatchRoundStatus = nameof(MatchRoundStatus.Scheduled),MatchId=3, PubgMatchid=""},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,25,20,00,00), MatchRoundStatus = nameof(MatchRoundStatus.Scheduled),MatchId=4, PubgMatchid=""},                    
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,25,17,00,00), MatchRoundStatus = nameof(MatchRoundStatus.Completed),MatchId=1, PubgMatchid="b2224f16-099e-4f1b-9869-70c17afb77ea"},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,25,18,00,00), MatchRoundStatus = nameof(MatchRoundStatus.Completed),MatchId=2, PubgMatchid="be4a650e-9459-493e-915b-6f2f7057ea28"},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,25,19,00,00), MatchRoundStatus = nameof(MatchRoundStatus.Completed),MatchId=3, PubgMatchid="789a5d81-8e19-4035-aed3-e3b7562e3dfd"},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,25,20,00,00), MatchRoundStatus = nameof(MatchRoundStatus.Completed),MatchId=4, PubgMatchid="5f6babee-e2c4-46ea-9e7e-5ee21db1cbc2"},                    
                                 
                     },
                     DayCount = "1",
@@ -74,8 +74,8 @@ namespace Fanview.API.Repository
                     {
 
 
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,26,17,00,00), MatchRoundStatus = nameof(MatchRoundStatus.Scheduled),MatchId=5, PubgMatchid=""},
-                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,26,18,00,00), MatchRoundStatus = nameof(MatchRoundStatus.Scheduled),MatchId=6, PubgMatchid=""},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,26,17,00,00), MatchRoundStatus = nameof(MatchRoundStatus.Completed),MatchId=5, PubgMatchid="038e363c-3811-4a1d-bafc-82b631d0afbb"},
+                        new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,26,18,00,00), MatchRoundStatus = nameof(MatchRoundStatus.InProgress),MatchId=6, PubgMatchid="675619e6-4a11-6b92-cf2e-4c82428b78ef"},
                         new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,26,19,00,00), MatchRoundStatus = nameof(MatchRoundStatus.Scheduled),MatchId=7, PubgMatchid=""},
                         new MatchDailyRoundStatus(){ScheduleTime = new DateTime(2018,07,26,20,00,00), MatchRoundStatus = nameof(MatchRoundStatus.Scheduled),MatchId=8, PubgMatchid=""},
 

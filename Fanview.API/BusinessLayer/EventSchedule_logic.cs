@@ -41,7 +41,7 @@ namespace Fanview.API.BusinessLayer
                 else if (time > early_Morning && time <= late_Morning)
                 {
 
-                    item.ScheduleTimeAndStatus[0].MatchRoundStatus = nameof(MatchRoundStatus.Active);
+                    item.ScheduleTimeAndStatus[0].MatchRoundStatus = nameof(MatchRoundStatus.InProgress);
                     item.ScheduleTimeAndStatus[1].MatchRoundStatus= nameof(MatchRoundStatus.Next);
                     item.ScheduleTimeAndStatus[2].MatchRoundStatus = nameof(MatchRoundStatus.Scheduled);
                     item.ScheduleTimeAndStatus[3].MatchRoundStatus = nameof(MatchRoundStatus.Scheduled);
@@ -54,7 +54,7 @@ namespace Fanview.API.BusinessLayer
 
                     
                     item.ScheduleTimeAndStatus[0].MatchRoundStatus= nameof(MatchRoundStatus.Completed);
-                    item.ScheduleTimeAndStatus[1].MatchRoundStatus = nameof(MatchRoundStatus.Active);
+                    item.ScheduleTimeAndStatus[1].MatchRoundStatus = nameof(MatchRoundStatus.InProgress);
                     item.ScheduleTimeAndStatus[2].MatchRoundStatus = nameof(MatchRoundStatus.Next);
                     item.ScheduleTimeAndStatus[3].MatchRoundStatus = nameof(MatchRoundStatus.Scheduled);
                     break;
@@ -66,7 +66,7 @@ namespace Fanview.API.BusinessLayer
                  
                     item.ScheduleTimeAndStatus[0].MatchRoundStatus= nameof(MatchRoundStatus.Completed);
                     item.ScheduleTimeAndStatus[1].MatchRoundStatus= nameof(MatchRoundStatus.Completed);
-                    item.ScheduleTimeAndStatus[2].MatchRoundStatus = nameof(MatchRoundStatus.Active);
+                    item.ScheduleTimeAndStatus[2].MatchRoundStatus = nameof(MatchRoundStatus.InProgress);
                     item.ScheduleTimeAndStatus[3].MatchRoundStatus= nameof(MatchRoundStatus.Next);
                     break;
 
@@ -79,7 +79,7 @@ namespace Fanview.API.BusinessLayer
                     item.ScheduleTimeAndStatus[0].MatchRoundStatus = nameof(MatchRoundStatus.Completed);
                     item.ScheduleTimeAndStatus[1].MatchRoundStatus = nameof(MatchRoundStatus.Completed);
                     item.ScheduleTimeAndStatus[2].MatchRoundStatus = nameof(MatchRoundStatus.Completed);
-                    item.ScheduleTimeAndStatus[3].MatchRoundStatus= nameof(MatchRoundStatus.Active);
+                    item.ScheduleTimeAndStatus[3].MatchRoundStatus= nameof(MatchRoundStatus.InProgress);
                     break;
 
 
