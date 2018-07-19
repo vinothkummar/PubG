@@ -101,13 +101,13 @@ namespace Fanview.API.Controllers
         }
 
         [HttpGet("Profile/{teamId1}/{matchId}", Name = "GetTeamProfileByMatchId")]
-        public Task<IEnumerable<TeamRanking>> GetTeamProfileByMatchId(string teamId1, string matchId)
+        public Task<IEnumerable<TeamRanking>> GetTeamProfileByMatchId(string teamId1, int matchId)
         {
             return _teamRepository.GetTeamProfileByMatchId(teamId1, matchId);
         }
 
         [HttpGet("Profile/{teamId1}/{teamId2}/{matchId}", Name = "GetTeamProfilesByTeamIdAndMatchId")]
-        public Task<IEnumerable<TeamRanking>> GetTeamProfilesByTeamIdAndMatchId(string teamId1, string teamId2, string matchId)
+        public Task<IEnumerable<TeamRanking>> GetTeamProfilesByTeamIdAndMatchId(string teamId1, string teamId2, int matchId)
         {
             return _teamRepository.GetTeamProfilesByTeamIdAndMatchId(teamId1, teamId2, matchId);
         }

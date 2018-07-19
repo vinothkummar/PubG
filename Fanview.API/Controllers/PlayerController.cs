@@ -54,7 +54,7 @@ namespace Fanview.API.Controllers
         }
 
         [HttpGet("Profile/{playerId1}/{matchId}", Name = "GetPlayerProfileTournamentByMatchId")]
-        public Task<IEnumerable<PlayerProfileTournament>> GetPlayerProfileTournamentByMatchId(int playerId1, string matchId)
+        public Task<IEnumerable<PlayerProfileTournament>> GetPlayerProfileTournamentByMatchId(int playerId1, int matchId)
         {
             return _teamPlayerRepository.GetTeamPlayersTournament(playerId1, matchId);
         }
@@ -66,7 +66,7 @@ namespace Fanview.API.Controllers
         }
 
         [HttpGet("Profile/MatchUp/{playerId1}/{playerId2}/{matchId}", Name = "GetPlayerProfileMatchUPByMatchId")]
-        public Task<IEnumerable<PlayerProfileTournament>> GetPlayerProfileMatchUPByMatchId(int playerId1, int playerId2, string matchId)
+        public Task<IEnumerable<PlayerProfileTournament>> GetPlayerProfileMatchUPByMatchId(int playerId1, int playerId2, int matchId)
         {
             return _teamPlayerRepository.GetTeamPlayersStatsMatchUp(playerId1, playerId2, matchId);
         }

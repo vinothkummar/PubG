@@ -18,13 +18,15 @@ namespace Fanview.API.Repository
         private IGenericRepository<Team> _genericTeamRepository;
         private IGenericRepository<CreatePlayer> _genericPlayerRepository;
         private IGenericRepository<MatchPlayerStats> _genericMatchPlayerStatsRepository;
+        private IGenericRepository<Event> _tournament;
 
 
 
         public TeamPlayerRepository(IGenericRepository<TeamPlayer> genericRepository, ILogger<TeamRepository> logger,
             IGenericRepository<Team> teamgenericRepository,
             IGenericRepository<CreatePlayer> genericPlayerRepository,
-            IGenericRepository<MatchPlayerStats> genericMatchPlayerStatsRepository           
+            IGenericRepository<MatchPlayerStats> genericMatchPlayerStatsRepository,
+            IGenericRepository<Event> tournament
             )
         {
             _genericTeamPlayerRepository = genericRepository;
@@ -33,6 +35,7 @@ namespace Fanview.API.Repository
             _genericTeamRepository= teamgenericRepository;
             _genericPlayerRepository = genericPlayerRepository;
             _genericMatchPlayerStatsRepository = genericMatchPlayerStatsRepository;
+            _tournament = tournament;
             
             
         }
@@ -194,16 +197,23 @@ namespace Fanview.API.Repository
 
         }
 
-        public async Task<IEnumerable<PlayerProfileTournament>> GetTeamPlayersTournament(int playerId, string matchId)
+        public async Task<IEnumerable<PlayerProfileTournament>> GetTeamPlayersTournament(int playerId, int matchId)
         {
+            var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
+
+            var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
+
             var teamPlayerCollection = _genericTeamPlayerRepository.GetMongoDbCollection("TeamPlayers");
 
-            var teamPlayer = await teamPlayerCollection.FindAsync(Builders<TeamPlayer>.Filter.Where(cn => cn.PlayerId == playerId)).Result.ToListAsync();
+            var teamPlayer = await teamPlayerCollection.FindAsync(Builders<TeamPlayer>.Filter.Where(cn => cn.PlayerId == playerId && cn.MatchId == tournamentMatchId)).Result.ToListAsync();
 
-            var matchstats = _genericMatchPlayerStatsRepository.GetAll("MatchPlayerStats").Result;
+            var matchstats = _genericMatchPlayerStatsRepository.GetMongoDbCollection("MatchPlayerStats");
 
-            var playerProfile = matchstats.Join(teamPlayer, ms => ms.stats.Name, tp => tp.PlayerName, (ms, tp) => new { ms, tp })
-                                          .Where(cn => cn.ms.MatchId == matchId)
+            var matchstat = await matchstats.FindAsync(Builders<MatchPlayerStats>.Filter.Where(cn => cn.MatchId == tournamentMatchId)).Result.ToListAsync();
+            
+
+
+            var playerProfile = matchstat.Join(teamPlayer, ms => ms.stats.Name, tp => tp.PlayerName, (ms, tp) => new { ms, tp })                                          
                                           .Select(s => new
                                           {
                                               MatchId = s.tp.MatchId,
@@ -225,7 +235,7 @@ namespace Fanview.API.Repository
                                               }
                                           });
 
-            var PlayerProfileGrouped = playerProfile.GroupBy(g => g.PlayerId).Select(s => new PlayerProfileTournament()
+            var PlayerProfileGrouped = playerProfile.GroupBy(g => g.PlayerName).Select(s => new PlayerProfileTournament()
             {
                 MatchId = s.Select(c => c.MatchId).ElementAtOrDefault(0),
                 PlayerId = s.Select(c => c.PlayerId).ElementAtOrDefault(0),
@@ -249,16 +259,23 @@ namespace Fanview.API.Repository
         }
 
 
-        public async Task<IEnumerable<PlayerProfileTournament>> GetTeamPlayersStatsMatchUp(int playerId1, int playerId2, string matchId)
+        public async Task<IEnumerable<PlayerProfileTournament>> GetTeamPlayersStatsMatchUp(int playerId1, int playerId2, int matchId)
         {
+            var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
+
+            var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
+
             var teamPlayerCollection = _genericTeamPlayerRepository.GetMongoDbCollection("TeamPlayers");
 
-            var teamPlayer = await teamPlayerCollection.FindAsync(Builders<TeamPlayer>.Filter.Where(cn => cn.PlayerId == playerId1 || cn.PlayerId == playerId2)).Result.ToListAsync();
+            var teamPlayer = await teamPlayerCollection.FindAsync(Builders<TeamPlayer>.Filter.Where(cn => (cn.PlayerId == playerId1 || cn.PlayerId == playerId2) 
+                                                        && (cn.MatchId == tournamentMatchId))).Result.ToListAsync();
+           
 
-            var matchstats = _genericMatchPlayerStatsRepository.GetAll("MatchPlayerStats").Result;
+            var matchstats = _genericMatchPlayerStatsRepository.GetMongoDbCollection("MatchPlayerStats");
 
-            var playerProfile = matchstats.Join(teamPlayer, ms => ms.stats.Name, tp => tp.PlayerName, (ms, tp) => new { ms, tp })
-                                          .Where(cn => cn.ms.MatchId == matchId)
+            var matchstat = await matchstats.FindAsync(Builders<MatchPlayerStats>.Filter.Where(cn => cn.MatchId == tournamentMatchId)).Result.ToListAsync();
+
+            var playerProfile = matchstat.Join(teamPlayer, ms => ms.stats.Name.Trim(), tp => tp.PlayerName.Trim(), (ms, tp) => new { ms, tp })                                          
                                           .Select(s => new
                                           {
                                               MatchId = s.tp.MatchId,

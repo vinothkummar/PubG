@@ -19,6 +19,7 @@ namespace Fanview.API.Repository
         private IGenericRepository<MatchPlayerStats> _matchPlayerStats;
         private IGenericRepository<TeamPlayer> _teamPlayers;
         private IGenericRepository<TeamRanking> _teamRankings;
+        private IGenericRepository<Event> _tournament;
         private LiveGraphichsDummyData _data;
         private ILogger<TeamRepository> _logger;
 
@@ -26,12 +27,14 @@ namespace Fanview.API.Repository
                               IGenericRepository<MatchPlayerStats> matchPlayerStats,                              
                               IGenericRepository<TeamPlayer> teamPlayers,
                               IGenericRepository<TeamRanking> teamRankings,
+                              IGenericRepository<Event> tournament,                              
                               ILogger<TeamRepository> logger)
         {
             _team = team;
             _matchPlayerStats = matchPlayerStats;
             _teamPlayers = teamPlayers;
             _teamRankings = teamRankings;
+            _tournament = tournament;
 
             _data = new LiveGraphichsDummyData();
 
@@ -136,11 +139,15 @@ namespace Fanview.API.Repository
             await Task.Run(persistDataToMongo);
         }
 
-         public async Task<IEnumerable<TeamRanking>> GetTeamProfileByMatchId(string teamId1, string matchId)
+         public async Task<IEnumerable<TeamRanking>> GetTeamProfileByMatchId(string teamId1, int matchId)
         {
+            var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
+
+            var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
+
             var teamStatsRanking = _teamRankings.GetMongoDbCollection("TeamRanking");
 
-            var teamScrore = teamStatsRanking.FindAsync(Builders<TeamRanking>.Filter.Where(cn => cn.TeamId == teamId1 && cn.MatchId == matchId)).Result.ToListAsync();
+            var teamScrore = teamStatsRanking.FindAsync(Builders<TeamRanking>.Filter.Where(cn => cn.TeamId == teamId1 && cn.MatchId == tournamentMatchId)).Result.ToListAsync();
 
             var teamRanks = teamStatsRanking.AsQueryable().GroupBy(g => g.TeamId).Select(s =>
             new
@@ -167,11 +174,15 @@ namespace Fanview.API.Repository
             return await Task.FromResult(teamStandings);
         }
 
-        public async Task<IEnumerable<TeamRanking>> GetTeamProfilesByTeamIdAndMatchId(string teamId1, string teamId2, string matchId)
+        public async Task<IEnumerable<TeamRanking>> GetTeamProfilesByTeamIdAndMatchId(string teamId1, string teamId2, int matchId)
         {
+            var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
+
+            var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
+
             var teamStatsRanking = _teamRankings.GetMongoDbCollection("TeamRanking");
 
-            var teamScrore = teamStatsRanking.FindAsync(Builders<TeamRanking>.Filter.Where(cn => (cn.TeamId == teamId1 || cn.TeamId == teamId2 ) && (cn.MatchId == matchId))).Result.ToListAsync();
+            var teamScrore = teamStatsRanking.FindAsync(Builders<TeamRanking>.Filter.Where(cn => (cn.TeamId == teamId1 || cn.TeamId == teamId2 ) && (cn.MatchId == tournamentMatchId))).Result.ToListAsync();
 
             var teamRanks = teamStatsRanking.AsQueryable().GroupBy(g => g.TeamId).Select(s =>
             new
