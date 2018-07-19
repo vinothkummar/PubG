@@ -308,16 +308,22 @@ namespace Fanview.API.Repository
 
         public Task<IEnumerable<KillZone>> GetKillZone(string matchId)
         {
-            return Task.FromResult(_data.GetLiveKillzone());
+            var playerKilledFromOpenApi = GetPlayerKilled(matchId).Result.Select(s => new KillZone() {
+
+                MatchId = s.MatchId,
+                PlayerName = s.Victim.Name,
+                TeamId = s.Victim.TeamId,
+                Health = s.Victim.Health,
+                Location = s.Victim.Location
+            });
+
+
+            return Task.FromResult(playerKilledFromOpenApi);
         }
 
         public void InsertLiveKillEventTelemetry(JObject[] jsonResult, string fileName)
         {
-            System.DateTime dateTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
-
-            //var eventInformation = _eventInfoRepository.GetMongoDbCollection("EventScheduleInfo");
-
-            //var filter = eventInformation.FindAsync(Builders<EventInfo>.Filter.Eq("ScheduleTimeAndStatus.PubgMatchid", ""));
+            System.DateTime dateTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);            
 
             if (jsonResult.Where(cn => (string)cn["_T"] == "EventMatchJoin").Count() > 0)
             {

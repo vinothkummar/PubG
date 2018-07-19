@@ -1105,114 +1105,114 @@ namespace Fanview.API.GraphicsDummyData
         }
         public IEnumerable<KillZone> GetLiveKillzone()
         {
-            var killZones = new List<KillZone>
-            {
-                new KillZone{
-                MatchId= "5b45e498040bbeb6a89877f6",
-                MatchName="Day-1",
-                Location=new LiveLocation
-                {
-                    X =574472,
-                    Y=306982.281,
-                    Z=1208.98
-                },
-                KillerName="DTN_iLGO",
-                KillerId=1,
-                TeamId=4
+            //var killZones = new List<KillZone>
+            //{
+            //    new KillZone{
+            //    MatchId= "5b45e498040bbeb6a89877f6",
+            //    MatchName="Day-1",
+            //    Location=new LiveLocation
+            //    {
+            //        X =574472,
+            //        Y=306982.281,
+            //        Z=1208.98
+            //    },
+            //    KillerName="DTN_iLGO",
+            //    KillerId=1,
+            //    TeamId=4
 
-                },
-                new KillZone{
-                MatchId= "f84d39a1-8218-4438-9bf5-7150f9e0f093",
-                MatchName="Day-1-1",
-                Location=new LiveLocation
-                {
-                    X =574533.3,
-                    Y=302502.062,
-                    Z=1078.32
-                },
-                KillerName="Lunatichai_Tio",
-                KillerId=3,
-                TeamId=5
+            //    },
+            //    new KillZone{
+            //    MatchId= "f84d39a1-8218-4438-9bf5-7150f9e0f093",
+            //    MatchName="Day-1-1",
+            //    Location=new LiveLocation
+            //    {
+            //        X =574533.3,
+            //        Y=302502.062,
+            //        Z=1078.32
+            //    },
+            //    KillerName="Lunatichai_Tio",
+            //    KillerId=3,
+            //    TeamId=5
 
-                },
-                new KillZone{
-                MatchId= "f84d39a1-8218-4438-9bf5-7150f9e0f093",
-                MatchName="Day-1-2",
-                Location=new LiveLocation
-                {
-                    X =559835.438,
-                    Y=306535.3,
-                    Z=1602.49
-                },
-                KillerName="Erangel_Main",
-                KillerId=4,
-                TeamId=2
+            //    },
+            //    new KillZone{
+            //    MatchId= "f84d39a1-8218-4438-9bf5-7150f9e0f093",
+            //    MatchName="Day-1-2",
+            //    Location=new LiveLocation
+            //    {
+            //        X =559835.438,
+            //        Y=306535.3,
+            //        Z=1602.49
+            //    },
+            //    KillerName="Erangel_Main",
+            //    KillerId=4,
+            //    TeamId=2
 
-                },
-             new KillZone{
-                MatchId= "f84d39a1-8218-4438-9bf5-7150f9e0f093",
-                MatchName="Day-2-3",
-                Location=new LiveLocation
-                {
-                    X =527530.3,
-                    Y= 322461.9,
-                    Z=928.57
-                },
-                KillerName="KDG_Phenom",
-                KillerId=5,
-                TeamId=3
-                
-
-                },
-                   new KillZone{
-                MatchId= "f84d39a1-8218-4438-9bf5-7150f9e0f093",
-                MatchName="Day-2-3",
-                Location=new LiveLocation
-                {
-                    X =562411.5,
-                    Y= 306754.438,
-                    Z=1252.07
-                },
-                KillerName="ACTOZ_I_Jaehyeon",
-                KillerId=6,
-                TeamId=10
+            //    },
+            // new KillZone{
+            //    MatchId= "f84d39a1-8218-4438-9bf5-7150f9e0f093",
+            //    MatchName="Day-2-3",
+            //    Location=new LiveLocation
+            //    {
+            //        X =527530.3,
+            //        Y= 322461.9,
+            //        Z=928.57
+            //    },
+            //    KillerName="KDG_Phenom",
+            //    KillerId=5,
+            //    TeamId=3
 
 
-                },
-                        new KillZone{
-                MatchId= "f84d39a1-8218-4438-9bf5-7150f9e0f093",
-                MatchName="Day-2-5",
-                Location=new LiveLocation
-                {
-                    X =562411.5,
-                    Y= 306754.438,
-                    Z=1252.07
-                },
-                KillerName= "LH-FLUX_Retri",
-                KillerId=7,
-                TeamId=15
+            //    },
+            //       new KillZone{
+            //    MatchId= "f84d39a1-8218-4438-9bf5-7150f9e0f093",
+            //    MatchName="Day-2-3",
+            //    Location=new LiveLocation
+            //    {
+            //        X =562411.5,
+            //        Y= 306754.438,
+            //        Z=1252.07
+            //    },
+            //    KillerName="ACTOZ_I_Jaehyeon",
+            //    KillerId=6,
+            //    TeamId=10
 
 
-                },
-                new KillZone{
-                MatchId= "f84d39a1-8218-4438-9bf5-7150f9e0f093",
-                MatchName="Day-2-3",
-                Location=new LiveLocation
-                {
-                    X =527530.3,
-                    Y= 322461.9,
-                    Z=928.57
-                },
-                KillerName= "LH-FLUX_Retri",
-                KillerId =8,
-                TeamId=5
+            //    },
+            //            new KillZone{
+            //    MatchId= "f84d39a1-8218-4438-9bf5-7150f9e0f093",
+            //    MatchName="Day-2-5",
+            //    Location=new LiveLocation
+            //    {
+            //        X =562411.5,
+            //        Y= 306754.438,
+            //        Z=1252.07
+            //    },
+            //    KillerName= "LH-FLUX_Retri",
+            //    KillerId=7,
+            //    TeamId=15
 
 
-                },
+            //    },
+            //    new KillZone{
+            //    MatchId= "f84d39a1-8218-4438-9bf5-7150f9e0f093",
+            //    MatchName="Day-2-3",
+            //    Location=new LiveLocation
+            //    {
+            //        X =527530.3,
+            //        Y= 322461.9,
+            //        Z=928.57
+            //    },
+            //    KillerName= "LH-FLUX_Retri",
+            //    KillerId =8,
+            //    TeamId=5
 
 
-            };
-            return killZones;
+            //    },
+
+
+            // };
+            return null; //killZones;
         }
     }
 }
