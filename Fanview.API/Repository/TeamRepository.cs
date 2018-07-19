@@ -136,6 +136,71 @@ namespace Fanview.API.Repository
             await Task.Run(persistDataToMongo);
         }
 
+         public async Task<IEnumerable<TeamRanking>> GetTeamProfileByMatchId(string teamId1, string matchId)
+        {
+            var teamStatsRanking = _teamRankings.GetMongoDbCollection("TeamRanking");
+
+            var teamScrore = teamStatsRanking.FindAsync(Builders<TeamRanking>.Filter.Where(cn => cn.TeamId == teamId1 && cn.MatchId == matchId)).Result.ToListAsync();
+
+            var teamRanks = teamStatsRanking.AsQueryable().GroupBy(g => g.TeamId).Select(s =>
+            new
+            {
+                TeamId = s.Key,
+                TeamName = s.Select(a => a.TeamName),
+                TotalScore = s.Sum(a => a.TotalPoints)
+            }).OrderByDescending(o => o.TotalScore).ToListAsync().Result.ToList()
+            .Select((item, index) => new { TeamId = item.TeamId, TotalScore = item.TotalScore, Rank = index });
+
+            var teamPosition = teamRanks.Where(cn => cn.TeamId == teamId1).Select(s => s.Rank).FirstOrDefault() + 1;
+
+            var teamStandings = teamScrore.Result.GroupBy(g => g.TeamId)
+                 .Select(s => new TeamRanking()
+                 {   MatchId = s.Select(a =>a.MatchId).ElementAtOrDefault(0),
+                     TeamRank = teamPosition.ToString(),
+                     TeamId = s.Key,
+                     TeamName = s.Select(a => a.TeamName).ElementAtOrDefault(0),
+                     Kill = s.Sum(a => a.Kill),
+                     Damage = s.Sum(a => a.Damage),
+                     TotalPoints = s.Sum(a => a.TotalPoints)
+                 });
+
+            return await Task.FromResult(teamStandings);
+        }
+
+        public async Task<IEnumerable<TeamRanking>> GetTeamProfilesByTeamIdAndMatchId(string teamId1, string teamId2, string matchId)
+        {
+            var teamStatsRanking = _teamRankings.GetMongoDbCollection("TeamRanking");
+
+            var teamScrore = teamStatsRanking.FindAsync(Builders<TeamRanking>.Filter.Where(cn => (cn.TeamId == teamId1 || cn.TeamId == teamId2 ) && (cn.MatchId == matchId))).Result.ToListAsync();
+
+            var teamRanks = teamStatsRanking.AsQueryable().GroupBy(g => g.TeamId).Select(s =>
+            new
+            {
+                TeamId = s.Key,
+                TeamName = s.Select(a => a.TeamName),
+                TotalScore = s.Sum(a => a.TotalPoints)
+            }).OrderByDescending(o => o.TotalScore).ToListAsync().Result.ToList()
+            .Select((item, index) => new { TeamId = item.TeamId, TotalScore = item.TotalScore, Rank = index });
+
+            var teamPosition = teamRanks.Where(cn => cn.TeamId == teamId1 || cn.TeamId == teamId2).Select(s => new { TeamId = s.TeamId, Rank = s.Rank }).ToList();
+
+            var i = 0;
+
+            var teamStandings = teamScrore.Result.GroupBy(g => g.TeamId)
+                 .Select(s => new TeamRanking()
+                 {
+                     MatchId = s.Select(a => a.MatchId).ElementAtOrDefault(0),
+                     TeamRank = (teamPosition.Select(a => a.Rank).ElementAtOrDefault(i++) + 1).ToString(),
+                     TeamId = s.Key,
+                     TeamName = s.Select(a => a.TeamName).ElementAtOrDefault(0),
+                     Kill = s.Sum(a => a.Kill),
+                     Damage = s.Sum(a => a.Damage),
+                     TotalPoints = s.Sum(a => a.TotalPoints)
+                 });
+
+            return await Task.FromResult(teamStandings);
+        }
+
         async Task<IEnumerable<TeamLineUp>> ITeamRepository.GetTeamLine(string teamId)
         {
             var teamLineUp = _matchPlayerStats.GetAll("MatchPlayerStats").Result.Join(_team.GetAll("Team").Result,
@@ -158,6 +223,39 @@ namespace Fanview.API.Repository
             return await Task.FromResult(teamLineUp);
         }
 
+
+        public async Task<IEnumerable<TeamRanking>> GetTeamProfileMatchUp(string teamId1, string teamId2)
+        {
+            var teamStatsRanking = _teamRankings.GetMongoDbCollection("TeamRanking");
+
+            var teamScrore = teamStatsRanking.FindAsync(Builders<TeamRanking>.Filter.Where(cn => cn.TeamId == teamId1 || cn.TeamId == teamId2)).Result.ToListAsync();
+
+            var teamRanks = teamStatsRanking.AsQueryable().GroupBy(g => g.TeamId).Select(s =>
+            new
+            {
+                TeamId = s.Key,
+                TeamName = s.Select(a => a.TeamName),
+                TotalScore = s.Sum(a => a.TotalPoints)
+            }).OrderByDescending(o => o.TotalScore).ToListAsync().Result.ToList()
+            .Select((item, index) => new { TeamId = item.TeamId, TotalScore = item.TotalScore, Rank = index });
+
+            var teamPosition = teamRanks.Where(cn => cn.TeamId == teamId1 || cn.TeamId == teamId2).Select(s => new { TeamId = s.TeamId, Rank = s.Rank }).ToList();
+
+            var i = 0;
+
+            var teamStandings = teamScrore.Result.GroupBy(g => g.TeamId)
+                 .Select(s => new TeamRanking()
+                 {
+                     TeamRank = (teamPosition.Select(a => a.Rank).ElementAtOrDefault(i++) + 1).ToString(),
+                     TeamId = s.Key,
+                     TeamName = s.Select(a => a.TeamName).ElementAtOrDefault(0),
+                     Kill = s.Sum(a => a.Kill),
+                     Damage = s.Sum(a => a.Damage),
+                     TotalPoints = s.Sum(a => a.TotalPoints)
+                 });
+
+            return await Task.FromResult(teamStandings);
+        }
         public Task<TeamRoute> GetTeamRoute()
         {
             return Task.FromResult(_data.GetTeamRoute());
@@ -167,6 +265,7 @@ namespace Fanview.API.Repository
         {
             return Task.FromResult(_data.GetTeamLanding());
         }
-        
+
+       
     }
 }

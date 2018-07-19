@@ -99,5 +99,23 @@ namespace Fanview.API.Controllers
         {
             return _teamRepository.GetTeamProfile(teamId1);
         }
+
+        [HttpGet("Profile/{teamId1}/{matchId}", Name = "GetTeamProfileByMatchId")]
+        public Task<IEnumerable<TeamRanking>> GetTeamProfileByMatchId(string teamId1, string matchId)
+        {
+            return _teamRepository.GetTeamProfileByMatchId(teamId1, matchId);
+        }
+
+        [HttpGet("Profile/{teamId1}/{teamId2}/{matchId}", Name = "GetTeamProfilesByTeamIdAndMatchId")]
+        public Task<IEnumerable<TeamRanking>> GetTeamProfilesByTeamIdAndMatchId(string teamId1, string teamId2, string matchId)
+        {
+            return _teamRepository.GetTeamProfilesByTeamIdAndMatchId(teamId1, teamId2, matchId);
+        }
+
+        [HttpGet("Profile/MatchUp/{teamId1}/{teamId2}", Name = "GetTeamProfileMatchUp")]
+        public Task<IEnumerable<TeamRanking>> GetTeamProfileMatchUp(string teamId1, string teamId2)
+        {
+            return _teamRepository.GetTeamProfileMatchUp(teamId1, teamId2);
+        }
     }
 }
