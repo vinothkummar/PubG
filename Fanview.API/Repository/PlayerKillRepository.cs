@@ -23,6 +23,7 @@ namespace Fanview.API.Repository
         private IGenericRepository<Kill> _Kill;
         private IGenericRepository<LiveEventKill> _LiveEventKill;
         private IGenericRepository<EventInfo> _eventInfoRepository;
+        private IPlayerRepository _playerRepository;
         private IGenericRepository<CreatePlayer> _CreatePlayer;
         private LiveGraphichsDummyData _data;
         private ILogger<PlayerKillRepository> _logger;
@@ -34,6 +35,7 @@ namespace Fanview.API.Repository
 
         public PlayerKillRepository(IClientBuilder httpClientBuilder,
                                     IHttpClientRequest httpClientRequest,
+                                    IPlayerRepository playerRepository,
                                     IGenericRepository<Kill> genericRepository,
                                     IGenericRepository<CreatePlayer> genericPlayerRepository,
                                     IGenericRepository<LiveEventKill> genericLiveEventKillRepository,
@@ -47,6 +49,9 @@ namespace Fanview.API.Repository
             _data = new LiveGraphichsDummyData();
             _LiveEventKill = genericLiveEventKillRepository;
             _eventInfoRepository = eventInfoRepository;
+            _playerRepository = playerRepository;
+            
+            
 
             _logger = logger;
 
@@ -109,8 +114,7 @@ namespace Fanview.API.Repository
         public async void InsertPlayerKillTelemetry(string jsonResult, string matchId)
         {              
             var jsonToJObject = JArray.Parse(jsonResult);
-
-            var lastestKillEventTimeStamp = jsonToJObject.Where(x => x.Value<string>("_T") == "LogPlayerKill").Select(s => new {EventTimeStamp = s.Value<string>("_D") }).Last();
+           
 
             var playerCreated = _CreatePlayer.GetMongoDbCollection("PlayerCreated");
 
@@ -138,16 +142,7 @@ namespace Fanview.API.Repository
                 await Task.Run(persistDataToMongo);
             }
 
-            //var killEventTimeStamp = logPlayerKill.Last().EventTimeStamp.ToDateTimeFormat();            
-
-            //if (killEventTimeStamp > killEventlastTimeStamp)
-            //{
-                
-
-            //    //_genericRepository.Insert(logPlayerKill, "killMessages");
-
-            //    killEventlastTimeStamp = killEventTimeStamp;
-            //}
+            
         }
 
         private IEnumerable<CreatePlayer> GetLogPlayerCreated(JArray jsonToJObject, string matchId)
@@ -245,6 +240,7 @@ namespace Fanview.API.Repository
                     var telemetryJsonResult = _telemetryResponse.Result.Content.ReadAsStringAsync().Result;
 
                     await Task.Run(async () => InsertPlayerKillTelemetry(telemetryJsonResult, matchId));
+                    await Task.Run(async () => _playerRepository.InsertLogPlayerPosition(telemetryJsonResult, matchId));
 
                     //await Task.Run(async () => InsertMatchPlayerStats(jsonResult));
 

@@ -46,15 +46,13 @@ namespace Fanview.API.Controllers
         ///Returns TeamRoute       
         /// </summary>
         /// <remarks>
-        /// Sample request: api/Team/Route    
-        /// This Api Currently Serving the Static Information
-        /// Input Parameters: 5b369085a510862ec07c824a 
+        /// Sample request: api/Team/Route
         /// </remarks>
-        /// <param name='teamId'>5b369085a510862ec07c824a</param>
-        [HttpGet("Route/{teamId}", Name = "GetTeamRoute")]
-        public Task<TeamRoute> GetTeamRoute(string teamId)
+        /// <param name='matchId'>1</param>
+        [HttpGet("Route/{matchId}", Name = "GetTeamRoute")]
+        public Task<IEnumerable<TeamRoute>> GetTeamRoute(int matchId)
         {
-            return _teamRepository.GetTeamRoute();
+            return _teamRepository.GetTeamRoute(matchId);
         }
 
 

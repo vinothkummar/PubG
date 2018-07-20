@@ -122,7 +122,7 @@ namespace Fanview.API.BusinessLayer
                 
             });
 
-            return teamStandings;
+            return await Task.FromResult(teamStandings);
         }
 
         public async Task<IEnumerable<MatchRanking>> GetMatchRankings(int matchId)
@@ -286,8 +286,6 @@ namespace Fanview.API.BusinessLayer
 
                 return await await Task.FromResult(matchRankings);
         }
-
-       
 
         private IEnumerable<TeamRankPoints> GetTeamEliminatedPosition(IEnumerable<Kill> kills, string matchId, int totalTeamCount)
         {

@@ -20,6 +20,7 @@ namespace Fanview.API.MiddlewareExtensions
             services.AddSingleton(typeof(IMatchRepository), typeof(MatchRepository));
             services.AddTransient(typeof(ITelemetryRepository), typeof(TelemetryRepository));
             services.AddTransient(typeof(IPlayerKillRepository), typeof(PlayerKillRepository));
+            services.AddTransient(typeof(IPlayerRepository), typeof(PlayerRepository));
             services.AddTransient(typeof(ITakeDamageRepository), typeof(TakeDamageRepository));
             services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddTransient(typeof(IPlayerKilled), typeof(PlayerKilled));

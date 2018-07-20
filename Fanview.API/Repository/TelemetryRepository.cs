@@ -22,13 +22,13 @@ namespace Fanview.API.Repository
         private IGenericRepository<Kill> _genericRepository;
         private IPlayerKillRepository _playerKillRepository;
         private ITakeDamageRepository _takeDamageRepository;
-        private IPlayerVehicleLeaveRepository _playerVehicleLeaveRepository;
+        private IPlayerRepository _playerVehicleLeaveRepository;
         private ILogger<PlayerKillRepository> _logger;
         private Task<HttpResponseMessage> _pubGClientResponse;
         
 
         public TelemetryRepository(IClientBuilder httpClientBuilder, IHttpClientRequest httpClientRequest, IGenericRepository<Kill> genericRepository, 
-                                   IPlayerKillRepository playerKillRepository, ITakeDamageRepository takeDamageRepository, IPlayerVehicleLeaveRepository playerVehicleLeaveRepository,
+                                   IPlayerKillRepository playerKillRepository, ITakeDamageRepository takeDamageRepository, IPlayerRepository playerVehicleLeaveRepository,
                                    ILogger<PlayerKillRepository> logger)
         {
             _httpClientBuilder = httpClientBuilder;

@@ -748,38 +748,38 @@ namespace Fanview.API.GraphicsDummyData
         }
         public TeamRoute GetTeamRoute()
         {
-            var teamrout = new TeamRoute
-            {
-                MatchName = "Match1",
-                MatchId = 1,
-                Routs = new Route
-                {
-                    TeamID = "1",
-                    TeamName = "Team1",
-                    TeamRank = "3",
-                    TeamRoute = new LiveLocation
-                    {
-                        X = 1.0,
-                        Y = 2.0,
-                        Z = 4.0
-                    },
-                    Safezone = new Safezone
-                    {
-                        SafeZoneId = 1,
-                        Position = new LiveLocation
-                        {
-                            X = 2.0,
-                            Y = 3.0,
-                            Z = 4.0
-                        },
-                        Radius = 4.0
-                    }
+            //var teamrout = new TeamRoute
+            //{
+            //    MatchName = "Match1",
+            //    MatchId = 1,
+            //    Routs = new Route
+            //    {
+            //        TeamID = "1",
+            //        TeamName = "Team1",
+            //        TeamRank = "3",
+            //        TeamRoute = new LiveLocation
+            //        {
+            //            X = 1.0,
+            //            Y = 2.0,
+            //            Z = 4.0
+            //        },
+            //        Safezone = new Safezone
+            //        {
+            //            SafeZoneId = 1,
+            //            Position = new LiveLocation
+            //            {
+            //                X = 2.0,
+            //                Y = 3.0,
+            //                Z = 4.0
+            //            },
+            //            Radius = 4.0
+            //        }
 
 
 
-                }
-            };
-            return teamrout;
+            //    }
+            //};
+            return null; //teamrout;
         }
         public LiveKillList GetLiveKillList()
         {
