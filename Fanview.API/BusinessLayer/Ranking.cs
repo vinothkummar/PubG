@@ -20,7 +20,8 @@ namespace Fanview.API.BusinessLayer
         private IGenericRepository<MatchRanking> _genericMatchRankingRepository;
         private IGenericRepository<TeamRanking> _genericTeamRankingRepository;
         private ITeamRepository _teamRepository;
-        private ITeamPlayerRepository _teamPlayerRespository;               
+        private ITeamPlayerRepository _teamPlayerRespository;
+        private IGenericRepository<Event> _tournament;
 
         public Ranking(ILogger<Ranking> logger, IMatchSummaryRepository matchSummaryRepository, 
                        IPlayerKillRepository playerKillRepository, 
@@ -28,7 +29,8 @@ namespace Fanview.API.BusinessLayer
                        IGenericRepository<MatchRanking> genericMatchRankingRepository,
                        IGenericRepository<TeamRanking> genericTeamRankingRepository,
                        ITeamRepository teamRepository,
-                       ITeamPlayerRepository teamPlayerRepository, IReadAssets readAssets)
+                       ITeamPlayerRepository teamPlayerRepository, IReadAssets readAssets,
+                       IGenericRepository<Event> tournament)
         {
             _logger = logger;
             _matchSummaryRepository = matchSummaryRepository;
@@ -37,7 +39,8 @@ namespace Fanview.API.BusinessLayer
             _genericMatchRankingRepository = genericMatchRankingRepository;
             _genericTeamRankingRepository = genericTeamRankingRepository;
             _teamRepository = teamRepository;
-            _teamPlayerRespository = teamPlayerRepository;           
+            _teamPlayerRespository = teamPlayerRepository;
+            _tournament = tournament;
         }
 
         public async Task<IEnumerable<MatchRanking>> CalculateMatchRanking(string matchId)
@@ -122,11 +125,15 @@ namespace Fanview.API.BusinessLayer
             return teamStandings;
         }
 
-        public async Task<IEnumerable<MatchRanking>> GetMatchRankings(string matchId)
+        public async Task<IEnumerable<MatchRanking>> GetMatchRankings(int matchId)
         {
+            var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
+
+            var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
+
             var matchRankingCollection = _genericMatchRankingRepository.GetMongoDbCollection("MatchRanking");
 
-            var matchRankingScore = matchRankingCollection.FindAsync(Builders<MatchRanking>.Filter.Where(cn => cn.MatchId == matchId)).Result.ToListAsync();
+            var matchRankingScore = matchRankingCollection.FindAsync(Builders<MatchRanking>.Filter.Where(cn => cn.MatchId == tournamentMatchId )).Result.ToListAsync();
 
             var i = 1;
 

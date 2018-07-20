@@ -8,8 +8,8 @@ using Fanview.API.Model.LiveModels;
 using Fanview.API.Repository;
 using Fanview.API.Repository.Interface;
 using Fanview.API.BusinessLayer.Contracts;
-
-
+using Fanview.API.Model;
+using Fanview.API.Model.ViewModels;
 
 namespace Fanview.API.Controllers
 {
@@ -19,11 +19,19 @@ namespace Fanview.API.Controllers
     {
         private ILiveRepository _liveRepository;
         private ILiveStats _liveStatus;
+        private IRanking _ranking;
+        private ITeamPlayerRepository _teamPlayerRepository;
+        private ITeamRepository _teamRespository;
 
-        public LiveController(ILiveRepository liveRepository, ILiveStats liveStatus)
+        public LiveController(ILiveRepository liveRepository, ILiveStats liveStatus, IRanking ranking,
+            ITeamPlayerRepository teamPlayerRepository, ITeamRepository teamRepository)
         {
+
             _liveRepository = liveRepository;
             _liveStatus = liveStatus;
+            _ranking = ranking;
+            _teamPlayerRepository = teamPlayerRepository;
+            _teamRespository = teamRepository;
         }
 
         /// <summary>
@@ -84,9 +92,28 @@ namespace Fanview.API.Controllers
         /// </remarks>
         /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
         [HttpGet("LivePlayerStats/{matchId}", Name = "GetLivePlayerStats")]
-        public Task<LivePlayerStats> GetLivePlayerStats(string matchId)
+        public Task<IEnumerable<PlayerProfileTournament>> GetLivePlayerStats(int matchId)
         {
-            return _liveRepository.GetLivePlayerStats(matchId);
+            var playerId1 = 1;
+            return _teamPlayerRepository.GetTeamPlayersTournament(playerId1, matchId);
+            //return _liveRepository.GetLivePlayerStats(matchId);
+
+        }
+
+        [HttpGet("Ranking/{matchId}", Name = "GetLiveRanking")]
+        public Task<IEnumerable<MatchRanking>> GetLiveRanking(int matchId)
+        {
+            return _ranking.GetMatchRankings(matchId);
+        }
+
+
+        //dummy implementation to other to work
+        [HttpGet("LiveTeamStats/{matchId}", Name = "GetLiveTeamStats")]
+        public Task<IEnumerable<TeamRanking>> GetLiveTeamStats(int matchId)
+        {
+            var teamId1 = "0";
+
+            return _teamRespository.GetTeamProfileByMatchId(teamId1, matchId);
         }
     }
 }

@@ -28,17 +28,17 @@ namespace Fanview.API.Controllers
         /// </remarks>
         /// <param name='teamId'>5b369085a510862ec07c824a</param>
         [HttpGet("LineUp/{teamId}", Name = "Get")]
-        public Task<IEnumerable<TeamLineUp>> Get(string teamId)
+        public Task<TeamLineUp> Get(int teamId)
         {
             return _teamRepository.GetTeamLine(teamId);
         }
 
 
-        [HttpGet("MatchUp/{teamId1}/And/{teamId2}", Name = "GetTeamMatchup")]
-        public Task<IEnumerable<TeamLineUp>> GetTeamMatchup(string teamId1, string teamId2)
-        {
-            return _teamRepository.GetTeamMatchup(teamId1, teamId2);
-        }
+        //[HttpGet("MatchUp/{teamId1}/And/{teamId2}", Name = "GetTeamMatchup")]
+        //public Task<IEnumerable<TeamLineUp>> GetTeamMatchup(string teamId1, string teamId2)
+        //{
+        //    return _teamRepository.GetTeamMatchup(teamId1, teamId2);
+        //}
 
 
 
@@ -106,7 +106,7 @@ namespace Fanview.API.Controllers
             return _teamRepository.GetTeamProfileByMatchId(teamId1, matchId);
         }
 
-        [HttpGet("Profile/{teamId1}/{teamId2}/{matchId}", Name = "GetTeamProfilesByTeamIdAndMatchId")]
+        [HttpGet("Profile/MatchUp/{teamId1}/{teamId2}/{matchId}", Name = "GetTeamProfilesByTeamIdAndMatchId")]
         public Task<IEnumerable<TeamRanking>> GetTeamProfilesByTeamIdAndMatchId(string teamId1, string teamId2, int matchId)
         {
             return _teamRepository.GetTeamProfilesByTeamIdAndMatchId(teamId1, teamId2, matchId);

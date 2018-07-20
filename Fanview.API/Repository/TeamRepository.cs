@@ -141,7 +141,7 @@ namespace Fanview.API.Repository
 
          public async Task<IEnumerable<TeamRanking>> GetTeamProfileByMatchId(string teamId1, int matchId)
         {
-            var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
+            var tournaments = _tournament.GetMongoDbCollection("TournamentM;atchId");
 
             var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
 
@@ -176,7 +176,7 @@ namespace Fanview.API.Repository
 
         public async Task<IEnumerable<TeamRanking>> GetTeamProfilesByTeamIdAndMatchId(string teamId1, string teamId2, int matchId)
         {
-            var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
+            var tournaments = _tournament.GetMongoDbCollection("TournamentM;atchId");
 
             var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
 
@@ -212,26 +212,45 @@ namespace Fanview.API.Repository
             return await Task.FromResult(teamStandings);
         }
 
-        async Task<IEnumerable<TeamLineUp>> ITeamRepository.GetTeamLine(string teamId)
+        public Task<TeamLineUp> GetTeamLine(int teamId)
         {
-            var teamLineUp = _matchPlayerStats.GetAll("MatchPlayerStats").Result.Join(_team.GetAll("Team").Result,
-                                                                                 mp => mp.TeamId, t => t.Id, (mp, t) => new { mp, t })
-                                                                               .Where(cn => cn.mp.TeamId == teamId)
-                                                                               .Select(s => new TeamLineUp()
-                                                                               {
-                                                                                   TeamId = s.t.Id,
-                                                                                   TeamName = s.t.Name,
-                                                                                   TeamPlayer = new List<TeamLineUpPlayers>(){
-                                                                                       new TeamLineUpPlayers()
-                                                                                       {
-                                                                                           PlayerName = s.mp.stats.Name,
-                                                                                           PubgAccountId = s.mp.stats.PlayerId,
-                                                                                           Kills = s.mp.stats.Kills,
-                                                                                           TimeSurvived = s.mp.stats.TimeSurvived
-                                                                                       }
-                                                                                   }
-                                                                               });
-            return await Task.FromResult(teamLineUp);
+            var teams = _team.GetAll("Team").Result;
+
+            var teamPlayers = _teamPlayers.GetAll("TeamPlayers").Result;
+
+            var query = teams.GroupJoin(teamPlayers, tp => tp.TeamId, t => t.TeamIdShort, (t, tp) => new
+            {
+
+                teamid = t.TeamId,
+
+                TeamName = t.Name,
+
+                TeamPlayers = tp.Select(s => new { s.TeamIdShort, s.PlayerName, s.PlayerId }).Distinct()
+
+            }).Where(t => t.teamid == teamId);
+
+            var teamlineup = new TeamLineUp();
+
+            var teamplayer = new List<TeamLineUpPlayers>();
+
+            foreach (var obj in query)
+            {
+                teamlineup.TeamId = obj.teamid.ToString();
+
+                teamlineup.TeamName = obj.TeamName;
+
+                foreach (var players in obj.TeamPlayers)
+                {
+                    teamplayer.Add(new TeamLineUpPlayers() { PlayerName = players.PlayerName, TeamId = players.TeamIdShort, PlayerId = players.PlayerId });
+                }
+
+                teamlineup.TeamPlayer = teamplayer;
+
+
+
+            }
+
+            return Task.FromResult(teamlineup);
         }
 
 

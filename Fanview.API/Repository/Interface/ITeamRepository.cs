@@ -13,7 +13,7 @@ namespace Fanview.API.Repository.Interface
 
         Task<IEnumerable<Team>> GetTeam();
 
-        Task<IEnumerable<TeamLineUp>> GetTeamLine(string teamId);
+        Task<TeamLineUp> GetTeamLine(int teamId);
 
         Task<IEnumerable<TeamLineUp>> GetTeamMatchup(string teamId1, string teamId2);
 

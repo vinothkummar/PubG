@@ -33,7 +33,7 @@ namespace Fanview.API.Controllers
         /// </remarks>
         /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
         [HttpGet("MatchRank/{matchId}", Name = "GetMatchRanking")]
-        public async Task<IEnumerable<MatchRanking>> GetMatchRanking(string matchId)
+        public async Task<IEnumerable<MatchRanking>> GetMatchRanking(int matchId)
         {
             return await _ranking.GetMatchRankings(matchId);
             
