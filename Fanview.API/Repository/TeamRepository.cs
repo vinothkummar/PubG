@@ -302,16 +302,12 @@ namespace Fanview.API.Repository
 
             var teamScrore = teamStatsRanking.FindAsync(Builders<TeamRanking>.Filter.Where(cn => cn.MatchId == tournamentMatchId)).Result.ToListAsync().Result;
 
-           // var teamPlayers = _teamPlayers.GetMongoDbCollection("TeamPlayers").AsQueryable();
-            
-
             var logPlayersPosition = _teamPlayersPosition.GetMongoDbCollection("PlayerPosition");
 
             var matchPlayerPosition = logPlayersPosition.FindAsync(Builders<PlayerPoition>.Filter.Where(cn => cn.MatchId == tournamentMatchId)).Result
                                         .ToListAsync().Result.OrderByDescending(o => o.EventTimeStamp);
 
-            var playerLocation = matchPlayerPosition.Join(teams, mpp => mpp.TeamId , t=> t.TeamId,(mpp,t) => new {mpp, t})  
-                                                   // .Join(teamPlayers, mppt => mppt.mpp.Name.Trim(), tp => tp.PlayerName, (mppt, tp) => new { mppt, tp })
+            var playerLocation = matchPlayerPosition.Join(teams, mpp => mpp.TeamId , t=> t.TeamId,(mpp,t) => new {mpp, t})                           
                                                     .Select(s => new
                                                     {
                                                         TeamName = s.t.Name,
