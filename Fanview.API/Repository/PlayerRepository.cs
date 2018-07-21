@@ -82,22 +82,20 @@ namespace Fanview.API.Repository
         {
             var jsonToJObject = JArray.Parse(jsonResult);
 
-            var lastestKillEventTimeStamp = jsonToJObject.Where(x => x.Value<string>("_T") == "LogVehicleLeave").Select(s => new { EventTimeStamp = s.Value<string>("_D") }).Last();
+            var vehicleLeave  = _genericRepository.GetMongoDbCollection("VehicleLeave");
 
-            var logvehicleLeave = GetLogVehicleLeave(jsonToJObject, matchId);
+            var isVehicleLeaveExists = await vehicleLeave.FindAsync(Builders<VehicleLeave>.Filter.Where(cn => cn.MatchId == matchId)).Result.ToListAsync();
 
-            var vehicleleaveTimeStamp = logvehicleLeave.Last().EventTimeStamp.ToDateTimeFormat();
-
-            if (vehicleleaveTimeStamp > LastVehicleLeaveTimeStamp)
+            if (isVehicleLeaveExists.Count() == 0 || isVehicleLeaveExists == null)
             {
+                var logvehicleLeave = GetLogVehicleLeave(jsonToJObject, matchId);
+
                 Func<Task> persistDataToMongo = async () => _genericRepository.Insert(logvehicleLeave, "VehicleLeave");
 
                 await Task.Run(persistDataToMongo);
-
-                //_genericRepository.Insert(logvehicleLeave, "VehicleLeave");
-
-                LastVehicleLeaveTimeStamp = vehicleleaveTimeStamp;
             }
+
+              
         }
 
         private IEnumerable<VehicleLeave> GetLogVehicleLeave(JArray jsonToJObject, string matchId)
@@ -126,15 +124,7 @@ namespace Fanview.API.Repository
                     FeulPercent = (float)s["vehicle"]["feulPercent"]
                 },
                 RideDistance = (float)s["rideDistance"],
-                seatIndex = (int)s["seatIndex"],
-                Common = new Common()
-                {
-                    MatchId = (string)s["common"]["matchId"],
-                    MapName = (string)s["common"]["mapName"],
-                    IsGame = (float)s["common"]["isGame"]
-
-                },
-                Version = (int)s["_V"],
+                seatIndex = (int)s["seatIndex"],               
                 EventTimeStamp = (string)s["_D"],
                 EventType = (string)s["_T"]
             });
