@@ -31,6 +31,7 @@ namespace Fanview.API.Repository
         private DateTime killEventlastTimeStamp = DateTime.MinValue;
         private IClientBuilder _httpClientBuilder;
         private IHttpClientRequest _httpClientRequest;
+        
         private string _matchId;
 
         public PlayerKillRepository(IClientBuilder httpClientBuilder,
@@ -39,7 +40,7 @@ namespace Fanview.API.Repository
                                     IGenericRepository<Kill> genericRepository,
                                     IGenericRepository<CreatePlayer> genericPlayerRepository,
                                     IGenericRepository<LiveEventKill> genericLiveEventKillRepository,
-                                    IGenericRepository<EventInfo> eventInfoRepository,
+                                    IGenericRepository<EventInfo> eventInfoRepository,                                    
                                     ILogger<PlayerKillRepository> logger)
         {
             _httpClientBuilder = httpClientBuilder;
@@ -241,6 +242,7 @@ namespace Fanview.API.Repository
 
                     await Task.Run(async () => InsertPlayerKillTelemetry(telemetryJsonResult, matchId));
                     await Task.Run(async () => _playerRepository.InsertLogPlayerPosition(telemetryJsonResult, matchId));
+                    await Task.Run(async () => _playerRepository.InsertVehicleLeaveTelemetry(telemetryJsonResult, matchId));
 
                     //await Task.Run(async () => InsertMatchPlayerStats(jsonResult));
 

@@ -332,17 +332,17 @@ namespace Fanview.API.Repository
             .Select((item, index) => new { TeamId = item.TeamId, TotalScore = item.TotalScore, Rank = index }).Take(3);
 
             var longestSurvivingTeamPlayers = playerLocation.Join(teamRanks, pl => new { TeamId = pl.FanviewTeamId }, tr => new { TeamId = tr.TeamId },
-                                                            (pl, tr) => new { pl, tr }).GroupBy(g => g.tr.TeamId).Select(s =>
+                                                            (pl, tr) => new { pl, tr }).Select(s =>
                                                              new TeamRoute()
                                                              {
                                                                  MatchId = 7,
                                                                  Routs = new Route()
                                                                  {
-                                                                     TeamID = s.Select(a => a.pl.FanviewTeamId).ElementAtOrDefault(0),
-                                                                     TeamName = s.Select(a => a.pl.TeamName).ElementAtOrDefault(0),
-                                                                     TeamRank = s.Select(a => a.tr.Rank).ElementAtOrDefault(0),
-                                                                     TeamRoute = s.Select(a => a.pl.Location).ElementAtOrDefault(0),
-                                                                     PlayerName = s.Select(a => a.pl.PlayerName).ElementAtOrDefault(0)
+                                                                     TeamID = s.pl.FanviewTeamId,
+                                                                     TeamName = s.pl.TeamName,
+                                                                     TeamRank = s.tr.Rank,
+                                                                     TeamRoute = s.pl.Location,
+                                                                     PlayerName = s.pl.PlayerName
                                                                  }
                                                              });
                                                              

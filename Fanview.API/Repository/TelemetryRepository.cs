@@ -60,7 +60,7 @@ namespace Fanview.API.Repository
 
                     await Task.Run(async () =>  _playerKillRepository.InsertPlayerKillTelemetry(jsonResult, string.Empty));
 
-                    await Task.Run(async () => _playerVehicleLeaveRepository.InsertVehicleLeaveTelemetry(jsonResult));
+                    await Task.Run(async () => _playerVehicleLeaveRepository.InsertVehicleLeaveTelemetry(jsonResult, string.Empty));
 
                     //InsertPlayerKillTelemetry(jsonResult);
 

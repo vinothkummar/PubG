@@ -78,13 +78,13 @@ namespace Fanview.API.Repository
             return result;
         }
 
-        public async void InsertVehicleLeaveTelemetry(string jsonResult)
+        public async void InsertVehicleLeaveTelemetry(string jsonResult, string matchId)
         {
             var jsonToJObject = JArray.Parse(jsonResult);
 
             var lastestKillEventTimeStamp = jsonToJObject.Where(x => x.Value<string>("_T") == "LogVehicleLeave").Select(s => new { EventTimeStamp = s.Value<string>("_D") }).Last();
 
-            var logvehicleLeave = GetLogVehicleLeave(jsonToJObject);
+            var logvehicleLeave = GetLogVehicleLeave(jsonToJObject, matchId);
 
             var vehicleleaveTimeStamp = logvehicleLeave.Last().EventTimeStamp.ToDateTimeFormat();
 
@@ -100,10 +100,11 @@ namespace Fanview.API.Repository
             }
         }
 
-        private IEnumerable<VehicleLeave> GetLogVehicleLeave(JArray jsonToJObject)
+        private IEnumerable<VehicleLeave> GetLogVehicleLeave(JArray jsonToJObject, string matchId)
         {
             var result = jsonToJObject.Where(x => x.Value<string>("_T") == "LogVehicleLeave").Select(s => new VehicleLeave()
             {
+                MatchId = matchId,
                 Character = new Character() {
                     Name = (string)s["character"]["name"],
                     TeamId = (int)s["character"]["teamId"],

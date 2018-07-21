@@ -8,7 +8,7 @@ namespace Fanview.API.Repository.Interface
 {
     public interface IPlayerRepository
     {
-        void InsertVehicleLeaveTelemetry(string jsonResult);
+        void InsertVehicleLeaveTelemetry(string jsonResult, string matchId);
 
         void InsertLogPlayerPosition(string jsonResult, string matchId);
 

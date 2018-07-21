@@ -12,6 +12,8 @@ namespace Fanview.API.Model
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
+        [BsonElement("matchId")]
+        public string MatchId { get; set; }
         [BsonElement("character")]
         public Character Character { get; set; }
         [BsonElement("vehicle")]

@@ -11,5 +11,6 @@ namespace Fanview.API.Model.LiveModels
         public int MatchId { get; set; }
         public Route Routs { get; set; }
         public Safezone[] Safezones { get; set; }
+        public string EventTime { get; set; }
     }
 }

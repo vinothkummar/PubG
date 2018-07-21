@@ -999,7 +999,7 @@ namespace Fanview.API.GraphicsDummyData
                         Kills = 0,
                         TimeSurvived = 1128,
                         TeamId=10
-                    },
+                    }
 
 
                 }
