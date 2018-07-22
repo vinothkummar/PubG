@@ -353,18 +353,20 @@ namespace Fanview.API.Repository
             return  Task.FromResult(longestSurvivingTeamPlayers);
         }
 
-        public Task<TeamLanding> GetTeamLanding(string matchId)
+        public Task<TeamLanding> GetTeamLanding(int matchId)
         {
             var teams = _team.GetMongoDbCollection("Team").AsQueryable();
 
             var teamPlayers = _teamPlayers.GetMongoDbCollection("TeamPlayers").AsQueryable();
 
+            var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
 
+            var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
 
-            var veichelLanding = _vehicleLeave.GetMongoDbCollection("VehicleLeave").AsQueryable().Where(c=>c.MatchId == matchId);
+            var veichelLanding = _vehicleLeave.GetMongoDbCollection("VehicleLeave").AsQueryable().Where(c=>c.MatchId == tournamentMatchId );
             var response = new TeamLanding();
             response.Landing = new List<Landing>();
-            response.MatchdId = matchId;
+            response.MatchdId = tournamentMatchId;
             foreach (var q in teams.OrderBy(o=>o.Name))
             {
                 var vl = veichelLanding.Where(o => o.Character.TeamId == q.TeamId);
