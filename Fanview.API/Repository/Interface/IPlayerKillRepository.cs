@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Fanview.API.Model.ViewModels;
 using Fanview.API.Model.LiveModels;
 using Newtonsoft.Json.Linq;
-using Fanview.API.Model.ViewModels;
 
 namespace Fanview.API.Repository.Interface
 {
