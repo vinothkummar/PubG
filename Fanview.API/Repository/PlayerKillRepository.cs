@@ -25,6 +25,7 @@ namespace Fanview.API.Repository
         private IGenericRepository<EventInfo> _eventInfoRepository;
         private IPlayerRepository _playerRepository;
         private IGenericRepository<CreatePlayer> _CreatePlayer;
+        private IGenericRepository<Event> _tournament;
         private LiveGraphichsDummyData _data;
         private ILogger<PlayerKillRepository> _logger;
         private Task<HttpResponseMessage> _pubGClientResponse;
@@ -40,6 +41,7 @@ namespace Fanview.API.Repository
                                     IGenericRepository<Kill> genericRepository,
                                     IGenericRepository<CreatePlayer> genericPlayerRepository,
                                     IGenericRepository<LiveEventKill> genericLiveEventKillRepository,
+                                    IGenericRepository<Event> tournament,
                                     IGenericRepository<EventInfo> eventInfoRepository,                                    
                                     ILogger<PlayerKillRepository> logger)
         {
@@ -51,6 +53,7 @@ namespace Fanview.API.Repository
             _LiveEventKill = genericLiveEventKillRepository;
             _eventInfoRepository = eventInfoRepository;
             _playerRepository = playerRepository;
+            _tournament = tournament;
             
             
 
@@ -172,8 +175,35 @@ namespace Fanview.API.Repository
         {
             _logger.LogInformation("GetPlayedKiller Repository call started" + Environment.NewLine);
             try
-            {
+            {                
+
                 var response = _Kill.GetAll("Kill").Result.Where(cn => cn.MatchId == matchId);
+
+                // var response = _genericRepository.GetMongoDbCollection("Kill").FindAsyn(new BsonDocument());
+
+                _logger.LogInformation("GetPlayedKiller Repository call completed" + Environment.NewLine);
+
+                return await Task.FromResult(response);
+
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError(exception, "GetPlayerKilled");
+
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<Kill>> GetPlayerKilled(int matchId)
+        {
+            _logger.LogInformation("GetPlayedKiller Repository call started" + Environment.NewLine);
+            try
+            {
+                var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
+
+                var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
+
+                var response = _Kill.GetAll("Kill").Result.Where(cn => cn.MatchId == tournamentMatchId);
 
                 // var response = _genericRepository.GetMongoDbCollection("Kill").FindAsyn(new BsonDocument());
 
@@ -304,7 +334,7 @@ namespace Fanview.API.Repository
           return  Task.FromResult(_data.GetKillLeaderlist());
         }
 
-        public Task<IEnumerable<KillZone>> GetKillZone(string matchId)
+        public Task<IEnumerable<KillZone>> GetKillZone(int matchId)
         {
             var playerKilledFromOpenApi = GetPlayerKilled(matchId).Result.Select(s => new KillZone() {
 

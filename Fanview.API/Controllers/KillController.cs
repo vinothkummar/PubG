@@ -146,7 +146,7 @@ namespace Fanview.API.Controllers
         /// </remarks>
         /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
         [HttpGet("Zone/{matchId}")]
-        public Task<IEnumerable<KillZone>> GetKillZone(string matchId)
+        public Task<IEnumerable<KillZone>> GetKillZone(int matchId)
         {
             return _playerKillRepository.GetKillZone(matchId);
 
