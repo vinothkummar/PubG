@@ -101,7 +101,7 @@ namespace Fanview.API.Controllers
         /// </remarks>
         /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
         [HttpGet("Killiprinter/{matchId}/All", Name = "GetAllKilliprinterForGraphics")]
-        public IEnumerable<KilliPrinter> GetAllKilliprinterForGraphics(string matchId)
+        public IEnumerable<KilliPrinter> GetAllKilliprinterForGraphics(int matchId)
         {
             return _playerKilled.GetLivePlayerKilled(matchId);
         }
@@ -116,7 +116,7 @@ namespace Fanview.API.Controllers
         /// </remarks>
         /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
         [HttpGet("Killiprinter/{matchId}/Last4", Name = "GetLast4KilliprinterForGraphics")]
-        public IEnumerable<KilliPrinter> GetLast4KilliprinterForGraphics(string matchId)
+        public IEnumerable<KilliPrinter> GetLast4KilliprinterForGraphics(int matchId)
         {
             return _playerKilled.GetLivePlayerKilled(matchId).TakeLast(4);
         }
@@ -164,7 +164,7 @@ namespace Fanview.API.Controllers
         /// </remarks>
         /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
         [HttpGet("Zone/{matchId}")]
-        public Task<IEnumerable<KillZone>> GetKillZone(string matchId)
+        public Task<IEnumerable<KillZone>> GetKillZone(int matchId)
         {
             return _playerKillRepository.GetKillZone(matchId);
 

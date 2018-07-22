@@ -14,4 +14,12 @@ namespace Fanview.API.Model.LiveModels
         public int PlayerTeamId { get; set; }
         public string TimeKilled { get; set; }
     }
+
+    public class LiveVeichleTeamPlayers
+    {
+        public string PlayerName { get; set; }
+        public int? PlayerId { get; set; }
+        public LiveLocation location { get; set; }
+        
+    }
 }

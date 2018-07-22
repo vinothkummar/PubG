@@ -46,98 +46,98 @@ namespace Fanview.API.Repository
             return await Task.FromResult(jsonResultConvertedToJObjectObject);
         }
 
-        public async void PollMatchSessionId(string eventName)
-        {            
-            try
-            {
-                _logger.LogInformation("Event Poll Request Started" + Environment.NewLine);
+        //public async void PollMatchSessionId(string eventName)
+        //{            
+        //    try
+        //    {
+        //        _logger.LogInformation("Event Poll Request Started" + Environment.NewLine);
 
-                _pubGClientResponse = _httpClientRequest.GetAsync(await _httpClientBuilder.CreateRequestHeader(), eventName);
+        //        _pubGClientResponse = _httpClientRequest.GetAsync(await _httpClientBuilder.CreateRequestHeader(), eventName);
 
-                if (_pubGClientResponse.Result.StatusCode == HttpStatusCode.OK && _pubGClientResponse != null)
-                {
-                    _logger.LogInformation("Reading Event Response Json" + Environment.NewLine);
+        //        if (_pubGClientResponse.Result.StatusCode == HttpStatusCode.OK && _pubGClientResponse != null)
+        //        {
+        //            _logger.LogInformation("Reading Event Response Json" + Environment.NewLine);
 
-                    var jsonResult = _pubGClientResponse.Result.Content.ReadAsStringAsync().Result;
+        //            var jsonResult = _pubGClientResponse.Result.Content.ReadAsStringAsync().Result;
 
-                    InsertEvent(jsonResult, eventName);
+        //            InsertEvent(jsonResult, eventName);
 
-                    _logger.LogInformation("Completed Loading Event Response Json" + Environment.NewLine);
-                }
+        //            _logger.LogInformation("Completed Loading Event Response Json" + Environment.NewLine);
+        //        }
 
-                _logger.LogInformation("Event Poll Request Completed" + Environment.NewLine);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogInformation("Event Poll Request Completed {Exception}" + Environment.NewLine, ex);
-                throw;
-            }
+        //        _logger.LogInformation("Event Poll Request Completed" + Environment.NewLine);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogInformation("Event Poll Request Completed {Exception}" + Environment.NewLine, ex);
+        //        throw;
+        //    }
 
-        }
+        //}
 
-        public async void InsertEvent(string jsonResult, string eventName)
-        {
-            var jsonToJObject = JObject.Parse(jsonResult);
+        //public async void InsertEvent(string jsonResult, string eventName)
+        //{
+        //    var jsonToJObject = JObject.Parse(jsonResult);
 
-            var eventTournament =  CreateEventObject(jsonToJObject, eventName);
+        //    var eventTournament =  CreateEventObject(jsonToJObject, eventName);
 
 
-             var tournamentMatchIds = GetTournamentMatchId();
+        //     var tournamentMatchIds = GetTournamentMatchId();
              
-             if (tournamentMatchIds.Result.Where(cn => eventTournament.Select(s => s.Id).Contains(cn.Id)).Count() == 0){
+        //     if (tournamentMatchIds.Result.Where(cn => eventTournament.Select(s => s.Id).Contains(cn.Id)).Count() == 0){
 
-                Func<Task> persistDataToMongo = async () => _genericRepository.Insert(eventTournament, "TournamentMatchId");
+        //        Func<Task> persistDataToMongo = async () => _genericRepository.Insert(eventTournament, "TournamentMatchId");
 
-                await Task.Run(persistDataToMongo);
-               // _genericRepository.Insert(eventTournament, "Tournament");
-            }
-        }
+        //        await Task.Run(persistDataToMongo);
+        //       // _genericRepository.Insert(eventTournament, "Tournament");
+        //    }
+        //}
 
-        private IEnumerable<Event> CreateEventObject(JObject jsonToJObject, string eventName)
-        {  
-            var eventRoundId = jsonToJObject.SelectToken("data.relationships.matches.data").Select(s => new Matches() {Id = (string)s["id"]});
+        //private IEnumerable<Event> CreateEventObject(JObject jsonToJObject, string eventName)
+        //{  
+        //    var eventRoundId = jsonToJObject.SelectToken("data.relationships.matches.data").Select(s => new Matches() {Id = (string)s["id"]});
 
-            var eventRoundCreated = jsonToJObject["included"].Select(s => new EventsDate()
-            {
-                Id = (string)s["id"],
-                Type = (string)s["type"],               
-                CreatedAT = (string)s["attributes"]["createdAt"]
-            });
+        //    var eventRoundCreated = jsonToJObject["included"].Select(s => new EventsDate()
+        //    {
+        //        Id = (string)s["id"],
+        //        Type = (string)s["type"],               
+        //        CreatedAT = (string)s["attributes"]["createdAt"]
+        //    });
 
            
-            var tMatches = eventRoundCreated.Join(eventRoundId, erc => erc.Id, er => er.Id, (erc, er) => new { erc, er })
-                              .OrderBy(o => o.erc.CreatedAT)
-                              .Select(s => new Event()
-                              {
-                                  Id = s.erc.Id,
-                                  Type = s.erc.Type,
-                                  CreatedAT = s.erc.CreatedAT,
-                                  EventName = eventName,                                
-                              });
+        //    var tMatches = eventRoundCreated.Join(eventRoundId, erc => erc.Id, er => er.Id, (erc, er) => new { erc, er })
+        //                      .OrderBy(o => o.erc.CreatedAT)
+        //                      .Select(s => new Event()
+        //                      {
+        //                          Id = s.erc.Id,
+        //                          Type = s.erc.Type,
+        //                          CreatedAT = s.erc.CreatedAT,
+        //                          EventName = eventName,                                
+        //                      });
 
-            var eventMatches = new List<Event>();
+        //    var eventMatches = new List<Event>();
 
-            var i = 1;
+        //    var i = 1;
 
-            foreach (var item in tMatches)
-            {
-                var match = new Event()
-                            {
-                                Id = item.Id,
-                                Type = item.Type,
-                                CreatedAT = item.CreatedAT,
-                                EventName = eventName,
-                                MatchId = i++
-                            };
+        //    foreach (var item in tMatches)
+        //    {
+        //        var match = new Event()
+        //                    {
+        //                        Id = item.Id,
+        //                        Type = item.Type,
+        //                        CreatedAT = item.CreatedAT,
+        //                        EventName = eventName,
+        //                        MatchId = i++
+        //                    };
 
-                eventMatches.Add(match);
+        //        eventMatches.Add(match);
 
                
-            }
+        //    }
 
 
-            return eventMatches;
-        }
+        //    return eventMatches;
+        //}
 
        
 

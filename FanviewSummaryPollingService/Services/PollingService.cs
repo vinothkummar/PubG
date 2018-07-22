@@ -43,7 +43,7 @@ namespace FanviewEventPollingService.Services
             {
                 _logger.LogInformation( "Service Started Polling " + Environment.NewLine );
 
-                _matchRepository.PollMatchSessionId(eventName);
+                //_matchRepository.PollMatchSessionId(eventName);
 
                 _logger.LogInformation( "Service Completed Polling "+ Environment.NewLine );
             });
