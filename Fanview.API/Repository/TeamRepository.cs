@@ -363,9 +363,9 @@ namespace Fanview.API.Repository
 
             var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
 
-            var veichelLanding = _vehicleLeave.GetMongoDbCollection("VehicleLeave").AsQueryable().Where(c=>c.MatchId == tournamentMatchId );
+            var veichelLanding = _vehicleLeave.GetMongoDbCollection("VehicleLeave").AsQueryable().Where(c=>c.MatchId == tournamentMatchId).ToList();
             var response = new TeamLanding();
-            response.Landing = new List<Landing>();
+            var landing = new List<Landing>();
             response.MatchdId = tournamentMatchId;
             foreach (var q in teams.OrderBy(o=>o.Name))
             {
@@ -373,14 +373,14 @@ namespace Fanview.API.Repository
                 if (vl.Any())
                 {
                     var tp = teamPlayers.Where(o=>o.TeamIdShort == q.TeamId);
-                    response.Landing.Add(new Landing()
+                    landing.Add(new Landing()
                     {
                         TeamID = q.TeamId,
                         TeamName = q.Name,
                         Players = vl.Select(s => new LiveVeichleTeamPlayers()
                         {
                             PlayerName = s.Character.Name,
-                            PlayerId = tp.FirstOrDefault(o => o.PlayerName == s.Character.Name).PlayerId,
+                            PlayerId = tp.FirstOrDefault(o => o.PlayerName == s.Character.Name)?.PlayerId,
                             location = new LiveLocation()
                             {
                                 X = s.Character.Location.x,
@@ -392,6 +392,7 @@ namespace Fanview.API.Repository
                     });
                 }
             }
+            response.Landing = landing;
 
 
 
