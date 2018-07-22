@@ -1,6 +1,7 @@
 ﻿using Fanview.API.GraphicsDummyData;
 using Fanview.API.Model;
 using Fanview.API.Model.LiveModels;
+using Fanview.API.Model.ViewModels;
 using Fanview.API.Repository.Interface;
 using Fanview.API.Services.Interface;
 using Fanview.API.Utility;
@@ -31,8 +32,10 @@ namespace Fanview.API.Repository
         private DateTime killEventlastTimeStamp = DateTime.MinValue;
         private IClientBuilder _httpClientBuilder;
         private IHttpClientRequest _httpClientRequest;
-        
+        private IGenericRepository<Event> _tournament;
+
         private string _matchId;
+       
 
         public PlayerKillRepository(IClientBuilder httpClientBuilder,
                                     IHttpClientRequest httpClientRequest,
@@ -40,7 +43,8 @@ namespace Fanview.API.Repository
                                     IGenericRepository<Kill> genericRepository,
                                     IGenericRepository<CreatePlayer> genericPlayerRepository,
                                     IGenericRepository<LiveEventKill> genericLiveEventKillRepository,
-                                    IGenericRepository<EventInfo> eventInfoRepository,                                    
+                                    IGenericRepository<EventInfo> eventInfoRepository,
+                                    IGenericRepository<Event> tournament,
                                     ILogger<PlayerKillRepository> logger)
         {
             _httpClientBuilder = httpClientBuilder;
@@ -51,8 +55,9 @@ namespace Fanview.API.Repository
             _LiveEventKill = genericLiveEventKillRepository;
             _eventInfoRepository = eventInfoRepository;
             _playerRepository = playerRepository;
-            
-            
+            _tournament = tournament;
+
+
 
             _logger = logger;
 
@@ -191,12 +196,16 @@ namespace Fanview.API.Repository
         }
 
 
-        public async Task<IEnumerable<LiveEventKill>> GetLiveKilled(string matchId)
+        public async Task<IEnumerable<LiveEventKill>> GetLiveKilled(int matchId)
         {
             _logger.LogInformation("GetLivePlayerKilled Repository call started" + Environment.NewLine);
             try
             {
-                var response = _LiveEventKill.GetAll("LiveEventKill").Result.Where(cn => cn.MatchId == matchId);
+                var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
+
+                var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
+
+                var response = _LiveEventKill.GetAll("LiveEventKill").Result.Where(cn => cn.MatchId == tournamentMatchId);
 
                 // var response = _genericRepository.GetMongoDbCollection("Kill").FindAsyn(new BsonDocument());
 
@@ -326,10 +335,31 @@ namespace Fanview.API.Repository
             if (jsonResult.Where(cn => (string)cn["_T"] == "EventMatchJoin").Count() > 0)
             {
                _matchId = jsonResult.Where(cn => (string)cn["_T"] == "EventMatchJoin").Select(s => s.Value<string>("matchId")).FirstOrDefault();
+               var matchJoinTime = jsonResult.Where(cn => (string)cn["_T"] == "EventMatchJoin").Select(s => s.Value<double>("time")).FirstOrDefault();
+
+
 
                 if (_matchId != null)
                 {
                     _matchId = _matchId.Split(".").ElementAtOrDefault(1);
+
+                    var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
+
+                    var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.Id == _matchId)).Result.FirstOrDefaultAsync().Result;
+
+                    if (tournamentMatchId == null)
+                    {
+                        var tournamentMatchIdCount = tournaments.FindAsync(new BsonDocument()).Result.ToListAsync().Result.Count();
+
+                        var tournamentMatchDetails = new Event()
+                        {
+                            Id = _matchId,
+                            EventName = "PUBG Global Invitational Berlin 2018",
+                            CreatedAT = dateTime.AddSeconds((double)matchJoinTime).ToString()
+                        };
+
+                        _tournament.Insert(tournamentMatchDetails, "TournamentMatchId");
+                    }
                 }
             }
 
@@ -377,6 +407,16 @@ namespace Fanview.API.Repository
 
         }
 
-       
+        public async Task<IEnumerable<LiveKillCount>> GetLiveKillCount(IEnumerable<LiveEventKill> liveEventKills)
+        {
+            var killCount = liveEventKills.GroupBy(g => g.KillerName).Select(s => new LiveKillCount()
+            {
+                KillerName = s.Key,
+                KillerTeamId = s.Select(a => a.KillerTeamId).ElementAtOrDefault(0),
+                KillCount = s.Count()
+            }).OrderByDescending(o => o.KillCount);
+
+            return await Task.FromResult(killCount);
+        }
     }
 }

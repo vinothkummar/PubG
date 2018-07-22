@@ -44,7 +44,7 @@ namespace Fanview.API.Controllers
         /// </remarks>
         /// <param name='matchId'>675619e6-4a11-6b92-cf2e-4c82428b78ef</param>
         [HttpGet("Status/{matchId}", Name = "GetLiveStatus")]
-        public Task<LiveStatus> GetLiveStatus(string matchId)
+        public Task<LiveStatus> GetLiveStatus(int matchId)
         {
             // return _liveRepository.GetLiveStatus(matchId);
 

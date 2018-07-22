@@ -287,7 +287,7 @@ namespace Fanview.API.BusinessLayer
                 return await await Task.FromResult(matchRankings);
         }
 
-        public IEnumerable<TeamRankPoints> GetTeamEliminatedPosition(IEnumerable<Kill> kills, string matchId, int totalTeamCount)
+        private IEnumerable<TeamRankPoints> GetTeamEliminatedPosition(IEnumerable<Kill> kills, string matchId, int totalTeamCount)
         {
             var teamPlayers = _teamPlayerRespository.GetTeamPlayers(matchId).Result;
 
@@ -345,7 +345,7 @@ namespace Fanview.API.BusinessLayer
 
             if (teamsRankPoints.Count() < 20 && teamsRankPoints.Count()!= playersCreated.Select(s => s.TeamId).Distinct().Count())
             {
-                var lastTeamStands = kills.Join(teamPlayers, pk => pk.Killer.AccountId, tp => tp.PubgAccountId,
+                var lastTeamStands = kills.Join(teamPlayers, pk => pk.Killer.TeamId, tp => tp.TeamIdShort,
                                                    (pk, tp) => new { pk, tp }).Where(cn => !teamsRankPoints.Select(t => t.OpenApiVictimTeamId).Contains(cn.pk.Killer.TeamId))
                                                    .Select(r => new TeamRankPoints() { TeamId = r.tp.TeamId, Positions = 1, OpenApiVictimTeamId = r.pk.Killer.TeamId, PlayerAccountId = r.pk.Killer.AccountId }).GroupBy(g => g.PlayerAccountId).FirstOrDefault().ElementAtOrDefault(0);
 

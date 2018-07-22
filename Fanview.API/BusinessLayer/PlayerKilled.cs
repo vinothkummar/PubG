@@ -106,7 +106,7 @@ namespace Fanview.API.BusinessLayer
             return playerKilledOrTeamEliminatedMessages;
         }
 
-        public IEnumerable<KilliPrinter> GetLivePlayerKilled(string matchId)
+        public IEnumerable<KilliPrinter> GetLivePlayerKilled(int matchId)
         {
             var playerKilledOrTeamEliminatedMessages = new List<KilliPrinter>();
 

@@ -21,6 +21,7 @@ namespace Fanview.API.BusinessLayer
         private IGenericRepository<RankPoints> _rankRepository;
         private IGenericRepository<Event> _tournament;
         private IRanking _ranking;
+        private ITeamPlayerRepository _teamPlayerRespository;
 
         public LiveStats(IPlayerKillRepository playerKillRepository, 
                               ITeamPlayerRepository teamPlayerRepository,
@@ -29,6 +30,7 @@ namespace Fanview.API.BusinessLayer
                               IGenericRepository<RankPoints> rankRepository,
                               IRanking ranking,
                               IGenericRepository<Event> tournament,
+                              ITeamPlayerRepository teamPlayerRespository,
                               ILogger<LiveStats> logger)
         {
             _logger = logger;
@@ -39,6 +41,7 @@ namespace Fanview.API.BusinessLayer
             _rankRepository = rankRepository;
             _ranking = ranking;
             _tournament = tournament;
+            _teamPlayerRepository = teamPlayerRepository;
         }
 
         public async Task<IEnumerable<MatchRanking>> GetLiveStatsRanking(int matchId)
@@ -53,9 +56,11 @@ namespace Fanview.API.BusinessLayer
 
             var teamCount = _teamRepository.GetAllTeam().Result.Count();
 
-            var kills = _playerKillRepository.GetPlayerKilled(tournamentMatchId).Result.ToList();
+            var LiveKills = _playerKillRepository.GetLiveKilled(matchId).Result;
 
-            var teamEliminationPosition = _ranking.GetTeamEliminatedPosition(kills, tournamentMatchId, teamCount);
+            var liveKillCount = _playerKillRepository.GetLiveKillCount(LiveKills);
+
+            var teamEliminationPosition = GetTeamEliminatedPosition(LiveKills, tournamentMatchId, teamCount);
 
             var teamEliminatedLastPosition = teamEliminationPosition.TakeLast(1).FirstOrDefault();
 
@@ -116,7 +121,7 @@ namespace Fanview.API.BusinessLayer
 
         }
 
-        public async Task<LiveStatus> GetLiveStatus(string matchId)
+        public async Task<LiveStatus> GetLiveStatus(int matchId)
         {
 
             var teams = _teamRepository.GetAllTeam().Result.AsQueryable();
@@ -191,6 +196,84 @@ namespace Fanview.API.BusinessLayer
             liveStatus.teams = liveStatsStatus;
 
             return await Task.FromResult(liveStatus);
+        }
+
+
+        private IEnumerable<TeamRankPoints> GetTeamEliminatedPosition(IEnumerable<LiveEventKill> kills, string matchId, int totalTeamCount)
+        {
+            var teamPlayers = _teamPlayerRespository.GetTeamPlayers(matchId).Result;
+
+            var playersCreated = _teamPlayerRespository.GetPlayersCreated(matchId).Result;
+
+            var playersKilled = kills.Join(playersCreated, pk => pk.VictimTeamId, pc => Convert.ToInt32(pc.TeamId),
+                                                   (pk, pc) => new { pk, pc })
+                                                   .Join(teamPlayers, pkpc => Convert.ToInt32(pkpc.pc.TeamId),
+                                                   tp => tp.TeamIdShort, (pkpc, tp) => new { pkpc, tp })
+                                                   .Select(s => new
+                                                   {
+                                                       VictimTeamId = s.pkpc.pk.VictimTeamId,
+                                                       pubgTeamId = s.pkpc.pc.TeamId,
+                                                       fanviewTeamId = s.tp.TeamId,
+                                                       PlayerAccountId = s.tp.PubgAccountId
+
+                                                   });
+
+            var teamsRankPoints = new List<TeamRankPoints>();
+
+            var teamCount = new List<int>();
+            var i = 0;
+            foreach (var item in playersKilled)
+            {
+                teamCount.Add(item.VictimTeamId);
+
+                var teamPlayerCount = playersCreated.Where(cn => cn.TeamId == item.VictimTeamId.ToString()).Count();
+
+                if (teamCount.Where(cn => cn == item.VictimTeamId).Count() == teamPlayerCount)
+                {
+                    var teamRankFinishing = new TeamRankPoints() { TeamId = item.fanviewTeamId, Positions = GetTeamFinishingPositions(i), OpenApiVictimTeamId = item.VictimTeamId, PlayerAccountId = item.PlayerAccountId };
+                    teamsRankPoints.Add(teamRankFinishing);
+                    i++;
+                }
+            }
+
+
+
+            if (teamsRankPoints.Count() < 20 && totalTeamCount < 20)
+            {
+                var noOfteamEliminated = teamsRankPoints.Count();
+                var teamDifference = 20 - noOfteamEliminated;
+
+                teamsRankPoints = teamsRankPoints.Select(c => new TeamRankPoints()
+                {
+                    MatchId = c.MatchId,
+                    TeamId = c.TeamId,
+                    Name = c.Name,
+                    OpenApiVictimTeamId = c.OpenApiVictimTeamId,
+                    PlayerAccountId = c.PlayerAccountId,
+                    Positions = c.Positions - teamDifference
+                }).ToList();
+            }
+
+
+            if (teamsRankPoints.Count() < 20 && teamsRankPoints.Count() != playersCreated.Select(s => s.TeamId).Distinct().Count())
+            {
+                var lastTeamStands = kills.Join(teamPlayers, pk => pk.KillerTeamId, tp => tp.TeamIdShort,
+                                                   (pk, tp) => new { pk, tp }).Where(cn => !teamsRankPoints.Select(t => t.OpenApiVictimTeamId).Contains(cn.pk.KillerTeamId))
+                                                   .Select(r => new TeamRankPoints() { TeamId = r.tp.TeamId, Positions = 1, OpenApiVictimTeamId = r.pk.KillerTeamId}).GroupBy(g => g.PlayerAccountId).FirstOrDefault().ElementAtOrDefault(0);
+
+                teamsRankPoints.Add(lastTeamStands);
+
+            }
+
+
+            return teamsRankPoints;
+        }
+
+        private int GetTeamFinishingPositions(int i)
+        {
+            var position = 20 - i;
+            i++;
+            return position;
         }
     }
 }

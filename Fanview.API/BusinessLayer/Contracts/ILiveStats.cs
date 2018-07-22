@@ -9,7 +9,7 @@ namespace Fanview.API.BusinessLayer.Contracts
 {
     public interface ILiveStats
     {
-        Task<LiveStatus> GetLiveStatus(string matchId);
+        Task<LiveStatus> GetLiveStatus(int matchId);
         
         Task<IEnumerable<MatchRanking>> GetLiveStatsRanking(int matchId);
     }
