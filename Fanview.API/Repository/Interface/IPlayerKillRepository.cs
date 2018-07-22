@@ -31,5 +31,7 @@ namespace Fanview.API.Repository.Interface
 
         Task<KillLeader> GetKillLeaderList();
 
+        Task<KillLeader> GetLiveKillList(string matchId);
+
     }
 }
