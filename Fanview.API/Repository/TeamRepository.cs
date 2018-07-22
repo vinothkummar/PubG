@@ -10,6 +10,7 @@ using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using Fanview.API.Model.LiveModels;
 using Fanview.API.GraphicsDummyData;
+using Fanview.API.Model.ViewModels;
 
 namespace Fanview.API.Repository
 {
@@ -107,12 +108,13 @@ namespace Fanview.API.Repository
         }
       
 
-        public async Task<IEnumerable<TeamRanking>> GetTeamProfile(string teamId1)
+        public async Task<IEnumerable<TeamRankingView>> GetTeamProfile(string teamId1)
         {
 
             var teamStatsRanking = _teamRankings.GetMongoDbCollection("TeamRanking");
 
             var teamScrore = teamStatsRanking.FindAsync(Builders<TeamRanking>.Filter.Where(cn => cn.TeamId == teamId1 )).Result.ToListAsync();
+            var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
 
             var teamRanks = teamStatsRanking.AsQueryable().GroupBy(g => g.TeamId).Select(s =>
             new
@@ -124,13 +126,13 @@ namespace Fanview.API.Repository
             .Select((item, index) => new { TeamId = item.TeamId, TotalScore = item.TotalScore, Rank = index });
 
             var teamPosition = teamRanks.Where(cn => cn.TeamId == teamId1).Select(s => s.Rank).FirstOrDefault() + 1;
-
+            
             var teamStandings = teamScrore.Result.GroupBy(g =>  g.TeamId)
-                 .Select(s => new TeamRanking()
+                 .Select(s => new TeamRankingView()
                {           
                 TeamRank = teamPosition.ToString(),
                 TeamId = s.Key,
-                MatchId = s.FirstOrDefault().MatchId,
+                MatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.Id == s.FirstOrDefault().MatchId)).Result.FirstOrDefaultAsync().Result.MatchId,
                 TeamName = s.Select(a => a.TeamName).ElementAtOrDefault(0),                
                 Kill  = s.Sum(a => a.Kill),
                 Damage = s.Sum(a => a.Damage),
@@ -147,7 +149,7 @@ namespace Fanview.API.Repository
             await Task.Run(persistDataToMongo);
         }
 
-         public async Task<IEnumerable<TeamRanking>> GetTeamProfileByMatchId(string teamId1, int matchId)
+         public async Task<IEnumerable<TeamRankingView>> GetTeamProfileByMatchId(string teamId1, int matchId)
         {
             var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
 
@@ -169,8 +171,8 @@ namespace Fanview.API.Repository
             var teamPosition = teamRanks.Where(cn => cn.TeamId == teamId1).Select(s => s.Rank).FirstOrDefault() + 1;
 
             var teamStandings = teamScrore.Result.GroupBy(g => g.TeamId)
-                 .Select(s => new TeamRanking()
-                 {   MatchId = s.Select(a =>a.MatchId).ElementAtOrDefault(0),
+                 .Select(s => new TeamRankingView()
+                 {   MatchId = matchId,
                      TeamRank = teamPosition.ToString(),
                      TeamId = s.Key,
                      TeamName = s.Select(a => a.TeamName).ElementAtOrDefault(0),
@@ -182,7 +184,7 @@ namespace Fanview.API.Repository
             return await Task.FromResult(teamStandings);
         }
 
-        public async Task<IEnumerable<TeamRanking>> GetTeamProfilesByTeamIdAndMatchId(string teamId1, string teamId2, int matchId)
+        public async Task<IEnumerable<TeamRankingView>> GetTeamProfilesByTeamIdAndMatchId(string teamId1, string teamId2, int matchId)
         {
             var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
 
@@ -206,9 +208,9 @@ namespace Fanview.API.Repository
             var i = 0;
 
             var teamStandings = teamScrore.Result.GroupBy(g => g.TeamId)
-                 .Select(s => new TeamRanking()
+                 .Select(s => new TeamRankingView()
                  {
-                     MatchId = s.Select(a => a.MatchId).ElementAtOrDefault(0),
+                     MatchId= tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.Id == s.FirstOrDefault().MatchId)).Result.FirstOrDefaultAsync().Result.MatchId,
                      TeamRank = (teamPosition.Select(a => a.Rank).ElementAtOrDefault(i++) + 1).ToString(),
                      TeamId = s.Key,
                      TeamName = s.Select(a => a.TeamName).ElementAtOrDefault(0),
@@ -262,9 +264,10 @@ namespace Fanview.API.Repository
         }
 
 
-        public async Task<IEnumerable<TeamRanking>> GetTeamProfileMatchUp(string teamId1, string teamId2)
+        public async Task<IEnumerable<TeamRankingView>> GetTeamProfileMatchUp(string teamId1, string teamId2)
         {
             var teamStatsRanking = _teamRankings.GetMongoDbCollection("TeamRanking");
+            var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
 
             var teamScrore = teamStatsRanking.FindAsync(Builders<TeamRanking>.Filter.Where(cn => cn.TeamId == teamId1 || cn.TeamId == teamId2)).Result.ToListAsync();
 
@@ -282,14 +285,15 @@ namespace Fanview.API.Repository
             var i = 0;
 
             var teamStandings = teamScrore.Result.GroupBy(g => g.TeamId)
-                 .Select(s => new TeamRanking()
+                 .Select(s => new TeamRankingView()
                  {
                      TeamRank = (teamPosition.Select(a => a.Rank).ElementAtOrDefault(i++) + 1).ToString(),
                      TeamId = s.Key,
                      TeamName = s.Select(a => a.TeamName).ElementAtOrDefault(0),
                      Kill = s.Sum(a => a.Kill),
                      Damage = s.Sum(a => a.Damage),
-                     TotalPoints = s.Sum(a => a.TotalPoints)
+                     TotalPoints = s.Sum(a => a.TotalPoints),
+                     MatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.Id == s.FirstOrDefault().MatchId)).Result.FirstOrDefaultAsync().Result.MatchId
                  });
 
             return await Task.FromResult(teamStandings);
