@@ -353,32 +353,34 @@ namespace Fanview.API.Repository
             return  Task.FromResult(longestSurvivingTeamPlayers);
         }
 
-        public Task<TeamLanding> GetTeamLanding(string matchId)
+        public Task<TeamLanding> GetTeamLanding(int matchId)
         {
             var teams = _team.GetMongoDbCollection("Team").AsQueryable();
 
             var teamPlayers = _teamPlayers.GetMongoDbCollection("TeamPlayers").AsQueryable();
 
+            var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
 
+            var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
 
-            var veichelLanding = _vehicleLeave.GetMongoDbCollection("VehicleLeave").AsQueryable().Where(c=>c.MatchId == matchId);
+            var veichelLanding = _vehicleLeave.GetMongoDbCollection("VehicleLeave").AsQueryable().Where(c=>c.MatchId == tournamentMatchId).ToList();
             var response = new TeamLanding();
-            response.Landing = new List<Landing>();
-            response.MatchdId = matchId;
+            var landing = new List<Landing>();
+            response.MatchdId = tournamentMatchId;
             foreach (var q in teams.OrderBy(o=>o.Name))
             {
                 var vl = veichelLanding.Where(o => o.Character.TeamId == q.TeamId);
                 if (vl.Any())
                 {
                     var tp = teamPlayers.Where(o=>o.TeamIdShort == q.TeamId);
-                    response.Landing.Add(new Landing()
+                    landing.Add(new Landing()
                     {
                         TeamID = q.TeamId,
                         TeamName = q.Name,
                         Players = vl.Select(s => new LiveVeichleTeamPlayers()
                         {
                             PlayerName = s.Character.Name,
-                            PlayerId = tp.FirstOrDefault(o => o.PlayerName == s.Character.Name).PlayerId,
+                            PlayerId = tp.FirstOrDefault(o => o.PlayerName == s.Character.Name)?.PlayerId,
                             location = new LiveLocation()
                             {
                                 X = s.Character.Location.x,
@@ -390,6 +392,7 @@ namespace Fanview.API.Repository
                     });
                 }
             }
+            response.Landing = landing;
 
 
 
