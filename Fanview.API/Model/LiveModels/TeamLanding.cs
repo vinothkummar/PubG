@@ -7,8 +7,8 @@ namespace Fanview.API.Model.LiveModels
 {
     public class TeamLanding
     {
-        public string MatchName { get; set; }
-        public int MatchdId { get; set; }
-        public Landing Landing { get; set; }
+        public string MatchdId { get; set; }
+        public List<Landing> Landing { get; set; }
     }
+
 }
