@@ -81,7 +81,23 @@ namespace Fanview.API.Controllers
         [HttpGet("KillList/{matchId}", Name = "GetLiveKillList")]
         public Task<KillLeader> GetLiveKillList(string matchId)
         {
-            return _playerKillRepository.GetLiveKillList(matchId);
+            return _playerKillRepository.GetLiveKillList(matchId,0);
+        }
+
+        /// <summary>
+        /// Returns Live Kill List for top n rows
+        /// </summary>
+        /// <remarks>
+        /// This Api Currently Serving Static Information
+        /// Sample request: api/live/KillList/{matchId}          
+        /// Input Parameter: f84d39a1-8218-4438-9bf5-7150f9e0f093
+        /// </remarks>
+        /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
+        /// <param name='topN'>top 6 rows</param>
+        [HttpGet("KillList/{matchId}/{topN}")]
+        public Task<KillLeader> GetLiveKillList(string matchId, int topN)
+        {
+            return _playerKillRepository.GetLiveKillList(matchId,topN);
         }
 
         /// <summary>

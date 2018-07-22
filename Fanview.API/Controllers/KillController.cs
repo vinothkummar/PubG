@@ -147,6 +147,7 @@ namespace Fanview.API.Controllers
         /// Input Parameter: f84d39a1-8218-4438-9bf5-7150f9e0f093
         /// </remarks>
         /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
+        /// <param name='topCount'>top 6 rows</param>
         [HttpGet("LeaderList/{matchId}/{topCount}")]
         public Task<KillLeader> GetKillLeaderList(int matchId, int topCount)
         {
