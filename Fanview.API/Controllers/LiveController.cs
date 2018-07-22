@@ -22,10 +22,9 @@ namespace Fanview.API.Controllers
         private IRanking _ranking;
         private ITeamPlayerRepository _teamPlayerRepository;
         private ITeamRepository _teamRespository;
-        private IPlayerKillRepository _playerKillRepository;
 
         public LiveController(ILiveRepository liveRepository, ILiveStats liveStatus, IRanking ranking,
-                              ITeamPlayerRepository teamPlayerRepository, ITeamRepository teamRepository, IPlayerKillRepository playerKillRepository)
+            ITeamPlayerRepository teamPlayerRepository, ITeamRepository teamRepository)
         {
 
             _liveRepository = liveRepository;
@@ -33,7 +32,6 @@ namespace Fanview.API.Controllers
             _ranking = ranking;
             _teamPlayerRepository = teamPlayerRepository;
             _teamRespository = teamRepository;
-            _playerKillRepository = playerKillRepository;
         }
 
         /// <summary>
@@ -79,9 +77,9 @@ namespace Fanview.API.Controllers
         /// </remarks>
         /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
         [HttpGet("KillList/{matchId}", Name = "GetLiveKillList")]
-        public Task<KillLeader> GetLiveKillList(string matchId)
+        public Task<LiveKillList> GetLiveKillList(string matchId)
         {
-            return _playerKillRepository.GetLiveKillList(matchId);
+            return _liveRepository.GetLiveKillList(matchId);
         }
 
         /// <summary>

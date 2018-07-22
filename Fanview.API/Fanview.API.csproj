@@ -13,7 +13,6 @@
     <Content Remove="BusinessLayer\DataProcess\**" />
     <EmbeddedResource Remove="BusinessLayer\DataProcess\**" />
     <None Remove="BusinessLayer\DataProcess\**" />
-    <Compile Remove="Model\ViewModels\KillLeaders.cs" />
   </ItemGroup>
 
   <ItemGroup>

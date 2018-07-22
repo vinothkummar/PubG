@@ -10,7 +10,6 @@ using Fanview.API.Utility;
 using Fanview.API.BusinessLayer.Contracts;
 using Microsoft.Extensions.Logging;
 using Fanview.API.Model.LiveModels;
-using Fanview.API.Model.ViewModels;
 
 namespace Fanview.API.Controllers
 {
@@ -131,27 +130,10 @@ namespace Fanview.API.Controllers
         /// </remarks>
         /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
         [HttpGet("LeaderList/{matchId}")]
-        public Task<KillLeader> GetKillLeaderList(int matchId)
+        public Task<KillLeaderList> GetKillLeaderList(string matchId)
         {
-           return _playerKillRepository.GetKillLeaderList(matchId,0);
-
-        }
-
-
-        /// <summary>
-        /// Return top(n) kill list per matchId      
-        /// </summary>
-        /// <remarks>
-        /// Sample request: api/Kill/LeaderList/{matchId}/4 
-        /// This Api Currently Serving the Static Information
-        /// Input Parameter: f84d39a1-8218-4438-9bf5-7150f9e0f093
-        /// </remarks>
-        /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
-        [HttpGet("LeaderList/{matchId}/{topCount}")]
-        public Task<KillLeader> GetKillLeaderList(int matchId, int topCount)
-        {
-            return _playerKillRepository.GetKillLeaderList(matchId, topCount);
-
+           return _playerKillRepository.GetKillLeaderList(matchId);
+            
         }
 
         /// <summary>
@@ -167,22 +149,6 @@ namespace Fanview.API.Controllers
         public Task<IEnumerable<KillZone>> GetKillZone(int matchId)
         {
             return _playerKillRepository.GetKillZone(matchId);
-
-        }
-
-        /// <summary>
-        /// Return top 10 kill list per tournament     
-        /// </summary>
-        /// <remarks>
-        /// Sample request: api/Kill/LeaderList 
-        /// This Api Currently Serving the Static Information
-        /// Input Parameter: f84d39a1-8218-4438-9bf5-7150f9e0f093
-        /// </remarks>
-        /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
-        [HttpGet("LeaderList")]
-        public Task<KillLeader> GetKillLeaderList()
-        {
-            return _playerKillRepository.GetKillLeaderList();
 
         }
     }
