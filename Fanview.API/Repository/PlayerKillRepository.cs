@@ -33,17 +33,11 @@ namespace Fanview.API.Repository
         private DateTime killEventlastTimeStamp = DateTime.MinValue;
         private IClientBuilder _httpClientBuilder;
         private IHttpClientRequest _httpClientRequest;
-<<<<<<< HEAD
         private IGenericRepository<MatchPlayerStats> _genericMatchPlayerStatsRepository;
-        private IGenericRepository<Event> _tournament;
         private IGenericRepository<TeamPlayer> _genericTeamPlayerRepository;
         private IGenericRepository<Team> _team;
         private IGenericRepository<TeamPlayer> _teamPlayers;
         private ITeamPlayerRepository _teamPlayerRepository;
-
-=======
-        private IGenericRepository<Event> _tournament;
->>>>>>> master
 
         private string _matchId;
        
@@ -54,7 +48,6 @@ namespace Fanview.API.Repository
                                     IGenericRepository<Kill> genericRepository,
                                     IGenericRepository<CreatePlayer> genericPlayerRepository,
                                     IGenericRepository<LiveEventKill> genericLiveEventKillRepository,
-<<<<<<< HEAD
                                     IGenericRepository<EventInfo> eventInfoRepository, 
                                     IGenericRepository<MatchPlayerStats> genericMatchPlayerStatsRepository,
                                     IGenericRepository<Event> tournament,
@@ -62,11 +55,6 @@ namespace Fanview.API.Repository
                                     IGenericRepository<Team> team,
                                     IGenericRepository<TeamPlayer> teamPlayers,
                                     ITeamPlayerRepository teamPlayerRepository,
-=======
-                                    IGenericRepository<Event> tournament,
-                                    IGenericRepository<EventInfo> eventInfoRepository,
-                                    IGenericRepository<Event> tournament,
->>>>>>> master
                                     ILogger<PlayerKillRepository> logger)
         {
             _httpClientBuilder = httpClientBuilder;
@@ -77,19 +65,13 @@ namespace Fanview.API.Repository
             _LiveEventKill = genericLiveEventKillRepository;
             _eventInfoRepository = eventInfoRepository;
             _playerRepository = playerRepository;
-<<<<<<< HEAD
             _genericMatchPlayerStatsRepository = genericMatchPlayerStatsRepository;
             _tournament = tournament;
             _genericTeamPlayerRepository = genericTeamPlayerRepository;
             _team = team;
             _teamPlayers = teamPlayers;
             _teamPlayerRepository = teamPlayerRepository;
-=======
             _tournament = tournament;
-
-
-
->>>>>>> master
             _logger = logger;
 
         }

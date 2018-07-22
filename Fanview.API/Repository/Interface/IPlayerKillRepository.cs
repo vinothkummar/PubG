@@ -30,14 +30,10 @@ namespace Fanview.API.Repository.Interface
 
         void InsertLiveKillEventTelemetry(JObject[] jsonResult, string fileName);
 
-<<<<<<< HEAD
         Task<KillLeader> GetKillLeaderList();
 
         Task<KillLeader> GetLiveKillList(string matchId);
 
-=======
         Task<IEnumerable<LiveKillCount>> GetLiveKillCount(IEnumerable<LiveEventKill> liveEventKills);
-            
->>>>>>> master
     }
 }
