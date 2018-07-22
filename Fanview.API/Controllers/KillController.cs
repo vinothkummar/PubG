@@ -10,6 +10,7 @@ using Fanview.API.Utility;
 using Fanview.API.BusinessLayer.Contracts;
 using Microsoft.Extensions.Logging;
 using Fanview.API.Model.LiveModels;
+using Fanview.API.Model.ViewModels;
 
 namespace Fanview.API.Controllers
 {
@@ -130,7 +131,7 @@ namespace Fanview.API.Controllers
         /// </remarks>
         /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
         [HttpGet("LeaderList/{matchId}")]
-        public Task<KillLeaderList> GetKillLeaderList(string matchId)
+        public Task<KillLeader> GetKillLeaderList(int matchId)
         {
            return _playerKillRepository.GetKillLeaderList(matchId);
             
@@ -149,6 +150,13 @@ namespace Fanview.API.Controllers
         public Task<IEnumerable<KillZone>> GetKillZone(string matchId)
         {
             return _playerKillRepository.GetKillZone(matchId);
+
+        }
+
+        [HttpGet("LeaderList")]
+        public Task<KillLeader> GetKillLeaderList()
+        {
+            return _playerKillRepository.GetKillLeaderList();
 
         }
     }

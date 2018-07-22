@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Fanview.API.Model.LiveModels;
 using Newtonsoft.Json.Linq;
+using Fanview.API.Model.ViewModels;
 
 namespace Fanview.API.Repository.Interface
 {
@@ -22,11 +23,13 @@ namespace Fanview.API.Repository.Interface
 
         Task<IEnumerable<Kill>> GetLast4PlayerKilled(string matchId);
 
-        Task<KillLeaderList> GetKillLeaderList(string matchId);
+        Task<KillLeader> GetKillLeaderList(int matchId);
 
         Task<IEnumerable<KillZone>> GetKillZone(string matchId);
 
         void InsertLiveKillEventTelemetry(JObject[] jsonResult, string fileName);
+
+        Task<KillLeader> GetKillLeaderList();
 
     }
 }
