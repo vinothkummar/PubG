@@ -20,6 +20,7 @@ namespace Fanview.API.Repository
         private IGenericRepository<TeamPlayer> _teamPlayers;
         private IGenericRepository<PlayerPoition> _teamPlayersPosition;
         private IGenericRepository<TeamRanking> _teamRankings;
+        private IGenericRepository<VehicleLeave> _vehicleLeave;
         private IGenericRepository<Event> _tournament;
         private LiveGraphichsDummyData _data;
         private ILogger<TeamRepository> _logger;
@@ -29,6 +30,7 @@ namespace Fanview.API.Repository
                               IGenericRepository<TeamPlayer> teamPlayers,
                               IGenericRepository<TeamRanking> teamRankings,
                               IGenericRepository<Event> tournament,
+                              IGenericRepository<VehicleLeave> vehicleLeave,
                               IGenericRepository<PlayerPoition> teamPlayersPosition,
                               ILogger<TeamRepository> logger)
         {
@@ -37,6 +39,7 @@ namespace Fanview.API.Repository
             _teamPlayers = teamPlayers;
             _teamRankings = teamRankings;
             _tournament = tournament;
+            _vehicleLeave = vehicleLeave;
             _teamPlayersPosition = teamPlayersPosition;
 
             _data = new LiveGraphichsDummyData();
@@ -350,11 +353,49 @@ namespace Fanview.API.Repository
             return  Task.FromResult(longestSurvivingTeamPlayers);
         }
 
-        public Task<TeamLanding> GetTeamLanding()
+        public Task<TeamLanding> GetTeamLanding(string matchId)
         {
-            return Task.FromResult(_data.GetTeamLanding());
+            var teams = _team.GetMongoDbCollection("Team").AsQueryable();
+
+            var teamPlayers = _teamPlayers.GetMongoDbCollection("TeamPlayers").AsQueryable();
+
+
+
+            var veichelLanding = _vehicleLeave.GetMongoDbCollection("VehicleLeave").AsQueryable().Where(c=>c.MatchId == matchId);
+            var response = new TeamLanding();
+            response.Landing = new List<Landing>();
+            response.MatchdId = matchId;
+            foreach (var q in teams.OrderBy(o=>o.Name))
+            {
+                var vl = veichelLanding.Where(o => o.Character.TeamId == q.TeamId);
+                if (vl.Any())
+                {
+                    var tp = teamPlayers.Where(o=>o.TeamIdShort == q.TeamId);
+                    response.Landing.Add(new Landing()
+                    {
+                        TeamID = q.TeamId,
+                        TeamName = q.Name,
+                        Players = vl.Select(s => new LiveVeichleTeamPlayers()
+                        {
+                            PlayerName = s.Character.Name,
+                            PlayerId = tp.FirstOrDefault(o => o.PlayerName == s.Character.Name).PlayerId,
+                            location = new LiveLocation()
+                            {
+                                X = s.Character.Location.x,
+                                Y = s.Character.Location.y,
+                                Z = s.Character.Location.z,
+                            }
+
+                        })
+                    });
+                }
+            }
+
+
+
+            return Task.FromResult(response);
         }
 
-       
+
     }
 }

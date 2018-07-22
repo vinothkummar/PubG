@@ -66,9 +66,11 @@ namespace Fanview.API.Controllers
         /// </remarks>
         /// <param name='matchId'>5b369085a510862ec07c824a</param>
         [HttpGet("Landings/{matchId}", Name = "GetTeamLandings")]
-        public Task<TeamLanding> GetTeamLandings(string matchId)
+        public async Task<TeamLanding> GetTeamLandings(string matchId)
         {
-            return _teamRepository.GetTeamLanding();
+            var res= await _teamRepository.GetTeamLanding(matchId);
+            return res;
+
         }
 
         //GET:api/Team

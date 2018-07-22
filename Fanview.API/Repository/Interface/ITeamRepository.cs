@@ -29,7 +29,7 @@ namespace Fanview.API.Repository.Interface
 
         Task<IEnumerable<TeamRoute>> GetTeamRoute(int matchId);
 
-        Task<TeamLanding> GetTeamLanding();
+        Task<TeamLanding> GetTeamLanding(string matchId);
 
 
     }
