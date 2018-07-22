@@ -687,62 +687,51 @@ namespace Fanview.API.GraphicsDummyData
         {
             var teamlanding = new TeamLanding
             {
-                MatchName = "Match1",
-                MatchdId = 1,
-                Landing = new Landing()
-                {
-                    TeamName = "Team1",
-                    TeamID = "1",
-                    Players = new List<LiveTeamPlayers>
-                    {
-                        new LiveTeamPlayers
-                        {
-                            PlayeId="1",
-                            PlayerName="Player1",
-                            location=new LiveLocation
-                            {
-                                X=1.0,
-                                Y=2.0,
-                                Z=3.0
-                            }
-                        },
-                         new LiveTeamPlayers
-                        {
-                            PlayeId="2",
-                            PlayerName="Player2",
-                            location=new LiveLocation
-                            {
-                                X=2.0,
-                                Y=2.0,
-                                Z=4.0
-                            }
-                        },
-                          new LiveTeamPlayers
-                        {
-                            PlayeId="3",
-                            PlayerName="Player3",
-                            location=new LiveLocation
-                            {
-                                X=3.0,
-                                Y=4.0,
-                                Z=5.0
-                            }
+                //MatchName = "Match1",
+                MatchdId = "1",
+                //Landing = new Landing()
+                //{
+                //    TeamName = "Team1",
+                //    TeamID = 1,
+                //    Players = new List<LiveVeichleTeamPlayers>
+                //    {
+                //        new LiveVeichleTeamPlayers
+                //        {
+                //            PlayerId=1,
+                //            PlayerName="Player1",
+                //            location=new LiveLocation
+                //            {
+                //                X=1.0,
+                //                Y=2.0,
+                //                Z=3.0
+                //            }
+                //        },
+                //         new LiveVeichleTeamPlayers
+                //        {
+                //            PlayerId=2,
+                //            PlayerName="Player2",
+                //            location=new LiveLocation
+                //            {
+                //                X=2.0,
+                //                Y=2.0,
+                //                Z=4.0
+                //            }
+                //        },
+                //          new LiveVeichleTeamPlayers
+                //        {
+                //            PlayerId=3,
+                //            PlayerName="Player3",
+                //            location=new LiveLocation
+                //            {
+                //                X=3.0,
+                //                Y=4.0,
+                //                Z=5.0
+                //            }
 
-                        },
-                           new LiveTeamPlayers
-                        {
-                            PlayeId="4",
-                            PlayerName="Player4",
-                            location=new LiveLocation
-                            {
-                                X=4.0,
-                                Y=5.0,
-                                Z=3.0
-                            }
-                        }
-                    }
+                //        }
+                //    }
 
-                }
+                //}
             };
             return  teamlanding;
         }

@@ -64,11 +64,13 @@ namespace Fanview.API.Controllers
         /// This Api Currently Serving the Static Information
         /// Input Parameters: 5b369085a510862ec07c824a 
         /// </remarks>
-        /// <param name='teamId'>5b369085a510862ec07c824a</param>
-        [HttpGet("Landings/{teamId}", Name = "GetTeamLandings")]
-        public Task<TeamLanding> GetTeamLandings(string teamId)
+        /// <param name='matchId'>5b369085a510862ec07c824a</param>
+        [HttpGet("Landings/{matchId}", Name = "GetTeamLandings")]
+        public async Task<TeamLanding> GetTeamLandings(string matchId)
         {
-            return _teamRepository.GetTeamLanding();
+            var res= await _teamRepository.GetTeamLanding(matchId);
+            return res;
+
         }
 
         //GET:api/Team
