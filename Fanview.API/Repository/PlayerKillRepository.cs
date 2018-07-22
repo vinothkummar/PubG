@@ -329,18 +329,28 @@ namespace Fanview.API.Repository
             var sortByKill = matchstat.AsQueryable().OrderByDescending(o => o.stats.Kills).Take(rowCount);
 
             var teams = _team.GetAll("Team").Result;
-            var teamPlayers = _teamPlayers.GetAll("TeamPlayers").Result;
+            var teamPlayers = _teamPlayerRepository.GetTeamPlayers().Result;
             var killList = sortByKill.Join(teams, s => s.TeamId, t => t.Id, (s, t) => new { s, t })
                                        //.Join(teamPlayers, sttp => sttp.t.TeamId, tp => tp.TeamIdShort, (sttp, tp) => new { sttp, tp })
                                      .Select(kl => new Kills()
-                                     {
+                                     {                                        
                                         kills = kl.s.stats.Kills,
                                         teamId = kl.t.TeamId,
                                         timeSurvived = kl.s.stats.TimeSurvived,
                                         //playerId = kl.tp.PlayerId,
-                                        //playerName=kl.tp.PlayerName
+                                        playerName=kl.s.stats.Name
                                      });
-            return killList.ToList();
+
+            var killListWithPlayerDetail = killList.Join(teamPlayers, kl => kl.playerName.Trim(), tp => tp.PlayerName.Trim(), (kl, pl)=> new { kl, pl})
+                                                   .Select(s => new Kills()
+                                                   {
+                                                       kills = s.kl.kills,
+                                                       teamId = s.kl.teamId,
+                                                       timeSurvived = s.kl.timeSurvived,
+                                                       playerId = s.pl.PlayerId,
+                                                       playerName=s.pl.PlayerName
+                                                   });
+            return killListWithPlayerDetail;
         }
 
         public async Task<KillLeader> GetKillLeaderList(int matchId)
