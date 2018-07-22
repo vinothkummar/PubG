@@ -130,6 +130,7 @@ namespace Fanview.API.Repository
                {           
                 TeamRank = teamPosition.ToString(),
                 TeamId = s.Key,
+                MatchId = s.FirstOrDefault().MatchId,
                 TeamName = s.Select(a => a.TeamName).ElementAtOrDefault(0),                
                 Kill  = s.Sum(a => a.Kill),
                 Damage = s.Sum(a => a.Damage),
