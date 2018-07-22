@@ -331,31 +331,27 @@ namespace Fanview.API.Repository
             var teams = _team.GetAll("Team").Result;
             var teamPlayers = _teamPlayerRepository.GetTeamPlayers().Result;
             var killList = sortByKill.Join(teams, s => s.TeamId, t => t.Id, (s, t) => new { s, t })
-                                       //.Join(teamPlayers, sttp => sttp.t.TeamId, tp => tp.TeamIdShort, (sttp, tp) => new { sttp, tp })
-                                     .Select(kl => new Kills()
+                                     .Join(teamPlayers, kl => kl.s.stats.Name.Trim(), tp => tp.PlayerName.Trim(), (kl, pl) => new { kl, pl })
+                                     .Select(klt => new Kills()
                                      {                                        
-                                        kills = kl.s.stats.Kills,
-                                        teamId = kl.t.TeamId,
-                                        timeSurvived = kl.s.stats.TimeSurvived,
-                                        //playerId = kl.tp.PlayerId,
-                                        playerName=kl.s.stats.Name
+                                        kills = klt.kl.s.stats.Kills,
+                                        teamId = klt.kl.t.TeamId,
+                                        timeSurvived = klt.kl.s.stats.TimeSurvived,
+                                        playerId = klt.pl.PlayerId,
+                                        playerName=klt.kl.s.stats.Name
                                      });
-
-            var killListWithPlayerDetail = killList.Join(teamPlayers, kl => kl.playerName.Trim(), tp => tp.PlayerName.Trim(), (kl, pl)=> new { kl, pl})
-                                                   .Select(s => new Kills()
-                                                   {
-                                                       kills = s.kl.kills,
-                                                       teamId = s.kl.teamId,
-                                                       timeSurvived = s.kl.timeSurvived,
-                                                       playerId = s.pl.PlayerId,
-                                                       playerName=s.pl.PlayerName
-                                                   });
-            return killListWithPlayerDetail;
+            return killList;
         }
 
-        public async Task<KillLeader> GetKillLeaderList(int matchId)
+        public async Task<KillLeader> GetKillLeaderList(int matchId,int topCount)
         {
-            var killList = GetMatchPlayerStatsForMatchId(matchId,0);
+            IEnumerable<Kills> killList;
+            if (topCount > 0){
+                killList = GetMatchPlayerStatsForMatchId(matchId, topCount);
+            }
+            else{
+                killList = GetMatchPlayerStatsForMatchId(matchId, 0);
+            }
             var killLeader = new KillLeader()
             {
                 matchId = matchId,
@@ -368,28 +364,27 @@ namespace Fanview.API.Repository
         {
             var matchstats = _genericMatchPlayerStatsRepository.GetMongoDbCollection("MatchPlayerStats");
             var matchstat = matchstats.FindAsync(new BsonDocument()).Result.ToListAsync().Result;
+            var sortByKill = matchstat.AsQueryable().OrderByDescending(o => o.stats.Kills).Take(10);
 
 
             var teams = _team.GetAll("Team").Result.ToList();
-            var teamPlayers = _teamPlayers.GetAll("TeamPlayers").Result;
-            //var teamPlayers = _teamPlayerRepository.GetTeamPlayers().Result.ToList();
+            var teamPlayers = _teamPlayerRepository.GetTeamPlayers().Result;
 
-            var killList = matchstat.Join(teamPlayers, s => s.TeamId, t => t.TeamId, (s, t) => new { s, t })
-                                    //.Join(teamPlayers, sttp => new {TeamId=sttp.t.TeamId}, tp => new  {TeamIdShort=tp.TeamIdShort} , (sttp, tp) => new { sttp, tp })
-                         .Select(kl => new Kills()
-                         {
-                             kills = kl.s.stats.Kills,
-                             teamId = kl.t.TeamIdShort,
-                             timeSurvived = kl.s.stats.TimeSurvived,
-                             playerId = kl.t.PlayerId,
-                             playerName = kl.t.PlayerName
-                         });
-            //var teamMatchList = killList.Join(teamPlayers, mt => mt.teamId, tp => tp.TeamIdShort, (mt, tp) => new { mt, tp });
+            var killList = sortByKill.Join(teams, s => s.TeamId, t => t.Id, (s, t) => new { s, t })
+                                     .Join(teamPlayers, kl => kl.s.stats.Name.Trim(), tp => tp.PlayerName.Trim(), (kl, pl) => new { kl, pl })
+                                     .Select(klt => new Kills()
+                                     {
+                                         kills = klt.kl.s.stats.Kills,
+                                         teamId = klt.kl.t.TeamId,
+                                         timeSurvived = klt.kl.s.stats.TimeSurvived,
+                                         playerId = klt.pl.PlayerId,
+                                         playerName = klt.kl.s.stats.Name
+                                     });
 
             var killLeaders = new KillLeader()
             {
                 matchId = 0,
-                killList = killList.Distinct().ToList()
+                killList = killList
             };
 
             return killLeaders;

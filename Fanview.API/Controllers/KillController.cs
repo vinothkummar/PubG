@@ -133,8 +133,25 @@ namespace Fanview.API.Controllers
         [HttpGet("LeaderList/{matchId}")]
         public Task<KillLeader> GetKillLeaderList(int matchId)
         {
-           return _playerKillRepository.GetKillLeaderList(matchId);
-            
+           return _playerKillRepository.GetKillLeaderList(matchId,0);
+
+        }
+
+
+        /// <summary>
+        /// Return top(n) kill list per matchId      
+        /// </summary>
+        /// <remarks>
+        /// Sample request: api/Kill/LeaderList/{matchId}/4 
+        /// This Api Currently Serving the Static Information
+        /// Input Parameter: f84d39a1-8218-4438-9bf5-7150f9e0f093
+        /// </remarks>
+        /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
+        [HttpGet("LeaderList/{matchId}/{topCount}")]
+        public Task<KillLeader> GetKillLeaderList(int matchId, int topCount)
+        {
+            return _playerKillRepository.GetKillLeaderList(matchId, topCount);
+
         }
 
         /// <summary>
@@ -153,6 +170,15 @@ namespace Fanview.API.Controllers
 
         }
 
+        /// <summary>
+        /// Return top 10 kill list per tournament     
+        /// </summary>
+        /// <remarks>
+        /// Sample request: api/Kill/LeaderList 
+        /// This Api Currently Serving the Static Information
+        /// Input Parameter: f84d39a1-8218-4438-9bf5-7150f9e0f093
+        /// </remarks>
+        /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
         [HttpGet("LeaderList")]
         public Task<KillLeader> GetKillLeaderList()
         {

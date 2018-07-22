@@ -23,7 +23,7 @@ namespace Fanview.API.Repository.Interface
 
         Task<IEnumerable<Kill>> GetLast4PlayerKilled(string matchId);
 
-        Task<KillLeader> GetKillLeaderList(int matchId);
+        Task<KillLeader> GetKillLeaderList(int matchId, int topCount);
 
         Task<IEnumerable<KillZone>> GetKillZone(string matchId);
 
