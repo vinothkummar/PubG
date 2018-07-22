@@ -103,7 +103,7 @@ namespace Fanview.API.Controllers
         [HttpGet("Ranking/{matchId}", Name = "GetLiveRanking")]
         public Task<IEnumerable<MatchRanking>> GetLiveRanking(int matchId)
         {
-            return _ranking.GetMatchRankings(matchId);
+            return _liveStatus.GetLiveStatsRanking(matchId);
         }
 
 
