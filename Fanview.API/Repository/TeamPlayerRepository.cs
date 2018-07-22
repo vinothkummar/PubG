@@ -105,7 +105,7 @@ namespace Fanview.API.Repository
         {
             var teamPlayerCollection = _genericTeamPlayerRepository.GetMongoDbCollection("TeamPlayers");
 
-            var teamPlayer = await teamPlayerCollection.FindAsync(Builders<TeamPlayer>.Filter.Where(cn => cn.MatchId == matchId)).Result.ToListAsync();
+            var teamPlayer = await teamPlayerCollection.AsQueryable().ToListAsync();
 
             return teamPlayer;
         }
@@ -119,7 +119,7 @@ namespace Fanview.API.Repository
         {
             var teamPlayerCollection = _genericTeamPlayerRepository.GetMongoDbCollection("TeamPlayers");
 
-            var teamPlayer = await teamPlayerCollection.FindAsync(Builders<TeamPlayer>.Filter.Where(cn => cn.MatchId == matchId1 || cn.MatchId == matchId2 || cn.MatchId == matchId3 || cn.MatchId == matchId4)).Result.ToListAsync();
+            var teamPlayer = await teamPlayerCollection.AsQueryable().ToListAsync();
 
             return teamPlayer;
         }
@@ -205,7 +205,7 @@ namespace Fanview.API.Repository
 
             var teamPlayerCollection = _genericTeamPlayerRepository.GetMongoDbCollection("TeamPlayers");
 
-            var teamPlayer = await teamPlayerCollection.FindAsync(Builders<TeamPlayer>.Filter.Where(cn => cn.PlayerId == playerId && cn.MatchId == tournamentMatchId)).Result.ToListAsync();
+            var teamPlayer = await teamPlayerCollection.AsQueryable().ToListAsync();
 
             var matchstats = _genericMatchPlayerStatsRepository.GetMongoDbCollection("MatchPlayerStats");
 
@@ -268,7 +268,7 @@ namespace Fanview.API.Repository
             var teamPlayerCollection = _genericTeamPlayerRepository.GetMongoDbCollection("TeamPlayers");
 
             var teamPlayer = await teamPlayerCollection.FindAsync(Builders<TeamPlayer>.Filter.Where(cn => (cn.PlayerId == playerId1 || cn.PlayerId == playerId2) 
-                                                        && (cn.MatchId == tournamentMatchId))).Result.ToListAsync();
+                                                        )).Result.ToListAsync();
            
 
             var matchstats = _genericMatchPlayerStatsRepository.GetMongoDbCollection("MatchPlayerStats");
