@@ -7,8 +7,8 @@ namespace Fanview.API.Model.LiveModels
 {
     public class LiveDamageList
     {
-        public string MatchName { get; set; }
-        public int MatchId { get; set; }
+        //public string MatchName { get; set; }
+        //public int MatchId { get; set; }
         public IEnumerable<DamageList> DamageList {get; set;}
 
     }

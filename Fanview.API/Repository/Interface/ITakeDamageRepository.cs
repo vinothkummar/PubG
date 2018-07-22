@@ -9,6 +9,7 @@ namespace Fanview.API.Repository.Interface
     public interface ITakeDamageRepository
     {
         void InsertTakeDamageTelemetry(string jsonResult);
+        void InsertEventDamageTelemetry(string jsonResult);
 
         Task<IEnumerable<TakeDamage>> GetPlayerTakeDamage();
     }
