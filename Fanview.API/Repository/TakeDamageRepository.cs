@@ -16,11 +16,13 @@ namespace Fanview.API.Repository
     {
         private DateTime killEventlastTimeStamp = DateTime.MinValue;
         private IGenericRepository<TakeDamage> _genericRepository;
+        private IGenericRepository<EventDamage> _genericDamageRepository;
         private ILogger<PlayerKillRepository> _logger;
 
-        public TakeDamageRepository(IGenericRepository<TakeDamage> genericRepository, ILogger<PlayerKillRepository> logger)
+        public TakeDamageRepository(IGenericRepository<TakeDamage> genericRepository, IGenericRepository<EventDamage> genericDamageRepository, ILogger<PlayerKillRepository> logger)
         {
             _genericRepository = genericRepository;
+            _genericDamageRepository = genericDamageRepository;
             _logger = logger;
         }
 
@@ -29,6 +31,45 @@ namespace Fanview.API.Repository
             var result = _genericRepository.GetAll("TakeDamage");
 
             return await result;
+        }
+        public async void InsertEventDamageTelemetry(string jsonResult)
+        {
+            
+            var jsonToJObject = JArray.Parse(jsonResult);
+
+            var result = jsonToJObject.Where(x => x.Value<string>("_T") == "EventDamage").Select(s => new EventDamage()
+            {
+
+                IsDetailStatus = (bool)s["isDetailStatus"],
+                IsVictimMe = (bool)s["isVictimMe"],
+                Damage = (float)s["damage"],
+                DamageCategory = (string)s["damageTypeCategory"],
+                AttackerName = (string)s["attackerName"],
+                AttackerLocation = new Location()
+                {
+                    x = (float)s["attackerLocation"]["x"],
+                    y = (float)s["attackerLocation"]["y"],
+                    z = (float)s["attackerLocation"]["z"],
+                },
+                AttackerTeamId = (int)s["attackerTeamId"],
+                VictimName = (string)s["victimName"],
+                VictimLocation = new Location()
+                {
+                    x = (float)s["victimLocation"]["x"],
+                    y = (float)s["victimLocation"]["y"],
+                    z = (float)s["victimLocation"]["z"],
+                },
+                VictimTeamId = (int)s["victimTeamId"],
+                EventTimeStamp = (string)s["_D"],
+                EventType = (string)s["_T"]
+            });
+
+            var eventDamageCreate = _genericDamageRepository.GetMongoDbCollection("EventDamage");
+
+
+            Func<Task> persistPlayerToMongo = async () => _genericDamageRepository.Insert(result, "EventDamage");
+
+            await Task.Run(persistPlayerToMongo);
         }
 
         public async void InsertTakeDamageTelemetry(string jsonResult)
