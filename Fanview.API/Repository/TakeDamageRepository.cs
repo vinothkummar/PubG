@@ -1,4 +1,5 @@
 ﻿using Fanview.API.Model;
+using Fanview.API.Model.ViewModels;
 using Fanview.API.Repository.Interface;
 using Fanview.API.Utility;
 using Microsoft.Extensions.Logging;
@@ -18,12 +19,15 @@ namespace Fanview.API.Repository
         private IGenericRepository<TakeDamage> _genericRepository;
         private IGenericRepository<EventDamage> _genericDamageRepository;
         private ILogger<PlayerKillRepository> _logger;
+        private IGenericRepository<Team> _team;
+        private IGenericRepository<TeamPlayer> _teamPlayers;
 
-        public TakeDamageRepository(IGenericRepository<TakeDamage> genericRepository, IGenericRepository<EventDamage> genericDamageRepository, ILogger<PlayerKillRepository> logger)
+        public TakeDamageRepository(IGenericRepository<TakeDamage> genericRepository,  IGenericRepository<EventDamage> genericDamageRepository, ILogger<PlayerKillRepository> logger)
         {
             _genericRepository = genericRepository;
             _genericDamageRepository = genericDamageRepository;
             _logger = logger;
+           
         }
 
         public async Task<IEnumerable<TakeDamage>> GetPlayerTakeDamage()
@@ -147,5 +151,6 @@ namespace Fanview.API.Repository
 
             return result;
         }
+
     }
 }
