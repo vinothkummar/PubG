@@ -23,13 +23,16 @@ namespace Fanview.API.Repository.Interface
 
         Task<IEnumerable<Kill>> GetLast4PlayerKilled(string matchId);
 
-        Task<KillLeaderList> GetKillLeaderList(string matchId);
+        Task<KillLeader> GetKillLeaderList(int matchId, int topCount);
 
         Task<IEnumerable<KillZone>> GetKillZone(int matchId);
 
         void InsertLiveKillEventTelemetry(JObject[] jsonResult, string fileName);
 
+        Task<KillLeader> GetKillLeaderList();
+
+        Task<KillLeader> GetLiveKillList(string matchId);
+
         Task<IEnumerable<LiveKillCount>> GetLiveKillCount(IEnumerable<LiveEventKill> liveEventKills);
-            
     }
 }
