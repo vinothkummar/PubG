@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Fanview.API.Model.LiveModels;
+using Fanview.API.Model.ViewModels;
 
 namespace Fanview.API.Controllers
 {
@@ -66,7 +67,7 @@ namespace Fanview.API.Controllers
         /// </remarks>
         /// <param name='matchId'>5b369085a510862ec07c824a</param>
         [HttpGet("Landings/{matchId}", Name = "GetTeamLandings")]
-        public async Task<TeamLanding> GetTeamLandings(string matchId)
+        public async Task<TeamLanding> GetTeamLandings(int matchId)
         {
             var res= await _teamRepository.GetTeamLanding(matchId);
             return res;
@@ -95,25 +96,25 @@ namespace Fanview.API.Controllers
         /// </remarks>
         /// <param name='teamId1'>1</param>       
         [HttpGet("Profile/{teamId1}", Name = "GetTeamProfile")]
-        public Task<IEnumerable<TeamRanking>> GetTeamProfile(string teamId1)
+        public Task<IEnumerable<TeamRankingView>> GetTeamProfile(string teamId1)
         {
             return _teamRepository.GetTeamProfile(teamId1);
         }
 
         [HttpGet("Profile/{teamId1}/{matchId}", Name = "GetTeamProfileByMatchId")]
-        public Task<IEnumerable<TeamRanking>> GetTeamProfileByMatchId(string teamId1, int matchId)
+        public Task<IEnumerable<TeamRankingView>> GetTeamProfileByMatchId(string teamId1, int matchId)
         {
             return _teamRepository.GetTeamProfileByMatchId(teamId1, matchId);
         }
 
         [HttpGet("Profile/MatchUp/{teamId1}/{teamId2}/{matchId}", Name = "GetTeamProfilesByTeamIdAndMatchId")]
-        public Task<IEnumerable<TeamRanking>> GetTeamProfilesByTeamIdAndMatchId(string teamId1, string teamId2, int matchId)
+        public Task<IEnumerable<TeamRankingView>> GetTeamProfilesByTeamIdAndMatchId(string teamId1, string teamId2, int matchId)
         {
             return _teamRepository.GetTeamProfilesByTeamIdAndMatchId(teamId1, teamId2, matchId);
         }
 
         [HttpGet("Profile/MatchUp/{teamId1}/{teamId2}", Name = "GetTeamProfileMatchUp")]
-        public Task<IEnumerable<TeamRanking>> GetTeamProfileMatchUp(string teamId1, string teamId2)
+        public Task<IEnumerable<TeamRankingView>> GetTeamProfileMatchUp(string teamId1, string teamId2)
         {
             return _teamRepository.GetTeamProfileMatchUp(teamId1, teamId2);
         }

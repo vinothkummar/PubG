@@ -62,6 +62,8 @@ namespace Fanview.API.Repository
 
                     await Task.Run(async () => _playerVehicleLeaveRepository.InsertVehicleLeaveTelemetry(jsonResult, string.Empty));
 
+                    await Task.Run(async () => _takeDamageRepository.InsertEventDamageTelemetry(jsonResult));
+
                     //InsertPlayerKillTelemetry(jsonResult);
 
                     _logger.LogInformation("Completed Loading Telemetery Response Json" + Environment.NewLine);

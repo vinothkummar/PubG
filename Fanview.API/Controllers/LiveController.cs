@@ -109,7 +109,7 @@ namespace Fanview.API.Controllers
 
         //dummy implementation to other to work
         [HttpGet("LiveTeamStats/{matchId}", Name = "GetLiveTeamStats")]
-        public Task<IEnumerable<TeamRanking>> GetLiveTeamStats(int matchId)
+        public Task<IEnumerable<TeamRankingView>> GetLiveTeamStats(int matchId)
         {
             var teamId1 = "0";
 
