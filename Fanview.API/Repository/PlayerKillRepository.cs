@@ -33,8 +33,6 @@ namespace Fanview.API.Repository
         private DateTime killEventlastTimeStamp = DateTime.MinValue;
         private IClientBuilder _httpClientBuilder;
         private IHttpClientRequest _httpClientRequest;
-        private IGenericRepository<Event> _tournament;
-
         private string _matchId;
        
 
@@ -46,7 +44,6 @@ namespace Fanview.API.Repository
                                     IGenericRepository<LiveEventKill> genericLiveEventKillRepository,
                                     IGenericRepository<Event> tournament,
                                     IGenericRepository<EventInfo> eventInfoRepository,
-                                    IGenericRepository<Event> tournament,
                                     ILogger<PlayerKillRepository> logger)
         {
             _httpClientBuilder = httpClientBuilder;
