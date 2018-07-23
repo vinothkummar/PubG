@@ -438,7 +438,7 @@ namespace Fanview.API.Repository
                 kills = s.Count(),
                 playerName = s.Key,
                 teamId = s.Select(a => a.KillerTeamId).ElementAtOrDefault(0)
-            }).Take(topCount > 0 ? topCount : 10);
+            }).OrderByDescending(o => o.kills).Take(topCount > 0 ? topCount : 10);
 
             var killLeaders = new KillLeader()
             {
