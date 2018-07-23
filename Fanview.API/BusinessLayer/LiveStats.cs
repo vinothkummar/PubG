@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Fanview.API.Model.LiveModels;
 using Fanview.API.Model;
 using MongoDB.Driver;
+using Fanview.API.Model.ViewModels;
 
 namespace Fanview.API.BusinessLayer
 {
@@ -23,7 +24,7 @@ namespace Fanview.API.BusinessLayer
         private IRanking _ranking;
         private ITeamPlayerRepository _teamPlayerRespository;
 
-        public LiveStats(IPlayerKillRepository playerKillRepository, 
+        public LiveStats(IPlayerKillRepository playerKillRepository,
                               ITeamPlayerRepository teamPlayerRepository,
                               ITeamRepository teamRepository,
                               IGenericRepository<Event> eventRepository,
@@ -50,7 +51,7 @@ namespace Fanview.API.BusinessLayer
 
             var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
 
-            var matchRanking = _ranking.GetMatchRankings(matchId);
+            var matchRanking = _ranking.GetTournamentRankings();
 
             var rankPoints = _rankRepository.GetAll("RankPoints").Result.OrderByDescending(o => o.RankPosition);
 
@@ -62,62 +63,57 @@ namespace Fanview.API.BusinessLayer
 
             var teamEliminationPosition = GetTeamEliminatedPosition(LiveKills, tournamentMatchId, teamCount);
 
-            var teamEliminatedLastPosition = teamEliminationPosition.TakeLast(1).FirstOrDefault();
+            //var teamEliminatedLastPosition = teamEliminationPosition.TakeLast(1).FirstOrDefault();
 
-            var rankPositionIndex = rankPoints.Select((item, index) => new { Position = (int) index, RankPositionScore = item.ScoringPoints });
+            var rankPositionIndex = rankPoints.Select((item, index) => new { Position = (int)index, RankPositionScore = item.ScoringPoints });
 
-            var presentEligibleRankScore = rankPositionIndex.Where(cn => teamEliminationPosition.Count() == cn.Position).Select(s => s.RankPositionScore).SingleOrDefault();
+            var presentEligibleRankScore = rankPoints.Where(cn => teamEliminationPosition.Select(s => s.Positions).Contains(cn.RankPosition)).Select(s => s.ScoringPoints);
 
 
-            var teamEliminated = new List<TeamRankPoints>();
 
-            teamEliminated.Add(new TeamRankPoints() { Name = teamEliminatedLastPosition.Name, TeamId = teamEliminatedLastPosition.TeamId });
-         
-          
-            
-            
-            
+            //rankPositionIndex.Where(cn => teamEliminationPosition.Count() == cn.Position).Select(s => s.RankPositionScore).SingleOrDefault();
+
+            //var teamEliminated = new List<TeamRankPoints>();
+
+            //teamEliminated.Add(new TeamRankPoints() { Name = teamEliminatedLastPosition.Name, TeamId = teamEliminatedLastPosition.TeamId });
+
+
+
+
+
             var tournamentRanking = matchRanking.Result.Select(a => new MatchRanking()
             {
                 MatchId = a.MatchId,
                 TeamId = a.TeamId,
                 TeamName = a.TeamName,
                 KillPoints = a.KillPoints,
-                RankPoints = a.RankPoints, 
+                RankPoints = a.RankPoints,
                 TotalPoints = a.TotalPoints,
                 TeamRank = a.TeamRank,
-                PubGOpenApiTeamId =a.PubGOpenApiTeamId
-                
+                PubGOpenApiTeamId = a.PubGOpenApiTeamId
+
             });
 
             var liveRanking = new List<MatchRanking>();
             foreach (var item in tournamentRanking)
             {
-                if(teamEliminated.Where(cn => cn.TeamId.Contains(item.TeamId)).Count() == 0)
-                {
-                    liveRanking.Add(
-                    new MatchRanking()
-                    {
-                        MatchId = item.MatchId,
-                        TeamId = item.TeamId,
-                        TeamName = item.TeamName,
-                        KillPoints = item.KillPoints,
-                        RankPoints = item.RankPoints + presentEligibleRankScore,
-                        TotalPoints = item.TotalPoints,
-                        TeamRank = item.TeamRank,
-                        PubGOpenApiTeamId = item.PubGOpenApiTeamId
 
-                    });
-                }
-               
+                liveRanking.Add(
+                new MatchRanking()
+                {
+                    MatchId = item.MatchId,
+                    TeamId = item.TeamId,
+                    TeamName = item.TeamName,
+                    KillPoints = item.KillPoints,
+                    RankPoints = item.RankPoints, //+ presentEligibleRankScore,
+                    TotalPoints = item.TotalPoints,
+                    TeamRank = item.TeamRank,
+                    PubGOpenApiTeamId = item.PubGOpenApiTeamId
+
+                });
             }
 
-
-
-
             return liveRanking;
-
-
 
         }
 
@@ -201,20 +197,34 @@ namespace Fanview.API.BusinessLayer
 
         private IEnumerable<TeamRankPoints> GetTeamEliminatedPosition(IEnumerable<LiveEventKill> kills, string matchId, int totalTeamCount)
         {
-            var teamPlayers = _teamPlayerRespository.GetTeamPlayers(matchId).Result;
+            var teamPlayers = new List<PlayerAll>();
+            foreach (var item in _teamPlayerRepository.GetTeamPlayers().Result)
+            {
+                teamPlayers.Add(
+                new PlayerAll()
+                {
+                    longTeamId = item.TeamId,
+                    PlayerId = item.PlayerId,
+                    PlayerName = item.PlayerName,
+                    FullName = item.FullName,
+                    Country = item.Country,
+                    TeamId = item.TeamIdShort
+                });
 
-            var playersCreated = _teamPlayerRespository.GetPlayersCreated(matchId).Result;
 
-            var playersKilled = kills.Join(playersCreated, pk => pk.VictimTeamId, pc => Convert.ToInt32(pc.TeamId),
-                                                   (pk, pc) => new { pk, pc })
-                                                   .Join(teamPlayers, pkpc => Convert.ToInt32(pkpc.pc.TeamId),
-                                                   tp => tp.TeamIdShort, (pkpc, tp) => new { pkpc, tp })
+            }
+           
+
+           
+
+            var playersKilled = kills.Join(teamPlayers, pk => pk.VictimTeamId, pc => pc.TeamId,
+                                                   (pk, pc) => new { pk, pc })                                                   
                                                    .Select(s => new
                                                    {
-                                                       VictimTeamId = s.pkpc.pk.VictimTeamId,
-                                                       pubgTeamId = s.pkpc.pc.TeamId,
-                                                       fanviewTeamId = s.tp.TeamId,
-                                                       PlayerAccountId = s.tp.PubgAccountId
+                                                       VictimTeamId = s.pk.VictimTeamId,
+                                                       pubgTeamId = s.pc.TeamId,
+                                                       fanviewTeamId = s.pc.longTeamId,
+                                                     //  PlayerAccountId = s.tp.PubgAccountId
 
                                                    });
 
@@ -226,11 +236,11 @@ namespace Fanview.API.BusinessLayer
             {
                 teamCount.Add(item.VictimTeamId);
 
-                var teamPlayerCount = playersCreated.Where(cn => cn.TeamId == item.VictimTeamId.ToString()).Count();
+                var teamPlayerCount = teamPlayers.Where(cn => cn.TeamId == item.VictimTeamId).Count();
 
                 if (teamCount.Where(cn => cn == item.VictimTeamId).Count() == teamPlayerCount)
                 {
-                    var teamRankFinishing = new TeamRankPoints() { TeamId = item.fanviewTeamId, Positions = GetTeamFinishingPositions(i), OpenApiVictimTeamId = item.VictimTeamId, PlayerAccountId = item.PlayerAccountId };
+                    var teamRankFinishing = new TeamRankPoints() { TeamId = item.fanviewTeamId, Positions = GetTeamFinishingPositions(i), OpenApiVictimTeamId = item.VictimTeamId };
                     teamsRankPoints.Add(teamRankFinishing);
                     i++;
                 }
@@ -255,11 +265,11 @@ namespace Fanview.API.BusinessLayer
             }
 
 
-            if (teamsRankPoints.Count() < 20 && teamsRankPoints.Count() != playersCreated.Select(s => s.TeamId).Distinct().Count())
+            if (teamsRankPoints.Count() < 20 && teamsRankPoints.Count() != teamPlayers.Select(s => s.TeamId).Distinct().Count())
             {
-                var lastTeamStands = kills.Join(teamPlayers, pk => pk.KillerTeamId, tp => tp.TeamIdShort,
+                var lastTeamStands = kills.Join(teamPlayers, pk => pk.KillerTeamId, tp => tp.TeamId,
                                                    (pk, tp) => new { pk, tp }).Where(cn => !teamsRankPoints.Select(t => t.OpenApiVictimTeamId).Contains(cn.pk.KillerTeamId))
-                                                   .Select(r => new TeamRankPoints() { TeamId = r.tp.TeamId, Positions = 1, OpenApiVictimTeamId = r.pk.KillerTeamId}).GroupBy(g => g.PlayerAccountId).FirstOrDefault().ElementAtOrDefault(0);
+                                                   .Select(r => new TeamRankPoints() { TeamId = r.tp.longTeamId, Positions = 1, OpenApiVictimTeamId = r.pk.KillerTeamId}).GroupBy(g => g.PlayerAccountId).FirstOrDefault().ElementAtOrDefault(0);
 
                 teamsRankPoints.Add(lastTeamStands);
 

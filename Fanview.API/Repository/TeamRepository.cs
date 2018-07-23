@@ -344,7 +344,7 @@ namespace Fanview.API.Repository
                                                              new TeamRoute()
                                                              {
                                                                  MatchId = 7,
-                                                                 Routs = new Route()
+                                                                 Route = new Route()
                                                                  {
                                                                      TeamID = s.pl.FanviewTeamId,
                                                                      TeamName = s.pl.TeamName,

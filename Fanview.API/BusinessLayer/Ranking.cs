@@ -289,7 +289,7 @@ namespace Fanview.API.BusinessLayer
 
         private IEnumerable<TeamRankPoints> GetTeamEliminatedPosition(IEnumerable<Kill> kills, string matchId, int totalTeamCount)
         {
-            var teamPlayers = _teamPlayerRespository.GetTeamPlayers(matchId).Result;
+            var teamPlayers = _teamPlayerRespository.GetTeamPlayers().Result;
 
             var playersCreated = _teamPlayerRespository.GetPlayersCreated(matchId).Result;
 

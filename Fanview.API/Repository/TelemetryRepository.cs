@@ -62,8 +62,6 @@ namespace Fanview.API.Repository
 
                     await Task.Run(async () => _playerVehicleLeaveRepository.InsertVehicleLeaveTelemetry(jsonResult, string.Empty));
 
-                    await Task.Run(async () => _takeDamageRepository.InsertEventDamageTelemetry(jsonResult));
-
                     //InsertPlayerKillTelemetry(jsonResult);
 
                     _logger.LogInformation("Completed Loading Telemetery Response Json" + Environment.NewLine);
@@ -78,7 +76,7 @@ namespace Fanview.API.Repository
             }
         }
 
-        public async void ReadUDPStreamFromFile()
+        public void ReadUDPStreamFromFile()
         {
             _logger.LogInformation("UDP Streaming Read Started " + Environment.NewLine);
             try
@@ -102,27 +100,17 @@ namespace Fanview.API.Repository
                     var array = objects.ToArray();
 
                     _playerKillRepository.InsertLiveKillEventTelemetry(array, fileName);
-                   
+
+                    _takeDamageRepository.InsertEventDamageTelemetry(array, fileName);
+
                     File.Move(file, folderPathToMoveProcessedFile + "\\" + fileName);
                 }
+                    
             }
             catch (Exception exception)
             {
-
                 throw exception;
             }
-            
-
-            //_logger.LogInformation("Telemetery Request Started " + Environment.NewLine);
-
-            //JObject o1 = JObject.Parse(File.ReadAllText(@"C:\Users\Vinoth\Documents\Fanview\Old\test_live_logs13b"));
-
-            ////read Json directly from a file
-            //using (StreamReader file = File.OpenText(@"C:\Users\Vinoth\Documents\Fanview\Old\test_live_logs13b"))
-            //using (JsonTextReader reader = new JsonTextReader(file))
-            //{
-            //    JObject o2 = (JObject)JObject.ReadFrom(reader);
-            //}
         }
 
         private IEnumerable<JObject> Deserializeobjects(string jsonInput)

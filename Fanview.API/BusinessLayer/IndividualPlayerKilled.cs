@@ -218,7 +218,7 @@ namespace Fanview.API.BusinessLayer
 
                 var playerKillMessage = new PlayerKilledGraphics()
                 {
-                    TimeKilled = $"{DateTime.Parse(item.TimeKilled).ToString("mm:ss")}",
+                    TimeKilled = $"{item.TimeKilled}",
                     KillerName = $"{item.KillerName.ToUpper()}",
                     FreeText1 = $"KILLED",
                     VictimName = $"{item.VictimName.ToUpper()}",
@@ -244,7 +244,7 @@ namespace Fanview.API.BusinessLayer
 
                     teamEliminatedMessage = new TeamEliminated()
                     {
-                        TimeElimnated = $"{DateTime.Parse(item.TimeKilled).ToString("mm:ss")}",
+                        TimeElimnated = $"{item.TimeKilled}",
                         FreeText1 = $"Team",
                         TeamId = $"{item.VictimTeamId}",
                         FreeText2 = $"HAS BEEN ELIMINATED",

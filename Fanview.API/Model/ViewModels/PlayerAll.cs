@@ -8,6 +8,7 @@ namespace Fanview.API.Model.ViewModels
     public class PlayerAll
     {       
         public int TeamId { get; set;}
+        public string longTeamId { get; set; }
         public int PlayerId { get; set; }      
         public string PlayerName { get; set; }       
         public string FullName { get; set; }       

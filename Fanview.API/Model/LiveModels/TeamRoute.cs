@@ -9,7 +9,7 @@ namespace Fanview.API.Model.LiveModels
     {
         public string MatchName { get; set; }
         public int MatchId { get; set; }
-        public Route Routs { get; set; }
+        public Route Route { get; set; }
         public Safezone[] Safezones { get; set; }
         public string EventTime { get; set; }
     }

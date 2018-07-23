@@ -25,6 +25,8 @@ namespace FanviewPollingService.Services
                                                          .AddTransient<IPlayerRepository, PlayerRepository>()
                                                          .AddTransient<ITakeDamageRepository, TakeDamageRepository>()
                                                          .AddTransient<ITelemetryRepository,TelemetryRepository>()
+                                                         .AddTransient<ITeamPlayerRepository, TeamPlayerRepository>()
+                                                         .AddTransient<IMatchRepository, MatchRepository>()
                                                          .BuildServiceProvider();
             return serviceProvider;
         }
