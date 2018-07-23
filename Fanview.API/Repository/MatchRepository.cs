@@ -12,6 +12,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using MongoDB.Driver;
 
 namespace Fanview.API.Repository
 {
@@ -23,10 +24,12 @@ namespace Fanview.API.Repository
         private ILogger<MatchRepository> _logger;
         private LiveGraphichsDummyData _data;
         private Task<HttpResponseMessage> _pubGClientResponse;
+        private IGenericRepository<MatchSafeZone> _matchSafeZoneRepository;
 
         public MatchRepository(IClientBuilder httpClientBuilder, 
                                IHttpClientRequest httpClientRequest,                               
                                IGenericRepository<Event> genericRepository,
+                               IGenericRepository<MatchSafeZone> matchSafeZoneRepository,
                                ILogger<MatchRepository> logger)
         {
             _httpClientBuilder = httpClientBuilder;
@@ -34,6 +37,7 @@ namespace Fanview.API.Repository
             _genericRepository = genericRepository;          
             _logger = logger;
             _data = new LiveGraphichsDummyData();
+            _matchSafeZoneRepository = matchSafeZoneRepository;
         }
         public async Task<JObject> GetMatchesDetailsByID(string id)
         {            
@@ -157,5 +161,65 @@ namespace Fanview.API.Repository
         {
             return Task.FromResult(_data.GetFlightPath());
         }
+
+        public async void InsertMatchSafeZonePosition(string jsonResult, string matchId)
+        {
+            var jsonToJObject = JArray.Parse(jsonResult);
+
+            var matchSafeZone = _matchSafeZoneRepository.GetMongoDbCollection("MatchSafeZone");
+
+            var isMatchSafeZoneExist = await matchSafeZone.FindAsync(Builders<MatchSafeZone>.Filter.Where(cn => cn.MatchId == matchId)).Result.ToListAsync();
+
+            if (isMatchSafeZoneExist.Count() == 0 || isMatchSafeZoneExist == null)
+            {
+                IEnumerable<MatchSafeZone> matchSafeZonePosition = GetMatchSafeZonePosition(jsonToJObject, matchId);
+
+                Func<Task> persistMatchSafeZoneToMongo = async () => _matchSafeZoneRepository.Insert(matchSafeZonePosition, "MatchSafeZone");
+
+                await Task.Run(persistMatchSafeZoneToMongo);
+            }
+        } 
+
+        private IEnumerable<MatchSafeZone> GetMatchSafeZonePosition(JArray jsonToJObject, string matchId)
+        {
+            var result = jsonToJObject.Where(x => x.Value<string>("_T") == "LogGameStatePeriodic").Select(s => new MatchSafeZone()
+            {
+                MatchId = matchId,
+                GameState = new GameState(){
+                    ElapsedTime = (int)s["character"]["elapsedTime"],
+                    NumAliveTeams = (int)s["character"]["numAliveTeams"],
+                    NumJoinPlayers = (int)s["character"]["numJoinPlayers"],
+                    NumStartPlayers = (int)s["character"]["numStartPlayers"],
+                    NumAlivePlayers = (int)s["character"]["numAlivePlayers"],
+                    SafetyZonePosition = new SafetyZonePosition(){
+                        X = (float)s["character"]["safetyZonePosition"]["x"],
+                        Y = (float)s["character"]["safetyZonePosition"]["y"],
+                        Z = (float)s["character"]["safetyZonePosition"]["z"]
+                    },
+                    SafetyZoneRadius = (float)s["character"]["safetyZoneRadius"],
+                    PoisonGasWarningPosition = new PoisonGasWarningPosition(){
+                        X = (float)s["character"]["poisonGasWarningPosition"]["x"],
+                        Y = (float)s["character"]["poisonGasWarningPosition"]["y"],
+                        Z = (float)s["character"]["poisonGasWarningPosition"]["z"]
+                    },
+                    PoisonGasWarningRadius = (float)s["character"]["poisonGasWarningRadius"],
+                    RedZonePosition = new RedZonePosition(){
+                        X = (float)s["character"]["redZonePosition"]["x"],
+                        Y = (float)s["character"]["redZonePosition"]["y"],
+                        Z = (float)s["character"]["redZonePosition"]["z"]
+                    },
+                    RedZoneRadius = (float)s["character"]["redZoneRadius"]
+                },
+                MatchSafeZoneCommon = new MatchSafeZoneCommon(){
+                    IsGame = (float)s["character"]["common"]["isGame"]
+                },
+                _D = (string)s["_D"],
+                _T = (string)s["_T"]
+            });
+
+            return result;
+        }
+
+
     }
 }

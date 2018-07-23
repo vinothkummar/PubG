@@ -71,13 +71,13 @@ namespace Fanview.API.Repository
                 //Ranking = (int)s["character"]["accountId"],
                 //elapsedTime = (string)s["elapsedTime"],
                 NumAlivePlayers = (int)s["numAlivePlayers"],
+                
                 EventTimeStamp = (string)s["_D"],
                 EventType = (string)s["_T"]
             });
 
             return result;
         }
-
         public async void InsertVehicleLeaveTelemetry(string jsonResult, string matchId)
         {
             var jsonToJObject = JArray.Parse(jsonResult);
