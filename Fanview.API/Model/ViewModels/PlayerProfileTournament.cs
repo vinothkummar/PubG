@@ -12,7 +12,7 @@ namespace Fanview.API.Model.ViewModels
         public string PlayerName { get; set; }
         public string FullName { get; set; }
         public string Country { get; set; }
-        public int teamId { get; set; }
+        public int TeamId { get; set; }
         public Stats stats { get; set; }
 
     }

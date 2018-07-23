@@ -8,7 +8,7 @@ namespace Fanview.API.Model.LiveModels
     public class LiveTeamPlayers
     {
         public string PlayerName { get; set; }
-        public string PlayeId { get; set; }
+        public int PlayerId { get; set; }
         public LiveLocation location { get; set; }
         public Boolean PlayerStatus { get; set; }
         public int PlayerTeamId { get; set; }

@@ -139,7 +139,7 @@ namespace Fanview.API.BusinessLayer
                                             TeamPlayers = new LiveTeamPlayers()
                                             {
                                                 PlayerName = s.pktp.tp.PlayerName,
-                                                PlayeId = s.pktp.tp.PubgAccountId,
+                                                PlayerId = s.pktp.tp.PlayerId,
                                                 PlayerStatus = s.pktp.pk.IsGroggy,
                                                 PlayerTeamId = s.pktp.pk.VictimTeamId,
                                                 TimeKilled = s.pktp.pk.EventTimeStamp,
@@ -166,7 +166,7 @@ namespace Fanview.API.BusinessLayer
                     teamPlayers.Add(
                         new LiveTeamPlayers()
                         {
-                            PlayeId = item1.TeamPlayers.PlayeId,
+                            PlayerId = item1.TeamPlayers.PlayerId,
                             PlayerName = item1.TeamPlayers.PlayerName,
                             PlayerTeamId = item1.TeamPlayers.PlayerTeamId,
                             PlayerStatus = item1.TeamPlayers.PlayerStatus,
