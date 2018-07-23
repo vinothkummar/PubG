@@ -38,6 +38,7 @@ namespace Fanview.API.Repository
         private IGenericRepository<Team> _team;
         private IGenericRepository<TeamPlayer> _teamPlayers;
         private ITeamPlayerRepository _teamPlayerRepository;
+        private IMatchRepository _matchRepository;
 
         private string _matchId;
        
@@ -55,6 +56,7 @@ namespace Fanview.API.Repository
                                     IGenericRepository<Team> team,
                                     IGenericRepository<TeamPlayer> teamPlayers,
                                     ITeamPlayerRepository teamPlayerRepository,
+                                    IMatchRepository matchRepository,
                                     ILogger<PlayerKillRepository> logger)
         {
             _httpClientBuilder = httpClientBuilder;
@@ -72,6 +74,7 @@ namespace Fanview.API.Repository
             _teamPlayers = teamPlayers;
             _teamPlayerRepository = teamPlayerRepository;
             _tournament = tournament;
+            _matchRepository = matchRepository;
             _logger = logger;
 
         }
@@ -292,6 +295,7 @@ namespace Fanview.API.Repository
                     await Task.Run(async () => InsertPlayerKillTelemetry(telemetryJsonResult, matchId));
                     await Task.Run(async () => _playerRepository.InsertLogPlayerPosition(telemetryJsonResult, matchId));
                     await Task.Run(async () => _playerRepository.InsertVehicleLeaveTelemetry(telemetryJsonResult, matchId));
+                    await Task.Run(async () => _matchRepository.InsertMatchSafeZonePosition(telemetryJsonResult, matchId));
 
                     //await Task.Run(async () => InsertMatchPlayerStats(jsonResult));
 

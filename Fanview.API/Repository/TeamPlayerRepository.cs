@@ -101,14 +101,7 @@ namespace Fanview.API.Repository
 
         }
 
-        public async Task<IEnumerable<TeamPlayer>> GetTeamPlayers(string matchId)
-        {
-            var teamPlayerCollection = _genericTeamPlayerRepository.GetMongoDbCollection("TeamPlayers");
-
-            var teamPlayer = await teamPlayerCollection.AsQueryable().ToListAsync();
-
-            return teamPlayer;
-        }
+       
       
         public async Task<IEnumerable<TeamPlayer>> GetAllTeamPlayer()
         {

@@ -17,5 +17,6 @@ namespace Fanview.API.Repository.Interface
         Task<IEnumerable<Event>> GetTournamentMatchId();
 
         Task<FlightPath> GetFlightPath();
+        void InsertMatchSafeZonePosition(string jsonResult, string matchId);
     }
 }

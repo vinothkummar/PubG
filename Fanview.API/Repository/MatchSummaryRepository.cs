@@ -223,7 +223,7 @@ namespace Fanview.API.Repository
                 ParticipantAttributes = s.SelectToken("attributes").ToObject<ParticipantAttributes>()
             });
 
-            var teamPlayers = _teamPlayerRepository.GetTeamPlayers(matchId);
+            var teamPlayers = _teamPlayerRepository.GetTeamPlayers();
 
             var teamParticipants = new List<MatchPlayerStats>();
 

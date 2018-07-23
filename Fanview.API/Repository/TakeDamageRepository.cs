@@ -22,7 +22,8 @@ namespace Fanview.API.Repository
         private IGenericRepository<Team> _team;
         private IGenericRepository<TeamPlayer> _teamPlayers;
 
-        public TakeDamageRepository(IGenericRepository<TakeDamage> genericRepository,  IGenericRepository<EventDamage> genericDamageRepository, ILogger<PlayerKillRepository> logger)
+        public TakeDamageRepository(IGenericRepository<TakeDamage> genericRepository,  IGenericRepository<EventDamage> genericDamageRepository, 
+                                ILogger<PlayerKillRepository> logger)
         {
             _genericRepository = genericRepository;
             _genericDamageRepository = genericDamageRepository;
@@ -36,12 +37,11 @@ namespace Fanview.API.Repository
 
             return await result;
         }
-        public async void InsertEventDamageTelemetry(string jsonResult)
+        public async void InsertEventDamageTelemetry(JObject[] jsonResult, string fileName)
         {
-            
-            var jsonToJObject = JArray.Parse(jsonResult);
+            System.DateTime dateTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
 
-            var result = jsonToJObject.Where(x => x.Value<string>("_T") == "EventDamage").Select(s => new EventDamage()
+            var damage = jsonResult.Where(x => x.Value<string>("_T") == "EventDamage").Select(s => new EventDamage()
             {
 
                 IsDetailStatus = (bool)s["isDetailStatus"],
@@ -68,12 +68,10 @@ namespace Fanview.API.Repository
                 EventType = (string)s["_T"]
             });
 
-            var eventDamageCreate = _genericDamageRepository.GetMongoDbCollection("EventDamage");
-
-
-            Func<Task> persistPlayerToMongo = async () => _genericDamageRepository.Insert(result, "EventDamage");
-
-            await Task.Run(persistPlayerToMongo);
+            if (damage.Count() > 0)
+            {
+                _genericDamageRepository.Insert(damage, "LiveEventDamage");
+            }
         }
 
         public async void InsertTakeDamageTelemetry(string jsonResult)
