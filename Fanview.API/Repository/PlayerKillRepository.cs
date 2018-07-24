@@ -519,10 +519,13 @@ namespace Fanview.API.Repository
                         {
                             Id = _matchId,
                             EventName = "PUBG Global Invitational Berlin 2018",
+                            MatchId = tournamentMatchIdCount + 1,
                             CreatedAT = dateTime.AddSeconds((double)matchJoinTime).ToString()
                         };
 
                         _tournament.Insert(tournamentMatchDetails, "TournamentMatchId");
+
+                        _logger.LogInformation("Live Killing Match Id Is created in the Tournament Match Id" + Environment.NewLine);
                     }
                 }
             }

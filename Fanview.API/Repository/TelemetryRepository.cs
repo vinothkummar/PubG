@@ -81,9 +81,20 @@ namespace Fanview.API.Repository
             _logger.LogInformation("UDP Streaming Read Started " + Environment.NewLine);
             try
             {
-                var folderPathToReadFromFile = @"C:\Users\Vinoth\Documents\Fanview\17_07_2018_Game_Log_mulitple\Match 1\test_live_multiple";
+                //var folderPathToReadFromFile = @"C:\Users\Vinoth\Documents\Fanview\17_07_2018_Game_Log_mulitple\Match 1\test_live_multiple";
 
-                var folderPathToMoveProcessedFile = @"C:\Users\Vinoth\Documents\Fanview\17_07_2018_Game_Log_mulitple\Match 1\FileProcessed";
+                //var folderPathToMoveProcessedFile = @"C:\Users\Vinoth\Documents\Fanview\17_07_2018_Game_Log_mulitple\Match 1\FileProcessed";
+
+                _logger.LogInformation("Telemetery Request Started" + Environment.NewLine);
+
+                var folderPathToReadFromFile = @"\\FANVIEW-01\opt\td-agent\etc\LiveAPI2\test_live_multiple";
+
+                _logger.LogInformation("Telemetery folder path" + folderPathToReadFromFile + Environment.NewLine);
+
+                var folderPathToMoveProcessedFile = @"\\FANVIEW-01\opt\td-agent\etc\LiveAPI2\ProcessedMatchFile";
+
+                _logger.LogInformation("Telemetery folder path" + folderPathToMoveProcessedFile + Environment.NewLine);
+
 
                 foreach (var file in Directory.EnumerateFiles(folderPathToReadFromFile, "*.log"))
                 {

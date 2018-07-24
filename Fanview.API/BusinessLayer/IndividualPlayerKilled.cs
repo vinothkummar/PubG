@@ -7,6 +7,7 @@ using Fanview.API.Model;
 using Fanview.API.Utility;
 using Microsoft.Extensions.Logging;
 using Fanview.API.Repository.Interface;
+using System.Globalization;
 
 namespace Fanview.API.BusinessLayer
 {
@@ -216,11 +217,28 @@ namespace Fanview.API.BusinessLayer
 
                 var playerLeft = playerLeftCount == 1 ? "winner" : playerLeftCount.ToString() + " LEFT";
 
-                var gameTimePlayerEliminated = DateTime.Parse(item.TimeKilled) - DateTime.Parse(CreateAt);
+               // string[] formats = { "dd/MM/yyyy hh:mm:ss", "dd/MMM/yyyy", "dd-MM-yy", "d/M/yy" };
+               //// string dateString = "1/1/10";
+
+               // DateTime date1 = DateTime.ParseExact(item.TimeKilled, formats,
+               //    System.Globalization.CultureInfo.InvariantCulture,
+               //     System.Globalization.DateTimeStyles.None) ;
+
+               // DateTime date2 = DateTime.ParseExact(CreateAt, formats,
+               //    System.Globalization.CultureInfo.InvariantCulture,
+               //     System.Globalization.DateTimeStyles.None);
+
+               // var gameTimePlayerEliminated = date1; //- date2);
+
+                //DateTime.ParseExact(myStr, "yy/MM/dd h:mm:ss tt", CultureInfo.InvariantCulture);
+
+                //var gameTimePlayerEliminated = Convert.ToDateTime(item.TimeKilled, new System.Globalization.CultureInfo("en-GB")) - Convert.ToDateTime(CreateAt, new System.Globalization.CultureInfo("en-GB"));
+
+                // var gameTimePlayerEliminated = DateTime.ParseExact(item.TimeKilled, "dd/MM/yyyy hh:mm:ss", CultureInfo.CurrentCulture) - DateTime.ParseExact(CreateAt, "dd/MM/yyyy hh:mm:ss", CultureInfo.CurrentCulture);
 
                 var playerKillMessage = new PlayerKilledGraphics()
                 {
-                    TimeKilled = $"{gameTimePlayerEliminated}",
+                    TimeKilled = $"{item.TimeKilled}",
                     KillerName = $"{item.KillerName}",
                     FreeText1 = $"KILLED",
                     VictimName = $"{item.VictimName}",
@@ -244,12 +262,9 @@ namespace Fanview.API.BusinessLayer
                     
                     var teamLeft = teamLeftCount == 1 ? "winner" : teamLeftCount.ToString() + " LEFT";
 
-                    var gameTimeTeamEliminated = DateTime.Parse(item.TimeKilled) - DateTime.Parse(CreateAt);
-
-
                     teamEliminatedMessage = new TeamEliminated()
                     {
-                        TimeElimnated = $"{gameTimeTeamEliminated}",
+                        TimeElimnated = $"{item.TimeKilled}",
                         FreeText1 = $"Team",
                         TeamId = $"{item.VictimTeamId}",
                         FreeText2 = $"HAS BEEN ELIMINATED",
