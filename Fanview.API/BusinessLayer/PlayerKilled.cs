@@ -6,6 +6,7 @@ using Fanview.API.BusinessLayer.Contracts;
 using Fanview.API.Repository.Interface;
 using Fanview.API.Model;
 using Microsoft.Extensions.Logging;
+using MongoDB.Driver;
 
 namespace Fanview.API.BusinessLayer
 {
@@ -17,16 +18,19 @@ namespace Fanview.API.BusinessLayer
         private ILogger<PlayerKilled> _logger;
         private IReadAssets _readAssets;
         private ITeamRepository _teamRepository;
+        private IGenericRepository<Event> _tournament;
 
         public PlayerKilled(IPlayerKillRepository playerKillRepository,                           
                             ILogger<PlayerKilled> logger,
                             IReadAssets readAssets,
+                            IGenericRepository<Event> tournament,
                             ITeamRepository teamRepository)
         {
             _playerKillRepository = playerKillRepository;
             _logger = logger;
             _readAssets = readAssets;
             _teamRepository = teamRepository;
+            _tournament = tournament;
 
             _rules.Add(new IndividualPlayerKilled(_readAssets, _teamRepository));
            
@@ -89,6 +93,7 @@ namespace Fanview.API.BusinessLayer
 
         public IEnumerable<KilliPrinter> GetPlayerKilled(string matchId)
         {
+
             var playerKilledOrTeamEliminatedMessages = new List<KilliPrinter>();
 
             var kills = _playerKillRepository.GetPlayerKilled(matchId).Result;
@@ -108,6 +113,10 @@ namespace Fanview.API.BusinessLayer
 
         public IEnumerable<KilliPrinter> GetLivePlayerKilled(int matchId)
         {
+            var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
+
+            var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.CreatedAT;
+
             var playerKilledOrTeamEliminatedMessages = new List<KilliPrinter>();
 
             var kills = _playerKillRepository.GetLiveKilled(matchId).Result;
@@ -115,7 +124,7 @@ namespace Fanview.API.BusinessLayer
 
             foreach (var rule in _rules)
             {
-                var output = rule.LiveKilledOrTeamEliminiated(kills);
+                var output = rule.LiveKilledOrTeamEliminiated(kills, tournamentMatchId);
 
                 if (output != null)
                 {

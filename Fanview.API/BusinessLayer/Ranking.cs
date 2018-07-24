@@ -268,11 +268,8 @@ namespace Fanview.API.BusinessLayer
                     var teamStats = CalculateTeamStats(matchId, teamsScroingPoints).Result;
 
                     var matchRankingCollection = _genericMatchRankingRepository.GetMongoDbCollection("MatchRanking");
-
-                   
-                    var matchRankingScore = matchRankingCollection.FindAsync(Builders<MatchRanking>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result;
-
-                
+                                       
+                    var matchRankingScore = matchRankingCollection.FindAsync(Builders<MatchRanking>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result;                                 
 
                     if (matchRankingScore == null)
                     {

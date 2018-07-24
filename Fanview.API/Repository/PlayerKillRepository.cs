@@ -29,6 +29,7 @@ namespace Fanview.API.Repository
         private IGenericRepository<Event> _tournament;
         private LiveGraphichsDummyData _data;
         private ILogger<PlayerKillRepository> _logger;
+        private ITeamRepository _teamRepository;
         private Task<HttpResponseMessage> _pubGClientResponse;
         private DateTime killEventlastTimeStamp = DateTime.MinValue;
         private IClientBuilder _httpClientBuilder;
@@ -57,6 +58,7 @@ namespace Fanview.API.Repository
                                     IGenericRepository<TeamPlayer> teamPlayers,
                                     ITeamPlayerRepository teamPlayerRepository,
                                     IMatchRepository matchRepository,
+                                    ITeamRepository teamRepository,
                                     ILogger<PlayerKillRepository> logger)
         {
             _httpClientBuilder = httpClientBuilder;
@@ -76,6 +78,7 @@ namespace Fanview.API.Repository
             _tournament = tournament;
             _matchRepository = matchRepository;
             _logger = logger;
+            _teamRepository = teamRepository;
 
         }
         
@@ -432,18 +435,40 @@ namespace Fanview.API.Repository
 
         public async Task<KillLeader> GetLiveKillList(string matchId, int topCount)
         {
+            var teams = _teamRepository.GetAllTeam().Result.AsQueryable();
+
             _logger.LogInformation("GetLiveKillList Repository Function call started" + Environment.NewLine);
+
             var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
+
+            var teamPlayers = _teamPlayerRepository.GetTeamPlayers().Result;
+
             var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == int.Parse(matchId))).Result.FirstOrDefaultAsync().Result.Id;
 
+            //var playerKilled = kills.Join(teamPlayer, pk => new { VictimTeamId = pk.VictimTeamId }, tp => new { VictimTeamId = tp.TeamIdShort }, (pk, tp) => new { pk, tp })
+            //                        .Join(teams, pktp => new { TeamShortId = pktp.tp.TeamIdShort }, t => new { TeamShortId = t.TeamId }, (pktp, t) => new { pktp, t })
+            //                        .Select(s =>
+
             var liveEventKillList = _LiveEventKill.GetAll("LiveEventKill").Result.Where(cn => cn.MatchId == tournamentMatchId)
-                                                  .GroupBy(lek => lek.KillerName).Select(s => new Kills()
+                                                  .Join(teamPlayers, lek => lek.VictimTeamId, tp => tp.TeamIdShort, (lek, tp) => new { lek, tp })
+                                                  .Join(teams, pktp => new { TeamShortId = pktp.tp.TeamIdShort }, t => new { TeamShortId = t.TeamId }, (pktp, t) => new { pktp, t })
+                                                  .GroupBy(g => g.pktp.lek.KillerName).Select(s => new Kills()
                                                   {
                 kills = s.Count(),
                 playerName = s.Key,
-                teamId = s.Select(a => a.KillerTeamId).ElementAtOrDefault(0)
+                playerId = s.Select(a => a.pktp.tp.PlayerId).ElementAtOrDefault(0),
+                teamId = s.Select(a => a.pktp.lek.KillerTeamId).ElementAtOrDefault(0)
             }).OrderByDescending(o => o.kills).Take(topCount > 0 ? topCount : 10);
 
+            //liveEventKillList = liveEventKillList.Join(teamPlayers, lek => lek.playerName.Trim(), tp => tp.PlayerName.Trim(), (lek, tp) => new { lek, tp })
+            //                                    .Select(s => new Kills()
+            //                                    {
+            //                                        kills = s.lek.kills,
+            //                                        playerName = s.lek.playerName,
+            //                                        playerId = s.tp.PlayerId,
+            //                                        teamId = s.lek.teamId
+            //                                    });
+                                                
             var killLeaders = new KillLeader()
             {
                 matchId = int.Parse(matchId),

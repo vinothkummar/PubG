@@ -185,36 +185,37 @@ namespace Fanview.API.Repository
             var result = jsonToJObject.Where(x => x.Value<string>("_T") == "LogGameStatePeriodic").Select(s => new MatchSafeZone()
             {
                 MatchId = matchId,
-                GameState = new GameState(){
-                    ElapsedTime = (int)s["character"]["elapsedTime"],
-                    NumAliveTeams = (int)s["character"]["numAliveTeams"],
-                    NumJoinPlayers = (int)s["character"]["numJoinPlayers"],
-                    NumStartPlayers = (int)s["character"]["numStartPlayers"],
-                    NumAlivePlayers = (int)s["character"]["numAlivePlayers"],
+                GameState = new GameState()
+                {
+                    ElapsedTime = (int)s["gameState"]["elapsedTime"],
+                    NumAliveTeams = (int)s["gameState"]["numAliveTeams"],
+                    NumJoinPlayers = (int)s["gameState"]["numJoinPlayers"],
+                    NumStartPlayers = (int)s["gameState"]["numStartPlayers"],
+                    NumAlivePlayers = (int)s["gameState"]["numAlivePlayers"],
                     SafetyZonePosition = new SafetyZonePosition(){
-                        X = (float)s["character"]["safetyZonePosition"]["x"],
-                        Y = (float)s["character"]["safetyZonePosition"]["y"],
-                        Z = (float)s["character"]["safetyZonePosition"]["z"]
+                        X = (float)s["gameState"]["safetyZonePosition"]["x"],
+                        Y = (float)s["gameState"]["safetyZonePosition"]["y"],
+                        Z = (float)s["gameState"]["safetyZonePosition"]["z"]
                     },
-                    SafetyZoneRadius = (float)s["character"]["safetyZoneRadius"],
+                    SafetyZoneRadius = (float)s["gameState"]["safetyZoneRadius"],
                     PoisonGasWarningPosition = new PoisonGasWarningPosition(){
-                        X = (float)s["character"]["poisonGasWarningPosition"]["x"],
-                        Y = (float)s["character"]["poisonGasWarningPosition"]["y"],
-                        Z = (float)s["character"]["poisonGasWarningPosition"]["z"]
+                        X = (float)s["gameState"]["poisonGasWarningPosition"]["x"],
+                        Y = (float)s["gameState"]["poisonGasWarningPosition"]["y"],
+                        Z = (float)s["gameState"]["poisonGasWarningPosition"]["z"]
                     },
-                    PoisonGasWarningRadius = (float)s["character"]["poisonGasWarningRadius"],
+                    PoisonGasWarningRadius = (float)s["gameState"]["poisonGasWarningRadius"],
                     RedZonePosition = new RedZonePosition(){
-                        X = (float)s["character"]["redZonePosition"]["x"],
-                        Y = (float)s["character"]["redZonePosition"]["y"],
-                        Z = (float)s["character"]["redZonePosition"]["z"]
+                        X = (float)s["gameState"]["redZonePosition"]["x"],
+                        Y = (float)s["gameState"]["redZonePosition"]["y"],
+                        Z = (float)s["gameState"]["redZonePosition"]["z"]
                     },
-                    RedZoneRadius = (float)s["character"]["redZoneRadius"]
+                    RedZoneRadius = (float)s["gameState"]["redZoneRadius"]
                 },
-                MatchSafeZoneCommon = new MatchSafeZoneCommon(){
-                    IsGame = (float)s["character"]["common"]["isGame"]
-                },
-                _D = (string)s["_D"],
-                _T = (string)s["_T"]
+                //MatchSafeZoneCommon = new MatchSafeZoneCommon(){
+                //    IsGame = (float)s["character"]["common"]["isGame"]
+                //},
+                EventTimeStamp = (string)s["_D"],
+                EventType = (string)s["_T"]
             });
 
             return result;

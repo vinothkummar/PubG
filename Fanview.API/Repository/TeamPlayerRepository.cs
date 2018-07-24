@@ -236,6 +236,7 @@ namespace Fanview.API.Repository
                 PlayerName = s.Select(c => c.PlayerName).ElementAtOrDefault(0),
                 FullName = s.Select(c => c.FullName).ElementAtOrDefault(0),
                 Country = s.Select(c => c.Country).ElementAtOrDefault(0),
+                TeamId = s.Select(c => c.TeamId).ElementAtOrDefault(0),
                 stats = new Stats()
                 {
                     Knocks = s.Sum(a => a.Stats.Knocs),

@@ -190,7 +190,7 @@ namespace Fanview.API.BusinessLayer
             return (TeamCount - memberKeys.Count);            
         }
 
-        public IEnumerable<KilliPrinter> LiveKilledOrTeamEliminiated(IEnumerable<LiveEventKill> playerKilled)
+        public IEnumerable<KilliPrinter> LiveKilledOrTeamEliminiated(IEnumerable<LiveEventKill> playerKilled, string CreateAt)
         {
             var result = playerKilled
                                        .Select(s => new
@@ -216,14 +216,16 @@ namespace Fanview.API.BusinessLayer
 
                 var playerLeft = playerLeftCount == 1 ? "winner" : playerLeftCount.ToString() + " LEFT";
 
+                var gameTimePlayerEliminated = DateTime.Parse(item.TimeKilled) - DateTime.Parse(CreateAt);
+
                 var playerKillMessage = new PlayerKilledGraphics()
                 {
-                    TimeKilled = $"{item.TimeKilled}",
-                    KillerName = $"{item.KillerName.ToUpper()}",
+                    TimeKilled = $"{gameTimePlayerEliminated}",
+                    KillerName = $"{item.KillerName}",
                     FreeText1 = $"KILLED",
-                    VictimName = $"{item.VictimName.ToUpper()}",
+                    VictimName = $"{item.VictimName}",
                     FreeText2 = $"WITH",
-                    DamagedCausedBy = $"{_readAssets.GetDamageCauserName(item.DamageCause).ToUpper()} ",
+                    DamagedCausedBy = $"{_readAssets.GetDamageCauserName(item.DamageCause)} ",
                     PlayerLeft = $"{playerLeft}"
                 };
 
@@ -242,9 +244,12 @@ namespace Fanview.API.BusinessLayer
                     
                     var teamLeft = teamLeftCount == 1 ? "winner" : teamLeftCount.ToString() + " LEFT";
 
+                    var gameTimeTeamEliminated = DateTime.Parse(item.TimeKilled) - DateTime.Parse(CreateAt);
+
+
                     teamEliminatedMessage = new TeamEliminated()
                     {
-                        TimeElimnated = $"{item.TimeKilled}",
+                        TimeElimnated = $"{gameTimeTeamEliminated}",
                         FreeText1 = $"Team",
                         TeamId = $"{item.VictimTeamId}",
                         FreeText2 = $"HAS BEEN ELIMINATED",

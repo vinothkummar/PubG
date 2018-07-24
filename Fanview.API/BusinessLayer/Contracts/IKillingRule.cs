@@ -12,6 +12,6 @@ namespace Fanview.API.BusinessLayer.Contracts
 
         IEnumerable<KilliPrinter> PlayerKilledOrTeamEliminiated(IEnumerable<Kill> playerKilled);
 
-        IEnumerable<KilliPrinter> LiveKilledOrTeamEliminiated(IEnumerable<LiveEventKill> playerKilled);
+        IEnumerable<KilliPrinter> LiveKilledOrTeamEliminiated(IEnumerable<LiveEventKill> playerKilled, string CreatedAt);
     }
 }
