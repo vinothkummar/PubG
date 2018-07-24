@@ -87,11 +87,11 @@ namespace Fanview.API.Repository
 
                 _logger.LogInformation("Telemetery Request Started" + Environment.NewLine);
 
-                var folderPathToReadFromFile = @"\\FANVIEW-01\opt\td-agent\etc\LiveAPI2\test_live_multiple";
+                var folderPathToReadFromFile = @"Z:\td-agent\LiveAPI2\test_live_multiple";
 
                 _logger.LogInformation("Telemetery folder path" + folderPathToReadFromFile + Environment.NewLine);
 
-                var folderPathToMoveProcessedFile = @"\\FANVIEW-01\opt\td-agent\etc\LiveAPI2\ProcessedMatchFile";
+                var folderPathToMoveProcessedFile = @"Z:\td-agent\LiveAPI2\ProcessedMatchFile";
 
                 _logger.LogInformation("Telemetery folder path" + folderPathToMoveProcessedFile + Environment.NewLine);
 
