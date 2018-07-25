@@ -368,7 +368,7 @@ namespace Fanview.API.Repository
 
             var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
 
-            var veichelLanding = _vehicleLeave.GetMongoDbCollection("VehicleLeave").AsQueryable().Where(c=>c.MatchId == tournamentMatchId).ToList();
+            var veichelLanding = _vehicleLeave.GetMongoDbCollection("VehicleLeave").AsQueryable().Where(c=>c.MatchId == tournamentMatchId && c.Vehicle.VehicleType== "Parachute").ToList();
             var response = new TeamLanding();
             var landing = new List<Landing>();
             response.MatchdId = tournamentMatchId;
