@@ -27,7 +27,6 @@ namespace Fanview.API
         {
             var fileName = Path.Combine(Path.GetFullPath(@"../../../../../" + "FanViewAPILog"), SpecialFileName);
 
-            //Log.Logger = new LoggerConfiguration().WriteTo.File(fileName).CreateLogger();
             Log.Logger = new LoggerConfiguration()
            .MinimumLevel.Debug()
            .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
@@ -38,7 +37,7 @@ namespace Fanview.API
             try
             {
                 Log.Information("Starting web host");
-                BuildWebHost(args).Run();                
+                BuildWebHost(args).Run();
                 //return 0;
             }
             catch (Exception ex)
@@ -50,7 +49,7 @@ namespace Fanview.API
             {
                 Log.CloseAndFlush();
             }
-            
+
         }
 
         public static IWebHost BuildWebHost(string[] args) =>

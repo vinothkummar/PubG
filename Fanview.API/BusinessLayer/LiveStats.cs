@@ -117,7 +117,7 @@ namespace Fanview.API.BusinessLayer
 
         }
 
-        public async Task<LiveStatus> GetLiveStatus(int matchId)
+        public async Task<IEnumerable<LiveTeamPlayerStatus>> GetLiveStatus(int matchId)
         {
 
             var teams = _teamRepository.GetAllTeam().Result.AsQueryable();
@@ -126,31 +126,16 @@ namespace Fanview.API.BusinessLayer
             var teamPlayer = _teamPlayerRepository.GetTeamPlayers().Result.AsQueryable();
            
 
-            var kills = _playerKillRepository.GetLiveKilled(matchId).Result.OrderBy(o => o.EventTimeStamp).AsQueryable();
-            
+            var kills = _playerKillRepository.GetLiveKilled(matchId).Result.OrderByDescending(o => o.EventTimeStamp).AsQueryable();
 
-            var playerKilled = kills.Join(teamPlayer, pk => new { VictimTeamId = pk.VictimTeamId }, tp => new { VictimTeamId = tp.TeamIdShort }, (pk, tp) => new { pk, tp })
-                                    .Join(teams, pktp => new { TeamShortId = pktp.tp.TeamIdShort }, t => new { TeamShortId = t.TeamId }, (pktp, t) => new { pktp, t })
-                                    .Select(s =>
-                                        new LiveTeam()
-                                        {
-                                            Id = s.t.TeamId,
-                                            Name = s.t.Name,
-                                            TeamPlayers = new LiveTeamPlayers()
-                                            {
-                                                PlayerName = s.pktp.tp.PlayerName,
-                                                PlayerId = s.pktp.tp.PlayerId,
-                                                PlayerStatus = s.pktp.pk.IsGroggy,
-                                                PlayerTeamId = s.pktp.pk.VictimTeamId,
-                                                TimeKilled = s.pktp.pk.EventTimeStamp,
-                                                location = new LiveLocation()
-                                                {
-                                                    X = s.pktp.pk.VictimLocation.x,
-                                                    Y = s.pktp.pk.VictimLocation.y,
-                                                    Z = s.pktp.pk.VictimLocation.z
-                                                }
-                                            }
-                                        }).GroupBy(g => new { PlayerName = g.TeamPlayers.PlayerName, TeamId = g.Id, TeamName = g.Name });
+            
+            var playerKilled = kills.Join(teams, pkt => new { TeamId = pkt.VictimTeamId }, t => new { TeamId = t.TeamId }, (pkt, t) => new { pkt, t })
+                                    .GroupJoin(teamPlayer, pktp => pktp.pkt.VictimName, tp => tp.PlayerName, (pktp, tp) => new { pktp, tp })
+                                    .GroupBy(g => g.pktp.t.TeamId);
+         
+
+
+
 
 
             _logger.LogInformation("PlayerKilled " + playerKilled.Count() + Environment.NewLine);
@@ -159,39 +144,79 @@ namespace Fanview.API.BusinessLayer
 
             foreach (var item in playerKilled)
             {
-                var teamPlayers = new List<LiveTeamPlayers>();
+              
+                    var team = new LiveTeamPlayerStatus();
+
+                    var teamPlayerStatus = new List<LiveTeamPlayers>();
+
+                    team.Id = item.Select(a => a.pktp.t.TeamId).ElementAtOrDefault(0);
+                    team.Name = item.Select(a => a.pktp.t.Name).ElementAtOrDefault(0);
 
                 foreach (var item1 in item)
                 {
-                    teamPlayers.Add(
-                        new LiveTeamPlayers()
-                        {
-                            PlayerId = item1.TeamPlayers.PlayerId,
-                            PlayerName = item1.TeamPlayers.PlayerName,
-                            PlayerTeamId = item1.TeamPlayers.PlayerTeamId,
-                            PlayerStatus = item1.TeamPlayers.PlayerStatus,
-                            location = item1.TeamPlayers.location,
-                            TimeKilled = item1.TeamPlayers.TimeKilled
-                        });
+                    var playerStatus = new LiveTeamPlayers();
+
+                    var teamplayerExists = teamPlayerStatus.Where(cn => cn.PlayerName == item1.pktp.pkt.VictimName).Count();
+
+                    if (teamplayerExists == 0)
+                    {
+                        playerStatus.PlayerId = teamPlayer.Where(cn => cn.PlayerName == item1.pktp.pkt.VictimName).Select(s => s.PlayerId).ElementAtOrDefault(0);
+                        playerStatus.PlayerName = item1.pktp.pkt.VictimName;
+                        playerStatus.PlayerStatus = item1.pktp.pkt.IsGroggy;
+                        playerStatus.TimeKilled = item1.pktp.pkt.EventTimeStamp;
+
+                        teamPlayerStatus.Add(playerStatus);
+                        team.TeamPlayers = teamPlayerStatus;
+                    }
+                    
                 }
 
-                var teamstats = new LiveTeamPlayerStatus();
+                    liveStatsStatus.Add(team);
 
-                if (liveStatsStatus.Where(cn => cn.Id == item.Key.TeamId).Count() == 0)
+            }
+
+            var t1 = liveStatsStatus.Select(s => s.TeamPlayers).ToList();
+
+            var t2 = teamPlayer.ToList();
+
+
+
+            foreach (var item in t2)
+            {
+                if (item.PlayerName != null)
                 {
-                    teamstats.Id = item.Key.TeamId;
-                    teamstats.Name = item.Key.TeamName;
-                    teamstats.TeamPlayers = teamPlayers.OrderByDescending(o => o.TimeKilled).TakeLast(4);
+                    var team = new LiveTeamPlayerStatus();
 
-                    liveStatsStatus.Add(teamstats);
+                    team.Id = item.TeamIdShort;
+                    var teamplayerExists1 = liveStatsStatus.Where(cn => cn.TeamPlayers.Select(k => k.PlayerName.Trim()).Contains(item.PlayerName.Trim())).Count();
+
+                    if (teamplayerExists1 == 0)
+                    {
+                        var playerinfo = new LiveTeamPlayers();
+                        playerinfo.PlayerId = item.PlayerId;
+                        playerinfo.PlayerName = item.PlayerName;
+                        playerinfo.PlayerStatus = true;
+
+                        liveStatsStatus.Add(team);
+                    }
+
+
                 }
             }
+
 
             var liveStatus = new LiveStatus();
             liveStatus.MatchID = matchId;
             liveStatus.teams = liveStatsStatus;
 
-            return await Task.FromResult(liveStatus);
+
+
+           
+
+            
+
+           return await Task.FromResult(liveStatsStatus);
+            //return null;
         }
 
 
