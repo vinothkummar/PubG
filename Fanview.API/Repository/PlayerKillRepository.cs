@@ -452,6 +452,7 @@ namespace Fanview.API.Repository
             var liveEventKillList = _LiveEventKill.GetAll("LiveEventKill").Result.Where(cn => cn.MatchId == tournamentMatchId)
                                                   .Join(teamPlayers, lek => lek.VictimTeamId, tp => tp.TeamIdShort, (lek, tp) => new { lek, tp })
                                                   .Join(teams, pktp => new { TeamShortId = pktp.tp.TeamIdShort }, t => new { TeamShortId = t.TeamId }, (pktp, t) => new { pktp, t })
+                                                  .Where(cn => cn.pktp.lek.IsGroggy == false)
                                                   .GroupBy(g => g.pktp.lek.KillerName).Select(s => new Kills()
                                                   {
                 kills = s.Count(),
@@ -505,7 +506,7 @@ namespace Fanview.API.Repository
 
                 if (_matchId != null)
                 {
-                    _matchId = _matchId.Split(".").ElementAtOrDefault(1);
+                    _matchId = _matchId.Split(".").ElementAtOrDefault(9);
 
                     var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
 
