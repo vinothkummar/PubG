@@ -7,16 +7,20 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Fanview.API.BusinessLayer.Contracts;
-
+using Microsoft.Extensions.Logging;
 
 namespace Fanview.API.BusinessLayer
 {
     public class ReadAssets : IReadAssets
     {
         private IHostingEnvironment _hostingEnvironment;
-        public ReadAssets(IHostingEnvironment hostingEnvironment)
+        private ILogger<ReadAssets> _logger;
+
+        public ReadAssets(IHostingEnvironment hostingEnvironment, ILogger<ReadAssets> logger)
         {
             _hostingEnvironment = hostingEnvironment;
+            _logger = logger;
+            
         }
         public string GetDamageCauserName(string damageCauserKey)
         {
@@ -25,9 +29,20 @@ namespace Fanview.API.BusinessLayer
 
             JObject damageCauserNameList = JObject.Parse(File.ReadAllText(fileName));
 
-            var damagedCaused = damageCauserNameList.SelectToken(damageCauserKey);
+            try
+            {
+                var damagedCaused = damageCauserNameList.SelectToken(damageCauserKey);
 
-            return damagedCaused.ToString();
+                return damagedCaused.ToString();
+            }
+            catch (Exception exception)
+            {
+                _logger.LogInformation("Damage Causer key " + exception + Environment.NewLine);
+                return null;
+            }
+            
+
+           
 
         }
 

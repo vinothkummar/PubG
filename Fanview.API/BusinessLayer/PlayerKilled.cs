@@ -24,6 +24,7 @@ namespace Fanview.API.BusinessLayer
                             ILogger<PlayerKilled> logger,
                             IReadAssets readAssets,
                             IGenericRepository<Event> tournament,
+                            ITeamPlayerRepository playerRepository,
                             ITeamRepository teamRepository)
         {
             _playerKillRepository = playerKillRepository;
@@ -32,7 +33,7 @@ namespace Fanview.API.BusinessLayer
             _teamRepository = teamRepository;
             _tournament = tournament;
 
-            _rules.Add(new IndividualPlayerKilled(_readAssets, _teamRepository));
+            _rules.Add(new IndividualPlayerKilled(_readAssets, _teamRepository, playerRepository));
            
         }
 

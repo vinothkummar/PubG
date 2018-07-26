@@ -15,11 +15,13 @@ namespace Fanview.API.BusinessLayer
     {       
         private IReadAssets _readAssets;
         private ITeamRepository _teamRepository;
+        private ITeamPlayerRepository _teamPlayerRepository;
 
-        public IndividualPlayerKilled(IReadAssets readAssets, ITeamRepository teamRepository)
+        public IndividualPlayerKilled(IReadAssets readAssets, ITeamRepository teamRepository, ITeamPlayerRepository teamPlayerRepository)
         {            
             _readAssets = readAssets;
             _teamRepository = teamRepository;
+            _teamPlayerRepository = teamPlayerRepository;
         }
         public IEnumerable<KilliPrinter> PlayerKilledOrTeamEliminiated(IEnumerable<Kill> playerKilled)
         {
@@ -55,8 +57,7 @@ namespace Fanview.API.BusinessLayer
                        DamagedCausedBy = $"{_readAssets.GetDamageCauserName(item.DamageCause).ToUpper()} ",
                        PlayerLeft = $"{playerLeft}"
                 };
-
-
+               
                 TeamEliminated teamEliminatedMessage = null;
                                 
                 teamCount.Add(item.VictimTeamId);
@@ -100,7 +101,6 @@ namespace Fanview.API.BusinessLayer
                                          KillerName = s.Killer.Name,
                                          VictimName = s.Victim.Name,
                                          DamageCause = s.DamageCauserName,
-                                        // DamageReason = s.DamageReason,
                                          VictimTeamId = s.Victim.TeamId,
                                          KillerTeamId = s.Killer.TeamId,
                                          VictimHealth = s.Victim.Health,
@@ -193,27 +193,34 @@ namespace Fanview.API.BusinessLayer
 
         public IEnumerable<KilliPrinter> LiveKilledOrTeamEliminiated(IEnumerable<LiveEventKill> playerKilled, string CreateAt)
         {
-            var result = playerKilled
-                                       .Select(s => new
+            var teamPlayers = _teamPlayerRepository.GetTeamPlayers().Result;
+
+
+            var result = playerKilled.Join(teamPlayers, pk => pk.VictimName.Trim(), tp => tp.PlayerName.Trim(), (pk,tp) => new { pk, tp } )
+                                      .Select(s => new
                                        {
-                                           TimeKilled = s.EventTimeStamp,
-                                           KillerName = s.KillerName,
-                                           VictimName = s.VictimName,
-                                           DamageCause = s.DamageCauser,
-                                           s.DamageReason,
-                                           VictimTeamId = s.VictimTeamId,
-                                           KillerTeamId = s.KillerTeamId,
-                                           s.IsGroggy
+                                           TimeKilled = s.pk.EventTimeStamp,
+                                           KillerName = s.pk.KillerName,
+                                           VictimName = s.pk.VictimName,
+                                           DamageCause = s.pk.DamageCauser,
+                                           s.pk.DamageReason,
+                                           VictimTeamId = s.pk.VictimTeamId,
+                                           KillerTeamId = s.pk.KillerTeamId,
+                                           s.pk.IsGroggy,
+                                           PlayerId = s.tp.PlayerId
+                                           
                                            
                                        }).OrderBy(o => o.TimeKilled);
 
             var killiPrinter = new List<KilliPrinter>();
 
+
+
             var teamCount = new List<int>();
 
             foreach (var item in result.Where(c => c.IsGroggy == false))
             {
-                var playerLeftCount = 80 - killiPrinter.Count();
+                var playerLeftCount = 79 - killiPrinter.Count();
 
                 var playerLeft = playerLeftCount == 1 ? "winner" : playerLeftCount.ToString() + " LEFT";
 
@@ -228,13 +235,9 @@ namespace Fanview.API.BusinessLayer
                //    System.Globalization.CultureInfo.InvariantCulture,
                //     System.Globalization.DateTimeStyles.None);
 
-               // var gameTimePlayerEliminated = date1; //- date2);
+               // var gameTimePlayerEliminated = date1 - date2);
 
-                //DateTime.ParseExact(myStr, "yy/MM/dd h:mm:ss tt", CultureInfo.InvariantCulture);
-
-                //var gameTimePlayerEliminated = Convert.ToDateTime(item.TimeKilled, new System.Globalization.CultureInfo("en-GB")) - Convert.ToDateTime(CreateAt, new System.Globalization.CultureInfo("en-GB"));
-
-                // var gameTimePlayerEliminated = DateTime.ParseExact(item.TimeKilled, "dd/MM/yyyy hh:mm:ss", CultureInfo.CurrentCulture) - DateTime.ParseExact(CreateAt, "dd/MM/yyyy hh:mm:ss", CultureInfo.CurrentCulture);
+                
 
                 var playerKillMessage = new PlayerKilledGraphics()
                 {
@@ -244,9 +247,14 @@ namespace Fanview.API.BusinessLayer
                     VictimName = $"{item.VictimName}",
                     FreeText2 = $"WITH",
                     DamagedCausedBy = $"{_readAssets.GetDamageCauserName(item.DamageCause)} ",
-                    PlayerLeft = $"{playerLeft}"
+                    PlayerLeft = $"{playerLeft}",
+                    PlayerId = item.PlayerId
                 };
 
+                if (playerKillMessage.DamagedCausedBy == " ")
+                {
+                    playerKillMessage.FreeText2 = string.Empty;
+                }
 
                 TeamEliminated teamEliminatedMessage = null;
 

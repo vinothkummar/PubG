@@ -14,5 +14,6 @@ namespace Fanview.API.Model
         public string FreeText2 { get; set; }
         public string DamagedCausedBy { get; set; }
         public string PlayerLeft { get; set; }
+        public int PlayerId { get; set; }
     }
 }
