@@ -38,11 +38,22 @@ namespace FanviewPollingService.Services
         {
             StartBase(); 
 
-            Timers.Start("Poller", 1000, () =>
+            Timers.Start("Poller", 1333, () =>
             {
                 _logger.LogInformation( "Service Started Polling " + Environment.NewLine );
 
-                _telemetryRepository.ReadUDPStreamFromFile();
+                try
+                {
+                    _telemetryRepository.ReadUDPStreamFromFile();
+                }
+                catch (Exception excep)
+                {
+                    _logger.LogInformation("Service Polling Failure " + excep + Environment.NewLine);
+
+                    throw;
+                }
+
+                ;
 
                 _logger.LogInformation( "Service Completed Polling "+ Environment.NewLine );
             });
