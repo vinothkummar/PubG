@@ -25,6 +25,10 @@ namespace Fanview.API.Repository
         private IPlayerRepository _playerVehicleLeaveRepository;
         private ILogger<PlayerKillRepository> _logger;
         private Task<HttpResponseMessage> _pubGClientResponse;
+
+        // Used for random suffixes on processed files to avoid
+        // files with duplicate names in the same second.
+        private Random _random = new Random();
         
 
         public TelemetryRepository(IClientBuilder httpClientBuilder, IHttpClientRequest httpClientRequest, IGenericRepository<Kill> genericRepository, 
@@ -110,7 +114,7 @@ namespace Fanview.API.Repository
 
                     _takeDamageRepository.InsertEventDamageTelemetry(array, fileName);
 
-                    File.Move(file, folderPathToMoveProcessedFile + "\\" + fileName);
+                    File.Move(file, folderPathToMoveProcessedFile + "\\" + fileName + "_" + _random.Next().ToString());
                 }
                     
             }
