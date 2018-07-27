@@ -186,5 +186,12 @@ namespace Fanview.API.Controllers
             return _playerKillRepository.GetKillLeaderList();
 
         }
+
+        [HttpGet("LeaderToppedByTime")]
+        public Task<KillLeader> GetKillLeaderListTopByTimed()
+        {
+            return _playerKillRepository.GetKillLeaderListTopByTimed();
+
+        }
     }
 }
