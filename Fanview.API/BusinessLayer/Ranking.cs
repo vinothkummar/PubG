@@ -259,7 +259,7 @@ namespace Fanview.API.BusinessLayer
                 //Task taskA = Task.Factory.StartNew(() =>  _matchSummaryRepository.PollMatchRoundRankingData(matchId));
                 await _matchSummaryRepository.PollMatchRoundRankingData(matchId);
 
-                await Task.Delay(30000);
+                await Task.Delay(3000);
 
                 Task<IEnumerable<MatchRanking>> matchRankings = Task<IEnumerable<MatchRanking>>.Factory.StartNew(() =>
                 {
