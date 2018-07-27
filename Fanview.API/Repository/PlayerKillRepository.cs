@@ -297,8 +297,8 @@ namespace Fanview.API.Repository
 
                     await Task.Run(async () => InsertPlayerKillTelemetry(telemetryJsonResult, matchId));
                     await Task.Run(async () => _playerRepository.InsertLogPlayerPosition(telemetryJsonResult, matchId));
-                    //await Task.Run(async () => _playerRepository.InsertVehicleLeaveTelemetry(telemetryJsonResult, matchId));
-                    //await Task.Run(async () => _matchRepository.InsertMatchSafeZonePosition(telemetryJsonResult, matchId));
+                    await Task.Run(async () => _playerRepository.InsertVehicleLeaveTelemetry(telemetryJsonResult, matchId));
+                    await Task.Run(async () => _matchRepository.InsertMatchSafeZonePosition(telemetryJsonResult, matchId));
 
                     //await Task.Run(async () => InsertMatchPlayerStats(jsonResult));
 
@@ -407,22 +407,22 @@ namespace Fanview.API.Repository
             _logger.LogInformation("GetKillLeaderList Repository Function call started" + Environment.NewLine);
             var matchstats = _genericMatchPlayerStatsRepository.GetMongoDbCollection("MatchPlayerStats");
             var matchstat = matchstats.FindAsync(new BsonDocument()).Result.ToListAsync().Result;
-            var sortByKill = matchstat.AsQueryable().OrderByDescending(o => o.stats.Kills).Take(10);
-
+            var sortByKill = matchstat.AsQueryable().OrderByDescending(o => o.stats.Kills);
 
             var teams = _team.GetAll("Team").Result.ToList();
             var teamPlayers = _teamPlayerRepository.GetTeamPlayers().Result;
 
             var killList = sortByKill.Join(teams, s => s.TeamId, t => t.Id, (s, t) => new { s, t })
                                      .Join(teamPlayers, kl => kl.s.stats.Name.Trim(), tp => tp.PlayerName.Trim(), (kl, pl) => new { kl, pl })
+                                     .GroupBy(g => g.pl.PlayerName)
                                      .Select(klt => new Kills()
                                      {
-                                         kills = klt.kl.s.stats.Kills,
-                                         teamId = klt.kl.t.TeamId,
-                                         timeSurvived = klt.kl.s.stats.TimeSurvived,
-                                         playerId = klt.pl.PlayerId,
-                                         playerName = klt.kl.s.stats.Name
-                                     });
+                                         kills =  klt.Sum(a => a.kl.s.stats.Kills),
+                                         teamId = klt.Select(a => a.kl.t.TeamId).ElementAtOrDefault(0),
+                                         timeSurvived = klt.Sum(a => a.kl.s.stats.TimeSurvived),
+                                         playerId = klt.Select(a => a.pl.PlayerId).ElementAtOrDefault(0),
+                                         playerName = klt.Key
+                                     }).OrderByDescending(o => o.kills);
 
             var killLeaders = new KillLeader()
             {
@@ -585,6 +585,21 @@ namespace Fanview.API.Repository
             }).OrderByDescending(o => o.KillCount);
 
             return await Task.FromResult(killCount);
+        }
+
+        public Task<KillLeader> GetKillLeaderListTopByTimed()
+        {
+           var KillLeaderList = GetKillLeaderList();
+
+            var KillLeaderListByTimeTopped = KillLeaderList.Result.killList.OrderByDescending(o => o.timeSurvived);
+
+            var killLeaders = new KillLeader()
+            {
+                matchId = 0,
+                killList = KillLeaderListByTimeTopped
+            };
+
+            return Task.FromResult(killLeaders);
         }
     }
 }

@@ -20,5 +20,6 @@ namespace Fanview.API.Model
         public string TeamId { get; set; }
         public string MatchId { get; set; }
         public int PubGOpenApiTeamId { get; set; }
+        public int ShortTeamID { get; set; }
     }
 }

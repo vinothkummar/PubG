@@ -19,5 +19,9 @@ namespace Fanview.API.Model
         public ParticipantStats stats { get; set; }
         [BsonElement("teamId")]
         public string TeamId { get; set; }
+        [BsonElement("rank")]
+        public int Rank { get; set; }
+        
+
     }
 }

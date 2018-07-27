@@ -374,7 +374,7 @@ namespace Fanview.API.Repository
             response.MatchdId = tournamentMatchId;
             foreach (var q in teams.OrderBy(o=>o.Name))
             {
-                var vl = veichelLanding.Where(o => o.Character.TeamId == q.TeamId);
+                var vl = veichelLanding.Where(o => o.Character.TeamId == q.TeamId && o.Vehicle.VehicleType == "Parachute").ToList();
                 if (vl.Any())
                 {
                     var tp = teamPlayers.Where(o=>o.TeamIdShort == q.TeamId);
