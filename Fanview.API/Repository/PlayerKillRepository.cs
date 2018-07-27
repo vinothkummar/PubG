@@ -421,7 +421,8 @@ namespace Fanview.API.Repository
                                          teamId = klt.Select(a => a.kl.t.TeamId).ElementAtOrDefault(0),
                                          timeSurvived = klt.Sum(a => a.kl.s.stats.TimeSurvived),
                                          playerId = klt.Select(a => a.pl.PlayerId).ElementAtOrDefault(0),
-                                         playerName = klt.Key
+                                         playerName = klt.Key,
+                                         DamageDealt = klt.Sum(a => a.kl.s.stats.DamageDealt)
                                      }).OrderByDescending(o => o.kills);
 
             var killLeaders = new KillLeader()
@@ -597,6 +598,21 @@ namespace Fanview.API.Repository
             {
                 matchId = 0,
                 killList = KillLeaderListByTimeTopped
+            };
+
+            return Task.FromResult(killLeaders);
+        }
+
+        public Task<KillLeader> GetKillLeaderListToppedByDamageDealt()
+        {
+            var KillLeaderList = GetKillLeaderList();
+
+            var KillListToppedByDamageDealt = KillLeaderList.Result.killList.OrderByDescending(o => o.DamageDealt);
+
+            var killLeaders = new KillLeader()
+            {
+                matchId = 0,
+                killList = KillListToppedByDamageDealt
             };
 
             return Task.FromResult(killLeaders);
