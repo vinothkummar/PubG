@@ -16,17 +16,20 @@ namespace Fanview.API.Controllers
         private IMatchRepository _matchRepository;
         private IMatchSummaryRepository _matchSummaryRepository;
         private IPlayerKillRepository _playerKillRepository;
+        private IPlayerRepository _playerRepository;
         private IRanking _ranking;
 
         public MatchController(IMatchRepository matchRepository,
                                IMatchSummaryRepository matchSummaryRepository,
                                IPlayerKillRepository playerKillRepository,
+                               IPlayerRepository playerRepository,
                                IRanking ranking
                                )
         {
             _matchRepository = matchRepository;
             _matchSummaryRepository = matchSummaryRepository;
             _playerKillRepository = playerKillRepository;
+            _playerRepository= playerRepository;
             _ranking = ranking;
         }
 
@@ -41,9 +44,9 @@ namespace Fanview.API.Controllers
         /// </remarks>
         /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
         [HttpGet("FlighPath/{matchId}", Name = "GetFlightPath")]
-        public Task<FlightPath> GetFlightPath(string matchId)
+        public Task<FlightPath> GetFlightPath(int matchId)
         {
-            return _matchRepository.GetFlightPath();
+            return _playerRepository.GetFlightPath(1);
         }
 
         //// GET: api/Match/5

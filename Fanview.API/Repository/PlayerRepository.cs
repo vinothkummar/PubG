@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Fanview.API.Model;
+using Fanview.API.Model.LiveModels;
 using Fanview.API.Repository;
 using Fanview.API.Repository.Interface;
 using Fanview.API.Utility;
@@ -20,15 +21,17 @@ namespace Fanview.API.Repository
         private IGenericRepository<PlayerPoition> _PlayerPositionRepository;
         private DateTime LastVehicleLeaveTimeStamp = DateTime.MinValue;
         private IGenericRepository<TeamPlayer> _teamPlayers;
+        private IGenericRepository<Event> _tournament;
 
         public PlayerRepository(IGenericRepository<VehicleLeave> genericRepository,
              IGenericRepository<PlayerPoition> playerPositionRepository,
-             IGenericRepository<TeamPlayer> teamPlayers, ILogger<PlayerRepository> logger)
+             IGenericRepository<TeamPlayer> teamPlayers, ILogger<PlayerRepository> logger, IGenericRepository<Event> tournament)
         {
             _genericRepository = genericRepository;
             _PlayerPositionRepository = playerPositionRepository;
             _teamPlayers = teamPlayers;
             _logger = logger;
+            _tournament = tournament;
         }
         public Task<IEnumerable<VehicleLeave>> GetPlayerLeftVechile()
         {
@@ -130,6 +133,33 @@ namespace Fanview.API.Repository
             });
 
             return result;
+        }
+
+        public async Task<FlightPath> GetFlightPath(int matchId)
+        {
+            var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
+
+            var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
+
+            var VehicleLeave = _genericRepository.GetMongoDbCollection("VehicleLeave");
+
+            var vehicleTransport = VehicleLeave.FindAsync(Builders<VehicleLeave>.Filter.Where(cn => cn.MatchId == tournamentMatchId && cn.Vehicle.VehicleType =="TransportAircraft")).Result.ToListAsync().Result;
+
+            var flightPathfirstPosition = vehicleTransport.Take(1).FirstOrDefault();
+
+            var flightPathlastPosition = vehicleTransport.TakeLast(1).LastOrDefault();
+
+            var fpath = new FlightPath();
+
+            fpath.MatchId = matchId;
+
+            fpath.FlightPathStart = flightPathfirstPosition.Character.Location;
+
+            fpath.FlightPathEnd = flightPathlastPosition.Character.Location;
+
+
+            return fpath;
+            
         }
     }
 }

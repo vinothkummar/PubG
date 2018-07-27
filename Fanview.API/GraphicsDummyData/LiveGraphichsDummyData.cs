@@ -866,28 +866,28 @@ namespace Fanview.API.GraphicsDummyData
             };
             return livekilllist;
         }
-        public FlightPath GetFlightPath()
-        {
-            var flightPath = new FlightPath
-            {
-                MatchName = "TPP Round 1",
-                MatchId = 1,
-                FlightPathStart = new LiveLocation
-                {
-                    X = 416793.3125,
-                    Y = 0,
-                    Z = 150088
-                },
-                FlightPathEnd = new LiveLocation
-                {
-                    X = 351509.375,
-                    Y = 439020.15625,
-                    Z = 150088
-                }
+        //public FlightPath GetFlightPath()
+        //{
+        //    var flightPath = new FlightPath
+        //    {
+        //        MatchName = "TPP Round 1",
+        //        MatchId = 1,
+        //        FlightPathStart = new LiveLocation
+        //        {
+        //            X = 416793.3125,
+        //            Y = 0,
+        //            Z = 150088
+        //        },
+        //        FlightPathEnd = new LiveLocation
+        //        {
+        //            X = 351509.375,
+        //            Y = 439020.15625,
+        //            Z = 150088
+        //        }
 
-            };
-            return flightPath;
-        }
+        //    };
+        //    return flightPath;
+        //}
         public KillLeaderList GetKillLeaderlist()
         {
             var killerleaderlist = new KillLeaderList

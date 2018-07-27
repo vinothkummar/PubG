@@ -157,10 +157,10 @@ namespace Fanview.API.Repository
             throw new NotImplementedException();
         }
 
-        public Task<FlightPath> GetFlightPath()
-        {
-            return Task.FromResult(_data.GetFlightPath());
-        }
+        //public Task<FlightPath> GetFlightPath()
+        //{
+        //    return Task.FromResult(_data.GetFlightPath());
+        //}
 
         public async void InsertMatchSafeZonePosition(string jsonResult, string matchId)
         {
