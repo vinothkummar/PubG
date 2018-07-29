@@ -350,7 +350,7 @@ namespace Fanview.API.BusinessLayer
             {
                 teamCount.Add(item.VictimTeamId);
 
-                var teamPlayerCount = playersCreated.Where(cn => cn.TeamId == item.VictimTeamId.ToString()).Count();
+                var teamPlayerCount = teamPlayers.Where(cn => cn.TeamIdShort == item.VictimTeamId).Count();
 
                 if (teamCount.Where(cn => cn == item.VictimTeamId).Count() == teamPlayerCount)
                 {
