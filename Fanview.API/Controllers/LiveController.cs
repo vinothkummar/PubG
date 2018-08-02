@@ -36,38 +36,38 @@ namespace Fanview.API.Controllers
             _playerKillRepository = playerKillRepository;
         }
 
-        /// <summary>
-        /// Returns Live Team Status
-        /// </summary>
-        /// <remarks>
-        /// This Api Currently Serving the Static Information
-        /// Sample request: api/Live/Status/{matchId}          
-        /// Input Parameter: f84d39a1-8218-4438-9bf5-7150f9e0f093
-        /// </remarks>
-        /// <param name='matchId'>675619e6-4a11-6b92-cf2e-4c82428b78ef</param>
-        [HttpGet("Status/{matchId}", Name = "GetLiveStatus")]
-        public Task<IEnumerable<LiveTeamPlayerStatus>> GetLiveStatus(int matchId)
-        {
-            // return _liveRepository.GetLiveStatus(matchId);
+        ///// <summary>
+        ///// Returns Live Team Status
+        ///// </summary>
+        ///// <remarks>
+        ///// This Api Currently Serving the Static Information
+        ///// Sample request: api/Live/Status/{matchId}          
+        ///// Input Parameter: f84d39a1-8218-4438-9bf5-7150f9e0f093
+        ///// </remarks>
+        ///// <param name='matchId'>675619e6-4a11-6b92-cf2e-4c82428b78ef</param>
+        //[HttpGet("Status/{matchId}", Name = "GetLiveStatus")]
+        //public Task<IEnumerable<LiveTeamPlayerStatus>> GetLiveStatus(int matchId)
+        //{
+        //    // return _liveRepository.GetLiveStatus(matchId);
 
-            return _liveStatus.GetLiveStatus(matchId);
-        }
+        //    return _liveStatus.GetLiveStatus(matchId);
+        //}
 
 
-        /// <summary>
-        /// Returns Live Damage List
-        /// </summary>
-        /// <remarks>
-        /// This Api Currently Serving the Static Information
-        /// Sample request: api/Live/DamageList/{matchId}          
-        /// Input Parameter: f84d39a1-8218-4438-9bf5-7150f9e0f093
-        /// </remarks>
-        /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
-        [HttpGet("DamageList/{matchId}", Name = "GetLiveDamageList")]
-        public Task<LiveDamageList> GetLiveDamageList(string matchId)
-        {
-            return _liveRepository.GetLiveDamageList(matchId);
-        }
+        ///// <summary>
+        ///// Returns Live Damage List
+        ///// </summary>
+        ///// <remarks>
+        ///// This Api Currently Serving the Static Information
+        ///// Sample request: api/Live/DamageList/{matchId}          
+        ///// Input Parameter: f84d39a1-8218-4438-9bf5-7150f9e0f093
+        ///// </remarks>
+        ///// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
+        //[HttpGet("DamageList/{matchId}", Name = "GetLiveDamageList")]
+        //public Task<LiveDamageList> GetLiveDamageList(string matchId)
+        //{
+        //    return _liveRepository.GetLiveDamageList(matchId);
+        //}
 
         /// <summary>
         /// Returns Live Kill List
@@ -125,13 +125,13 @@ namespace Fanview.API.Controllers
         }
 
 
-        //dummy implementation to other to work
-        [HttpGet("LiveTeamStats/{matchId}", Name = "GetLiveTeamStats")]
-        public Task<IEnumerable<TeamRankingView>> GetLiveTeamStats(int matchId)
-        {
-            var teamId1 = "0";
+        ////dummy implementation to other to work
+        //[HttpGet("LiveTeamStats/{matchId}", Name = "GetLiveTeamStats")]
+        //public Task<IEnumerable<TeamRankingView>> GetLiveTeamStats(int matchId)
+        //{
+        //    var teamId1 = "0";
 
-            return _teamRespository.GetTeamProfileByMatchId(teamId1, matchId);
-        }
+        //    return _teamRespository.GetTeamProfileByMatchId(teamId1, matchId);
+        //}
     }
 }

@@ -61,9 +61,7 @@ namespace Fanview.API.BusinessLayer
 
             var liveKillCount = _playerKillRepository.GetLiveKillCount(LiveKills);
 
-            var teamEliminationPosition = GetTeamEliminatedPosition(LiveKills, tournamentMatchId, teamCount);
-
-            //var teamEliminatedLastPosition = teamEliminationPosition.TakeLast(1).FirstOrDefault();
+            var teamEliminationPosition = GetTeamEliminatedPosition(LiveKills, tournamentMatchId, teamCount);          
 
             var rankPositionIndex = rankPoints.Select((item, index) => new { Position = (int)index, RankPositionScore = item.ScoringPoints });
 
@@ -233,25 +231,22 @@ namespace Fanview.API.BusinessLayer
                     PlayerName = item.PlayerName,
                     FullName = item.FullName,
                     Country = item.Country,
-                    TeamId = item.TeamIdShort
+                    TeamId = item.TeamIdShort,
+                    
                 });
 
 
             }
-           
 
-           
+            var playersKilled = kills.Select(s => new
+            {
+                PlayerAccountId = teamPlayers.Where(cn => cn.PlayerName.Trim().ToLower().Contains(s.VictimName.Trim().ToLower())).FirstOrDefault().PlayerId,
+                VictimTeamId = s.VictimTeamId,
+                PlayerName = s.VictimName,
+                fanviewTeamId = teamPlayers.Where(cn => cn.TeamId == s.VictimTeamId).FirstOrDefault().longTeamId,
+                OpenApiVictimTeamId = s.VictimTeamId
 
-            var playersKilled = kills.Join(teamPlayers, pk => pk.VictimTeamId, pc => pc.TeamId,
-                                                   (pk, pc) => new { pk, pc })                                                   
-                                                   .Select(s => new
-                                                   {
-                                                       VictimTeamId = s.pk.VictimTeamId,
-                                                       pubgTeamId = s.pc.TeamId,
-                                                       fanviewTeamId = s.pc.longTeamId,
-                                                     //  PlayerAccountId = s.tp.PubgAccountId
-
-                                                   });
+            });
 
             var teamsRankPoints = new List<TeamRankPoints>();
 

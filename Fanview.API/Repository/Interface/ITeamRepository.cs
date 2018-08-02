@@ -22,7 +22,6 @@ namespace Fanview.API.Repository.Interface
 
         Task<IEnumerable<TeamRankingView>> GetTeamProfileByMatchId(string teamId1, int matchId);
 
-
         Task<IEnumerable<TeamRankingView>> GetTeamProfilesByTeamIdAndMatchId(string teamId1, string teamId2, int matchId);
 
         Task<IEnumerable<TeamRankingView>> GetTeamProfileMatchUp(string teamId1, string teamId2);
@@ -31,7 +30,5 @@ namespace Fanview.API.Repository.Interface
         Task<IEnumerable<TeamRoute>> GetTeamRoute(int matchId);
 
         Task<TeamLanding> GetTeamLanding(int matchId);
-
-
     }
 }

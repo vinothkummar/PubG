@@ -13,6 +13,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using MongoDB.Driver;
+using Fanview.API.Model.ViewModels;
 
 namespace Fanview.API.Repository
 {
@@ -25,6 +26,7 @@ namespace Fanview.API.Repository
         private LiveGraphichsDummyData _data;
         private Task<HttpResponseMessage> _pubGClientResponse;
         private IGenericRepository<MatchSafeZone> _matchSafeZoneRepository;
+        private IGenericRepository<Event> _tournament;
 
         public MatchRepository(IClientBuilder httpClientBuilder, 
                                IHttpClientRequest httpClientRequest,                               
@@ -221,6 +223,42 @@ namespace Fanview.API.Repository
             return result;
         }
 
+        public async Task<IEnumerable<SafeZoneViewModel>> GetMatchSafeZone(int matchId)
+        {
+            var tournaments = _genericRepository.GetMongoDbCollection("TournamentMatchId");
 
+            var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
+
+            var safeZone = _matchSafeZoneRepository.GetMongoDbCollection("MatchSafeZone");
+
+            var matchSafeZone = safeZone.FindAsync(Builders<MatchSafeZone>.Filter.Where(cn => cn.MatchId == tournamentMatchId )).Result.ToListAsync().Result
+                                            .Select(s => new SafeZoneViewModel() { SafetyZonePosition = s.GameState.SafetyZonePosition,
+                                                                                SafetyZoneRadius = s.GameState.SafetyZoneRadius }).GroupBy(g => new { x = g.SafetyZonePosition.X, y = g.SafetyZonePosition.Y, z = g.SafetyZonePosition.Z , Radius = g.SafetyZoneRadius });
+             
+
+            var findCircle = new List<SafeZoneViewModel>();
+
+            var findCircleDuplicate = new List<SafeZoneViewModel>();
+            var i = 1;
+            foreach (var item in matchSafeZone)
+            {
+                if(item.Select(a => (a.SafetyZonePosition.X)).Count() > 1 && item.Select(a => (a.SafetyZonePosition.Y)).Count() > 1
+                             && item.Select(a => (a.SafetyZonePosition.Z)).Count() > 1 && item.Select(a => a.SafetyZoneRadius).Count() > 1)
+                {
+                    findCircleDuplicate.Add(
+                    new SafeZoneViewModel()
+                    {
+                        circle = i++,
+                        SafetyZonePosition = item.Select(a => a.SafetyZonePosition).ElementAtOrDefault(0),
+                        SafetyZoneRadius = item.Select(a => a.SafetyZoneRadius).ElementAtOrDefault(0)
+                    });
+
+                }
+            }
+
+           
+            
+            return await Task.FromResult(findCircleDuplicate);
+        }
     }
 }

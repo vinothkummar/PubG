@@ -532,11 +532,6 @@ namespace Fanview.API.Repository
                 }
             }
 
-            
-
-            
-           
-
             var kills = jsonResult.Where(cn => (string)cn["_T"] == "EventKill").Select(s => new LiveEventKill()
             {
                 MatchId = _matchId,

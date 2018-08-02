@@ -197,19 +197,19 @@ namespace Fanview.API.BusinessLayer
 
 
             var result = playerKilled.Join(teamPlayers, pk => pk.VictimName.Trim(), tp => tp.PlayerName.Trim(), (pk,tp) => new { pk, tp } )
-                                     .Join(teamPlayers, pktp => pktp.pk.KillerName.Trim() , tp1 => tp1.PlayerName, (pktp, tp1) => new {pktp, tp1})
+                                    // .Join(teamPlayers, pktp => pktp.pk.KillerName.Trim() , tp1 => tp1.PlayerName, (pktp, tp1) => new {pktp, tp1})
                                       .Select(s => new
                                        {
-                                           TimeKilled = s.pktp.pk.EventTimeStamp,
-                                           KillerName = s.pktp.pk.KillerName,
-                                           VictimName = s.pktp.pk.VictimName,
-                                           DamageCause = s.pktp.pk.DamageCauser,
-                                           s.pktp.pk.DamageReason,
-                                           VictimTeamId = s.pktp.pk.VictimTeamId,
-                                           KillerTeamId = s.pktp.pk.KillerTeamId,
-                                           s.pktp.pk.IsGroggy,
-                                           VictimPlayerId = s.pktp.tp.PlayerId,
-                                           KillerPlayerId = s.tp1.PlayerId
+                                           TimeKilled = s.pk.EventTimeStamp,
+                                           KillerName = s.pk.KillerName,
+                                           VictimName = s.pk.VictimName,
+                                           DamageCause = s.pk.DamageCauser,
+                                           s.pk.DamageReason,
+                                           VictimTeamId = s.pk.VictimTeamId,
+                                           KillerTeamId = s.pk.KillerTeamId,
+                                           s.pk.IsGroggy,
+                                           VictimPlayerId = s.tp.PlayerId,
+                                          // KillerPlayerId = s.PlayerId
                                            }).OrderBy(o => o.TimeKilled);
 
             var killiPrinter = new List<KilliPrinter>();
@@ -248,7 +248,7 @@ namespace Fanview.API.BusinessLayer
                     FreeText2 = $"WITH",
                     DamagedCausedBy = $"{_readAssets.GetDamageCauserName(item.DamageCause)} ",
                     PlayerLeft = $"{playerLeft}",
-                    KillerPlayerId = item.KillerPlayerId,
+                   
                     VictimPlayerId = item.VictimPlayerId,
                 };
 

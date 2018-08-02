@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Fanview.API.Model.LiveModels;
+using Fanview.API.Model.ViewModels;
 
 namespace Fanview.API.Repository.Interface
 {
@@ -16,5 +16,6 @@ namespace Fanview.API.Repository.Interface
         Task<JObject> GetMatchIdByTournament(string tournament);
         Task<IEnumerable<Event>> GetTournamentMatchId();
         void InsertMatchSafeZonePosition(string jsonResult, string matchId);
+        Task<IEnumerable<SafeZoneViewModel>> GetMatchSafeZone(int matchId);
     }
 }

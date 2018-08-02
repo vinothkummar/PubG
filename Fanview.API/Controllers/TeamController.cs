@@ -24,7 +24,7 @@ namespace Fanview.API.Controllers
         ///Returns teamlineup       
         /// </summary>
         /// <remarks>
-        /// Sample request: api/Team/LineUp/{teamId}          
+        /// Sample request: api/Team/LineUp/{teamId}   
         /// Input Parameters: 5b369085a510862ec07c824a ;  5b3e63846c0810ce58c299a5
         /// </remarks>
         /// <param name='teamId'>5b369085a510862ec07c824a</param>
@@ -33,15 +33,6 @@ namespace Fanview.API.Controllers
         {
             return _teamRepository.GetTeamLine(teamId);
         }
-
-
-        //[HttpGet("MatchUp/{teamId1}/And/{teamId2}", Name = "GetTeamMatchup")]
-        //public Task<IEnumerable<TeamLineUp>> GetTeamMatchup(string teamId1, string teamId2)
-        //{
-        //    return _teamRepository.GetTeamMatchup(teamId1, teamId2);
-        //}
-
-
 
         /// <summary>
         ///Returns TeamRoute       

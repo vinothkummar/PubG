@@ -6,6 +6,7 @@ using Fanview.API.Model;
 using Fanview.API.BusinessLayer.Contracts;
 using System.Collections.Generic;
 using Fanview.API.Model.LiveModels;
+using Fanview.API.Model.ViewModels;
 
 namespace Fanview.API.Controllers
 {
@@ -46,7 +47,7 @@ namespace Fanview.API.Controllers
         [HttpGet("FlighPath/{matchId}", Name = "GetFlightPath")]
         public Task<FlightPath> GetFlightPath(int matchId)
         {
-            return _playerRepository.GetFlightPath(1);
+            return _playerRepository.GetFlightPath(matchId);
         }
 
         //// GET: api/Match/5
@@ -99,6 +100,12 @@ namespace Fanview.API.Controllers
         public async Task<IEnumerable<MatchRanking>> PostAndCalculateMatchRoundRanking(string matchId)
         {
            return await _ranking.PollAndGetMatchRanking(matchId);          
+        }
+
+        [HttpGet("SafeZone/{matchId}", Name = "GetMatchSafeZone")]
+        public  Task<IEnumerable<SafeZoneViewModel>> GetMatchSafeZone(int matchId)
+        {
+            return  _matchRepository.GetMatchSafeZone(matchId);
         }
 
     }
