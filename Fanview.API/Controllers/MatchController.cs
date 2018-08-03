@@ -50,6 +50,12 @@ namespace Fanview.API.Controllers
             return _playerRepository.GetFlightPath(matchId);
         }
 
+        [HttpGet("SafeZone/{matchId}", Name = "GetMatchSafeZone")]
+        public Task<IEnumerable<SafeZoneViewModel>> GetMatchSafeZone(int matchId)
+        {
+            return _matchRepository.GetMatchSafeZone(matchId);
+        }
+
         //// GET: api/Match/5
         //[HttpGet("ById/{id}", Name = "GetMatch")]
         //public Task<JObject> GetMatch(string id)
@@ -100,13 +106,7 @@ namespace Fanview.API.Controllers
         public async Task<IEnumerable<MatchRanking>> PostAndCalculateMatchRoundRanking(string matchId)
         {
            return await _ranking.PollAndGetMatchRanking(matchId);          
-        }
-
-        [HttpGet("SafeZone/{matchId}", Name = "GetMatchSafeZone")]
-        public  Task<IEnumerable<SafeZoneViewModel>> GetMatchSafeZone(int matchId)
-        {
-            return  _matchRepository.GetMatchSafeZone(matchId);
-        }
+        }     
 
     }
 }

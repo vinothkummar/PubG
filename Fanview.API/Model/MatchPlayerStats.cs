@@ -8,7 +8,6 @@ namespace Fanview.API.Model
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
-
         [BsonElement("matchId")]
         public string MatchId { get; set; }
         [BsonElement("rosterId")]
@@ -21,7 +20,10 @@ namespace Fanview.API.Model
         public string TeamId { get; set; }
         [BsonElement("rank")]
         public int Rank { get; set; }
-        
+        [BsonElement("shortTeamId")]
+        public int ShortTeamId { get; set; }
+
+
 
     }
 }
