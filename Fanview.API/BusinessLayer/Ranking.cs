@@ -161,6 +161,7 @@ namespace Fanview.API.BusinessLayer
                     matchRanking.KillPoints = item.KillPoints;
                     matchRanking.RankPoints = item.RankPoints;
                     matchRanking.TotalPoints = item.TotalPoints;
+                    matchRanking.ShortTeamID = item.ShortTeamID;
 
                 if (matchStandings.Where(cn => cn.TotalPoints == item.TotalPoints).Count() > 0) {
                     i = i - 1;

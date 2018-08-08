@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Fanview.API.Model.LiveModels;
 using Fanview.API.Model.ViewModels;
+using Fanview.API.BusinessLayer.Contracts;
+
 
 namespace Fanview.API.Controllers
 {
@@ -13,13 +15,15 @@ namespace Fanview.API.Controllers
     public class TeamController : ControllerBase
     {
         private ITeamRepository _teamRepository;
+        private ITeamStats _teamStats;
 
-        public TeamController(ITeamRepository teamRepository)
+        public TeamController(ITeamRepository teamRepository, ITeamStats teamStats)
         {
             _teamRepository = teamRepository;
+            _teamStats = teamStats;
         }
 
-        // GET: api/TeamLineUP/5
+        // GET: api/TeamLineUP/5, 
         /// <summary>
         ///Returns teamlineup       
         /// </summary>
@@ -42,9 +46,9 @@ namespace Fanview.API.Controllers
         /// </remarks>
         /// <param name='matchId'>1</param>
         [HttpGet("Route/{matchId}", Name = "GetTeamRoute")]
-        public Task<IEnumerable<TeamRoute>> GetTeamRoute(int matchId)
+        public Task<TeamRoute> GetTeamRoute(int matchId)
         {
-            return _teamRepository.GetTeamRoute(matchId);
+            return _teamStats.GetTeamRoute(matchId);
         }
 
 

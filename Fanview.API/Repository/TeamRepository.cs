@@ -11,6 +11,7 @@ using MongoDB.Driver.Linq;
 using Fanview.API.Model.LiveModels;
 using Fanview.API.GraphicsDummyData;
 using Fanview.API.Model.ViewModels;
+using Fanview.API.BusinessLayer.Contracts;
 
 namespace Fanview.API.Repository
 {
@@ -19,11 +20,10 @@ namespace Fanview.API.Repository
         private IGenericRepository<Team> _team;
         private IGenericRepository<MatchPlayerStats> _matchPlayerStats;
         private IGenericRepository<TeamPlayer> _teamPlayers;
-        private IGenericRepository<PlayerPoition> _teamPlayersPosition;
+        private IGenericRepository<PlayerPoition> _teamPlayersPosition;       
         private IGenericRepository<TeamRanking> _teamRankings;
         private IGenericRepository<VehicleLeave> _vehicleLeave;
-        private IGenericRepository<Event> _tournament;
-        private LiveGraphichsDummyData _data;
+        private IGenericRepository<Event> _tournament;        
         private ILogger<TeamRepository> _logger;
 
         public TeamRepository(IGenericRepository<Team> team,
@@ -32,7 +32,7 @@ namespace Fanview.API.Repository
                               IGenericRepository<TeamRanking> teamRankings,
                               IGenericRepository<Event> tournament,
                               IGenericRepository<VehicleLeave> vehicleLeave,
-                              IGenericRepository<PlayerPoition> teamPlayersPosition,
+                              IGenericRepository<PlayerPoition> teamPlayersPosition,                              
                               ILogger<TeamRepository> logger)
         {
             _team = team;
@@ -42,9 +42,6 @@ namespace Fanview.API.Repository
             _tournament = tournament;
             _vehicleLeave = vehicleLeave;
             _teamPlayersPosition = teamPlayersPosition;
-
-            _data = new LiveGraphichsDummyData();
-
             _logger = logger;
         }
 
@@ -298,65 +295,66 @@ namespace Fanview.API.Repository
 
             return await Task.FromResult(teamStandings);
         }
-        public Task<IEnumerable<TeamRoute>> GetTeamRoute(int matchId)
-        {
-            var teams = _team.GetMongoDbCollection("Team").AsQueryable();
 
-            var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
+        //public Task<IEnumerable<TeamRoute>> GetTeamRoute(int matchId)
+        //{
+        //    var teams = _team.GetMongoDbCollection("Team").AsQueryable();
 
-            var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
+        //    var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
 
-            var teamStatsRanking = _teamRankings.GetMongoDbCollection("TeamRanking");
+        //    var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
 
-            var teamScrore = teamStatsRanking.FindAsync(Builders<TeamRanking>.Filter.Where(cn => cn.MatchId == tournamentMatchId)).Result.ToListAsync().Result;
+        //    var teamStatsRanking = _teamRankings.GetMongoDbCollection("TeamRanking");
 
-            var logPlayersPosition = _teamPlayersPosition.GetMongoDbCollection("PlayerPosition");
+        //    var teamScrore = teamStatsRanking.FindAsync(Builders<TeamRanking>.Filter.Where(cn => cn.MatchId == tournamentMatchId)).Result.ToListAsync().Result;
 
-            var matchPlayerPosition = logPlayersPosition.FindAsync(Builders<PlayerPoition>.Filter.Where(cn => cn.MatchId == tournamentMatchId)).Result
-                                        .ToListAsync().Result.OrderByDescending(o => o.EventTimeStamp);
+        //    var logPlayersPosition = _teamPlayersPosition.GetMongoDbCollection("PlayerPosition");
 
-            var playerLocation = matchPlayerPosition.Join(teams, mpp => mpp.TeamId , t=> t.TeamId,(mpp,t) => new {mpp, t})                           
-                                                    .Select(s => new
-                                                    {
-                                                        TeamName = s.t.Name,
-                                                        PlayerName = s.mpp.Name,
-                                                        Health = s.mpp.Health,
-                                                        s.mpp.NumAlivePlayers,
-                                                        s.mpp.Location,
-                                                        s.mpp.EventTimeStamp,
-                                                        PubTeamId = s.mpp.TeamId,
-                                                        FanviewTeamId = s.t.TeamId.ToString(),
-                                                        Timestamp = s.mpp.EventTimeStamp
-                                                    });
+        //    var matchPlayerPosition = logPlayersPosition.FindAsync(Builders<PlayerPoition>.Filter.Where(cn => cn.MatchId == tournamentMatchId)).Result
+        //                                .ToListAsync().Result.OrderByDescending(o => o.EventTimeStamp);
+
+        //    var playerLocation = matchPlayerPosition.Join(teams, mpp => mpp.TeamId , t=> t.TeamId,(mpp,t) => new {mpp, t})                           
+        //                                            .Select(s => new
+        //                                            {
+        //                                                TeamName = s.t.Name,
+        //                                                PlayerName = s.mpp.Name,
+        //                                                Health = s.mpp.Health,
+        //                                                s.mpp.NumAlivePlayers,
+        //                                                s.mpp.Location,
+        //                                                s.mpp.EventTimeStamp,
+        //                                                PubTeamId = s.mpp.TeamId,
+        //                                                FanviewTeamId = s.t.TeamId.ToString(),
+        //                                                Timestamp = s.mpp.EventTimeStamp
+        //                                            });
 
 
-            var teamRanks = teamScrore.AsQueryable().GroupBy(g => g.TeamId).Select(s =>
-            new
-            {
-                TeamId = s.Key,
-                TeamName = s.Select(a => a.TeamName),
-                TotalScore = s.Sum(a => a.TotalPoints)
-            }).OrderByDescending(o => o.TotalScore)
-            .Select((item, index) => new { TeamId = item.TeamId, TotalScore = item.TotalScore, Rank = index }).Take(3);
+        //    var teamRanks = teamScrore.AsQueryable().GroupBy(g => g.TeamId).Select(s =>
+        //    new
+        //    {
+        //        TeamId = s.Key,
+        //        TeamName = s.Select(a => a.TeamName),
+        //        TotalScore = s.Sum(a => a.TotalPoints)
+        //    }).OrderByDescending(o => o.TotalScore)
+        //    .Select((item, index) => new { TeamId = item.TeamId, TotalScore = item.TotalScore, Rank = index }).Take(3);
 
-            var longestSurvivingTeamPlayers = playerLocation.Join(teamRanks, pl => new { TeamId = pl.FanviewTeamId }, tr => new { TeamId = tr.TeamId },
-                                                            (pl, tr) => new { pl, tr }).Select(s =>
-                                                             new TeamRoute()
-                                                             {
-                                                                 MatchId = 7,
-                                                                 Route = new Route()
-                                                                 {
-                                                                     TeamID = s.pl.FanviewTeamId,
-                                                                     TeamName = s.pl.TeamName,
-                                                                     TeamRank = s.tr.Rank,
-                                                                     TeamRoute = s.pl.Location,
-                                                                     PlayerName = s.pl.PlayerName
-                                                                 }
-                                                             });
+        //    var longestSurvivingTeamPlayers = playerLocation.Join(teamRanks, pl => new { TeamId = pl.FanviewTeamId }, tr => new { TeamId = tr.TeamId },
+        //                                                    (pl, tr) => new { pl, tr }).Select(s =>
+        //                                                     new TeamRoute()
+        //                                                     {
+        //                                                         MatchId = matchId,
+        //                                                         Route = new Route()
+        //                                                         {
+        //                                                             TeamID = s.pl.FanviewTeamId,
+        //                                                             TeamName = s.pl.TeamName,
+        //                                                             TeamRank = s.tr.Rank,
+        //                                                             TeamRoute = s.pl.Location,
+        //                                                             PlayerName = s.pl.PlayerName
+        //                                                         }
+        //                                                     });
                                                              
 
-            return  Task.FromResult(longestSurvivingTeamPlayers);
-        }
+        //    return  Task.FromResult(longestSurvivingTeamPlayers);
+        //}
 
         public Task<TeamLanding> GetTeamLanding(int matchId)
         {
