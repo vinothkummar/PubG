@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Fanview.API.BusinessLayer.Contracts;
+using Fanview.API.Model;
+using Fanview.API.Repository.Interface;
+using Fanview.API.Utility;
+using Microsoft.Extensions.Logging;
+using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Fanview.API.BusinessLayer.Contracts;
-using Fanview.API.Model;
-using Fanview.API.Repository.Interface;
-using Microsoft.Extensions.Logging;
-using MongoDB.Driver;
 
 namespace Fanview.API.BusinessLayer
 {
@@ -53,7 +54,7 @@ namespace Fanview.API.BusinessLayer
             var logPlayersPosition = _teamPlayersPosition.GetMongoDbCollection("PlayerPosition");
 
             var matchPlayerPosition = logPlayersPosition.FindAsync(Builders<PlayerPoition>.Filter.Where(cn => cn.MatchId == tournamentMatchId)).Result
-                                        .ToListAsync().Result.OrderByDescending(o => o.EventTimeStamp);
+                                        .ToListAsync().Result.OrderBy(o => o.EventTimeStamp);
 
             var playerLocation = matchPlayerPosition.Join(teamStatsRanking, mpp => mpp.TeamId, t => t.ShortTeamID, (mpp, t) => new { mpp, t })
                                                     .OrderBy(o => o.mpp.TeamId).ThenBy(o1 => o1.mpp.Name)
@@ -65,20 +66,18 @@ namespace Fanview.API.BusinessLayer
                                                         Health = s.mpp.Health,
                                                         s.mpp.NumAlivePlayers,
                                                         s.mpp.Location,
-                                                        s.mpp.EventTimeStamp,
+                                                        EventTimeStamp = s.mpp.EventTimeStamp.ToDateTimeFormat(),
+                                                        Ranking = s.mpp.Ranking,
                                                         TeamId = s.mpp.TeamId,
-                                                        FanviewTeamId = s.t.TeamId.ToString(),
-                                                        Timestamp = s.mpp.EventTimeStamp
+                                                        FanviewTeamId = s.t.TeamId.ToString()
                                                     });
 
-
-            var playerLocationcount = playerLocation.Count();
-
+            
 
             var vehicleLanding = _vehicleLeave.GetMongoDbCollection("VehicleLeave");
 
             var playerVehicleLeave = vehicleLanding.FindAsync(Builders<VehicleLeave>.Filter.Where(cn => cn.MatchId == tournamentMatchId && cn.Vehicle.VehicleType == "Parachute"))
-                                                     .Result.ToListAsync().Result.OrderByDescending(o => o.EventTimeStamp).GroupBy(g => g.Character.Name).Select(s => new VehicleLeave {
+                                                     .Result.ToListAsync().Result.OrderByDescending(o => o.EventTimeStamp).GroupBy(g => g.Character.Name).Select(s => new {
                                                       MatchId = s.Select(a => a.MatchId).ElementAtOrDefault(0),
                                                       Character = s.Select(a => a.Character).ElementAtOrDefault(0),
                                                       Vehicle = s.Select(a => a.Vehicle).ElementAtOrDefault(0),
@@ -86,18 +85,34 @@ namespace Fanview.API.BusinessLayer
                                                       seatIndex  = s.Select(a => a.seatIndex).ElementAtOrDefault(0),
                                                       Common = s.Select(a => a.Common).ElementAtOrDefault(0),
                                                       Version = s.Select(a => a.Version).ElementAtOrDefault(0),
-                                                      EventTimeStamp = s.Select(a => a.EventTimeStamp).ElementAtOrDefault(0),
+                                                      EventTimeStamp = s.Select(a => a.EventTimeStamp).ElementAtOrDefault(0).ToDateTimeFormat(),
                                                       EventType = s.Select(a => a.EventType).ElementAtOrDefault(0)
-                                                   });
-            var playerVehicleLeaveCount = playerVehicleLeave.Count();                                        
+                                                   }).OrderBy(o => o.EventTimeStamp);
+
+                                                   
 
             var playerVehicleLeaveTop3Teams = playerVehicleLeave.Where(cn => teamStatsRanking.Select(s => s.ShortTeamID).Contains(cn.Character.TeamId));
 
-            var playerVehicleLeaveTop3TeamsCount = playerVehicleLeaveTop3Teams.Count();
+           
 
-            var longestSurvivingLocation = playerLocation.Join(playerVehicleLeaveTop3Teams, pl => new { TeamId = pl.TeamId, Name = pl.PlayerName }, plvtop3 => new { TeamId = plvtop3.Character.TeamId, Name = plvtop3.Character.Name }, (pl, plvtop3) => new { pl, plvtop3 })
-                                      .Where(cn => cn.pl.PlayerName == cn.plvtop3.Character.Name && cn.pl.Location.x != cn.plvtop3.Character.Location.x && cn.pl.Location.y != cn.plvtop3.Character.Location.y && cn.pl.Location.z != cn.plvtop3.Character.Location.z)
-                                      .GroupBy(g => g.pl.TeamId)
+            var longestSurvivingTeamPlayers = playerLocation.Join(playerVehicleLeaveTop3Teams, pl => new { TeamId = pl.TeamId, Name = pl.PlayerName }, plvtop3 => new { TeamId = plvtop3.Character.TeamId, Name = plvtop3.Character.Name }, (pl, plvtop3) => new { pl, plvtop3 })
+                                                            .Where(cn => cn.pl.PlayerName == cn.plvtop3.Character.Name)
+                                                            .OrderByDescending(t => t.pl.EventTimeStamp)
+                                                            .GroupBy(g => new { TeamId = g.pl.TeamId})
+                                                            .Select(s => new 
+                                      {
+                                          TeamID = s.Select(a => a.pl.TeamId).ElementAtOrDefault(0),
+                                          TeamName = s.Select(a => a.pl.TeamName).ElementAtOrDefault(0),
+                                          TeamRank = s.Select(a => a.pl.TeamRank).ElementAtOrDefault(0),                                         
+                                          PlayerName = s.Select(a => a.pl.PlayerName).ElementAtOrDefault(0),
+                                          EventTimeStamp = s.Select(a => a.plvtop3.EventTimeStamp).ElementAtOrDefault(0),
+                                          TeamRoute = s.Select(a => a.pl.Location)
+                                      });
+                                                            
+
+            var longestSurvivingLocation = playerLocation.Join(longestSurvivingTeamPlayers, pl => new { TeamId = pl.TeamId, Name = pl.PlayerName }, plvtop3 => new { TeamId = plvtop3.TeamID, Name = plvtop3.PlayerName }, (pl, plvtop3) => new { pl, plvtop3 })                                    
+                                      .Where(cn => (cn.pl.EventTimeStamp.TimeOfDay > cn.plvtop3.EventTimeStamp.TimeOfDay))
+                                      .OrderBy(o => o.pl.EventTimeStamp).GroupBy(g => g.pl.TeamId)
                                       .Select(s => new Route()
                                       {
                                           TeamID = s.Select(a => a.pl.TeamId).ElementAtOrDefault(0),
@@ -105,9 +120,8 @@ namespace Fanview.API.BusinessLayer
                                           TeamRank = s.Select(a => a.pl.TeamRank).ElementAtOrDefault(0),
                                           TeamRoute = s.Select(a => a.pl.Location)
                                       });
-
-            var longestSurvingLoactionCount = longestSurvivingLocation.Count();
-
+            
+            
             var teamRoute = new TeamRoute();
 
             teamRoute.MatchId = matchId;
@@ -119,14 +133,15 @@ namespace Fanview.API.BusinessLayer
             {
                 var locationList = new List<Location>();
 
-                foreach (var item1 in item.TeamRoute)
+                foreach (var item1 in item.TeamRoute.Select(c => new { x = c.x, y = c.y, z = c.z }).Distinct())
                 {
-                    locationList.Add(new Location()
-                    {
-                        x = item1.x,
-                        y = item1.y,
-                        z = item1.z
-                    });
+                    
+                        locationList.Add(new Location()
+                        {
+                            x = item1.x,
+                            y = item1.y,
+                            z = item1.z
+                        });
                 }
 
                 var route = new Route();
