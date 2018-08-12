@@ -71,8 +71,8 @@ namespace Fanview.API.Repository
                     z = (float)s["character"]["location"]["z"],
                 },
                 AccountId = (string)s["character"]["accountId"],
-                //Ranking = (int)s["character"]["accountId"],
-                //elapsedTime = (string)s["elapsedTime"],
+                Ranking = (int)s["character"]["ranking"],
+                elapsedTime = (int)s["elapsedTime"],
                 NumAlivePlayers = (int)s["numAlivePlayers"],
                 
                 EventTimeStamp = (string)s["_D"],

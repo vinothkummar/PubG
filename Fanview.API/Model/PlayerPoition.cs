@@ -27,7 +27,7 @@ namespace Fanview.API.Model
         [BsonElement("accountId")]
         public string AccountId { get; set; }      
         [BsonElement("elapsedTime")]
-        public string elapsedTime { get; set; }
+        public int elapsedTime { get; set; }
         [BsonElement("numAlivePlayers")]
         public int NumAlivePlayers { get; set; }
         [BsonElement("common")]
