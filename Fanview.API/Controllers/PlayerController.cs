@@ -41,18 +41,14 @@ namespace Fanview.API.Controllers
         //}
 
         /// <summary>
-        /// Returns Player Profile for the given playerId1     
-        /// </summary>
-        /// <remarks>
-        /// Sample request: Profile/{playerId1}/Tournament
-        /// </remarks>
-        /// <param name='playerId1'>1</param>      
-        [HttpGet("Profile/{playerId1}", Name = "GetPlayerProfileTournament")]
-        public Task<IEnumerable<PlayerProfileTournament>>GetPlayerProfileTournament(int playerId1)
+        /// Returns Tournament Total Match Stats   
+        /// </summary> 
+        [HttpGet("Stats/Overall", Name = "GetPlayerProfileTournament")]
+        public Task<object>GetPlayerProfileTournament()
         {   
-            return _teamPlayerRepository.GetTeamPlayersTournament(playerId1);          
+            return _teamPlayerRepository.GetTeamPlayersTournament();          
         }
-
+   
         [HttpGet("Profile/{playerId1}/{matchId}", Name = "GetPlayerProfileTournamentByMatchId")]
         public Task<IEnumerable<PlayerProfileTournament>> GetPlayerProfileTournamentByMatchId(int playerId1, int matchId)
         {
