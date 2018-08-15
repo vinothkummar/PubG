@@ -16,8 +16,8 @@ namespace Fanview.API.Repository.Interface
         Task<IEnumerable<TeamPlayer>> GetTeamPlayers();
         Task<TeamLineUp> GetTeamandPlayers();
         Task<IEnumerable<CreatePlayer>> GetPlayersCreated(string matchId);
-        Task<Object> GetTeamPlayersTournament();
-        Task<Object> GetTeamPlayersTournament(int matchId);
+        Task<Object> GetPlayerTournamentStats();
+        Task<Object> GetPlayerTournamentStats(int matchId);
         Task<IEnumerable<PlayerProfileTournament>> GetTeamPlayersStatsMatchUp(int playerId1, int playerId2, int matchId);
         Task<IEnumerable<PlayerProfileTournament>> GetPlayerProfilesMatchUP(int playerId1, int playerId2);
     }

@@ -133,7 +133,7 @@ namespace Fanview.API.Repository
             return playerCreated;
         }
 
-        public async Task<Object> GetTeamPlayersTournament()
+        public async Task<Object> GetPlayerTournamentStats()
         {
             
             var teamPlayerCollection = _genericTeamPlayerRepository.GetMongoDbCollection("TeamPlayers");
@@ -163,10 +163,15 @@ namespace Fanview.API.Repository
                                               }
                                           });
 
-            var PlayerProfileGrouped = playerProfile.GroupBy(g => g.Stats.GetType()).Select(s => new 
-            { 
-                Stats = new Stats()
-                {   
+            var PlayerProfileGrouped = playerProfile.GroupBy(g => g.PlayerId).Select(s => new PlayerProfileTournament()
+            {   
+                PlayerId = s.Select(c => c.PlayerId).ElementAtOrDefault(0),
+                PlayerName = s.Select(c => c.PlayerName).ElementAtOrDefault(0),
+                FullName = s.Select(c => c.FullName).ElementAtOrDefault(0),
+                Country = s.Select(c => c.Country).ElementAtOrDefault(0),
+                TeamId = s.Select(c => c.TeamId).ElementAtOrDefault(0),
+                stats = new Stats()
+                {
                     Knocks = s.Sum(a => a.Stats.Knocs),
                     Assists = s.Sum(a => a.Stats.Assists),
                     Boosts = s.Sum(a => a.Stats.Boosts),
@@ -176,12 +181,12 @@ namespace Fanview.API.Repository
                     Kills = s.Sum(a => a.Stats.Kills),
                     TimeSruvived = s.Sum(a => a.Stats.TimeSurvived)
                 }
-            });
+            }).OrderBy(o => o.PlayerId);
             
             return PlayerProfileGrouped;
         }
 
-        public async Task<Object> GetTeamPlayersTournament(int matchId)
+        public async Task<Object> GetPlayerTournamentStats(int matchId)
         {
             var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
 
@@ -217,9 +222,14 @@ namespace Fanview.API.Repository
                                               }
                                           });
 
-            var PlayerProfileGrouped = playerProfile.GroupBy(g => g.Stats.GetType()).Select(s => new
+            var PlayerProfileGrouped = playerProfile.GroupBy(g => g.PlayerId).Select(s => new PlayerProfileTournament()
             {
-                Stats = new Stats()
+                PlayerId = s.Select(c => c.PlayerId).ElementAtOrDefault(0),
+                PlayerName = s.Select(c => c.PlayerName).ElementAtOrDefault(0),
+                FullName = s.Select(c => c.FullName).ElementAtOrDefault(0),
+                Country = s.Select(c => c.Country).ElementAtOrDefault(0),
+                TeamId = s.Select(c => c.TeamId).ElementAtOrDefault(0),
+                stats = new Stats()
                 {
                     Knocks = s.Sum(a => a.Stats.Knocs),
                     Assists = s.Sum(a => a.Stats.Assists),
@@ -230,7 +240,7 @@ namespace Fanview.API.Repository
                     Kills = s.Sum(a => a.Stats.Kills),
                     TimeSruvived = s.Sum(a => a.Stats.TimeSurvived)
                 }
-            });
+            }).OrderBy(o => o.PlayerId);
 
             return PlayerProfileGrouped;
         }

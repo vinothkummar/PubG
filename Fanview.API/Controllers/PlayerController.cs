@@ -46,13 +46,13 @@ namespace Fanview.API.Controllers
         [HttpGet("Stats/Overall", Name = "GetPlayerProfileTournament")]
         public Task<object>GetPlayerProfileTournament()
         {   
-            return _teamPlayerRepository.GetTeamPlayersTournament();          
+            return _teamPlayerRepository.GetPlayerTournamentStats();          
         }
    
         [HttpGet("Stats/{matchId}", Name = "GetPlayerProfileTournamentByMatchId")]
         public Task<object> GetPlayerProfileTournamentByMatchId(int matchId)
         {
-            return _teamPlayerRepository.GetTeamPlayersTournament(matchId);
+            return _teamPlayerRepository.GetPlayerTournamentStats(matchId);
         }
 
         [HttpGet("Profile/MatchUp/{playerId1}/{playerId2}", Name = "GetPlayerProfilesMatchUP")]
