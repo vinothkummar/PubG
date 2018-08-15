@@ -14,6 +14,6 @@ namespace Fanview.API.Model.ViewModels
         public int headShot { get; set; }
         public int Heals { get; set; }
         public int Kills { get; set; }
-        public int TimeSruvived { get; set; }
+        public int TimeSurvived { get; set; }
     }
 }

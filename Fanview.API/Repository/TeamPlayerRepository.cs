@@ -179,7 +179,7 @@ namespace Fanview.API.Repository
                     headShot = s.Sum(a => a.Stats.HeadShort),
                     Heals = s.Sum(a => a.Stats.Heals),
                     Kills = s.Sum(a => a.Stats.Kills),
-                    TimeSruvived = s.Sum(a => a.Stats.TimeSurvived)
+                    TimeSurvived = s.Sum(a => a.Stats.TimeSurvived)
                 }
             }).OrderBy(o => o.PlayerId);
             
@@ -202,7 +202,7 @@ namespace Fanview.API.Repository
 
             var playerProfile = matchstat.Join(teamPlayer, ms => ms.stats.Name, tp => tp.PlayerName, (ms, tp) => new { ms, tp })                                          
                                           .Select(s => new
-                                          {
+                                          {   
                                               MatchId = s.tp.MatchId,
                                               PlayerId = s.tp.PlayerId,
                                               PlayerName = s.tp.PlayerName,
@@ -224,6 +224,7 @@ namespace Fanview.API.Repository
 
             var PlayerProfileGrouped = playerProfile.GroupBy(g => g.PlayerId).Select(s => new PlayerProfileTournament()
             {
+                MatchId = matchId,
                 PlayerId = s.Select(c => c.PlayerId).ElementAtOrDefault(0),
                 PlayerName = s.Select(c => c.PlayerName).ElementAtOrDefault(0),
                 FullName = s.Select(c => c.FullName).ElementAtOrDefault(0),
@@ -238,7 +239,7 @@ namespace Fanview.API.Repository
                     headShot = s.Sum(a => a.Stats.HeadShort),
                     Heals = s.Sum(a => a.Stats.Heals),
                     Kills = s.Sum(a => a.Stats.Kills),
-                    TimeSruvived = s.Sum(a => a.Stats.TimeSurvived)
+                    TimeSurvived = s.Sum(a => a.Stats.TimeSurvived)
                 }
             }).OrderBy(o => o.PlayerId);
 
@@ -286,7 +287,7 @@ namespace Fanview.API.Repository
 
             var PlayerProfileGrouped = playerProfile.GroupBy(g => g.PlayerId).Select(s => new PlayerProfileTournament()
             {
-                MatchId = s.Select(c => c.MatchId).ElementAtOrDefault(0),
+                MatchId = matchId,
                 PlayerId = s.Select(c => c.PlayerId).ElementAtOrDefault(0),
                 PlayerName = s.Select(c => c.PlayerName).ElementAtOrDefault(0),
                 FullName = s.Select(c => c.FullName).ElementAtOrDefault(0),
@@ -300,7 +301,7 @@ namespace Fanview.API.Repository
                     headShot = s.Sum(a => a.Stats.HeadShort),
                     Heals = s.Sum(a => a.Stats.Heals),
                     Kills = s.Sum(a => a.Stats.Kills),
-                    TimeSruvived = s.Sum(a => a.Stats.TimeSurvived)
+                    TimeSurvived = s.Sum(a => a.Stats.TimeSurvived)
                 }
             });
 
@@ -341,8 +342,7 @@ namespace Fanview.API.Repository
             var i = 0;
 
             var PlayerProfileGrouped = playerProfile.GroupBy(g => g.PlayerId).Select(s => new PlayerProfileTournament()
-            {
-                MatchId = s.Select(c => c.MatchId).ElementAtOrDefault(0),
+            {   
                 PlayerId = s.Select(c => c.PlayerId).ElementAtOrDefault(0),
                 PlayerName = s.Select(c => c.PlayerName).ElementAtOrDefault(0),
                 FullName = s.Select(c => c.FullName).ElementAtOrDefault(0),
@@ -357,7 +357,7 @@ namespace Fanview.API.Repository
                     headShot = s.Sum(a => a.Stats.HeadShort),
                     Heals = s.Sum(a => a.Stats.Heals),
                     Kills = s.Sum(a => a.Stats.Kills),
-                    TimeSruvived = s.Sum(a => a.Stats.TimeSurvived)
+                    TimeSurvived = s.Sum(a => a.Stats.TimeSurvived)
                 }
             });
 

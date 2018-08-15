@@ -7,7 +7,7 @@ namespace Fanview.API.Model.ViewModels
 {
     public class PlayerProfileTournament
     {
-        public string  MatchId { get; set; }
+        public int  MatchId { get; set; }
         public int PlayerId { get; set; }
         public string PlayerName { get; set; }
         public string FullName { get; set; }
