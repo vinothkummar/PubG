@@ -49,10 +49,10 @@ namespace Fanview.API.Controllers
             return _teamPlayerRepository.GetTeamPlayersTournament();          
         }
    
-        [HttpGet("Profile/{playerId1}/{matchId}", Name = "GetPlayerProfileTournamentByMatchId")]
-        public Task<IEnumerable<PlayerProfileTournament>> GetPlayerProfileTournamentByMatchId(int playerId1, int matchId)
+        [HttpGet("Stats/{matchId}", Name = "GetPlayerProfileTournamentByMatchId")]
+        public Task<object> GetPlayerProfileTournamentByMatchId(int matchId)
         {
-            return _teamPlayerRepository.GetTeamPlayersTournament(playerId1, matchId);
+            return _teamPlayerRepository.GetTeamPlayersTournament(matchId);
         }
 
         [HttpGet("Profile/MatchUp/{playerId1}/{playerId2}", Name = "GetPlayerProfilesMatchUP")]

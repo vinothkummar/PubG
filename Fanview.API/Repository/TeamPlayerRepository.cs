@@ -181,7 +181,7 @@ namespace Fanview.API.Repository
             return PlayerProfileGrouped;
         }
 
-        public async Task<IEnumerable<PlayerProfileTournament>> GetTeamPlayersTournament(int playerId, int matchId)
+        public async Task<Object> GetTeamPlayersTournament(int matchId)
         {
             var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
 
@@ -194,8 +194,6 @@ namespace Fanview.API.Repository
             var matchstats = _genericMatchPlayerStatsRepository.GetMongoDbCollection("MatchPlayerStats");
 
             var matchstat = await matchstats.FindAsync(Builders<MatchPlayerStats>.Filter.Where(cn => cn.MatchId == tournamentMatchId)).Result.ToListAsync();
-            
-
 
             var playerProfile = matchstat.Join(teamPlayer, ms => ms.stats.Name, tp => tp.PlayerName, (ms, tp) => new { ms, tp })                                          
                                           .Select(s => new
@@ -219,15 +217,9 @@ namespace Fanview.API.Repository
                                               }
                                           });
 
-            var PlayerProfileGrouped = playerProfile.GroupBy(g => g.PlayerName).Select(s => new PlayerProfileTournament()
+            var PlayerProfileGrouped = playerProfile.GroupBy(g => g.Stats.GetType()).Select(s => new
             {
-                MatchId = s.Select(c => c.MatchId).ElementAtOrDefault(0),
-                PlayerId = s.Select(c => c.PlayerId).ElementAtOrDefault(0),
-                PlayerName = s.Select(c => c.PlayerName).ElementAtOrDefault(0),
-                FullName = s.Select(c => c.FullName).ElementAtOrDefault(0),
-                Country = s.Select(c => c.Country).ElementAtOrDefault(0),
-                TeamId = s.Select(c => c.TeamId).ElementAtOrDefault(0),
-                stats = new Stats()
+                Stats = new Stats()
                 {
                     Knocks = s.Sum(a => a.Stats.Knocs),
                     Assists = s.Sum(a => a.Stats.Assists),

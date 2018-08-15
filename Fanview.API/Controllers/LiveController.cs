@@ -109,14 +109,14 @@ namespace Fanview.API.Controllers
         /// Input Parameter: f84d39a1-8218-4438-9bf5-7150f9e0f093
         /// </remarks>
         /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
-        [HttpGet("LivePlayerStats/{matchId}", Name = "GetLivePlayerStats")]
-        public Task<IEnumerable<PlayerProfileTournament>> GetLivePlayerStats(int matchId)
-        {
-            var playerId1 = 1;
-            return _teamPlayerRepository.GetTeamPlayersTournament(playerId1, matchId);
-            //return _liveRepository.GetLivePlayerStats(matchId);
+        //[HttpGet("LivePlayerStats/{matchId}", Name = "GetLivePlayerStats")]
+        //public Task<IEnumerable<PlayerProfileTournament>> GetLivePlayerStats(int matchId)
+        //{
+        //    var playerId1 = 1;
+        //    return _teamPlayerRepository.GetTeamPlayersTournament(playerId1, matchId);
+        //    //return _liveRepository.GetLivePlayerStats(matchId);
 
-        }
+        //}
 
         [HttpGet("Ranking/{matchId}", Name = "GetLiveRanking")]
         public Task<IEnumerable<MatchRanking>> GetLiveRanking(int matchId)
