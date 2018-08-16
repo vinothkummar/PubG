@@ -83,23 +83,19 @@ namespace Fanview.API.Controllers
         }
 
         /// <summary>
-        /// Returns Team Profile for the given teamId1     
+        /// Returns Team Stats for all the teams  
         /// </summary>
         /// <remarks>
-        /// Sample request: Profile/{teamId}
-        /// Input parameters are 1 - 20;
-        /// </remarks>
-        /// <param name='teamId1'>1</param>       
-        [HttpGet("Profile/{teamId1}", Name = "GetTeamProfile")]
-        public Task<IEnumerable<TeamRankingView>> GetTeamProfile(string teamId1)
+        [HttpGet("Stats/Overall", Name = "GetAllTeamStats")]
+        public Task<object> GetAllTeamStats()
         {
-            return _teamRepository.GetTeamProfile(teamId1);
+            return _teamRepository.GetAllTeamStats();
         }
 
-        [HttpGet("Profile/{teamId1}/{matchId}", Name = "GetTeamProfileByMatchId")]
-        public Task<IEnumerable<TeamRankingView>> GetTeamProfileByMatchId(string teamId1, int matchId)
+        [HttpGet("Stats/{matchId}", Name = "GetTeamStats")]
+        public Task<object> GetTeamStats(int matchId)
         {
-            return _teamRepository.GetTeamProfileByMatchId(teamId1, matchId);
+            return _teamRepository.GetTeamStats(matchId);
         }
 
         [HttpGet("Profile/MatchUp/{teamId1}/{teamId2}/{matchId}", Name = "GetTeamProfilesByTeamIdAndMatchId")]

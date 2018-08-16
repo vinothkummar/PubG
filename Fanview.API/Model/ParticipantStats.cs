@@ -45,7 +45,7 @@ namespace Fanview.API.Model
         [BsonElement("playerId")]
         public string PlayerId { get; set; }
         [BsonElement("revives")]
-        public int revives { get; set; }
+        public int Revives { get; set; }
         [BsonElement("rideDistance")]
         public float RideDistance { get; set; }
         [BsonElement("roadKills")]

@@ -15,5 +15,9 @@ namespace Fanview.API.Model.ViewModels
         public int Heals { get; set; }
         public int Kills { get; set; }
         public int TimeSurvived { get; set; }
+        public int Revives { get; set; }
+        public float RideDistance { get; set; }
+        public float SwimDistance { get; set; }
+        public float WalkDistance { get; set; }
     }
 }

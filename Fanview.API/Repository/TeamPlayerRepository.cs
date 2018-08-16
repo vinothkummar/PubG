@@ -159,7 +159,11 @@ namespace Fanview.API.Repository
                                                   HeadShort = s.ms.stats.HeadshotKills,
                                                   Heals = s.ms.stats.Heals,
                                                   Kills = s.ms.stats.Kills,
-                                                  TimeSurvived = s.ms.stats.TimeSurvived
+                                                  TimeSurvived = s.ms.stats.TimeSurvived,
+                                                  Revives = s.ms.stats.Revives,
+                                                  RideDistance = s.ms.stats.RideDistance,
+                                                  SwimDistance = s.ms.stats.SwimDistance,
+                                                  WalkDistance = s.ms.stats.WalkDistance
                                               }
                                           });
 
@@ -179,7 +183,12 @@ namespace Fanview.API.Repository
                     headShot = s.Sum(a => a.Stats.HeadShort),
                     Heals = s.Sum(a => a.Stats.Heals),
                     Kills = s.Sum(a => a.Stats.Kills),
-                    TimeSurvived = s.Sum(a => a.Stats.TimeSurvived)
+                    TimeSurvived = s.Sum(a => a.Stats.TimeSurvived),
+                    Revives = s.Sum(a => a.Stats.Revives),
+                    RideDistance = s.Sum(a => a.Stats.RideDistance),
+                    SwimDistance = s.Sum(a => a.Stats.SwimDistance),
+                    WalkDistance = s.Sum(a => a.Stats.WalkDistance)
+
                 }
             }).OrderBy(o => o.PlayerId);
             
@@ -218,7 +227,11 @@ namespace Fanview.API.Repository
                                                   HeadShort = s.ms.stats.HeadshotKills,
                                                   Heals = s.ms.stats.Heals,
                                                   Kills = s.ms.stats.Kills,
-                                                  TimeSurvived = s.ms.stats.TimeSurvived
+                                                  TimeSurvived = s.ms.stats.TimeSurvived,
+                                                  Revives = s.ms.stats.Revives,
+                                                  RideDistance = s.ms.stats.RideDistance,
+                                                  SwimDistance = s.ms.stats.SwimDistance,
+                                                  WalkDistance = s.ms.stats.WalkDistance
                                               }
                                           });
 
@@ -239,7 +252,11 @@ namespace Fanview.API.Repository
                     headShot = s.Sum(a => a.Stats.HeadShort),
                     Heals = s.Sum(a => a.Stats.Heals),
                     Kills = s.Sum(a => a.Stats.Kills),
-                    TimeSurvived = s.Sum(a => a.Stats.TimeSurvived)
+                    TimeSurvived = s.Sum(a => a.Stats.TimeSurvived),
+                    Revives = s.Sum(a => a.Stats.Revives),
+                    RideDistance = s.Sum(a => a.Stats.RideDistance),
+                    SwimDistance = s.Sum(a => a.Stats.SwimDistance),
+                    WalkDistance = s.Sum(a => a.Stats.WalkDistance)
                 }
             }).OrderBy(o => o.PlayerId);
 
