@@ -19,12 +19,6 @@ namespace Fanview.API.Repository
             _eventInfoRepository = eventInfoRepository;
             _logger = logger;
         }
-        public void CreateTournamentSchedule()
-        {
-            var eventInfos = GetTournamentEventSchedule();
-            _eventInfoRepository.Insert(eventInfos, "EventScheduleInfo");
-        }
-
         public async Task<EventInfo> GetDailySchedule(string daycount)
         {
             var dailySchedule = GetTournamentEventSchedule().SingleOrDefault(cn => cn.DayCount.ToLower() == daycount.ToLower());
