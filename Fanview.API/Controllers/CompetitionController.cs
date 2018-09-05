@@ -22,11 +22,7 @@ namespace Fanview.API.Controllers
         // GET: api/EventInfo
         /// <summary>
         ///   Returns Event Stadium Information      
-        /// </summary>
-        /// <remarks>
-        /// Sample request: api/EventInfo/Location          
-        /// No Input Parameters Required
-        /// </remarks>       
+        /// </summary>           
         [HttpGet("Location")]
         public EventLocation Get()
         {
@@ -46,7 +42,7 @@ namespace Fanview.API.Controllers
         /// Returns Match Daily Schedule and the Round Information     
         /// </summary>
         /// <remarks>
-        /// Sample request: api/EventInfo/{dayCount}          
+        /// Sample request: api/Competition/{dayCount}          
         /// Input Parameters: 1; 2; 3; 4
         /// </remarks>
         /// <param name='dayCount'>1</param>
@@ -64,11 +60,7 @@ namespace Fanview.API.Controllers
 
         /// <summary>
         /// Returns Tournament Schedule and the Game Perspective   
-        /// </summary>
-        /// <remarks>
-        /// Sample request: api/EventInfo/Schedule/Event          
-        /// No Input Parameter required
-        /// </remarks>
+        /// </summary>       
         [HttpGet("Schedule/Matches", Name = "GetScheduleEvents")]
         public async Task<Object> GetScheduleEvents()
         {
