@@ -23,8 +23,9 @@ namespace Fanview.API.Controllers
         private ITeamPlayerRepository _teamPlayerRepository;
         private ITeamRepository _teamRespository;
         private IPlayerKillRepository _playerKillRepository;
+        private IPlayerKilled _playerKilled;
 
-        public LiveController(ILiveRepository liveRepository, ILiveStats liveStatus, IRanking ranking,
+        public LiveController(ILiveRepository liveRepository, ILiveStats liveStatus, IRanking ranking, IPlayerKilled playerKilled,
                               ITeamPlayerRepository teamPlayerRepository, ITeamRepository teamRepository, IPlayerKillRepository playerKillRepository)
         {
 
@@ -34,6 +35,21 @@ namespace Fanview.API.Controllers
             _teamPlayerRepository = teamPlayerRepository;
             _teamRespository = teamRepository;
             _playerKillRepository = playerKillRepository;
+            _playerKilled = playerKilled;
+        }
+
+        // GET: api/Telemetry
+        /// <summary>
+        /// Returns Killiprinter JSON for the given Match Id on the match live     
+        /// </summary>
+        /// <remarks>
+        /// Sample request: Killiprinter/{matchId}/All
+        /// </remarks>
+        /// <param name='matchId'>1</param>
+        [HttpGet("Killiprinter/{matchId}/All", Name = "GetAllKilliprinterForGraphics")]
+        public IEnumerable<KilliPrinter> GetAllKilliprinterForGraphics(int matchId)
+        {
+            return _playerKilled.GetLivePlayerKilled(matchId);
         }
 
         ///// <summary>
@@ -72,12 +88,10 @@ namespace Fanview.API.Controllers
         /// <summary>
         /// Returns Live Kill List
         /// </summary>
-        /// <remarks>
-        /// This Api Currently Serving Static Information
-        /// Sample request: api/live/KillList/{matchId}          
-        /// Input Parameter: f84d39a1-8218-4438-9bf5-7150f9e0f093
+        /// <remarks>     
+        /// Sample request: api/live/KillList/{matchId}
         /// </remarks>
-        /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
+        /// <param name='matchId'>1</param>
         [HttpGet("KillList/{matchId}", Name = "GetLiveKillList")]
         public Task<KillLeader> GetLiveKillList(string matchId)
         {
@@ -87,12 +101,10 @@ namespace Fanview.API.Controllers
         /// <summary>
         /// Returns Live Kill List for top n rows
         /// </summary>
-        /// <remarks>
-        /// This Api Currently Serving Static Information
-        /// Sample request: api/live/KillList/{matchId}          
-        /// Input Parameter: f84d39a1-8218-4438-9bf5-7150f9e0f093
+        /// <remarks>        
+        /// Sample request: api/live/KillList/{matchId} 
         /// </remarks>
-        /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
+        /// <param name='matchId'>1</param>
         /// <param name='topN'>top 6 rows</param>
         [HttpGet("KillList/{matchId}/{topN}")]
         public Task<KillLeader> GetLiveKillList(string matchId, int topN)
@@ -103,12 +115,10 @@ namespace Fanview.API.Controllers
         /// <summary>
         /// Returns Live Player Stats
         /// </summary>
-        /// <remarks>
-        /// This Api Currently Serving the Static Information        
-        /// Sample request: api/Live/PlayerStats/{matchId}          
-        /// Input Parameter: f84d39a1-8218-4438-9bf5-7150f9e0f093
+        /// <remarks>              
+        /// Sample request: api/Live/PlayerStats/{matchId}
         /// </remarks>
-        /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
+        /// <param name='matchId'>1</param>
         //[HttpGet("LivePlayerStats/{matchId}", Name = "GetLivePlayerStats")]
         //public Task<IEnumerable<PlayerProfileTournament>> GetLivePlayerStats(int matchId)
         //{
@@ -123,15 +133,5 @@ namespace Fanview.API.Controllers
         {
             return _liveStatus.GetLiveStatsRanking(matchId);
         }
-
-
-        ////dummy implementation to other to work
-        //[HttpGet("LiveTeamStats/{matchId}", Name = "GetLiveTeamStats")]
-        //public Task<IEnumerable<TeamRankingView>> GetLiveTeamStats(int matchId)
-        //{
-        //    var teamId1 = "0";
-
-        //    return _teamRespository.GetTeamProfileByMatchId(teamId1, matchId);
-        //}
     }
 }
