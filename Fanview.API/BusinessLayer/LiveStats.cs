@@ -130,11 +130,6 @@ namespace Fanview.API.BusinessLayer
             var playerKilled = kills.Join(teams, pkt => new { TeamId = pkt.VictimTeamId }, t => new { TeamId = t.TeamId }, (pkt, t) => new { pkt, t })
                                     .GroupJoin(teamPlayer, pktp => pktp.pkt.VictimName, tp => tp.PlayerName, (pktp, tp) => new { pktp, tp })
                                     .GroupBy(g => g.pktp.t.TeamId);
-         
-
-
-
-
 
             _logger.LogInformation("PlayerKilled " + playerKilled.Count() + Environment.NewLine);
 
@@ -148,7 +143,7 @@ namespace Fanview.API.BusinessLayer
                     var teamPlayerStatus = new List<LiveTeamPlayers>();
 
                     team.Id = item.Select(a => a.pktp.t.TeamId).ElementAtOrDefault(0);
-                    team.Name = item.Select(a => a.pktp.t.Name).ElementAtOrDefault(0);
+                    team.Name = item.Select(a => a.pktp.t.TeamName).ElementAtOrDefault(0);
 
                 foreach (var item1 in item)
                 {

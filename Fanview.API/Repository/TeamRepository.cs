@@ -98,13 +98,48 @@ namespace Fanview.API.Repository
             
         }
 
-        public async Task<IEnumerable<Team>> GetAllTeam()
+        public async Task<IEnumerable<TeamParticipants>> GetAllTeam()
         {
-            var result= await _team.GetAll("Team");            
-            return result;
-        }
-      
+            var teams =  _team.GetAll("Team").Result;
 
+            var teamPlayers = _teamPlayers.GetAll("TeamPlayers").Result;
+
+            var query = teams.GroupJoin(teamPlayers, tp => tp.TeamId, t => t.TeamIdShort, (t, tp) => new
+            {
+                teamid = t.TeamId,
+
+                TeamName = t.Name,
+
+                TeamPlayers = tp.Select(s => new { s.TeamIdShort, s.PlayerName, s.PlayerId }).Distinct()
+
+            });
+
+            var teamLineUpCollections = new List<TeamParticipants>();
+
+            foreach (var obj in query)
+            {
+
+                var teamlineup = new TeamParticipants();
+
+                teamlineup.TeamId = obj.teamid;
+
+                teamlineup.TeamName = obj.TeamName;
+
+                var teamplayer = new List<Participants>();
+
+                foreach (var players in obj.TeamPlayers)
+                {
+                    teamplayer.Add(new Participants(){PlayerName = players.PlayerName, PlayerId = players.PlayerId });
+                }
+
+                teamlineup.TeamPlayer = teamplayer;
+
+                teamLineUpCollections.Add(teamlineup);
+
+            }
+            return await Task.FromResult(teamLineUpCollections);
+        }
+         
         public async Task<Object> GetAllTeamStats()
         {
 
@@ -286,7 +321,6 @@ namespace Fanview.API.Repository
 
             var query = teams.GroupJoin(teamPlayers, tp => tp.TeamId, t => t.TeamIdShort, (t, tp) => new
             {
-
                 teamid = t.TeamId,
 
                 TeamName = t.Name,
@@ -318,8 +352,7 @@ namespace Fanview.API.Repository
 
             return Task.FromResult(teamlineup);
         }
-
-
+        
         public async Task<IEnumerable<TeamRankingView>> GetTeamProfileMatchUp(string teamId1, string teamId2)
         {
             var teamStatsRanking = _teamRankings.GetMongoDbCollection("TeamRanking");
