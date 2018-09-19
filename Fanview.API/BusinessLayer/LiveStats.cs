@@ -134,32 +134,51 @@ namespace Fanview.API.BusinessLayer
             {
                 return null;
             }
-            var matchPlayerStatus = matchStatus.PlayerInfos.GroupBy(g => g.TeamId).OrderBy(o => o.Key).Skip(1);
+            var matchPlayerStatus = matchStatus.PlayerInfos.GroupBy(g => g.TeamId).OrderBy(o => o.Key);
 
             var teamLiveStatusCollection = new List<LiveMatchStatus>();            
 
             foreach (var item in matchPlayerStatus)
             {
-                var teamLiveStatus = new LiveMatchStatus();
-
-                teamLiveStatus.Id = item.Select(s => s.TeamId).ElementAtOrDefault(0);
-
-                var teamPlayerLiveStatusCollection = new List<LiveMatchPlayerStatus>();
-
-                foreach (var item1 in item)
+                if (item.Where(cn => cn.TeamId == 0).Count() != 1)
                 {
-                    var teamPlayerStatus = new LiveMatchPlayerStatus();
+                    var teamLiveStatus = new LiveMatchStatus();
 
-                    teamPlayerStatus.PlayerId = teamPlayers.Where(cn => cn.PlayerName == item1.PlayerName).Select(a => a.PlayerId).FirstOrDefault();
-                    teamPlayerStatus.PlayerName = item1.PlayerName;
-                    teamPlayerStatus.IsALive = item1.Health > 0 ? true : false;
+                    teamLiveStatus.Id = item.Select(s => s.TeamId).ElementAtOrDefault(0);
 
-                    teamPlayerLiveStatusCollection.Add(teamPlayerStatus);
+                    var teamPlayerLiveStatusCollection = new List<LiveMatchPlayerStatus>();
 
-                    teamLiveStatus.TeamPlayers = teamPlayerLiveStatusCollection;
+                    int aliveCountIncremental = 0 ;
+                    int deadCountIncremental = 0;
+
+                    int aliveCount = 0;
+                    int deadCount = 0;
+
+                    foreach (var item1 in item)
+                    {
+                        var teamPlayerStatus = new LiveMatchPlayerStatus();
+
+                        teamPlayerStatus.PlayerId = teamPlayers.Where(cn => cn.PlayerName == item1.PlayerName).Select(a => a.PlayerId).FirstOrDefault();
+                        teamPlayerStatus.PlayerName = item1.PlayerName;
+                        teamPlayerStatus.IsALive = item1.Health > 0 ? true : false;
+
+                        
+                        aliveCount = item1.Health > 0 ? ++aliveCountIncremental : aliveCountIncremental;
+                        deadCount = item1.Health > 0 ? deadCountIncremental : ++deadCountIncremental;
+
+                        teamPlayerLiveStatusCollection.Add(teamPlayerStatus);
+
+                        teamLiveStatus.TeamPlayers = teamPlayerLiveStatusCollection;
+
+                        teamLiveStatus.ALiveCount = aliveCount;
+
+                        teamLiveStatus.DeadCount = deadCount;
+
+                        teamLiveStatus.IsELiminated = deadCount == 4 ? true : false;
+                    }
+
+                    teamLiveStatusCollection.Add(teamLiveStatus);
                 }
-
-                teamLiveStatusCollection.Add(teamLiveStatus);
             }
 
 
