@@ -52,22 +52,15 @@ namespace Fanview.API.Controllers
             return _playerKilled.GetLivePlayerKilled(matchId);
         }
 
-        ///// <summary>
-        ///// Returns Live Team Status
-        ///// </summary>
-        ///// <remarks>
-        ///// This Api Currently Serving the Static Information
-        ///// Sample request: api/Live/Status/{matchId}          
-        ///// Input Parameter: f84d39a1-8218-4438-9bf5-7150f9e0f093
-        ///// </remarks>
-        ///// <param name='matchId'>675619e6-4a11-6b92-cf2e-4c82428b78ef</param>
-        //[HttpGet("Status/{matchId}", Name = "GetLiveStatus")]
-        //public Task<IEnumerable<LiveTeamPlayerStatus>> GetLiveStatus(int matchId)
-        //{
-        //    // return _liveRepository.GetLiveStatus(matchId);
-
-        //    return _liveStatus.GetLiveStatus(matchId);
-        //}
+        /// <summary>
+        /// Returns Live Team Status
+        /// </summary>       
+        /// <param name='matchId'>1</param>
+        [HttpGet("Status/{matchId}", Name = "GetLiveStatus")]
+        public Task<IEnumerable<LiveMatchStatus>> GetLiveStatus(int matchId)
+        {
+            return _liveStatus.GetLiveStatus(matchId);
+        }
 
 
         ///// <summary>

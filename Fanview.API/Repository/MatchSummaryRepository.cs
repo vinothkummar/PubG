@@ -22,7 +22,9 @@ namespace Fanview.API.Repository
         private IGenericRepository<MatchPlayerStats> _genericMatchPlayerStatsRepository;
         private IGenericRepository<TeamPlayer> _genericTeamPlayerRepository;
         private IGenericRepository<MatchRanking> _genericMatchRankingRepository;
+        private IGenericRepository<EventLiveMatchStatus> _genericLiveMatchStatusRepository;
         private ITeamRepository _teamRepository;
+        private IGenericRepository<Event> _tournament;
         private ITeamPlayerRepository _teamPlayerRepository;
         private IPlayerKillRepository _playerKillRepository;       
         private ILogger<PlayerKillRepository> _logger;
@@ -35,6 +37,8 @@ namespace Fanview.API.Repository
                                       IGenericRepository<MatchPlayerStats> genericMatchPlayerStatsRepository,
                                       IGenericRepository<TeamPlayer> genericTeamPlayerRepository,
                                       IGenericRepository<MatchRanking> genericMatchRankingRepository,
+                                      IGenericRepository<EventLiveMatchStatus> genericLiveMatchStatusRepository,
+                                      IGenericRepository<Event> tournament,
                                       ITeamRepository teamRepository,
                                       ITeamPlayerRepository teamPlayerRepository,
                                       IPlayerKillRepository playerKillRepository,
@@ -46,7 +50,9 @@ namespace Fanview.API.Repository
             _genericMatchPlayerStatsRepository = genericMatchPlayerStatsRepository;
             _genericTeamPlayerRepository = genericTeamPlayerRepository;
             _genericMatchRankingRepository = genericMatchRankingRepository;
+            _genericLiveMatchStatusRepository = genericLiveMatchStatusRepository;
             _teamRepository = teamRepository;
+            _tournament = tournament;
             _teamPlayerRepository = teamPlayerRepository;
             _playerKillRepository = playerKillRepository;
             _logger = logger;
@@ -343,6 +349,94 @@ namespace Fanview.API.Repository
 
                 throw ex;
             }
+        }
+
+        public void InsertLiveEventMatchStatusTelemetry(JObject[] jsonResult, string fileName)
+        {
+            System.DateTime dateTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
+
+            var matchStatus = jsonResult.Where(x => x.Value<string>("_T") == "EventMatchStatus").Select(s => new EventLiveMatchStatus()
+            {
+
+                IsDetailStatus = (bool)s["isDetailStatus"],
+                MatchId  = s["matchId"].ToString().Split('.').Last() ,
+                TeamMode = (string)s["teamMode"],
+                CameraMode = (string)s["camerMode"],
+                MatchState = (string)s["matchState"],
+                ElapsedTime = (int)s["elapsedTime"],
+                BlueZonePhase = (int)s["blueZonePhase"],               
+                IsBlueZoneMoving = (bool)s["isBlueZoneMoving"],
+                BlueZoneRadius = (int)s["blueZoneRadius"],
+                BlueZoneLocation = new Location()
+                {
+                    x = (float)s["blueZoneLocation"]["x"],
+                    y = (float)s["blueZoneLocation"]["y"],
+                    z = (float)s["blueZoneLocation"]["z"],
+                },
+                WhiteZoneRadius = (int)s["whiteZoneRadius"],
+                WhiteZoneLocation = new Location()
+                {
+                    x = (float)s["whiteZoneLocation"]["x"],
+                    y = (float)s["whiteZoneLocation"]["y"],
+                    z = (float)s["whiteZoneLocation"]["z"],
+                },
+                RedZoneRadius = (int)s["redZoneRadius"],
+                RedZoneLocation = new Location()
+                {
+                    x = (float)s["redZoneLocation"]["x"],
+                    y = (float)s["redZoneLocation"]["y"],
+                    z = (float)s["redZoneLocation"]["z"],
+                },
+                StartPlayerCount = (int)s["startPlayerCount"],
+                AlivePlayerCount = (int)s["alivePlayerCount"],
+                StartTeamCount = (int)s["startTeamCount"],
+                AliveTeamCount = (int)s["aliveTeamCount"], 
+                PlayerInfos = s["playerInfos"].Select(s1 => new EventMatchStatusPlayerInfo()
+                {
+                    PlayerName = (string)s1["playerName"],
+                    TeamId = (int)s1["teamId"],
+                    Location = new Location()
+                    {
+                        x = (float)s1["location"]["x"],
+                        y = (float)s1["location"]["y"],
+                        z = (float)s1["location"]["z"],
+                    },
+                    Health = (int)s1["health"],
+                    BoostGauge = (int)s1["boostGauge"],
+                    State = (string)s1["state"],
+                    ArmedWeapon = (string)s1["armedWeapon"],
+                    ArmedAmmoCount = (int)s1["armedAmmoCount"],
+                    InventoryAmmoCount = (int)s1["inventoryAmmoCount"]
+                }).ToList(),
+
+                Version = (int)s["_V"], 
+                EventTimeStamp = dateTime.AddSeconds((double)s["time"]).ToString(),
+                EventType = (string)s["_T"],
+                EventSourceFileName = fileName
+
+            });
+
+            if (matchStatus.Count() > 0)
+            {
+                
+                _genericLiveMatchStatusRepository.Insert(matchStatus, "LiveEventMatchStatus");
+            }
+
+        }
+
+        public Task<EventLiveMatchStatus> GetLiveMatchStatus(int matchId)
+        {
+            var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
+
+            var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
+
+            var matchStatus = _genericLiveMatchStatusRepository.GetMongoDbCollection("LiveEventMatchStatus");
+
+            var teamStatus = matchStatus.FindAsync(Builders<EventLiveMatchStatus>.Filter.Where(cn => cn.MatchId == tournamentMatchId)).Result.ToListAsync()
+                                        .Result.OrderByDescending(o => o.EventTimeStamp).FirstOrDefault();
+
+
+            return Task.FromResult(teamStatus);
         }
     }
 }

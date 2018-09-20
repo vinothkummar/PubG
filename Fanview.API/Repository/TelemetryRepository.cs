@@ -23,6 +23,7 @@ namespace Fanview.API.Repository
         private IPlayerKillRepository _playerKillRepository;
         private ITakeDamageRepository _takeDamageRepository;
         private IPlayerRepository _playerVehicleLeaveRepository;
+        private IMatchSummaryRepository _matchSummaryRepository;
         private ILogger<PlayerKillRepository> _logger;
         private Task<HttpResponseMessage> _pubGClientResponse;
 
@@ -33,6 +34,7 @@ namespace Fanview.API.Repository
 
         public TelemetryRepository(IClientBuilder httpClientBuilder, IHttpClientRequest httpClientRequest, IGenericRepository<Kill> genericRepository, 
                                    IPlayerKillRepository playerKillRepository, ITakeDamageRepository takeDamageRepository, IPlayerRepository playerVehicleLeaveRepository,
+                                   IMatchSummaryRepository matchSummaryRepository,
                                    ILogger<PlayerKillRepository> logger)
         {
             _httpClientBuilder = httpClientBuilder;
@@ -41,6 +43,7 @@ namespace Fanview.API.Repository
             _playerKillRepository = playerKillRepository;
             _takeDamageRepository = takeDamageRepository;
             _playerVehicleLeaveRepository = playerVehicleLeaveRepository;
+            _matchSummaryRepository = matchSummaryRepository;
             _logger = logger;
         }
       
@@ -85,9 +88,9 @@ namespace Fanview.API.Repository
             _logger.LogInformation("UDP Streaming Read Started " + Environment.NewLine);
             try
             {
-                var folderPathToReadFromFile = @"C:\Users\Vinoth\Documents\Fanview\17_07_2018_Game_Log_mulitple\Match 1\test_live_single";
+                var folderPathToReadFromFile = @"C:\Users\Vinoth\Documents\Fanview\Game_UDP_Log_mulitple_File\Match File";
 
-                var folderPathToMoveProcessedFile = @"C:\Users\Vinoth\Documents\Fanview\17_07_2018_Game_Log_mulitple\Match 1\FileProcessed";
+                var folderPathToMoveProcessedFile = @"C:\Users\Vinoth\Documents\Fanview\Game_UDP_Log_mulitple_File\FileProcessed";
 
                 _logger.LogInformation("Telemetery Request Started" + Environment.NewLine);
 
@@ -110,6 +113,8 @@ namespace Fanview.API.Repository
                     _playerKillRepository.InsertLiveKillEventTelemetry(array, fileName);
 
                     _takeDamageRepository.InsertEventDamageTelemetry(array, fileName);
+
+                    _matchSummaryRepository.InsertLiveEventMatchStatusTelemetry(array, fileName);
 
                     File.Move(file, folderPathToMoveProcessedFile + "\\" + fileName + "_" + _random.Next().ToString());
 
