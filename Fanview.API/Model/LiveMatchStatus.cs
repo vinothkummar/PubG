@@ -9,9 +9,9 @@ namespace Fanview.API.Model
     {
         public int Id { get; set; }       
         public IEnumerable<LiveMatchPlayerStatus> TeamPlayers { get; set; }
-        public int ALiveCount { get; set; }
+        public int AliveCount { get; set; }
         public int DeadCount { get; set; }
-        public bool IsELiminated { get; set; }
+        public bool IsEliminated { get; set; }
         public string EliminatedAt { get; set; }
 
     }
