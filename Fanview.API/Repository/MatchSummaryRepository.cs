@@ -22,7 +22,7 @@ namespace Fanview.API.Repository
         private IGenericRepository<MatchPlayerStats> _genericMatchPlayerStatsRepository;
         private IGenericRepository<TeamPlayer> _genericTeamPlayerRepository;
         private IGenericRepository<MatchRanking> _genericMatchRankingRepository;
-        private IGenericRepository<EventLiveMatchStatus> _genericLiveMatchStatusRepository;
+               private IGenericRepository<LiveMatchStatus> _genericLiveMatchStatusRepository;
         private ITeamRepository _teamRepository;
         private IGenericRepository<Event> _tournament;
         private ITeamPlayerRepository _teamPlayerRepository;
@@ -36,8 +36,8 @@ namespace Fanview.API.Repository
                                       IGenericRepository<MatchSummary> genericMatchSummaryRepository,
                                       IGenericRepository<MatchPlayerStats> genericMatchPlayerStatsRepository,
                                       IGenericRepository<TeamPlayer> genericTeamPlayerRepository,
-                                      IGenericRepository<MatchRanking> genericMatchRankingRepository,
-                                      IGenericRepository<EventLiveMatchStatus> genericLiveMatchStatusRepository,
+                                      IGenericRepository<MatchRanking> genericMatchRankingRepository,                                      
+                                      IGenericRepository<LiveMatchStatus> genericLiveMatchStatusRepository,
                                       IGenericRepository<Event> tournament,
                                       ITeamRepository teamRepository,
                                       ITeamPlayerRepository teamPlayerRepository,
@@ -351,7 +351,7 @@ namespace Fanview.API.Repository
             }
         }
 
-        public void InsertLiveEventMatchStatusTelemetry(JObject[] jsonResult, string fileName)
+        public async void InsertLiveEventMatchStatusTelemetry(JObject[] jsonResult, string fileName)
         {
             System.DateTime dateTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
 
@@ -418,25 +418,122 @@ namespace Fanview.API.Repository
 
             if (matchStatus.Count() > 0)
             {
-                
-                _genericLiveMatchStatusRepository.Insert(matchStatus, "LiveEventMatchStatus");
+                var test = CreateMatchLiveStatus(matchStatus);
             }
 
         }
 
-        public Task<EventLiveMatchStatus> GetLiveMatchStatus(int matchId)
+        private async Task CreateMatchLiveStatus(IEnumerable<EventLiveMatchStatus> matchStatus)
+        {
+            var teamPlayerCollection = _genericTeamPlayerRepository.GetMongoDbCollection("TeamPlayers");
+
+            var teamPlayers = await teamPlayerCollection.FindAsync(Builders<TeamPlayer>.Filter.Empty).Result.ToListAsync();
+
+            var liveMatchStatus = _genericLiveMatchStatusRepository.GetMongoDbCollection("TeamLiveStatus");
+
+            var isTeamLiveStatusCount = liveMatchStatus.FindAsync(Builders<LiveMatchStatus>.Filter.Empty).Result.ToListAsync().Result.Count;           
+
+            var matchPlayerStatus = matchStatus.Select(a => a.PlayerInfos.GroupBy(g => g.TeamId).OrderBy(o => o.Key));
+
+            var matchStatusTimeStamp = matchStatus.Select(a => a.EventTimeStamp);
+
+            var matchStatusMatchId = matchStatus.Select(a => a.MatchId);
+
+            var teamLiveStatusCollection = new List<LiveMatchStatus>();
+
+            foreach (var item in matchPlayerStatus)
+            {
+                foreach (var item1 in item)
+                {
+                    var teamLiveStatus = new LiveMatchStatus();
+
+                    teamLiveStatus.TeamId = item1.Select(s => s.TeamId).ElementAtOrDefault(0);
+
+                    var teamPlayerLiveStatusCollection = new List<LiveMatchPlayerStatus>();
+
+                    int aliveCountIncremental = 0;
+                    int deadCountIncremental = 0;
+
+                    int aliveCount = 0;
+                    int deadCount = 0;
+
+                    foreach (var item2 in item1)
+                    {
+                        var teamPlayerStatus = new LiveMatchPlayerStatus();
+
+                        teamPlayerStatus.PlayerId = teamPlayers.Where(cn => cn.PlayerName == item2.PlayerName).Select(a => a.PlayerId).FirstOrDefault();
+                        teamPlayerStatus.PlayerName = item2.PlayerName;
+                        teamPlayerStatus.IsALive = item2.Health > 0 ? true : false;
+
+
+                        aliveCount = item2.Health > 0 ? ++aliveCountIncremental : aliveCountIncremental;
+
+                        deadCount = item2.Health > 0 ? deadCountIncremental : ++deadCountIncremental;
+
+                        teamPlayerLiveStatusCollection.Add(teamPlayerStatus);
+
+                        teamLiveStatus.TeamPlayers = teamPlayerLiveStatusCollection;
+
+                        teamLiveStatus.AliveCount = aliveCount;
+
+                        teamLiveStatus.DeadCount = deadCount;
+
+                        teamLiveStatus.IsEliminated = deadCount == 4 ? true : false;
+
+                        teamLiveStatus.MatchId = matchStatusMatchId.ElementAtOrDefault(0);
+
+                        if (isTeamLiveStatusCount != 0 && teamLiveStatus.TeamId != 0)
+                        {
+                            var isTeamPlayerStatus = liveMatchStatus.FindAsync(Builders<LiveMatchStatus>.Filter.Where(cn => cn.TeamId == teamLiveStatus.TeamId)).Result.FirstOrDefaultAsync().Result;
+
+                            if (isTeamPlayerStatus.EliminatedAt == null && teamLiveStatus.IsEliminated == true )
+                            {
+                                teamLiveStatus.EliminatedAt = matchStatusTimeStamp.ElementAtOrDefault(0);
+                            }
+                        }
+                    }
+                    teamLiveStatusCollection.Add(teamLiveStatus);
+                }
+
+                if (isTeamLiveStatusCount == 0)
+                {
+                    _genericLiveMatchStatusRepository.Insert(teamLiveStatusCollection, "TeamLiveStatus");
+                }
+                else
+                {
+                    foreach (var team in teamLiveStatusCollection)
+                    {
+                        if (team.TeamId != 0)
+                        {
+                            var document = liveMatchStatus.Find(Builders<LiveMatchStatus>.Filter.Where(cn => cn.TeamId == team.TeamId)).FirstOrDefault();
+
+                            team.Id = document.Id;
+
+                            if(document.EliminatedAt != null)
+                            {
+                                team.EliminatedAt = document.EliminatedAt;
+                            }
+
+                            var filter = Builders<LiveMatchStatus>.Filter.Eq(s => s.Id , document.Id);
+
+                            _genericLiveMatchStatusRepository.Replace(team, filter, "TeamLiveStatus");
+                        }
+                    }
+                }
+            }
+        }
+
+        public async Task<IEnumerable<LiveMatchStatus>> GetLiveMatchStatus(int matchId)
         {
             var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
 
             var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
 
-            var matchStatus = _genericLiveMatchStatusRepository.GetMongoDbCollection("LiveEventMatchStatus");
+            var matchStatus = _genericLiveMatchStatusRepository.GetMongoDbCollection("TeamLiveStatus");
 
-            var teamStatus = matchStatus.FindAsync(Builders<EventLiveMatchStatus>.Filter.Where(cn => cn.MatchId == tournamentMatchId)).Result.ToListAsync()
-                                        .Result.OrderByDescending(o => o.EventTimeStamp).FirstOrDefault();
+            var teamStatus = matchStatus.FindAsync(Builders<LiveMatchStatus>.Filter.Where(cn => cn.MatchId == tournamentMatchId)).Result.ToListAsync();
 
-
-            return Task.FromResult(teamStatus);
+            return await teamStatus;
         }
     }
 }

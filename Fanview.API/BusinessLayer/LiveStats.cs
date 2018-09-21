@@ -19,6 +19,7 @@ namespace Fanview.API.BusinessLayer
         private ITeamPlayerRepository _teamPlayerRepository;
         private IMatchSummaryRepository _matchSummaryRepository;
         private IGenericRepository<TeamPlayer> _genericTeamPlayerRepository;
+        private IGenericRepository<LiveMatchStatus> _genericLiveMatchStatusRepository;
         private ITeamRepository _teamRepository;
         private IGenericRepository<Event> _EventRepository;
         private IGenericRepository<RankPoints> _rankRepository;
@@ -35,7 +36,8 @@ namespace Fanview.API.BusinessLayer
                               IGenericRepository<Event> tournament,
                               ITeamPlayerRepository teamPlayerRespository,
                               IMatchSummaryRepository matchSummaryRepository,
-                              IGenericRepository<TeamPlayer> genericTeamPlayerRepository,
+                              IGenericRepository<TeamPlayer> genericTeamPlayerRepository, 
+                              IGenericRepository<LiveMatchStatus> genericLiveMatchStatusRepository,
                               ILogger<LiveStats> logger)
         {
             _logger = logger;
@@ -49,6 +51,7 @@ namespace Fanview.API.BusinessLayer
             _teamPlayerRepository = teamPlayerRepository;
             _matchSummaryRepository = matchSummaryRepository;
             _genericTeamPlayerRepository = genericTeamPlayerRepository;
+            _genericLiveMatchStatusRepository = genericLiveMatchStatusRepository;
         }
 
         public async Task<IEnumerable<MatchRanking>> GetLiveStatsRanking(int matchId)
@@ -124,66 +127,15 @@ namespace Fanview.API.BusinessLayer
         public async Task<IEnumerable<LiveMatchStatus>> GetLiveStatus(int matchId)
         {
 
-            var teamPlayerCollection = _genericTeamPlayerRepository.GetMongoDbCollection("TeamPlayers");
-
-            var teamPlayers = await teamPlayerCollection.FindAsync(Builders<TeamPlayer>.Filter.Empty).Result.ToListAsync();
-
             var matchStatus = _matchSummaryRepository.GetLiveMatchStatus(matchId).Result;
 
             if(matchStatus == null)
             {
                 return null;
             }
-            var matchPlayerStatus = matchStatus.PlayerInfos.GroupBy(g => g.TeamId).OrderBy(o => o.Key);
 
-            var teamLiveStatusCollection = new List<LiveMatchStatus>();            
-
-            foreach (var item in matchPlayerStatus)
-            {
-                if (item.Where(cn => cn.TeamId == 0).Count() != 1)
-                {
-                    var teamLiveStatus = new LiveMatchStatus();
-
-                    teamLiveStatus.Id = item.Select(s => s.TeamId).ElementAtOrDefault(0);
-
-                    var teamPlayerLiveStatusCollection = new List<LiveMatchPlayerStatus>();
-
-                    int aliveCountIncremental = 0 ;
-                    int deadCountIncremental = 0;
-
-                    int aliveCount = 0;
-                    int deadCount = 0;
-
-                    foreach (var item1 in item)
-                    {
-                        var teamPlayerStatus = new LiveMatchPlayerStatus();
-
-                        teamPlayerStatus.PlayerId = teamPlayers.Where(cn => cn.PlayerName == item1.PlayerName).Select(a => a.PlayerId).FirstOrDefault();
-                        teamPlayerStatus.PlayerName = item1.PlayerName;
-                        teamPlayerStatus.IsALive = item1.Health > 0 ? true : false;
-
-                        
-                        aliveCount = item1.Health > 0 ? ++aliveCountIncremental : aliveCountIncremental;
-                        deadCount = item1.Health > 0 ? deadCountIncremental : ++deadCountIncremental;
-
-                        teamPlayerLiveStatusCollection.Add(teamPlayerStatus);
-
-                        teamLiveStatus.TeamPlayers = teamPlayerLiveStatusCollection;
-
-                        teamLiveStatus.ALiveCount = aliveCount;
-
-                        teamLiveStatus.DeadCount = deadCount;
-
-                        teamLiveStatus.IsELiminated = deadCount == 4 ? true : false;
-                    }
-
-                    teamLiveStatusCollection.Add(teamLiveStatus);
-                }
-            }
-
-
-
-            return teamLiveStatusCollection;
+            return matchStatus;
+            
         }
 
 

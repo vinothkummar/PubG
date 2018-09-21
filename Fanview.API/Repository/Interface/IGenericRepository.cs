@@ -15,7 +15,9 @@ namespace Fanview.API.Repository.Interface
         void Insert(IEnumerable<T> entity, string collectionName);
         void Insert(T entity, string collectionName);
         void Delete(T entity);
-        void Update(T entity, string collectionName, FilterDefinition<T> filter, UpdateDefinition<T> update);
+        void Update(string collectionName, FilterDefinition<T> filter, UpdateDefinition<T> update);
         void Save();
+
+        void Replace(T entity, FilterDefinition<T> filter, string collectionName);
     }
 }
