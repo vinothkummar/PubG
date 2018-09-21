@@ -59,13 +59,18 @@ namespace FanviewPollingService.Repository
             throw new NotImplementedException();
         }
 
-        public void Update(T entity, string collectionName, FilterDefinition<T> filter, UpdateDefinition<T> update )
+        public void Update(string collectionName, FilterDefinition<T> filter, UpdateDefinition<T> update)
         {
             var collection = database.GetCollection<T>(collectionName);
             collection.UpdateOne(filter, update);
         }
 
-       
+        public async void Replace(T entity, FilterDefinition<T> filter, string collectionName)
+        {
+            var collection = database.GetCollection<T>(collectionName);
+            await collection.ReplaceOneAsync(filter, entity);
+            
+        }
     }
   
 }
