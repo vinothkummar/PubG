@@ -17,7 +17,7 @@ namespace Fanview.API.MiddlewareExtensions
             services.AddSingleton<IClientBuilder, ClientBuilder>();
             services.AddSingleton(typeof(IAPIRequestBuilder), typeof(APIRequestBuilder));
             services.AddSingleton(typeof(IServiceRequest), typeof(ServiceRequest));
-            services.AddSingleton(typeof(IMatchRepository), typeof(MatchRepository));
+            services.AddTransient(typeof(IMatchRepository), typeof(MatchRepository));
             services.AddTransient(typeof(ITelemetryRepository), typeof(TelemetryRepository));
             services.AddTransient(typeof(IPlayerKillRepository), typeof(PlayerKillRepository));
             services.AddTransient(typeof(IPlayerRepository), typeof(PlayerRepository));
@@ -33,6 +33,7 @@ namespace Fanview.API.MiddlewareExtensions
             services.AddTransient<ITeamStats, TeamStats>();
             services.AddSingleton(typeof(ILiveRepository), typeof(LiveRepository));
             services.AddTransient<ILiveStats, LiveStats>();
+            services.AddTransient<IMatchManagementRepository, MatchManagementRepository>();
         }
     }
 }
