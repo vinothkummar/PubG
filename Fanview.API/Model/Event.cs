@@ -20,10 +20,5 @@ namespace Fanview.API.Model
         public string CreatedAT { get; set; }
         [BsonElement("eventName")]
         public string EventName { get; set; }
-
-        //[BsonElement("relationsShips")]
-        //public EventRelationships relationships { get; set; }
-        //[BsonElement("eventsDate")]
-        //public IEnumerable<EventsDate> EventsDate { get; set; }
     }
 }

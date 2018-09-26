@@ -355,16 +355,17 @@ namespace Fanview.API.Repository
         {
             System.DateTime dateTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
 
+
             var matchStatus = jsonResult.Where(x => x.Value<string>("_T") == "EventMatchStatus").Select(s => new EventLiveMatchStatus()
             {
 
                 IsDetailStatus = (bool)s["isDetailStatus"],
-                MatchId  = s["matchId"].ToString().Split('.').Last() ,
+                MatchId = s["matchId"].ToString().Split('.').Last(),
                 TeamMode = (string)s["teamMode"],
                 CameraMode = (string)s["camerMode"],
                 MatchState = (string)s["matchState"],
                 ElapsedTime = (int)s["elapsedTime"],
-                BlueZonePhase = (int)s["blueZonePhase"],               
+                BlueZonePhase = (int)s["blueZonePhase"],
                 IsBlueZoneMoving = (bool)s["isBlueZoneMoving"],
                 BlueZoneRadius = (int)s["blueZoneRadius"],
                 BlueZoneLocation = new Location()
@@ -390,7 +391,7 @@ namespace Fanview.API.Repository
                 StartPlayerCount = (int)s["startPlayerCount"],
                 AlivePlayerCount = (int)s["alivePlayerCount"],
                 StartTeamCount = (int)s["startTeamCount"],
-                AliveTeamCount = (int)s["aliveTeamCount"], 
+                AliveTeamCount = (int)s["aliveTeamCount"],
                 PlayerInfos = s["playerInfos"].Select(s1 => new EventMatchStatusPlayerInfo()
                 {
                     PlayerName = (string)s1["playerName"],
@@ -409,8 +410,8 @@ namespace Fanview.API.Repository
                     InventoryAmmoCount = (int)s1["inventoryAmmoCount"]
                 }).ToList(),
 
-                Version = (int)s["_V"], 
-                EventTimeStamp = dateTime.AddSeconds((double)s["time"]).ToString(),
+                Version = (int)s["_V"],
+                EventTimeStamp = dateTime.AddSeconds((double)s["time"]).ToString("dd/MM/yyyy hh:mm:ss.fff tt"),               
                 EventType = (string)s["_T"],
                 EventSourceFileName = fileName
 
@@ -507,16 +508,20 @@ namespace Fanview.API.Repository
                         {
                             var document = liveMatchStatus.Find(Builders<LiveMatchStatus>.Filter.Where(cn => cn.TeamId == team.TeamId)).FirstOrDefault();
 
-                            team.Id = document.Id;
-
-                            if(document.EliminatedAt != null)
+                            if (document.IsEliminated == false)
                             {
-                                team.EliminatedAt = document.EliminatedAt;
+
+                                team.Id = document.Id;
+
+                                //if (document.EliminatedAt != null)
+                                //{
+                                //    team.EliminatedAt = document.EliminatedAt;
+                                //}
+
+                                var filter = Builders<LiveMatchStatus>.Filter.Eq(s => s.Id, document.Id);
+
+                                _genericLiveMatchStatusRepository.Replace(team, filter, "TeamLiveStatus");
                             }
-
-                            var filter = Builders<LiveMatchStatus>.Filter.Eq(s => s.Id , document.Id);
-
-                            _genericLiveMatchStatusRepository.Replace(team, filter, "TeamLiveStatus");
                         }
                     }
                 }
