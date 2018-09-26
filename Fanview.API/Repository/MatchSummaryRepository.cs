@@ -354,8 +354,7 @@ namespace Fanview.API.Repository
         public async void InsertLiveEventMatchStatusTelemetry(JObject[] jsonResult, string fileName)
         {
             System.DateTime dateTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
-
-
+            
             var matchStatus = jsonResult.Where(x => x.Value<string>("_T") == "EventMatchStatus").Select(s => new EventLiveMatchStatus()
             {
 
