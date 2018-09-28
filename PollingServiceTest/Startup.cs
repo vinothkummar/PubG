@@ -30,6 +30,13 @@ namespace PollingServiceTest
             services.AddSingleton<IClientBuilder, ClientBuilder>();
             services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddTransient<IPlayerKillRepository, PlayerKillRepository>();
+            services.AddTransient<IPlayerRepository, PlayerRepository>();
+            services.AddTransient<ITakeDamageRepository, TakeDamageRepository>();
+            services.AddTransient<ITelemetryRepository, TelemetryRepository>();
+            services.AddTransient<ITeamPlayerRepository, TeamPlayerRepository>();
+            services.AddTransient<ITeamRepository, TeamRepository>();
+            services.AddTransient<IMatchRepository, MatchRepository>();
+            services.AddTransient<IMatchSummaryRepository, MatchSummaryRepository>();
         }
     }
 }

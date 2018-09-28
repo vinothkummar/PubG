@@ -6,6 +6,9 @@
     <RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
+    <Authors>Thomas.Robertsson</Authors>
+    <Company>Fanview</Company>
+    <Product>PubG Fanview API</Product>
   </PropertyGroup>
 
   <ItemGroup>
