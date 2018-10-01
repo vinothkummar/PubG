@@ -9,5 +9,7 @@ namespace Fanview.API.Repository.Interface
     public interface IMatchManagementRepository
     {
         Task<IEnumerable<Event>> GetMatchDetails();
+
+        void PostMatchDetails(Event model);
     }
 }

@@ -23,5 +23,11 @@ namespace Fanview.API.Repository
 
             return await matchCollection.FindAsync(Builders<Event>.Filter.Empty).Result.ToListAsync();
         }
+
+        public void PostMatchDetails(Event matchDetails)
+        {
+            _tournamentRepository.Insert(matchDetails, "TournamentMatchId");
+           
+        }
     }
 }
