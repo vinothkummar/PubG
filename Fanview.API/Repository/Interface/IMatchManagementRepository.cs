@@ -11,5 +11,7 @@ namespace Fanview.API.Repository.Interface
         Task<IEnumerable<Event>> GetMatchDetails();
 
         void PostMatchDetails(Event model);
+
+        Task<Object> GetTournaments(); 
     }
 }

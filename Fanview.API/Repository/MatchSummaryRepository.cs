@@ -418,12 +418,12 @@ namespace Fanview.API.Repository
 
             if (matchStatus.Count() > 0)
             {
-                var test = CreateMatchLiveStatus(matchStatus);
+                var test = CreateMatchLiveStatus(matchStatus, matchStatus.Select(a => a.MatchId).ElementAtOrDefault(0));
             }
 
         }
 
-        private async Task CreateMatchLiveStatus(IEnumerable<EventLiveMatchStatus> matchStatus)
+        private async Task CreateMatchLiveStatus(IEnumerable<EventLiveMatchStatus> matchStatus, string matchId)
         {
             var teamPlayerCollection = _genericTeamPlayerRepository.GetMongoDbCollection("TeamPlayers");
 
@@ -431,7 +431,7 @@ namespace Fanview.API.Repository
 
             var liveMatchStatus = _genericLiveMatchStatusRepository.GetMongoDbCollection("TeamLiveStatus");
 
-            var isTeamLiveStatusCount = liveMatchStatus.FindAsync(Builders<LiveMatchStatus>.Filter.Empty).Result.ToListAsync().Result.Count;           
+            var isTeamLiveStatusCount = liveMatchStatus.FindAsync(Builders<LiveMatchStatus>.Filter.Where(cn => cn.MatchId == matchId)).Result.ToListAsync().Result.Count;           
 
             var matchPlayerStatus = matchStatus.Select(a => a.PlayerInfos.GroupBy(g => g.TeamId).OrderBy(o => o.Key));
 
@@ -484,11 +484,14 @@ namespace Fanview.API.Repository
 
                         if (isTeamLiveStatusCount != 0 && teamLiveStatus.TeamId != 0)
                         {
-                            var isTeamPlayerStatus = liveMatchStatus.FindAsync(Builders<LiveMatchStatus>.Filter.Where(cn => cn.TeamId == teamLiveStatus.TeamId)).Result.FirstOrDefaultAsync().Result;
+                            var isTeamPlayerStatus = liveMatchStatus.FindAsync(Builders<LiveMatchStatus>.Filter.Where(cn => cn.TeamId == teamLiveStatus.TeamId && cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result;
 
-                            if (isTeamPlayerStatus.EliminatedAt == null && teamLiveStatus.IsEliminated == true )
+                            if (isTeamPlayerStatus != null)
                             {
-                                teamLiveStatus.EliminatedAt = matchStatusTimeStamp.ElementAtOrDefault(0);
+                                if (isTeamPlayerStatus.EliminatedAt == null && teamLiveStatus.IsEliminated == true)
+                                {
+                                    teamLiveStatus.EliminatedAt = matchStatusTimeStamp.ElementAtOrDefault(0);
+                                }
                             }
                         }
                     }
@@ -505,17 +508,12 @@ namespace Fanview.API.Repository
                     {
                         if (team.TeamId != 0)
                         {
-                            var document = liveMatchStatus.Find(Builders<LiveMatchStatus>.Filter.Where(cn => cn.TeamId == team.TeamId)).FirstOrDefault();
+                            var document = liveMatchStatus.Find(Builders<LiveMatchStatus>.Filter.Where(cn => cn.TeamId == team.TeamId && cn.MatchId == matchId)).FirstOrDefault();
 
                             if (document.IsEliminated == false)
                             {
 
                                 team.Id = document.Id;
-
-                                //if (document.EliminatedAt != null)
-                                //{
-                                //    team.EliminatedAt = document.EliminatedAt;
-                                //}
 
                                 var filter = Builders<LiveMatchStatus>.Filter.Eq(s => s.Id, document.Id);
 

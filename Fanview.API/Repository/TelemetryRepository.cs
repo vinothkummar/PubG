@@ -88,9 +88,9 @@ namespace Fanview.API.Repository
             _logger.LogInformation("UDP Streaming Read Started " + Environment.NewLine);
             try
             {
-                var folderPathToReadFromFile = @"C:\Users\Vinoth\Documents\Fanview\Game_UDP_Log_mulitple_File\Match File";
+                var folderPathToReadFromFile = @"C:\Game_UDP_Log_mulitple_File\MatchFile";
 
-                var folderPathToMoveProcessedFile = @"C:\Users\Vinoth\Documents\Fanview\Game_UDP_Log_mulitple_File\FileProcessed";
+                var folderPathToMoveProcessedFile = @"C:\Game_UDP_Log_mulitple_File\FileProcessed";
 
                 _logger.LogInformation("Telemetery Request Started" + Environment.NewLine);
 
