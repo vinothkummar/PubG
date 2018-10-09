@@ -38,7 +38,7 @@ namespace FanviewPollingService.Services
         {
             StartBase(); 
 
-            Timers.Start("Poller", 700, () =>
+            Timers.Start("Poller", 1000, () =>
             {
                 _logger.LogInformation( "Service Started Polling " + Environment.NewLine );
 

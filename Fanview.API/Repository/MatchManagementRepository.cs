@@ -48,22 +48,27 @@ namespace Fanview.API.Repository
                 {
                     _logger.LogInformation("Tournament Open API Response Json" + Environment.NewLine);
 
-                    var response = tournamentsResponse.Result.Content.ReadAsStringAsync().Result;                   
+                    var response = tournamentsResponse.Result.Content.ReadAsStringAsync().Result;
 
-                    var o = JObject.Parse(response).SelectToken("data.id").ToList();
+                    var o = JObject.Parse(response);
 
-                   
-                    
-                   
-                   
+                    var tournaments = o.SelectToken("data").Select(m =>
+                                                    new { Name =  (string)m.SelectToken("id"),
+                                                         CreatedDate = (string)m.SelectToken("attributes.createdAt") }
+                                                    ).OrderBy(a => a.CreatedDate).ToList();
+
+                    return tournaments;
+                }
+                else
+                {
+                    return tournamentsResponse.Result;
                 }
 
-                return null;
+               
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                throw ex;
             }
         }
 

@@ -14,9 +14,11 @@ namespace Fanview.API.Model
         public string Id { get; set; }
         [BsonElement("teamId")]
         public int TeamId { get; set; }
+        [BsonElement("teamName")]
+        public string  TeamName { get; set; }
         [BsonElement("matchId")]
         public string MatchId { get; set; }
-        [BsonElement("teamPlayers")]
+        [BsonElement("teamPlayers")] 
         public IEnumerable<LiveMatchPlayerStatus> TeamPlayers { get; set; }
         [BsonElement("aliveCount")]
         public int AliveCount { get; set; }

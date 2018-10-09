@@ -424,7 +424,7 @@ namespace Fanview.API.Repository
         }
 
         private async Task CreateMatchLiveStatus(IEnumerable<EventLiveMatchStatus> matchStatus, string matchId)
-        {
+        {            
             var teamPlayerCollection = _genericTeamPlayerRepository.GetMongoDbCollection("TeamPlayers");
 
             var teamPlayers = await teamPlayerCollection.FindAsync(Builders<TeamPlayer>.Filter.Empty).Result.ToListAsync();
@@ -446,9 +446,9 @@ namespace Fanview.API.Repository
                 foreach (var item1 in item)
                 {
                     var teamLiveStatus = new LiveMatchStatus();
-
-                    teamLiveStatus.TeamId = item1.Select(s => s.TeamId).ElementAtOrDefault(0);
-
+                    var teamId = item1.Select(s => s.TeamId).ElementAtOrDefault(0);
+                    teamLiveStatus.TeamId = teamId;
+                    teamLiveStatus.TeamName = _teamRepository.GetTeam().Result.Where(cn => cn.TeamId == teamId).Select(s => s.ShortName).ElementAtOrDefault(0);
                     var teamPlayerLiveStatusCollection = new List<LiveMatchPlayerStatus>();
 
                     int aliveCountIncremental = 0;
