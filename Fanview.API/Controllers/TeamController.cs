@@ -59,5 +59,11 @@ namespace Fanview.API.Controllers
         {
             return _teamRepository.GetTeamProfilesByTeamIdAndMatchId(teamId1, teamId2, matchId);
         }
+        [HttpPost("PostTeams", Name = "PostNewTeam")]
+        public void PostNewTeam(Team NewTeam)
+        {
+            _teamRepository.PostTeam(NewTeam);
+            
+        }
     }
 }

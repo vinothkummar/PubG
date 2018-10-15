@@ -29,5 +29,6 @@ namespace Fanview.API.Repository.Interface
         Task<IEnumerable<TeamParticipants>> GetAllTeam();
 
         Task<TeamLanding> GetTeamLanding(int matchId);
+        void PostTeam(Team NewTeam);
     }
 }

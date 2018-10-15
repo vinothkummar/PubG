@@ -433,7 +433,11 @@ namespace Fanview.API.Repository
 
             return Task.FromResult(response);
         }
+        public void PostTeam(Team newTeam)
+        {
+            _team.Insert(newTeam, "Team");
 
+        }
 
     }
 }
