@@ -55,7 +55,7 @@ namespace Fanview.API.Repository
                     var tournaments = o.SelectToken("data").Select(m =>
                                                     new { Name =  (string)m.SelectToken("id"),
                                                          CreatedDate = (string)m.SelectToken("attributes.createdAt") }
-                                                    ).OrderBy(a => a.CreatedDate).ToList();
+                                                    ).OrderByDescending(a => a.CreatedDate).ToList();
 
                     return tournaments;
                 }
@@ -65,6 +65,45 @@ namespace Fanview.API.Repository
                 }
 
                
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<Object> GetTournamentsMatches(string tournamentName)
+        {
+            try
+            {
+                _logger.LogInformation("Tournament Open API Request Started" + Environment.NewLine);
+
+                var tournamentsResponse = _httpClientRequest.GetAsync(await _httpClientBuilder.CreateRequestHeader(), "tournaments/" + tournamentName);
+
+                if (tournamentsResponse.Result.StatusCode == HttpStatusCode.OK && tournamentsResponse != null)
+                {
+                    _logger.LogInformation("Tournament Match Open API Response Json" + Environment.NewLine);
+
+                    var response = tournamentsResponse.Result.Content.ReadAsStringAsync().Result;
+
+                    var o = JObject.Parse(response);
+
+                    var tournaments = o.SelectToken("included").Select(m =>
+                                                    new
+                                                    {
+                                                        MatchId = (string)m.SelectToken("id"),
+                                                        CreatedDate = (string)m.SelectToken("attributes.createdAt")
+                                                    }
+                                                    ).OrderByDescending(a => a.CreatedDate).ToList();
+
+                    return tournaments;
+                }
+                else
+                {
+                    return tournamentsResponse.Result;
+                }
+
+
             }
             catch (Exception ex)
             {

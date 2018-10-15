@@ -12,6 +12,8 @@ namespace Fanview.API.Repository.Interface
 
         void PostMatchDetails(Event model);
 
-        Task<Object> GetTournaments(); 
+        Task<Object> GetTournaments();
+
+        Task<Object> GetTournamentsMatches(string tournamentName);
     }
 }
