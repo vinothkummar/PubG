@@ -33,11 +33,16 @@ namespace Fanview.API.Controllers
             _matchmanagementrepository.PostMatchDetails(match);
         }
 
-        [HttpGet("GetTournament", Name = "GetTournaments")]
+        [HttpGet("GetTournaments", Name = "GetTournaments")]
         public Task<Object> GeTournaments()
         {
             return _matchmanagementrepository.GetTournaments();
         }
 
+        [HttpGet("GetTournamentMatches", Name = "GetTournamentsMatches")]
+        public Task<Object> GeTournamentsMatches(string tournamentName)
+        {
+            return _matchmanagementrepository.GetTournamentsMatches(tournamentName);
+        }
     }
 }
