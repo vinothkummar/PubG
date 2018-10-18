@@ -443,6 +443,13 @@ namespace Fanview.API.Repository
             _team.Insert(newTeam, "Team");
 
         }
+        public void Update(int teamid,Team team)
+        {
+            var document = .Find(Builders<Team>.Filter.Where(cn => cn.TeamId == team.TeamId && cn.MatchId == matchId)).FirstOrDefault();
+
+            var filter = Builders<LiveMatchStatus>.Filter.Eq(s => s.Id, document.Id);
+
+        }
 
     }
 }
