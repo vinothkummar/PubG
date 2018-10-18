@@ -97,7 +97,12 @@ namespace Fanview.API.Repository
             return await Task.FromResult(teamLineupMatch);
             
         }
+        public async Task<IEnumerable<Team>> GetTeams()
+        {
+            return  _team.GetAll("Team").Result;
+            
 
+        }
         public async Task<IEnumerable<TeamParticipants>> GetAllTeam()
         {
             var teams =  _team.GetAll("Team").Result;

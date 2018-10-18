@@ -31,7 +31,11 @@ namespace Fanview.API.Controllers
         {
             return _teamRepository.GetAllTeam();
         }
-
+        [HttpGet("AllTeams", Name = "GetTeams")]
+        public Task<IEnumerable<Team>> GetTeams()
+        {
+            return _teamRepository.GetTeams();
+        }
         /// <summary>
         /// Returns Team Stats for all the teams  
         /// </summary>
