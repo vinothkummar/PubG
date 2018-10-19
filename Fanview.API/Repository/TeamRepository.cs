@@ -1,17 +1,14 @@
 ﻿using Fanview.API.Model;
+using Fanview.API.Model.LiveModels;
+using Fanview.API.Model.ViewModels;
 using Fanview.API.Repository.Interface;
 using Microsoft.Extensions.Logging;
+using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using MongoDB.Driver.Linq;
-using Fanview.API.Model.LiveModels;
-using Fanview.API.GraphicsDummyData;
-using Fanview.API.Model.ViewModels;
-using Fanview.API.BusinessLayer.Contracts;
 
 namespace Fanview.API.Repository
 {
@@ -97,12 +94,7 @@ namespace Fanview.API.Repository
             return await Task.FromResult(teamLineupMatch);
             
         }
-        public async Task<IEnumerable<Team>> GetTeams()
-        {
-            return  _team.GetAll("Team").Result;
-            
 
-        }
         public async Task<IEnumerable<TeamParticipants>> GetAllTeam()
         {
             var teams =  _team.GetAll("Team").Result;
@@ -438,21 +430,11 @@ namespace Fanview.API.Repository
 
             return Task.FromResult(response);
         }
-        public void PostTeam(Team newTeam)
+        public async Task<IEnumerable<Team>> GetTeams()
         {
-            _team.Insert(newTeam, "Team");
-
+            return _team.GetAll("Team").Result;
         }
-        public void Update(Team team)
-        {
-            var Teams =_team.GetMongoDbCollection("Team");
-            var teamdocument = Teams.Find(Builders<Team>.Filter.Where(x => x.TeamId == team.TeamId)).FirstOrDefault();
-            var filter = Builders<Team>.Filter.Eq(s => s.TeamId, team.TeamId);
-            
-            _team.Replace(team,filter,"Team");
 
-
-        }
 
     }
 }

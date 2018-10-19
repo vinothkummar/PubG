@@ -31,11 +31,12 @@ namespace Fanview.API.Controllers
         {
             return _teamRepository.GetAllTeam();
         }
-        [HttpGet("AllTeams", Name = "GetTeams")]
-        public Task<IEnumerable<Team>> GetTeams()
+        [HttpGet("GetTeamDetails", Name = "GetTeamDetails")]
+        public Task<IEnumerable<Team>> GetTeamDetails()
         {
-            return _teamRepository.GetTeams();
+            return _teamRepository.GetTeam();
         }
+
         /// <summary>
         /// Returns Team Stats for all the teams  
         /// </summary>
@@ -63,35 +64,5 @@ namespace Fanview.API.Controllers
         {
             return _teamRepository.GetTeamProfilesByTeamIdAndMatchId(teamId1, teamId2, matchId);
         }
-        [HttpPost("PostTeams", Name = "PostNewTeam")]
-        public void PostNewTeam(Team NewTeam)
-        {
-            _teamRepository.PostTeam(NewTeam);
-            
-        }
-        [HttpPut("Updateteam", Name = "Updateteam")]
-        public void Updateteam(Team team)
-        {
-            _teamRepository.Update(team);
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-       
     }
 }
