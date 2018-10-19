@@ -36,6 +36,16 @@ namespace Fanview.API.Controllers
         {
             return _teamRepository.GetTeam();
         }
+        [HttpPost("postnewteam",Name = "postnewteam")]
+        public void postnewteam(Team team)
+        {
+            _teamRepository.postteam(team);
+        }
+        [HttpPut("Updateteam",Name ="Updateteam")]
+        public void Updateteam(Team team)
+        {
+            _teamRepository.updateteam(team);
+        }
 
         /// <summary>
         /// Returns Team Stats for all the teams  
