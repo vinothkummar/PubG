@@ -14,10 +14,10 @@ namespace Fanview.API.Repository.Interface
         Task<IEnumerable<T>> GetAll(string collectionName);
         void Insert(IEnumerable<T> entity, string collectionName);
         void Insert(T entity, string collectionName);
-        void Delete(T entity);
+        Task<DeleteResult> DeleteOne(FilterDefinition<T> filter, string collectionName);
+        Task<DeleteResult> DeleteMany(FilterDefinition<T> filter, string collectionName);
         void Update(string collectionName, FilterDefinition<T> filter, UpdateDefinition<T> update);
         void Save();
-
         void Replace(T entity, FilterDefinition<T> filter, string collectionName);
     }
 }

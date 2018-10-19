@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Globalization;
 using System.Text;
 
@@ -19,6 +20,21 @@ namespace Fanview.API.Utility
             DateTime unixStart = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
             long unixTimeStampInTicks = (long)(unixTime * TimeSpan.TicksPerSecond);
             return new DateTime(unixStart.Ticks + unixTimeStampInTicks, System.DateTimeKind.Utc);
+        }
+
+        public static KeyValuePair<string, object> WithValue(this string key, object value)
+        {
+            return new KeyValuePair<string, object>(key, value);
+        }
+
+        public static ExpandoObject Init(
+            this ExpandoObject expando, params KeyValuePair<string, object>[] values)
+        {
+            foreach (KeyValuePair<string, object> kvp in values)
+            {
+                ((IDictionary<string, Object>)expando)[kvp.Key] = kvp.Value;
+            }
+            return expando;
         }
     }
 }

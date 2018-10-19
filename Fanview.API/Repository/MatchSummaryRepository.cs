@@ -22,7 +22,7 @@ namespace Fanview.API.Repository
         private IGenericRepository<MatchPlayerStats> _genericMatchPlayerStatsRepository;
         private IGenericRepository<TeamPlayer> _genericTeamPlayerRepository;
         private IGenericRepository<MatchRanking> _genericMatchRankingRepository;
-               private IGenericRepository<LiveMatchStatus> _genericLiveMatchStatusRepository;
+        private IGenericRepository<LiveMatchStatus> _genericLiveMatchStatusRepository;
         private ITeamRepository _teamRepository;
         private IGenericRepository<Event> _tournament;
         private ITeamPlayerRepository _teamPlayerRepository;
@@ -256,7 +256,7 @@ namespace Fanview.API.Repository
                                 teamParticipant.ShortTeamId = item.RosterAttributes.Stats.TeamId;
                                 teamParticipants.Add(teamParticipant);
                                 
-                        }
+                            }
                     }
                 }
             }
@@ -351,7 +351,7 @@ namespace Fanview.API.Repository
             }
         }
 
-        public async void InsertLiveEventMatchStatusTelemetry(JObject[] jsonResult, string fileName)
+        public void InsertLiveEventMatchStatusTelemetry(JObject[] jsonResult, string fileName)
         {
             System.DateTime dateTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
             

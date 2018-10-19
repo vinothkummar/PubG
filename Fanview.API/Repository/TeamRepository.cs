@@ -1,17 +1,14 @@
 ﻿using Fanview.API.Model;
+using Fanview.API.Model.LiveModels;
+using Fanview.API.Model.ViewModels;
 using Fanview.API.Repository.Interface;
 using Microsoft.Extensions.Logging;
+using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using MongoDB.Driver.Linq;
-using Fanview.API.Model.LiveModels;
-using Fanview.API.GraphicsDummyData;
-using Fanview.API.Model.ViewModels;
-using Fanview.API.BusinessLayer.Contracts;
 
 namespace Fanview.API.Repository
 {
