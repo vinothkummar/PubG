@@ -69,5 +69,29 @@ namespace Fanview.API.Controllers
             _teamRepository.PostTeam(NewTeam);
             
         }
+        [HttpPut("Updateteam", Name = "Updateteam")]
+        public void Updateteam(Team team)
+        {
+            _teamRepository.Update(team);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       
     }
 }

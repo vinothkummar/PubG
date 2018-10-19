@@ -443,11 +443,14 @@ namespace Fanview.API.Repository
             _team.Insert(newTeam, "Team");
 
         }
-        public void Update(int teamid,Team team)
+        public void Update(Team team)
         {
-            var document = .Find(Builders<Team>.Filter.Where(cn => cn.TeamId == team.TeamId && cn.MatchId == matchId)).FirstOrDefault();
+            var Teams =_team.GetMongoDbCollection("Team");
+            var teamdocument = Teams.Find(Builders<Team>.Filter.Where(x => x.TeamId == team.TeamId)).FirstOrDefault();
+            var filter = Builders<Team>.Filter.Eq(s => s.TeamId, team.TeamId);
+            
+            _team.Replace(team,filter,"Team");
 
-            var filter = Builders<LiveMatchStatus>.Filter.Eq(s => s.Id, document.Id);
 
         }
 
