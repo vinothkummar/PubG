@@ -448,6 +448,12 @@ namespace Fanview.API.Repository
 
 
         }
+        public void Deleteteam(int teamid)
+        {
+            var filter = Builders<Team>.Filter.Eq(x => x.TeamId, teamid);
+            _team.DeleteOne(filter,"Team");
+
+        }
 
     }
 }
