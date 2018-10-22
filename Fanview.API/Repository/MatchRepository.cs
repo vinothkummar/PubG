@@ -1,19 +1,16 @@
-﻿using Fanview.API.GraphicsDummyData;
-using Fanview.API.Model;
-using Fanview.API.Model.LiveModels;
+﻿using Fanview.API.Model;
+using Fanview.API.Model.ViewModels;
 using Fanview.API.Repository.Interface;
 using Fanview.API.Services.Interface;
 using Microsoft.Extensions.Logging;
+using MongoDB.Driver;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using MongoDB.Driver;
-using Fanview.API.Model.ViewModels;
 
 namespace Fanview.API.Repository
 {
@@ -23,10 +20,7 @@ namespace Fanview.API.Repository
         private IHttpClientRequest _httpClientRequest;
         private IGenericRepository<Event> _genericRepository;
         private ILogger<MatchRepository> _logger;
-        private LiveGraphichsDummyData _data;
-        private Task<HttpResponseMessage> _pubGClientResponse;
-        private IGenericRepository<MatchSafeZone> _matchSafeZoneRepository;
-        private IGenericRepository<Event> _tournament;
+        private IGenericRepository<MatchSafeZone> _matchSafeZoneRepository;       
 
         public MatchRepository(IClientBuilder httpClientBuilder, 
                                IHttpClientRequest httpClientRequest,                               
@@ -38,7 +32,6 @@ namespace Fanview.API.Repository
             _httpClientRequest = httpClientRequest;            
             _genericRepository = genericRepository;          
             _logger = logger;
-            _data = new LiveGraphichsDummyData();
             _matchSafeZoneRepository = matchSafeZoneRepository;
         }
         public async Task<JObject> GetMatchesDetailsByID(string id)
@@ -159,11 +152,6 @@ namespace Fanview.API.Repository
             throw new NotImplementedException();
         }
 
-        //public Task<FlightPath> GetFlightPath()
-        //{
-        //    return Task.FromResult(_data.GetFlightPath());
-        //}
-
         public async void InsertMatchSafeZonePosition(string jsonResult, string matchId)
         {
             var jsonToJObject = JArray.Parse(jsonResult);
@@ -260,5 +248,6 @@ namespace Fanview.API.Repository
             
             return await Task.FromResult(findCircleDuplicate);
         }
+      
     }
 }

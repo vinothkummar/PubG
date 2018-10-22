@@ -1,11 +1,8 @@
-﻿using Fanview.API.GraphicsDummyData;
-using Fanview.API.Model;
+﻿using Fanview.API.Model;
 using Fanview.API.Model.LiveModels;
 using Fanview.API.Model.ViewModels;
 using Fanview.API.Repository.Interface;
 using Fanview.API.Services.Interface;
-using Fanview.API.Utility;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -26,8 +23,7 @@ namespace Fanview.API.Repository
         private IGenericRepository<EventInfo> _eventInfoRepository;
         private IPlayerRepository _playerRepository;
         private IGenericRepository<CreatePlayer> _CreatePlayer;
-        private IGenericRepository<Event> _tournament;
-        private LiveGraphichsDummyData _data;
+        private IGenericRepository<Event> _tournament;       
         private ILogger<PlayerKillRepository> _logger;
         private ITeamRepository _teamRepository;
         private Task<HttpResponseMessage> _pubGClientResponse;
@@ -64,8 +60,7 @@ namespace Fanview.API.Repository
             _httpClientBuilder = httpClientBuilder;
             _httpClientRequest = httpClientRequest;  
             _Kill = genericRepository;
-            _CreatePlayer = genericPlayerRepository;
-            _data = new LiveGraphichsDummyData();
+            _CreatePlayer = genericPlayerRepository;            
             _LiveEventKill = genericLiveEventKillRepository;
             _eventInfoRepository = eventInfoRepository;
             _playerRepository = playerRepository;

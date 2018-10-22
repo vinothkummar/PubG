@@ -31,11 +31,18 @@ namespace FanviewPollingService.Repository
             return database.GetCollection<T>(collectionName);
         }
 
-        public void Delete(T entity)
+        public async Task<DeleteResult> DeleteOne(FilterDefinition<T> filter, string collectionName)
         {
-            throw new NotImplementedException();
+            var collection = database.GetCollection<T>(collectionName);
+            return await collection.DeleteOneAsync(filter);
         }
-        
+
+        public async Task<DeleteResult> DeleteMany(FilterDefinition<T> filter, string collectionName)
+        {
+            var collection = database.GetCollection<T>(collectionName);
+            return await collection.DeleteManyAsync(filter);
+        }
+         
         public async Task<IEnumerable<T>> GetAll(string collectionName)
         {
             return await Task.FromResult(database.GetCollection<T>(collectionName).AsQueryable());           

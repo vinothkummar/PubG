@@ -44,5 +44,11 @@ namespace Fanview.API.Controllers
         {
             return _matchmanagementrepository.GetTournamentsMatches(tournamentName);
         }
+
+        [HttpDelete("DeleteMatch/{matchId}", Name = "DeleteMatch")]
+        public dynamic DeleteMatch(string matchId)
+        {
+            return _matchmanagementrepository.DeleteDocumentCollections(matchId);
+        }
     }
 }

@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Fanview.API.Model;
+using Fanview.API.Model.LiveModels;
+using Fanview.API.Repository.Interface;
 using System.Linq;
 using System.Threading.Tasks;
-using Fanview.API.Repository;
-using Fanview.API.Repository.Interface;
-using Fanview.API.Model.LiveModels;
-using Fanview.API.GraphicsDummyData;
-using Fanview.API.Model;
 
 namespace Fanview.API.Repository
 {
     public class LiveRepository : ILiveRepository
     {
-        private LiveGraphichsDummyData _data;
+        
         private IGenericRepository<EventDamage> _genericDamageRepository;
         private IGenericRepository<Team> _team;
         private IGenericRepository<TeamPlayer> _teamPlayers;
@@ -22,14 +18,7 @@ namespace Fanview.API.Repository
         {
             _genericDamageRepository = genericDamageRepository;
             _team = team;
-            _teamPlayers = teamPlayers;
-            _data = new LiveGraphichsDummyData();
-        }
-       
-        
-        public Task<LiveStatus> GetLiveStatus(string matchId)
-        {
-            return Task.FromResult(_data.GetDummyLiveStatus());
+            _teamPlayers = teamPlayers;         
         }
 
         public async Task<LiveDamageList> GetLiveDamageList(string matchId)
@@ -51,16 +40,6 @@ namespace Fanview.API.Repository
                            }).OrderByDescending(ob => ob.DamageDealt).Take(10);
 
             return new LiveDamageList() { DamageList = response };
-        }
-
-        public Task<LiveKillList> GetLiveKillList(string matchId)
-        {
-            return Task.FromResult(_data.GetLiveKillList());
-        }
-
-        public Task<LivePlayerStats> GetLivePlayerStats(string matchId)
-        {
-            return Task.FromResult(_data.GetDummyLiveplayerstats());
         }
     }
 }
