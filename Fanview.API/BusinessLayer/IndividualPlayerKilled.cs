@@ -191,103 +191,91 @@ namespace Fanview.API.BusinessLayer
             return (TeamCount - memberKeys.Count);            
         }
 
-        public IEnumerable<KilliPrinter> LiveKilledOrTeamEliminiated(IEnumerable<LiveEventKill> playerKilled, string CreateAt)
-        {
-            var teamPlayers = _teamPlayerRepository.GetTeamPlayers().Result;
+        //public IEnumerable<KilliPrinter> LiveKilledOrTeamEliminiated(IEnumerable<LiveEventKill> playerKilled, string CreateAt)
+        //{
+        //    var teamPlayers = _teamPlayerRepository.GetTeamPlayers().Result;
 
 
-            var result = playerKilled.Join(teamPlayers, pk => pk.VictimName.Trim(), tp => tp.PlayerName.Trim(), (pk,tp) => new { pk, tp } )
-                                    // .Join(teamPlayers, pktp => pktp.pk.KillerName.Trim() , tp1 => tp1.PlayerName, (pktp, tp1) => new {pktp, tp1})
-                                      .Select(s => new
-                                       {
-                                           TimeKilled = s.pk.EventTimeStamp,
-                                           KillerName = s.pk.KillerName,
-                                           VictimName = s.pk.VictimName,
-                                           DamageCause = s.pk.DamageCauser,
-                                           s.pk.DamageReason,
-                                           VictimTeamId = s.pk.VictimTeamId,
-                                           KillerTeamId = s.pk.KillerTeamId,
-                                           s.pk.IsGroggy,
-                                           VictimPlayerId = s.tp.PlayerId,
-                                          // KillerPlayerId = s.PlayerId
-                                           }).OrderBy(o => o.TimeKilled);
+        //    var result = playerKilled.Join(teamPlayers, pk => pk.VictimName.Trim(), tp => tp.PlayerName.Trim(), (pk,tp) => new { pk, tp } )
+        //                              .Select(s => new
+        //                               {
+        //                                   TimeKilled = s.pk.EventTimeStamp,
+        //                                   KillerName = s.pk.KillerName,
+        //                                   VictimName = s.pk.VictimName,
+        //                                   DamageCause = s.pk.DamageCauser,
+        //                                   s.pk.DamageReason,
+        //                                   VictimTeamId = s.pk.VictimTeamId,
+        //                                   KillerTeamId = s.pk.KillerTeamId,
+        //                                   s.pk.IsGroggy,
+        //                                   VictimPlayerId = s.tp.PlayerId,
+        //                                  // KillerPlayerId = s.PlayerId
+        //                                   }).OrderBy(o => o.TimeKilled);
 
-            var killiPrinter = new List<KilliPrinter>();
-
+        //    var killiPrinter = new List<KilliPrinter>();
 
 
-            var teamCount = new List<int>();
 
-            foreach (var item in result.Where(c => c.IsGroggy == false))
-            {
-                var playerLeftCount = 79 - killiPrinter.Count();
+        //    var teamCount = new List<int>();
 
-                var playerLeft = playerLeftCount == 1 ? "winner" : playerLeftCount.ToString() + " LEFT";
+        //    foreach (var item in result.Where(c => c.IsGroggy == false))
+        //    {
+        //        var playerLeftCount = 79 - killiPrinter.Count();
 
-               // string[] formats = { "dd/MM/yyyy hh:mm:ss", "dd/MMM/yyyy", "dd-MM-yy", "d/M/yy" };
-               //// string dateString = "1/1/10";
+        //        var playerLeft = playerLeftCount == 1 ? "winner" : playerLeftCount.ToString() + " LEFT";
 
-               // DateTime date1 = DateTime.ParseExact(item.TimeKilled, formats,
-               //    System.Globalization.CultureInfo.InvariantCulture,
-               //     System.Globalization.DateTimeStyles.None) ;
-
-               // DateTime date2 = DateTime.ParseExact(CreateAt, formats,
-               //    System.Globalization.CultureInfo.InvariantCulture,
-               //     System.Globalization.DateTimeStyles.None);
-
-               // var gameTimePlayerEliminated = date1 - date2);
+             
 
                 
 
-                var playerKillMessage = new PlayerKilledGraphics()
-                {
-                    TimeKilled = $"{item.TimeKilled}",
-                    KillerName = $"{item.KillerName}",
-                    FreeText1 = $"KILLED",
-                    VictimName = $"{item.VictimName}",
-                    FreeText2 = $"WITH",
-                    DamagedCausedBy = $"{_readAssets.GetDamageCauserName(item.DamageCause)} ",
-                    PlayerLeft = $"{playerLeft}",
+        //        var playerKillMessage = new PlayerKilledGraphics()
+        //        {
+        //            TimeKilled = $"{item.TimeKilled}",
+        //            KillerName = $"{item.KillerName}",
+        //            FreeText1 = $"KILLED",
+        //            VictimName = $"{item.VictimName}",
+        //            FreeText2 = $"WITH",
+        //            DamagedCausedBy = $"{_readAssets.GetDamageCauserName(item.DamageCause)} ",
+        //            PlayerLeft = $"{playerLeft}",
                    
-                    VictimPlayerId = item.VictimPlayerId,
-                };
+        //            VictimPlayerId = item.VictimPlayerId,
+        //        };
 
-                if (string.IsNullOrWhiteSpace(playerKillMessage.DamagedCausedBy))
-                {
-                    playerKillMessage.FreeText2 = string.Empty;
-                }
+        //        if (string.IsNullOrWhiteSpace(playerKillMessage.DamagedCausedBy))
+        //        {
+        //            playerKillMessage.FreeText2 = string.Empty;
+        //        }
 
-                TeamEliminated teamEliminatedMessage = null;
+        //        TeamEliminated teamEliminatedMessage = null;
 
-                teamCount.Add(item.VictimTeamId);
+        //        teamCount.Add(item.VictimTeamId);
 
-                var teamPlayerCount = playerKilled.Where(cn => cn.VictimTeamId == item.VictimTeamId && cn.IsGroggy == false).Count();
+        //        var teamPlayerCount = playerKilled.Where(cn => cn.VictimTeamId == item.VictimTeamId && cn.IsGroggy == false).Count();
 
-                if (teamCount.Where(cn => cn == item.VictimTeamId).Count() == teamPlayerCount )
-                {
-                    var teamEliminatedCount = killiPrinter.Where(cn => cn.TeamEliminated != null).Count() == 0 ? 1 : killiPrinter.Where(cn => cn.TeamEliminated != null).Count();
+        //        if (teamCount.Where(cn => cn == item.VictimTeamId).Count() == teamPlayerCount )
+        //        {
+        //            var teamEliminatedCount = killiPrinter.Where(cn => cn.TeamEliminated != null).Count() == 0 ? 1 : killiPrinter.Where(cn => cn.TeamEliminated != null).Count();
 
-                    var teamLeftCount = playerKilled.GroupBy(g => g.KillerTeamId).Count() - teamEliminatedCount ;
+        //            var teamLeftCount = playerKilled.GroupBy(g => g.KillerTeamId).Count() - teamEliminatedCount ;
                     
-                    var teamLeft = teamLeftCount == 1 ? "winner" : teamLeftCount.ToString() + " LEFT";
+        //            var teamLeft = teamLeftCount == 1 ? "winner" : teamLeftCount.ToString() + " LEFT";
 
-                    teamEliminatedMessage = new TeamEliminated()
-                    {
-                        TimeElimnated = $"{item.TimeKilled}",
-                        FreeText1 = $"Team",
-                        TeamId = $"{item.VictimTeamId}",
-                        FreeText2 = $"HAS BEEN ELIMINATED",
-                        TeamLeft = $"{teamLeft}"
-                    };
-                }
+        //            teamEliminatedMessage = new TeamEliminated()
+        //            {
+        //                TimeElimnated = $"{item.TimeKilled}",
+        //                FreeText1 = $"Team",
+        //                TeamId = $"{item.VictimTeamId}",
+        //                FreeText2 = $"HAS BEEN ELIMINATED",
+        //                TeamLeft = $"{teamLeft}"
+        //            };
+        //        }
 
-                var killMessage = new KilliPrinter() { PlayerKilled = playerKillMessage, TeamEliminated = teamEliminatedMessage };
+        //        var killMessage = new KilliPrinter() { PlayerKilled = playerKillMessage, TeamEliminated = teamEliminatedMessage };
 
 
-                killiPrinter.Add(killMessage);
-            }
+        //        killiPrinter.Add(killMessage);
+        //    }
 
-            return killiPrinter;
-        }
+        //    return killiPrinter;
+        //}
     }
 }

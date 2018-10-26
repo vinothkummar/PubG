@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Fanview.API.Model;
 using Fanview.API.Model.ViewModels;
 using Fanview.API.Repository.Interface;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -19,14 +20,14 @@ namespace Fanview.API.Repository
         private IGenericRepository<CreatePlayer> _genericPlayerRepository;
         private IGenericRepository<MatchPlayerStats> _genericMatchPlayerStatsRepository;
         private IGenericRepository<Event> _tournament;
-
-
+        private IMemoryCache _cache;
 
         public TeamPlayerRepository(IGenericRepository<TeamPlayer> genericRepository, ILogger<TeamRepository> logger,
             IGenericRepository<Team> teamgenericRepository,
             IGenericRepository<CreatePlayer> genericPlayerRepository,
             IGenericRepository<MatchPlayerStats> genericMatchPlayerStatsRepository,
-            IGenericRepository<Event> tournament
+            IGenericRepository<Event> tournament,
+            IMemoryCache cache
             )
         {
             _genericTeamPlayerRepository = genericRepository;
@@ -36,8 +37,7 @@ namespace Fanview.API.Repository
             _genericPlayerRepository = genericPlayerRepository;
             _genericMatchPlayerStatsRepository = genericMatchPlayerStatsRepository;
             _tournament = tournament;
-            
-            
+            _cache = cache;
         }
 
         public async Task<TeamPlayer> GetPlayerProfile(string playerId1)
@@ -51,11 +51,24 @@ namespace Fanview.API.Repository
         
         public async Task<IEnumerable<TeamPlayer>> GetTeamPlayers()
         {
-            var players = await _genericTeamPlayerRepository.GetAll("TeamPlayers");
 
-            var distinctTeamPlayers = players.GroupBy(o => new { o.PlayerName, o.PubgAccountId }).Select(o => o.FirstOrDefault());
+            return await _cache.GetOrCreateAsync<IEnumerable<TeamPlayer>>("TeamPlayersCached", cacheEntry => {
 
-            return distinctTeamPlayers;
+                MemoryCacheEntryOptions options = new MemoryCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30),
+                    SlidingExpiration = TimeSpan.FromMinutes(7)
+                };
+
+                cacheEntry.SetOptions(options);
+
+                var players =  _genericTeamPlayerRepository.GetAll("TeamPlayers").Result;
+
+                var distinctTeamPlayers = players.GroupBy(o => new { o.PlayerName, o.PubgAccountId }).Select(o => o.FirstOrDefault());
+
+                return Task.FromResult(distinctTeamPlayers);
+            });
+           
         }
         
 

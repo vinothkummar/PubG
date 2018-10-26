@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Fanview.API.Model;
 using Fanview.API.Repository.Interface;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -14,13 +15,16 @@ namespace Fanview.API.Repository
     {
         private IMemoryCache _cache;
         private IGenericRepository<Event> _tournamentRepository;
+        private ILogger<EventRepository> _logger;
         private IMongoCollection<Event> tournamentsDb;
 
-        public EventRepository(IMemoryCache cache, IGenericRepository<Event> tournamentRepository)
+        public EventRepository(IMemoryCache cache, IGenericRepository<Event> tournamentRepository, ILogger<EventRepository> logger)
         {
             _cache = cache;
             _tournamentRepository = tournamentRepository;
+            _logger = logger;
             tournamentsDb = _tournamentRepository.GetMongoDbCollection("TournamentMatchId");
+
         }
 
         public void CreateAnEvent(Event newMatch)
@@ -34,13 +38,17 @@ namespace Fanview.API.Repository
 
                 MemoryCacheEntryOptions options = new MemoryCacheEntryOptions
                 {
-                    AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(30),
-                    SlidingExpiration = TimeSpan.FromSeconds(7)
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30),
+                    SlidingExpiration = TimeSpan.FromMinutes(7)
                 };
 
                 cacheEntry.SetOptions(options);
 
+                _logger.LogInformation("FindEvent Event Repository call started" + Environment.NewLine);
+
                 var tournamentMatch = tournamentsDb.FindAsync(Builders<Event>.Filter.Where(cn => cn.Id == matchId)).Result.FirstOrDefaultAsync().Result;
+
+                _logger.LogInformation("FindEvent Event Repository call Ended" + Environment.NewLine);
 
                 return Task.FromResult(tournamentMatch);
             });
@@ -53,13 +61,17 @@ namespace Fanview.API.Repository
 
                 MemoryCacheEntryOptions options = new MemoryCacheEntryOptions
                 {
-                    AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(30),
-                    SlidingExpiration = TimeSpan.FromSeconds(7)
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30),
+                    SlidingExpiration = TimeSpan.FromMinutes(7)
                 };
 
                 cacheEntry.SetOptions(options);
 
+                _logger.LogInformation("GetEventCreatedAT Event Repository call started" + Environment.NewLine);
+                
                 var tournamentMatchCreateAt = tournamentsDb.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.CreatedAT;
+
+                _logger.LogInformation("GetEventCreatedAT Event Repository call Ended" + Environment.NewLine);
 
                 return Task.FromResult(tournamentMatchCreateAt);
             });
@@ -76,13 +88,17 @@ namespace Fanview.API.Repository
 
                 MemoryCacheEntryOptions options = new MemoryCacheEntryOptions
                 {
-                    AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(30),
-                    SlidingExpiration = TimeSpan.FromSeconds(7)
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30),
+                    SlidingExpiration = TimeSpan.FromMinutes(7)
                 };
 
                 cacheEntry.SetOptions(options);
 
+                _logger.LogInformation("GetTournamentMatchIdEvent Repository call started" + Environment.NewLine);
+
                 var tournamentMatchId = tournamentsDb.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
+
+                _logger.LogInformation("GetTournamentMatchIdEvent Repository call Ended" + Environment.NewLine);
 
                 return Task.FromResult(tournamentMatchId);
             });
