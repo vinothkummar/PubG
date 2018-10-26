@@ -3,6 +3,7 @@ using Fanview.API.Model.LiveModels;
 using Fanview.API.Model.ViewModels;
 using Fanview.API.Repository.Interface;
 using Fanview.API.Services.Interface;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -23,9 +24,12 @@ namespace Fanview.API.Repository
         private IGenericRepository<EventInfo> _eventInfoRepository;
         private IPlayerRepository _playerRepository;
         private IGenericRepository<CreatePlayer> _CreatePlayer;
-        private IGenericRepository<Event> _tournament;       
+        //private IGenericRepository<Event> _tournament;       
         private ILogger<PlayerKillRepository> _logger;
         private ITeamRepository _teamRepository;
+        private IEventRepository _eventRepository;
+        private IMemoryCache _cache;
+        private List<LiveEventKill> _liveKilledCachedData;
         private Task<HttpResponseMessage> _pubGClientResponse;
         private DateTime killEventlastTimeStamp = DateTime.MinValue;
         private IClientBuilder _httpClientBuilder;
@@ -37,25 +41,28 @@ namespace Fanview.API.Repository
         private ITeamPlayerRepository _teamPlayerRepository;
         private IMatchRepository _matchRepository;
 
+
         private string _matchId;
        
 
         public PlayerKillRepository(IClientBuilder httpClientBuilder,
-                                    IHttpClientRequest httpClientRequest,
-                                    IPlayerRepository playerRepository,
+                                    IHttpClientRequest httpClientRequest,                                    
                                     IGenericRepository<Kill> genericRepository,
                                     IGenericRepository<CreatePlayer> genericPlayerRepository,
                                     IGenericRepository<LiveEventKill> genericLiveEventKillRepository,
                                     IGenericRepository<EventInfo> eventInfoRepository, 
                                     IGenericRepository<MatchPlayerStats> genericMatchPlayerStatsRepository,
-                                    IGenericRepository<Event> tournament,
+                                    //IGenericRepository<Event> tournament,
                                     IGenericRepository<TeamPlayer> genericTeamPlayerRepository,
                                     IGenericRepository<Team> team,
                                     IGenericRepository<TeamPlayer> teamPlayers,
+                                    IPlayerRepository playerRepository,
                                     ITeamPlayerRepository teamPlayerRepository,
                                     IMatchRepository matchRepository,
                                     ITeamRepository teamRepository,
-                                    ILogger<PlayerKillRepository> logger)
+                                    IEventRepository eventRepository,
+                                    ILogger<PlayerKillRepository> logger,
+                                    IMemoryCache cache)
         {
             _httpClientBuilder = httpClientBuilder;
             _httpClientRequest = httpClientRequest;  
@@ -65,15 +72,18 @@ namespace Fanview.API.Repository
             _eventInfoRepository = eventInfoRepository;
             _playerRepository = playerRepository;
             _genericMatchPlayerStatsRepository = genericMatchPlayerStatsRepository;
-            _tournament = tournament;
+            //_tournament = tournament;
             _genericTeamPlayerRepository = genericTeamPlayerRepository;
             _team = team;
             _teamPlayers = teamPlayers;
-            _teamPlayerRepository = teamPlayerRepository;
-            _tournament = tournament;
+            _teamPlayerRepository = teamPlayerRepository;            
             _matchRepository = matchRepository;
             _logger = logger;
             _teamRepository = teamRepository;
+            _eventRepository = eventRepository;
+            _cache = cache;
+            _liveKilledCachedData = new List<LiveEventKill>();
+            
 
         }
         
@@ -215,13 +225,9 @@ namespace Fanview.API.Repository
             _logger.LogInformation("GetPlayedKiller Repository call started" + Environment.NewLine);
             try
             {
-                var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
-
-                var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
+                var tournamentMatchId = _eventRepository.GetTournamentMatchId(matchId).Result;
 
                 var response = _Kill.GetAll("Kill").Result.Where(cn => cn.MatchId == tournamentMatchId);
-
-                // var response = _genericRepository.GetMongoDbCollection("Kill").FindAsyn(new BsonDocument());
 
                 _logger.LogInformation("GetPlayedKiller Repository call completed" + Environment.NewLine);
 
@@ -239,28 +245,34 @@ namespace Fanview.API.Repository
 
         public async Task<IEnumerable<LiveEventKill>> GetLiveKilled(int matchId)
         {
-            _logger.LogInformation("GetLivePlayerKilled Repository call started" + Environment.NewLine);
-            try
+            IEnumerable<LiveEventKill> Obj;
+
+            bool isExists = _cache.TryGetValue("LiveKilled", out Obj);
+
+            if (!isExists)
             {
-                var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
+                _logger.LogInformation("GetLivePlayerKilled Repository call started" + Environment.NewLine);
+                try
+                {
+                    var tournamentMatchId = _eventRepository.GetTournamentMatchId(matchId).Result;
 
-                var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
+                    var response = _LiveEventKill.GetAll("LiveEventKill").Result.Where(cn => cn.MatchId == tournamentMatchId);
 
-                var response = _LiveEventKill.GetAll("LiveEventKill").Result.Where(cn => cn.MatchId == tournamentMatchId);
+                    _logger.LogInformation("GetLivePlayerKilled Repository call completed" + Environment.NewLine);
 
-                // var response = _genericRepository.GetMongoDbCollection("Kill").FindAsyn(new BsonDocument());
+                    return await Task.FromResult(response);
 
-                _logger.LogInformation("GetLivePlayerKilled Repository call completed" + Environment.NewLine);
+                }
+                catch (Exception exception)
+                {
+                    _logger.LogError(exception, "GetlivePlayerKilled");
 
-                return await Task.FromResult(response);
+                    throw;
+                }
 
             }
-            catch (Exception exception)
-            {
-                _logger.LogError(exception, "GetlivePlayerKilled");
 
-                throw;
-            }
+            return Obj;
         }
 
         public async Task<IEnumerable<Kill>> GetLast4PlayerKilled(string matchId)
@@ -355,15 +367,19 @@ namespace Fanview.API.Repository
             _logger.LogInformation("GetMatchPlayerStatsForMatchId Repository Function call started" + Environment.NewLine);
             var defaultCount = 10;
             var rowCount = topCount > 0 ? topCount : defaultCount;
-            var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
-            var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
+
+            var tournamentMatchId = _eventRepository.GetTournamentMatchId(matchId).Result;
 
             var matchstats = _genericMatchPlayerStatsRepository.GetMongoDbCollection("MatchPlayerStats");
+
             var matchstat = matchstats.FindAsync(Builders<MatchPlayerStats>.Filter.Where(cn => cn.MatchId == tournamentMatchId)).Result.ToListAsync().Result;
+
             var sortByKill = matchstat.AsQueryable().OrderByDescending(o => o.stats.Kills).Take(rowCount);
 
             var teams = _team.GetAll("Team").Result;
+
             var teamPlayers = _teamPlayerRepository.GetTeamPlayers().Result;
+
             var killList = sortByKill.Join(teams, s => s.TeamId, t => t.Id, (s, t) => new { s, t })
                                      .Join(teamPlayers, kl => kl.s.stats.Name.Trim(), tp => tp.PlayerName.Trim(), (kl, pl) => new { kl, pl })
                                      .Select(klt => new Kills()
@@ -374,7 +390,9 @@ namespace Fanview.API.Repository
                                         playerId = klt.pl.PlayerId,
                                         playerName=klt.kl.s.stats.Name
                                      });
+
             _logger.LogInformation("GetMatchPlayerStatsForMatchId Repository Function call completed" + Environment.NewLine);
+
             return killList;
         }
 
@@ -429,21 +447,15 @@ namespace Fanview.API.Repository
             return killLeaders;
         }
 
-        public async Task<KillLeader> GetLiveKillList(string matchId, int topCount)
+        public async Task<KillLeader> GetLiveKillList(int matchId, int topCount)
         {
             var teams = _teamRepository.GetAllTeam().Result.AsQueryable();
 
             _logger.LogInformation("GetLiveKillList Repository Function call started" + Environment.NewLine);
 
-            var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
+            var tournamentMatchId = await _eventRepository.GetTournamentMatchId(matchId);
 
             var teamPlayers = _teamPlayerRepository.GetTeamPlayers().Result;
-
-            var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == int.Parse(matchId))).Result.FirstOrDefaultAsync().Result.Id;
-
-            //var playerKilled = kills.Join(teamPlayer, pk => new { VictimTeamId = pk.VictimTeamId }, tp => new { VictimTeamId = tp.TeamIdShort }, (pk, tp) => new { pk, tp })
-            //                        .Join(teams, pktp => new { TeamShortId = pktp.tp.TeamIdShort }, t => new { TeamShortId = t.TeamId }, (pktp, t) => new { pktp, t })
-            //                        .Select(s =>
 
             var liveEventKillList = _LiveEventKill.GetAll("LiveEventKill").Result.Where(cn => cn.MatchId == tournamentMatchId)
                                                   .Join(teamPlayers, lek => lek.VictimTeamId, tp => tp.TeamIdShort, (lek, tp) => new { lek, tp })
@@ -455,20 +467,11 @@ namespace Fanview.API.Repository
                 playerName = s.Key,
                 playerId = s.Select(a => a.pktp.tp.PlayerId).ElementAtOrDefault(0),
                 teamId = s.Select(a => a.pktp.lek.KillerTeamId).ElementAtOrDefault(0)
-            }).OrderByDescending(o => o.kills).Take(topCount > 0 ? topCount : 10);
-
-            //liveEventKillList = liveEventKillList.Join(teamPlayers, lek => lek.playerName.Trim(), tp => tp.PlayerName.Trim(), (lek, tp) => new { lek, tp })
-            //                                    .Select(s => new Kills()
-            //                                    {
-            //                                        kills = s.lek.kills,
-            //                                        playerName = s.lek.playerName,
-            //                                        playerId = s.tp.PlayerId,
-            //                                        teamId = s.lek.teamId
-            //                                    });
+            }).OrderByDescending(o => o.kills).Take(topCount > 0 ? topCount : 10);           
                                                 
             var killLeaders = new KillLeader()
             {
-                matchId = int.Parse(matchId),
+                matchId = matchId,
                 killList = liveEventKillList
             };
             return killLeaders;
@@ -496,34 +499,12 @@ namespace Fanview.API.Repository
             if (jsonResult.Where(cn => (string)cn["_T"] == "EventMatchJoin").Count() > 0)
             {
                _matchId = jsonResult.Where(cn => (string)cn["_T"] == "EventMatchJoin").Select(s => s.Value<string>("matchId")).FirstOrDefault();
-               var matchJoinTime = jsonResult.Where(cn => (string)cn["_T"] == "EventMatchJoin").Select(s => s.Value<double>("time")).FirstOrDefault();
 
-
-
+                var matchJoinTime = jsonResult.Where(cn => (string)cn["_T"] == "EventMatchJoin").Select(s => s.Value<double>("time")).FirstOrDefault();
+                
                 if (_matchId != null)
                 {
-                    _matchId = _matchId.Split(".").ElementAtOrDefault(9);
-
-                    var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
-
-                    var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.Id == _matchId)).Result.FirstOrDefaultAsync().Result;
-
-                    if (tournamentMatchId == null)
-                    {
-                        var tournamentMatchIdCount = tournaments.FindAsync(new BsonDocument()).Result.ToListAsync().Result.Count();
-
-                        var tournamentMatchDetails = new Event()
-                        {
-                            Id = _matchId,
-                            EventName = "PUBG Global Invitational Berlin 2018",
-                            MatchId = tournamentMatchIdCount + 1,
-                            CreatedAT = dateTime.AddSeconds((double)matchJoinTime).ToString()
-                        };
-
-                        _tournament.Insert(tournamentMatchDetails, "TournamentMatchId");
-
-                        _logger.LogInformation("Live Killing Match Id Is created in the Tournament Match Id" + Environment.NewLine);
-                    }
+                    CreateMatch(dateTime, matchJoinTime);
                 }
             }
 
@@ -561,9 +542,41 @@ namespace Fanview.API.Repository
             });
 
             if(kills.Count() > 0){
+
+                foreach (var itemLiveKilled in kills)
+                {
+                    _liveKilledCachedData.Add(itemLiveKilled);
+
+                    _cache.Set("LiveKilled", _liveKilledCachedData);
+                }
+
                 _LiveEventKill.Insert(kills.ToList(), "LiveEventKill");
             }
 
+        }
+
+        private void CreateMatch(DateTime dateTime, double matchJoinTime)
+        {
+            _matchId = _matchId.Split(".").ElementAtOrDefault(9);
+
+            var tournamentMatch = _eventRepository.FindEvent(_matchId).Result;
+
+            if (tournamentMatch == null)
+            {
+                var tournamentMatchIdCount = _eventRepository.GetTournamentMatchCount().Result;
+
+                var tournamentMatchDetails = new Event()
+                {
+                    Id = _matchId,
+                    EventName = "PUBG Global Invitational Berlin 2018",
+                    MatchId = tournamentMatchIdCount + 1,
+                    CreatedAT = dateTime.AddSeconds((double)matchJoinTime).ToString()
+                };
+
+                _eventRepository.CreateAnEvent(tournamentMatchDetails);
+
+                _logger.LogInformation("Live Killing Match Id Is created in the Tournament Match Id" + Environment.NewLine);
+            }
         }
 
         public async Task<IEnumerable<LiveKillCount>> GetLiveKillCount(IEnumerable<LiveEventKill> liveEventKills)

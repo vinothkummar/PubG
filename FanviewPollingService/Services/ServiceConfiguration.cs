@@ -20,6 +20,7 @@ namespace FanviewPollingService.Services
             var serviceProvider = new ServiceCollection().AddLogging(configure => configure.AddSerilog())
                                                          .AddSingleton<IHttpClientRequest, HttpClientRequest>()
                                                          .AddSingleton<IClientBuilder, ClientBuilder>()
+                                                         .AddSingleton<IEventRepository, EventRepository>()
                                                          .AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>))
                                                          .AddTransient<IPlayerKillRepository, PlayerKillRepository>()
                                                          .AddTransient<IPlayerRepository, PlayerRepository>()
@@ -29,6 +30,7 @@ namespace FanviewPollingService.Services
                                                          .AddTransient<ITeamRepository, TeamRepository>()
                                                          .AddTransient<IMatchRepository, MatchRepository>()
                                                          .AddTransient<IMatchSummaryRepository, MatchSummaryRepository>()
+                                                         .AddMemoryCache()
                                                          .BuildServiceProvider();
             return serviceProvider;
         }

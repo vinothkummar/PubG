@@ -47,9 +47,9 @@ namespace Fanview.API.Controllers
         /// </remarks>
         /// <param name='matchId'>1</param>
         [HttpGet("Killiprinter/{matchId}/All", Name = "GetAllKilliprinterForGraphics")]
-        public IEnumerable<KilliPrinter> GetAllKilliprinterForGraphics(int matchId)
-        {
-            return _playerKilled.GetLivePlayerKilled(matchId);
+        public async Task<IEnumerable<KilliPrinter>> GetAllKilliprinterForGraphics(int matchId)
+        { 
+            return await _playerKilled.GetLivePlayerKilled(matchId);
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace Fanview.API.Controllers
         /// </remarks>
         /// <param name='matchId'>1</param>
         [HttpGet("KillList/{matchId}", Name = "GetLiveKillList")]
-        public Task<KillLeader> GetLiveKillList(string matchId)
+        public Task<KillLeader> GetLiveKillList(int matchId)
         {
             return _playerKillRepository.GetLiveKillList(matchId,0);
         }
@@ -100,7 +100,7 @@ namespace Fanview.API.Controllers
         /// <param name='matchId'>1</param>
         /// <param name='topN'>top 6 rows</param>
         [HttpGet("KillList/{matchId}/{topN}")]
-        public Task<KillLeader> GetLiveKillList(string matchId, int topN)
+        public Task<KillLeader> GetLiveKillList(int matchId, int topN)
         {
             return _playerKillRepository.GetLiveKillList(matchId,topN);
         }

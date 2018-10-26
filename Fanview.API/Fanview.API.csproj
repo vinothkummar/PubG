@@ -9,6 +9,8 @@
     <Authors>Thomas.Robertsson</Authors>
     <Company>Fanview</Company>
     <Product>PubG Fanview API</Product>
+    <ApplicationInsightsResourceId>/subscriptions/ce089ed7-fea5-4578-9973-45225e2e13f6/resourcegroups/FanviewPubG/providers/microsoft.insights/components/PubGAPI</ApplicationInsightsResourceId>
+    <ApplicationInsightsAnnotationResourceId>/subscriptions/ce089ed7-fea5-4578-9973-45225e2e13f6/resourcegroups/FanviewPubG/providers/microsoft.insights/components/PubGAPI</ApplicationInsightsAnnotationResourceId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting.WindowsServices" Version="2.1.1" />   
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
@@ -41,6 +44,10 @@
     <Content Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
   </ItemGroup>
 
   

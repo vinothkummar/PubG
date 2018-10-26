@@ -15,6 +15,7 @@ namespace Fanview.API.MiddlewareExtensions
         {
             services.AddSingleton<IHttpClientRequest, HttpClientRequest>();
             services.AddSingleton<IClientBuilder, ClientBuilder>();
+            services.AddSingleton<IEventRepository, EventRepository>();
             services.AddSingleton(typeof(IAPIRequestBuilder), typeof(APIRequestBuilder));
             services.AddSingleton(typeof(IServiceRequest), typeof(ServiceRequest));
             services.AddTransient(typeof(IMatchRepository), typeof(MatchRepository));

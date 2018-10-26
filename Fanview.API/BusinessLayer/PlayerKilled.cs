@@ -19,12 +19,14 @@ namespace Fanview.API.BusinessLayer
         private IReadAssets _readAssets;
         private ITeamRepository _teamRepository;
         private IGenericRepository<Event> _tournament;
+        private IEventRepository _eventRepository;
 
         public PlayerKilled(IPlayerKillRepository playerKillRepository,                           
                             ILogger<PlayerKilled> logger,
                             IReadAssets readAssets,
                             IGenericRepository<Event> tournament,
                             ITeamPlayerRepository playerRepository,
+                            IEventRepository eventRepository,
                             ITeamRepository teamRepository)
         {
             _playerKillRepository = playerKillRepository;
@@ -32,6 +34,7 @@ namespace Fanview.API.BusinessLayer
             _readAssets = readAssets;
             _teamRepository = teamRepository;
             _tournament = tournament;
+            _eventRepository = eventRepository;
 
             _rules.Add(new IndividualPlayerKilled(_readAssets, _teamRepository, playerRepository));
            
@@ -112,27 +115,24 @@ namespace Fanview.API.BusinessLayer
             return playerKilledOrTeamEliminatedMessages;
         }
 
-        public IEnumerable<KilliPrinter> GetLivePlayerKilled(int matchId)
-        {
-            var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
-
-            var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.CreatedAT;
-
+        public async Task<IEnumerable<KilliPrinter>> GetLivePlayerKilled(int matchId)
+        {   
             var playerKilledOrTeamEliminatedMessages = new List<KilliPrinter>();
 
             var kills = _playerKillRepository.GetLiveKilled(matchId).Result;
 
-
+            var tournamentMatchCreatedAt =  _eventRepository.GetEventCreatedAt(matchId).Result;
+        
             foreach (var rule in _rules)
             {
-                var output = rule.LiveKilledOrTeamEliminiated(kills, tournamentMatchId);
+                var output = rule.LiveKilledOrTeamEliminiated(kills, tournamentMatchCreatedAt);
 
                 if (output != null)
                 {
                     playerKilledOrTeamEliminatedMessages = output.ToList();
                 }
             }
-            return playerKilledOrTeamEliminatedMessages;
+            return await Task.FromResult(playerKilledOrTeamEliminatedMessages);
         }
     }
 }
