@@ -24,11 +24,10 @@ namespace Fanview.API.Repository
         private IGenericRepository<EventInfo> _eventInfoRepository;
         private IPlayerRepository _playerRepository;
         private IGenericRepository<CreatePlayer> _CreatePlayer;
-        //private IGenericRepository<Event> _tournament;       
         private ILogger<PlayerKillRepository> _logger;
         private ITeamRepository _teamRepository;
         private IEventRepository _eventRepository;
-        private IMemoryCache _cache;
+        private ICacheService _cacheService;
         private List<LiveEventKill> _liveKilledCachedData;
         private Task<HttpResponseMessage> _pubGClientResponse;
         private DateTime killEventlastTimeStamp = DateTime.MinValue;
@@ -51,8 +50,7 @@ namespace Fanview.API.Repository
                                     IGenericRepository<CreatePlayer> genericPlayerRepository,
                                     IGenericRepository<LiveEventKill> genericLiveEventKillRepository,
                                     IGenericRepository<EventInfo> eventInfoRepository, 
-                                    IGenericRepository<MatchPlayerStats> genericMatchPlayerStatsRepository,
-                                    //IGenericRepository<Event> tournament,
+                                    IGenericRepository<MatchPlayerStats> genericMatchPlayerStatsRepository,                                   
                                     IGenericRepository<TeamPlayer> genericTeamPlayerRepository,
                                     IGenericRepository<Team> team,
                                     IGenericRepository<TeamPlayer> teamPlayers,
@@ -62,7 +60,7 @@ namespace Fanview.API.Repository
                                     ITeamRepository teamRepository,
                                     IEventRepository eventRepository,
                                     ILogger<PlayerKillRepository> logger,
-                                    IMemoryCache cache)
+                                    ICacheService cacheService)
         {
             _httpClientBuilder = httpClientBuilder;
             _httpClientRequest = httpClientRequest;  
@@ -71,8 +69,7 @@ namespace Fanview.API.Repository
             _LiveEventKill = genericLiveEventKillRepository;
             _eventInfoRepository = eventInfoRepository;
             _playerRepository = playerRepository;
-            _genericMatchPlayerStatsRepository = genericMatchPlayerStatsRepository;
-            //_tournament = tournament;
+            _genericMatchPlayerStatsRepository = genericMatchPlayerStatsRepository;            
             _genericTeamPlayerRepository = genericTeamPlayerRepository;
             _team = team;
             _teamPlayers = teamPlayers;
@@ -81,7 +78,7 @@ namespace Fanview.API.Repository
             _logger = logger;
             _teamRepository = teamRepository;
             _eventRepository = eventRepository;
-            _cache = cache;
+            _cacheService = cacheService;
             _liveKilledCachedData = new List<LiveEventKill>();
             
 
@@ -245,12 +242,17 @@ namespace Fanview.API.Repository
 
         public async Task<IEnumerable<LiveEventKill>> GetLiveKilled(int matchId)
         {
-            IEnumerable<LiveEventKill> Obj;
+            var liveKilledFromCache = await _cacheService.RetrieveFromCache<IEnumerable<LiveEventKill>>("LiveKilledCache");
 
-            bool isExists = _cache.TryGetValue("LiveKilled", out Obj);
-
-            if (!isExists)
+            if (liveKilledFromCache != null)
             {
+                _logger.LogInformation("GetLiveKilled returned from LiveKilledCache " + Environment.NewLine);
+
+                return liveKilledFromCache;
+            }
+            else
+            {
+
                 _logger.LogInformation("GetLivePlayerKilled Repository call started" + Environment.NewLine);
                 try
                 {
@@ -269,10 +271,8 @@ namespace Fanview.API.Repository
 
                     throw;
                 }
-
-            }
-
-            return Obj;
+           }
+          
         }
 
         public async Task<IEnumerable<Kill>> GetLast4PlayerKilled(string matchId)
@@ -543,12 +543,18 @@ namespace Fanview.API.Repository
 
             if(kills.Count() > 0){
 
-                foreach (var itemLiveKilled in kills)
-                {
-                    _liveKilledCachedData.Add(itemLiveKilled);
+                //foreach (var itemLiveKilled in kills)
+                //{
+                //    _liveKilledCachedData.Add(itemLiveKilled);
 
-                    _cache.Set("LiveKilled", _liveKilledCachedData);
-                }
+                //    _logger.LogInformation("LiveEventKilled added to the LiveKilledCache" + Environment.NewLine);
+
+                //    _cacheService.SaveToCache<IEnumerable<LiveEventKill>>("LiveKilledCache", _liveKilledCachedData, 20, 10);
+
+                //    var cacheTestData = _cacheService.RetrieveFromCache<IEnumerable<LiveEventKill>>("LiveKilledCache").Result;
+
+                //    _logger.LogInformation(cacheTestData.ToJson());
+                //}
 
                 _LiveEventKill.Insert(kills.ToList(), "LiveEventKill");
             }

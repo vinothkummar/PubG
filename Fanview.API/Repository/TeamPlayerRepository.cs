@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Fanview.API.Model;
 using Fanview.API.Model.ViewModels;
 using Fanview.API.Repository.Interface;
+using Fanview.API.Services.Interface;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
@@ -20,15 +21,14 @@ namespace Fanview.API.Repository
         private IGenericRepository<CreatePlayer> _genericPlayerRepository;
         private IGenericRepository<MatchPlayerStats> _genericMatchPlayerStatsRepository;
         private IGenericRepository<Event> _tournament;
-        private IMemoryCache _cache;
+        private ICacheService _cacheService;
 
         public TeamPlayerRepository(IGenericRepository<TeamPlayer> genericRepository, ILogger<TeamRepository> logger,
             IGenericRepository<Team> teamgenericRepository,
             IGenericRepository<CreatePlayer> genericPlayerRepository,
             IGenericRepository<MatchPlayerStats> genericMatchPlayerStatsRepository,
             IGenericRepository<Event> tournament,
-            IMemoryCache cache
-            )
+            ICacheService cacheService)
         {
             _genericTeamPlayerRepository = genericRepository;
 
@@ -37,7 +37,7 @@ namespace Fanview.API.Repository
             _genericPlayerRepository = genericPlayerRepository;
             _genericMatchPlayerStatsRepository = genericMatchPlayerStatsRepository;
             _tournament = tournament;
-            _cache = cache;
+            _cacheService = cacheService;
         }
 
         public async Task<TeamPlayer> GetPlayerProfile(string playerId1)
@@ -51,23 +51,34 @@ namespace Fanview.API.Repository
         
         public async Task<IEnumerable<TeamPlayer>> GetTeamPlayers()
         {
+            var cacheKey = "TeamPlayerCache";
 
-            return await _cache.GetOrCreateAsync<IEnumerable<TeamPlayer>>("TeamPlayersCached", cacheEntry => {
+            var teamPlayerFromCache = await _cacheService.RetrieveFromCache<IEnumerable<TeamPlayer>>(cacheKey);
 
-                MemoryCacheEntryOptions options = new MemoryCacheEntryOptions
-                {
-                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30),
-                    SlidingExpiration = TimeSpan.FromMinutes(7)
-                };
+            if (teamPlayerFromCache != null)
+            {
+                _logger.LogInformation("TeamPlayer returned from " + cacheKey + Environment.NewLine);
 
-                cacheEntry.SetOptions(options);
+                return teamPlayerFromCache;
+            }
+            else
+            {
 
-                var players =  _genericTeamPlayerRepository.GetAll("TeamPlayers").Result;
+                _logger.LogInformation("TeamPlayer Repository call started" + Environment.NewLine);
 
+                var players = _genericTeamPlayerRepository.GetAll("TeamPlayers").Result;
+                
                 var distinctTeamPlayers = players.GroupBy(o => new { o.PlayerName, o.PubgAccountId }).Select(o => o.FirstOrDefault());
 
-                return Task.FromResult(distinctTeamPlayers);
-            });
+                _logger.LogInformation("TeamPlayer Results stored to the " + cacheKey + Environment.NewLine);
+
+                await _cacheService.SaveToCache<IEnumerable<TeamPlayer>>(cacheKey, distinctTeamPlayers, 30, 7);
+
+                _logger.LogInformation("TeamPlayer Repository call Ended" + Environment.NewLine);
+
+                return await Task.FromResult(distinctTeamPlayers);
+            }
+          
            
         }
         

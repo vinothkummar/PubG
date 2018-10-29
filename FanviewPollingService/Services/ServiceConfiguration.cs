@@ -21,6 +21,7 @@ namespace FanviewPollingService.Services
                                                          .AddSingleton<IHttpClientRequest, HttpClientRequest>()
                                                          .AddSingleton<IClientBuilder, ClientBuilder>()
                                                          .AddSingleton<IEventRepository, EventRepository>()
+                                                         .AddTransient<ICacheService, CacheService>()
                                                          .AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>))
                                                          .AddTransient<IPlayerKillRepository, PlayerKillRepository>()
                                                          .AddTransient<IPlayerRepository, PlayerRepository>()
@@ -30,7 +31,7 @@ namespace FanviewPollingService.Services
                                                          .AddTransient<ITeamRepository, TeamRepository>()
                                                          .AddTransient<IMatchRepository, MatchRepository>()
                                                          .AddTransient<IMatchSummaryRepository, MatchSummaryRepository>()
-                                                         .AddMemoryCache()
+                                                         .AddDistributedMemoryCache()
                                                          .BuildServiceProvider();
             return serviceProvider;
         }

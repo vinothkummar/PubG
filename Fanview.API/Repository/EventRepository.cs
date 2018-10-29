@@ -8,19 +8,22 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using Fanview.API.Services.Interface;
 
 namespace Fanview.API.Repository
 {
     public class EventRepository : IEventRepository
     {
-        private IMemoryCache _cache;
+       
+        private ICacheService _cacheService;
         private IGenericRepository<Event> _tournamentRepository;
         private ILogger<EventRepository> _logger;
         private IMongoCollection<Event> tournamentsDb;
 
-        public EventRepository(IMemoryCache cache, IGenericRepository<Event> tournamentRepository, ILogger<EventRepository> logger)
+        public EventRepository( ICacheService cacheService, IGenericRepository<Event> tournamentRepository, ILogger<EventRepository> logger)
         {
-            _cache = cache;
+            
+            _cacheService = cacheService;
             _tournamentRepository = tournamentRepository;
             _logger = logger;
             tournamentsDb = _tournamentRepository.GetMongoDbCollection("TournamentMatchId");
@@ -34,47 +37,63 @@ namespace Fanview.API.Repository
 
         public async Task<Event> FindEvent(string matchId)
         {
-            return await _cache.GetOrCreateAsync<Event>("EventMatch", cacheEntry => {
+            var cacheKey = "TournamentMatchCache";
 
-                MemoryCacheEntryOptions options = new MemoryCacheEntryOptions
-                {
-                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30),
-                    SlidingExpiration = TimeSpan.FromMinutes(7)
-                };
+            var tournamentMatchFromCache = await _cacheService.RetrieveFromCache<Event>(cacheKey);
 
-                cacheEntry.SetOptions(options);
+            if (tournamentMatchFromCache != null)
+            {
+                _logger.LogInformation("tournament Match returned from " + cacheKey + Environment.NewLine);
 
+                return tournamentMatchFromCache;
+            }
+            else
+            {
                 _logger.LogInformation("FindEvent Event Repository call started" + Environment.NewLine);
 
                 var tournamentMatch = tournamentsDb.FindAsync(Builders<Event>.Filter.Where(cn => cn.Id == matchId)).Result.FirstOrDefaultAsync().Result;
 
+                _logger.LogInformation("tournament Match Results stored to the " + cacheKey + Environment.NewLine);
+
+                await _cacheService.SaveToCache<Event>(cacheKey, tournamentMatch, 30, 7);
+
                 _logger.LogInformation("FindEvent Event Repository call Ended" + Environment.NewLine);
 
-                return Task.FromResult(tournamentMatch);
-            });
-            
+                return await Task.FromResult(tournamentMatch);
+            }
+
+                
         }
 
         public async Task<string> GetEventCreatedAt(int matchId)
         {
-            return await _cache.GetOrCreateAsync<string>("EventMatchCreatedAT", cacheEntry => {
+            var cacheKey = "TournamentMatchCreatedAtCache";
 
-                MemoryCacheEntryOptions options = new MemoryCacheEntryOptions
-                {
-                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30),
-                    SlidingExpiration = TimeSpan.FromMinutes(7)
-                };
+            var tournamentMatchFromCache = await _cacheService.RetrieveFromCache<string>(cacheKey);
 
-                cacheEntry.SetOptions(options);
+            if (tournamentMatchFromCache != null)
+            {
+                _logger.LogInformation("tournament Match CreateAt returned from " + cacheKey + Environment.NewLine);
 
+                return tournamentMatchFromCache;
+            }
+            else
+            {
                 _logger.LogInformation("GetEventCreatedAT Event Repository call started" + Environment.NewLine);
-                
+
                 var tournamentMatchCreateAt = tournamentsDb.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.CreatedAT;
+
+                _logger.LogInformation("tournament MatchcreatedAt Results stored to the " + cacheKey + Environment.NewLine);
+
+                await _cacheService.SaveToCache<string>(cacheKey, tournamentMatchCreateAt, 30, 7);
 
                 _logger.LogInformation("GetEventCreatedAT Event Repository call Ended" + Environment.NewLine);
 
-                return Task.FromResult(tournamentMatchCreateAt);
-            });
+                return await Task.FromResult(tournamentMatchCreateAt);
+            }
+
+               
+        
         }
 
         public Task<int> GetTournamentMatchCount()
@@ -84,24 +103,30 @@ namespace Fanview.API.Repository
 
         public async Task<string> GetTournamentMatchId(int matchId)
         {
-            return await _cache.GetOrCreateAsync<string>("EventMatchId", cacheEntry => {
+            var cacheKey = "TournamentMatchIdCache";
 
-                MemoryCacheEntryOptions options = new MemoryCacheEntryOptions
-                {
-                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30),
-                    SlidingExpiration = TimeSpan.FromMinutes(7)
-                };
+            var tournamentMatchFromCache = await _cacheService.RetrieveFromCache<string>(cacheKey);
 
-                cacheEntry.SetOptions(options);
+            if (tournamentMatchFromCache != null)
+            {
+                _logger.LogInformation("tournament Match Id returned from " + cacheKey + Environment.NewLine);
 
+                return tournamentMatchFromCache;
+            }
+            else
+            {
                 _logger.LogInformation("GetTournamentMatchIdEvent Repository call started" + Environment.NewLine);
 
                 var tournamentMatchId = tournamentsDb.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
 
+                _logger.LogInformation("tournament MatchId Results stored to the " + cacheKey + Environment.NewLine);
+
+                await _cacheService.SaveToCache<string>(cacheKey, tournamentMatchId, 30, 7);
+
                 _logger.LogInformation("GetTournamentMatchIdEvent Repository call Ended" + Environment.NewLine);
 
-                return Task.FromResult(tournamentMatchId);
-            });
+                return await Task.FromResult(tournamentMatchId);
+            }           
             
         }
     }
