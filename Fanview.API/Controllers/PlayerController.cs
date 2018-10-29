@@ -93,7 +93,17 @@ namespace Fanview.API.Controllers
         {
             _teamPlayerRepository.PostNewPlayer(player);
         }
+        [HttpDelete("Deleteplayer/{PlayerId}", Name = "Deleteplayer")]
 
+        public void DeletePLayer(int playerid)
+        {
+            _teamPlayerRepository.Deleteplayer(playerid);
+        }
+        [HttpPut("UpdatePlayer", Name = "UpdatePlayer")]
+        public void UpdatePlayer(TeamPlayer player)
+        {
+            _teamPlayerRepository.updateplayer(player);
+        }
 
     }
 }

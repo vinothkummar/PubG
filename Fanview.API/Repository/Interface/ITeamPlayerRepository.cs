@@ -22,6 +22,7 @@ namespace Fanview.API.Repository.Interface
         Task<IEnumerable<PlayerProfileTournament>> GetPlayerProfilesMatchUP(int playerId1, int playerId2);
         Task<IEnumerable<TeamPlayer>> GetPlayers();
         void PostNewPlayer(TeamPlayer player);
-
+        void Deleteplayer(int playerid);
+        void updateplayer(TeamPlayer player);
     }
 }
