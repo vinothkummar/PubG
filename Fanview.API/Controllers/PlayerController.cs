@@ -95,7 +95,7 @@ namespace Fanview.API.Controllers
         }
         [HttpDelete("Deleteplayer/{PlayerId}", Name = "Deleteplayer")]
 
-        public void DeletePLayer(int playerid)
+        public void DeletePLayer(string playerid)
         {
             _teamPlayerRepository.Deleteplayer(playerid);
         }

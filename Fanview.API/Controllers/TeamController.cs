@@ -47,7 +47,7 @@ namespace Fanview.API.Controllers
             _teamRepository.updateteam(team);
         }
         [HttpDelete("Deleteteam/{teamId}", Name = "Deleteteam")]
-        public void Deleteteam(int teamid)
+        public void Deleteteam(string teamid)
         {
             _teamRepository.Deleteteam(teamid);
         }

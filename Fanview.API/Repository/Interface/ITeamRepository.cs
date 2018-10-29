@@ -32,6 +32,6 @@ namespace Fanview.API.Repository.Interface
         Task<IEnumerable<Team>> GetTeams();
         void postteam(Team team);
         void updateteam(Team team);
-        void Deleteteam(int teamid);
+        void Deleteteam(string teamid);
     }
 }

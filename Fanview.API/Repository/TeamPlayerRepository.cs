@@ -388,9 +388,9 @@ namespace Fanview.API.Repository
         {
             _genericTeamPlayerRepository.Insert(player, "TeamPlayers");
         }
-        public void Deleteplayer(int playerid)
+        public void Deleteplayer(string playerid)
         {
-            var filter = Builders<TeamPlayer>.Filter.Eq(x => x.PlayerId, playerid);
+            var filter = Builders<TeamPlayer>.Filter.Eq(x => x.Id, playerid);
             _genericTeamPlayerRepository.DeleteOne(filter, "TeamPlayers");
 
         }

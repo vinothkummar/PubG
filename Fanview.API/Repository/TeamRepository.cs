@@ -448,9 +448,9 @@ namespace Fanview.API.Repository
 
 
         }
-        public void Deleteteam(int teamid)
+        public void Deleteteam(string teamid)
         {
-            var filter = Builders<Team>.Filter.Eq(x => x.TeamId, teamid);
+            var filter = Builders<Team>.Filter.Eq(x => x.Id, teamid);
             _team.DeleteOne(filter,"Team");
 
         }
