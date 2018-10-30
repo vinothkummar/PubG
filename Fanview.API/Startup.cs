@@ -42,7 +42,11 @@ namespace Fanview.API
         public void ConfigureServices(IServiceCollection services)
         {
             //services.AddMemoryCache();
-            services.AddDistributedMemoryCache();
+            services.AddDistributedRedisCache(options =>
+            {
+                options.Configuration = "127.0.0.1:6379";
+                options.InstanceName = "Master";
+            });
 
 
             services.AddMvc();

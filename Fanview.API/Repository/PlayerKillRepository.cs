@@ -543,18 +543,18 @@ namespace Fanview.API.Repository
 
             if(kills.Count() > 0){
 
-                //foreach (var itemLiveKilled in kills)
-                //{
-                //    _liveKilledCachedData.Add(itemLiveKilled);
+                foreach (var itemLiveKilled in kills)
+                {
+                    _liveKilledCachedData.Add(itemLiveKilled);
 
-                //    _logger.LogInformation("LiveEventKilled added to the LiveKilledCache" + Environment.NewLine);
+                    _logger.LogInformation("LiveEventKilled added to the LiveKilledCache" + Environment.NewLine);
 
-                //    _cacheService.SaveToCache<IEnumerable<LiveEventKill>>("LiveKilledCache", _liveKilledCachedData, 20, 10);
+                    _cacheService.SaveToCache<IEnumerable<LiveEventKill>>("LiveKilledCache", _liveKilledCachedData, 25, 5);
 
-                //    var cacheTestData = _cacheService.RetrieveFromCache<IEnumerable<LiveEventKill>>("LiveKilledCache").Result;
+                    //var cacheTestData = _cacheService.RetrieveFromCache<IEnumerable<LiveEventKill>>("LiveKilledCache").Result;
 
-                //    _logger.LogInformation(cacheTestData.ToJson());
-                //}
+                    //_logger.LogInformation(cacheTestData.ToJson());
+                }
 
                 _LiveEventKill.Insert(kills.ToList(), "LiveEventKill");
             }
