@@ -35,6 +35,7 @@ namespace FanviewPollingService.Services
                                                          {
                                                              options.Configuration = "127.0.0.1:6379";
                                                              options.InstanceName = "Master";
+                                                             
                                                          })
                                                          .BuildServiceProvider();
             return serviceProvider;

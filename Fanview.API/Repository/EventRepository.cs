@@ -21,13 +21,11 @@ namespace Fanview.API.Repository
         private IMongoCollection<Event> tournamentsDb;
 
         public EventRepository( ICacheService cacheService, IGenericRepository<Event> tournamentRepository, ILogger<EventRepository> logger)
-        {
-            
+        {   
             _cacheService = cacheService;
             _tournamentRepository = tournamentRepository;
             _logger = logger;
             tournamentsDb = _tournamentRepository.GetMongoDbCollection("TournamentMatchId");
-
         }
 
         public void CreateAnEvent(Event newMatch)
