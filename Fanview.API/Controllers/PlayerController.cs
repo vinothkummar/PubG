@@ -104,6 +104,10 @@ namespace Fanview.API.Controllers
         {
             _teamPlayerRepository.updateplayer(player);
         }
-
+        [HttpPut("UpdateManyPlayers",Name = "UpdateManyPlayers")]
+        public void UpdateManyPlayers(List<TeamPlayer> players)
+        {
+            _teamPlayerRepository.Updatemanyplayers(players);
+        }
     }
 }
