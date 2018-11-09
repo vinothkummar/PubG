@@ -144,7 +144,7 @@ namespace Fanview.API.BusinessLayer
             {
                 return null;
             } 
-            return matchStatusObject;
+            return await Task.FromResult(matchStatusObject);
             
         }
 
