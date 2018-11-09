@@ -545,15 +545,15 @@ namespace Fanview.API.Repository
 
                 foreach (var itemLiveKilled in kills)
                 {
-                    _liveKilledCachedData.Add(itemLiveKilled);
-
-                    _logger.LogInformation("LiveEventKilled added to the LiveKilledCache" + Environment.NewLine);
+                    _liveKilledCachedData.Add(itemLiveKilled);                   
 
                     _cacheService.SaveToCache<IEnumerable<LiveEventKill>>("LiveKilledCache", _liveKilledCachedData, 30, 7);
 
-                    var cacheTestData = _cacheService.RetrieveFromCache<IEnumerable<LiveEventKill>>("LiveKilledCache").Result;
+                    _logger.LogInformation("LiveEventKilled added to the LiveKilledCache" + Environment.NewLine);
 
-                    _logger.LogInformation(cacheTestData.ToJson());
+                    //var cacheTestData = _cacheService.RetrieveFromCache<IEnumerable<LiveEventKill>>("LiveKilledCache").Result;
+
+                    //_logger.LogInformation(cacheTestData.ToJson());
                 }
 
                 _LiveEventKill.Insert(kills.ToList(), "LiveEventKill");
