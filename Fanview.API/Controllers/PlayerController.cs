@@ -109,5 +109,10 @@ namespace Fanview.API.Controllers
         {
             _teamPlayerRepository.Updatemanyplayers(players);
         }
+        [HttpDelete("DeleteAllplayers", Name = "DeleteAllplayers")]
+        public void DeleteAllPlayers()
+        {
+            _teamPlayerRepository.DeleteAllTeamPlayers();
+        }
     }
 }

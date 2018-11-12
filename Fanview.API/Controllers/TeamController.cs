@@ -61,6 +61,11 @@ namespace Fanview.API.Controllers
         {
             return _teamRepository.GetAllTeamStats();
         }
+        [HttpDelete("DeleteAllteam", Name = "DeleteAllteam")]
+        public void DeleteAll()
+        {
+            _teamRepository.DeleteAll();
+        }
 
         [HttpGet("Stats/{matchId}", Name = "GetTeamStats")]
         public Task<object> GetTeamStats(int matchId)

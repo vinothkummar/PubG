@@ -415,5 +415,10 @@ namespace Fanview.API.Repository
             }
 
         }
+        public void DeleteAllTeamPlayers()
+        {
+            var filter = Builders<TeamPlayer>.Filter.Empty;
+            _genericTeamPlayerRepository.DeleteMany(filter, "TeamPlayers");
+        }
     }
 }

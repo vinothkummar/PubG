@@ -33,5 +33,6 @@ namespace Fanview.API.Repository.Interface
         void postteam(Team team);
         void updateteam(Team team);
         void Deleteteam(string teamid);
+        void DeleteAll();
     }
 }
