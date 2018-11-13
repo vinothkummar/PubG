@@ -434,11 +434,11 @@ namespace Fanview.API.Repository
         {
             return _team.GetAll("Team").Result;
         }
-        public void postteam(Team team)
+        public void PostTeam(Team team)
         {
             _team.Insert(team, "Team");
         }
-        public void updateteam(Team team)
+        public void UpdateTeam(Team team)
         {
             var Teamdetails=_team.GetMongoDbCollection("Team");
             var document = Teamdetails.Find(Builders<Team>.Filter.Where(cn => cn.TeamId == team.TeamId)).FirstOrDefault();
@@ -448,7 +448,7 @@ namespace Fanview.API.Repository
 
 
         }
-        public void Deleteteam(int teamid)
+        public void DeleteTeam(int teamid)
         {
             var filter = Builders<Team>.Filter.Eq(x => x.TeamId, teamid);
             _team.DeleteOne(filter,"Team");
