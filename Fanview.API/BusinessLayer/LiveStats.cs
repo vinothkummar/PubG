@@ -124,17 +124,27 @@ namespace Fanview.API.BusinessLayer
 
         }
 
-        public async Task<IEnumerable<LiveMatchStatus>> GetLiveStatus(int matchId)
+        public async Task<IEnumerable<Object>> GetLiveStatus(int matchId)
         {
 
             var matchStatus = _matchSummaryRepository.GetLiveMatchStatus(matchId).Result;
 
-            if(matchStatus == null)
+            var matchStatusObject = matchStatus.Where(cn => cn.TeamId != 0).Select(s => new 
+                                    {
+                                        TeamId = s.TeamId,
+                                        TeamName = s.TeamName,
+                                        Players = s.TeamPlayers,
+                                        AliveCount = s.AliveCount,
+                                        DeadCount = s.DeadCount,
+                                        EliminatedAt = s.EliminatedAt,
+                                        IsEliminated = s.IsEliminated
+                                    });
+
+            if(matchStatusObject == null)
             {
                 return null;
-            }
-
-            return matchStatus;
+            } 
+            return await Task.FromResult(matchStatusObject);
             
         }
 
