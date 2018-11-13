@@ -36,18 +36,18 @@ namespace Fanview.API.Controllers
         {
             return _teamRepository.GetTeam();
         }
-        [HttpPost("postnewteam",Name = "postnewteam")]
-        public void postnewteam(Team team)
+        [HttpPost("PostNewTeam",Name = "PostNewTeam")]
+        public void PostNewTeam(Team team)
         {
             _teamRepository.PostTeam(team);
         }
-        [HttpPut("Updateteam",Name ="Updateteam")]
-        public void Updateteam(Team team)
+        [HttpPut("UpdateTeam",Name ="UpdateTeam")]
+        public void UpdateTeam(Team team)
         {
             _teamRepository.UpdateTeam(team);
         }
         [HttpDelete("Deleteteam/{teamId}", Name = "Deleteteam")]
-        public void Deleteteam(int teamid)
+        public void DeleteTeam(int teamid)
         {
             _teamRepository.DeleteTeam(teamid);
         }
