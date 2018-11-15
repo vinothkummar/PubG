@@ -438,16 +438,7 @@ namespace Fanview.API.Repository
         {
             _team.Insert(team, "Team");
         }
-        public void UpdateTeam(Team team)
-        {
-            var Teamdetails=_team.GetMongoDbCollection("Team");
-            var document = Teamdetails.Find(Builders<Team>.Filter.Where(cn => cn.TeamId == team.TeamId)).FirstOrDefault();
-            team.Id = document.Id;
-            var filter = Builders<Team>.Filter.Eq(s => s.Id, team.Id);
-            _team.Replace(team, filter, "Team");
-
-
-        }
+     
         public void DeleteTeam(int teamid)
         {
             var filter = Builders<Team>.Filter.Eq(x => x.TeamId, teamid);
