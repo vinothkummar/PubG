@@ -35,10 +35,10 @@ namespace Fanview.API.Controllers
         /// Return Kill Leadear Board List     
         /// </summary>
         /// <remarks>
-        /// Sample request: api/LeaderList/{matchId}
+        /// Sample request: api/LeaderList/Kills{matchId}
         /// </remarks>
         /// <param name='matchId'>1</param>
-        [HttpGet("{matchId}")]
+        [HttpGet("Kills/{matchId}")]
         public Task<KillLeader> GetKillLeaderList(int matchId)
         {
            return _playerKillRepository.GetKillLeaderList(matchId,0);
@@ -50,11 +50,11 @@ namespace Fanview.API.Controllers
         /// Return top(n) kill list per matchId      
         /// </summary>
         /// <remarks>
-        /// Sample request: api/LeaderList/{matchId}/4        
+        /// Sample request: api/LeaderList/Kills/{matchId}/4        
         /// </remarks>
         /// <param name='matchId'>1</param>
         /// <param name='topCount'>6</param>
-        [HttpGet("{matchId}/{topCount}")]
+        [HttpGet("Kills/{matchId}/{topCount}")]
         public Task<KillLeader> GetKillLeaderList(int matchId, int topCount)
         {
             return _playerKillRepository.GetKillLeaderList(matchId, topCount);
@@ -78,9 +78,9 @@ namespace Fanview.API.Controllers
         /// Return Kill Leader List Per Tournament     
         /// </summary>
         /// <remarks>
-        /// Sample request: api/Kill/LeaderList      
+        /// Sample request: api/Kills/LeaderList      
         /// </remarks>       
-        [HttpGet]
+        [HttpGet("Kills")]
         public Task<KillLeader> GetKillLeaderList()
         {
             return _playerKillRepository.GetKillLeaderList();
@@ -92,9 +92,9 @@ namespace Fanview.API.Controllers
         /// Return Kill Leader List Topped by Time in the Tournament   
         /// </summary>
         /// <remarks>
-        /// Sample request: api/LeaderList/ToppedByTime      
+        /// Sample request: api/LeaderList/TimeSurvived      
         /// </remarks>    
-        [HttpGet("ToppedByTime")]
+        [HttpGet("TimeSurvived")]
         public Task<KillLeader> GetKillLeaderListTopByTimed()
         {
             return _playerKillRepository.GetKillLeaderListTopByTimed();
@@ -105,14 +105,12 @@ namespace Fanview.API.Controllers
         /// Return Kill Leader List Topped by DamageDealt in the Tournament   
         /// </summary>
         /// <remarks>
-        /// Sample request: api/LeaderList/ToppedByDamageDealt      
+        /// Sample request: api/LeaderList/DamageDealt      
         /// </remarks>    
-        [HttpGet("ToppedByDamageDealt")]
+        [HttpGet("DamageDealt")]
         public Task<KillLeader> GetKillLeaderListToppedByDamageDealt()
         {
             return _playerKillRepository.GetKillLeaderListToppedByDamageDealt();
-
-            
         }
     }
 }
