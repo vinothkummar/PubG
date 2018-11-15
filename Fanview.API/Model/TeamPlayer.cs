@@ -31,5 +31,6 @@ namespace Fanview.API.Model
         public string PubgAccountId { get; set; }
         public Boolean PlayerStatus { get; set; }
         public Location Location { get; set; }
+        public bool isduplicated { get; set; }
     }
 }

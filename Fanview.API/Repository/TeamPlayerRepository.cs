@@ -380,5 +380,17 @@ namespace Fanview.API.Repository
 
             return PlayerProfileGrouped;
         }
+    
+        public void PostNewPlayer(TeamPlayer player)
+        {
+            _genericTeamPlayerRepository.Insert(player, "TeamPlayers");
+        }
+        public void Deleteplayer(string playerid)
+        {
+            var filter = Builders<TeamPlayer>.Filter.Eq(x => x.Id, playerid);
+            _genericTeamPlayerRepository.DeleteOne(filter, "TeamPlayers");
+
+        }
+
     }
 }
