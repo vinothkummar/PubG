@@ -430,7 +430,21 @@ namespace Fanview.API.Repository
 
             return Task.FromResult(response);
         }
+        public async Task<IEnumerable<Team>> GetTeams()
+        {
+            return _team.GetAll("Team").Result;
+        }
+        public void PostTeam(Team team)
+        {
+            _team.Insert(team, "Team");
+        }
+     
+        public void DeleteTeam(int teamid)
+        {
+            var filter = Builders<Team>.Filter.Eq(x => x.TeamId, teamid);
+            _team.DeleteOne(filter,"Team");
 
+        }
 
     }
 }

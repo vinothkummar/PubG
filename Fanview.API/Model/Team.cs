@@ -21,6 +21,7 @@ namespace Fanview.API.Model
         public string ShortName { get; set; }
         [BsonElement("region")]
         public string Region { get; set; }
+      
 
     }
 }

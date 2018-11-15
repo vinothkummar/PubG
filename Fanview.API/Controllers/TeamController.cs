@@ -31,6 +31,22 @@ namespace Fanview.API.Controllers
         {
             return _teamRepository.GetAllTeam();
         }
+        [HttpGet("GetTeamDetails", Name = "GetTeamDetails")]
+        public Task<IEnumerable<Team>> GetTeamDetails()
+        {
+            return _teamRepository.GetTeam();
+        }
+        [HttpPost("PostNewTeam",Name = "PostNewTeam")]
+        public void PostNewTeam(Team team)
+        {
+            _teamRepository.PostTeam(team);
+        }
+        
+        [HttpDelete("Deleteteam/{teamId}", Name = "Deleteteam")]
+        public void DeleteTeam(int teamid)
+        {
+            _teamRepository.DeleteTeam(teamid);
+        }
 
         /// <summary>
         /// Returns Team Stats for all the teams  
