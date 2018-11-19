@@ -121,7 +121,7 @@ namespace Fanview.API.BusinessLayer
                                       .OrderBy(o => o.pl.EventTimeStamp).GroupBy(g => g.pl.TeamId)
                                       .Select(s => new Route()
                                       {
-                                          TeamID = s.Select(a => a.pl.TeamId).ElementAtOrDefault(0),
+                                          TeamId = s.Select(a => a.pl.TeamId).ElementAtOrDefault(0),
                                           TeamName = s.Select(a => a.pl.TeamName).ElementAtOrDefault(0),
                                           TeamRank = s.Select(a => a.pl.TeamRank).ElementAtOrDefault(0),
                                           PlayerName = s.Select(a => a.pl.PlayerName).ElementAtOrDefault(0),
@@ -153,7 +153,7 @@ namespace Fanview.API.BusinessLayer
 
                 var route = new Route();
 
-                route.TeamID = item.TeamID;
+                route.TeamId = item.TeamId;
                 route.TeamName = item.TeamName;
                 route.TeamRank = item.TeamRank;
                 route.PlayerName = item.PlayerName;
