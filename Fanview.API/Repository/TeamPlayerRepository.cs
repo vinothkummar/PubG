@@ -380,10 +380,7 @@ namespace Fanview.API.Repository
 
             return PlayerProfileGrouped;
         }
-        public async Task<IEnumerable<TeamPlayer>> GetPlayers()
-        {
-            return  await _genericTeamPlayerRepository.GetAll("TeamPlayers");
-        }
+    
         public void PostNewPlayer(TeamPlayer player)
         {
             _genericTeamPlayerRepository.Insert(player, "TeamPlayers");
@@ -392,16 +389,6 @@ namespace Fanview.API.Repository
         {
             var filter = Builders<TeamPlayer>.Filter.Eq(x => x.Id, playerid);
             _genericTeamPlayerRepository.DeleteOne(filter, "TeamPlayers");
-
-        }
-        public void updateplayer(TeamPlayer player)
-        {
-            var playersdetails = _genericTeamPlayerRepository.GetMongoDbCollection("TeamPlayers");
-            var document = playersdetails.Find(Builders<TeamPlayer>.Filter.Where(x=> x.PlayerId== player.PlayerId)).FirstOrDefault();
-            player.Id = document.Id;
-            var filter = Builders<TeamPlayer>.Filter.Eq(s => s.Id, player.Id);
-            _genericTeamPlayerRepository.Replace(player, filter, "TeamPlayers");
-
 
         }
         public void Updatemanyplayers(IEnumerable<TeamPlayer> players)
@@ -415,5 +402,6 @@ namespace Fanview.API.Repository
             }
 
         }
+
     }
 }
