@@ -13,7 +13,7 @@ namespace Fanview.API.Model
         [BsonElement("playerName")]
         public string PlayerName { get; set; }
         [BsonElement("isAlive")]
-        public bool IsALive { get; set; }
+        public bool IsAlive { get; set; }
 
     }
 }
