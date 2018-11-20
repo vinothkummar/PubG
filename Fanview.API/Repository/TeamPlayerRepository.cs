@@ -380,10 +380,7 @@ namespace Fanview.API.Repository
 
             return PlayerProfileGrouped;
         }
-        public async Task<IEnumerable<TeamPlayer>> GetPlayers()
-        {
-            return  await _genericTeamPlayerRepository.GetAll("TeamPlayers");
-        }
+        
         public void PostNewPlayer(TeamPlayer player)
         {
             _genericTeamPlayerRepository.Insert(player, "TeamPlayers");
