@@ -441,30 +441,18 @@ namespace Fanview.API.Repository
 
             var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == int.Parse(matchId))).Result.FirstOrDefaultAsync().Result.Id;
 
-            //var playerKilled = kills.Join(teamPlayer, pk => new { VictimTeamId = pk.VictimTeamId }, tp => new { VictimTeamId = tp.TeamIdShort }, (pk, tp) => new { pk, tp })
-            //                        .Join(teams, pktp => new { TeamShortId = pktp.tp.TeamIdShort }, t => new { TeamShortId = t.TeamId }, (pktp, t) => new { pktp, t })
-            //                        .Select(s =>
+           
 
             var liveEventKillList = _LiveEventKill.GetAll("LiveEventKill").Result.Where(cn => cn.MatchId == tournamentMatchId)
-                                                  .Join(teamPlayers, lek => lek.VictimTeamId, tp => tp.TeamIdShort, (lek, tp) => new { lek, tp })
-                                                  .Join(teams, pktp => new { TeamShortId = pktp.tp.TeamIdShort }, t => new { TeamShortId = t.TeamId }, (pktp, t) => new { pktp, t })
-                                                  .Where(cn => cn.pktp.lek.IsGroggy == false)
-                                                  .GroupBy(g => g.pktp.lek.KillerName).Select(s => new Kills()
+                                                  .Join(teams, lek => new { TeamShortId = lek.KillerTeamId}, t => new { TeamShortId = t.TeamId }, (pkt, t) => new { pkt, t })
+                                                  .Where(cn => cn.pkt.IsGroggy == false)
+                                                  .GroupBy(g => g.pkt.KillerName).Select(s => new Kills()
                                                   {
                 kills = s.Count(),
                 playerName = s.Key,
-                playerId = s.Select(a => a.pktp.tp.PlayerId).ElementAtOrDefault(0),
-                teamId = s.Select(a => a.pktp.lek.KillerTeamId).ElementAtOrDefault(0)
+                playerId = teamPlayers.FirstOrDefault(f => f.PlayerName == s.Key).PlayerId,
+                teamId = s.FirstOrDefault().pkt.KillerTeamId
             }).OrderByDescending(o => o.kills).Take(topCount > 0 ? topCount : 10);
-
-            //liveEventKillList = liveEventKillList.Join(teamPlayers, lek => lek.playerName.Trim(), tp => tp.PlayerName.Trim(), (lek, tp) => new { lek, tp })
-            //                                    .Select(s => new Kills()
-            //                                    {
-            //                                        kills = s.lek.kills,
-            //                                        playerName = s.lek.playerName,
-            //                                        playerId = s.tp.PlayerId,
-            //                                        teamId = s.lek.teamId
-            //                                    });
                                                 
             var killLeaders = new KillLeader()
             {
@@ -479,9 +467,9 @@ namespace Fanview.API.Repository
             var playerKilledFromOpenApi = GetPlayerKilled(matchId).Result.Select(s => new KillZone() {
 
                 MatchId = s.MatchId,
+                PlayerId = _teamPlayerRepository.GetTeamPlayers().Result.FirstOrDefault(cn => cn.PlayerName == s.Victim.Name).PlayerId,
                 PlayerName = s.Victim.Name,
                 TeamId = s.Victim.TeamId,
-                Health = s.Victim.Health,
                 Location = s.Victim.Location
             });
 

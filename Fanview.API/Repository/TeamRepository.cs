@@ -395,7 +395,7 @@ namespace Fanview.API.Repository
 
             var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
 
-            var veichelLanding = _vehicleLeave.GetMongoDbCollection("VehicleLeave").AsQueryable().Where(c=>c.MatchId == tournamentMatchId && c.Vehicle.VehicleType== "Parachute").ToList();
+            var veichelLanding = _vehicleLeave.GetMongoDbCollection("VehicleLeave").AsQueryable().Where(c=>c.MatchId == tournamentMatchId && c.Vehicle.VehicleType== "Parachute" && c.RideDistance != 0).ToList();
             var response = new TeamLanding();
             var landing = new List<Landing>();
             response.MatchdId = tournamentMatchId;
@@ -434,23 +434,14 @@ namespace Fanview.API.Repository
         {
             return _team.GetAll("Team").Result;
         }
-        public void postteam(Team team)
+        public void PostTeam(Team team)
         {
             _team.Insert(team, "Team");
         }
-        public void updateteam(Team team)
+     
+        public void DeleteTeam(int teamid)
         {
-            var Teamdetails=_team.GetMongoDbCollection("Team");
-            var document = Teamdetails.Find(Builders<Team>.Filter.Where(cn => cn.TeamId == team.TeamId)).FirstOrDefault();
-            team.Id = document.Id;
-            var filter = Builders<Team>.Filter.Eq(s => s.Id, team.Id);
-            _team.Replace(team, filter, "Team");
-
-
-        }
-        public void Deleteteam(string teamid)
-        {
-            var filter = Builders<Team>.Filter.Eq(x => x.Id, teamid);
+            var filter = Builders<Team>.Filter.Eq(x => x.TeamId, teamid);
             _team.DeleteOne(filter,"Team");
 
         }

@@ -463,7 +463,7 @@ namespace Fanview.API.Repository
 
                         teamPlayerStatus.PlayerId = teamPlayers.Where(cn => cn.PlayerName == item2.PlayerName).Select(a => a.PlayerId).FirstOrDefault();
                         teamPlayerStatus.PlayerName = item2.PlayerName;
-                        teamPlayerStatus.IsALive = item2.Health > 0 ? true : false;
+                        teamPlayerStatus.IsAlive = item2.Health > 0 ? true : false;
 
 
                         aliveCount = item2.Health > 0 ? ++aliveCountIncremental : aliveCountIncremental;

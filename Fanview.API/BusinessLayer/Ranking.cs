@@ -8,6 +8,7 @@ using Fanview.API.Repository.Interface;
 using Fanview.API.Repository;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
+using Fanview.API.Model.ViewModels;
 
 namespace Fanview.API.BusinessLayer
 {
@@ -139,7 +140,7 @@ namespace Fanview.API.BusinessLayer
             return await Task.FromResult(teamStandings);
         }
 
-        public async Task<IEnumerable<MatchRanking>> GetMatchRankings(int matchId)
+        public async Task<IEnumerable<RankingResults>> GetMatchRankings(int matchId)
         {
             var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
 
@@ -165,26 +166,36 @@ namespace Fanview.API.BusinessLayer
 
                 if (matchStandings.Where(cn => cn.TotalPoints == item.TotalPoints).Count() > 0) {
                     i = i - 1;
-                    matchRanking.TeamRank = $"#{i}";
+                    matchRanking.TeamRank = $"{i}";
                     i = i + 2;
                     
 
                 }
                 else
                 {
-                    matchRanking.TeamRank = $"#{i++}";
+                    matchRanking.TeamRank = $"{i++}";
                 }
 
                 matchRanking.PubGOpenApiTeamId = item.PubGOpenApiTeamId;
 
                 matchStandings.Add(matchRanking);
-
             }
-            return await Task.FromResult(matchStandings.OrderByDescending(o => o.TotalPoints).ThenByDescending(t => t.KillPoints));
+
+            var rankingResult = matchStandings.Select(s => new RankingResults()
+            {
+                TeamRank = s.TeamRank,
+                TeamId = s.ShortTeamID,
+                TeamName = s.TeamName,
+                KillPoints = s.KillPoints,
+                RankPoints = s.RankPoints,
+                TotalPoints = s.TotalPoints,
+            }).OrderByDescending(o => o.TotalPoints).ThenByDescending(t => t.KillPoints);
+
+            return await Task.FromResult(rankingResult);
 
         }
 
-        public Task<IEnumerable<MatchRanking>> GetTournamentRankings()
+        public Task<Object> GetTournamentRankings()
         {
             var matchRankingCollection = _genericMatchRankingRepository.GetAll("MatchRanking");
             var i = 1;
@@ -202,8 +213,7 @@ namespace Fanview.API.BusinessLayer
                                             TeamName = k.TeamName,
                                             KillPoints = k.KillPoints,
                                             RankPoints = k.RankPoints,
-                                            TotalPoints = k.TotalPoints//,
-                                            //TeamRank = $"#{i++}"
+                                            TotalPoints = k.TotalPoints
                                         });
 
           
@@ -222,12 +232,12 @@ namespace Fanview.API.BusinessLayer
                 if (matchStandings.Where(cn => cn.TotalPoints == item.TotalPoints).Count() > 0)
                 {
                     i = i - 1;
-                    matchRanking.TeamRank = $"#{i}";
+                    matchRanking.TeamRank = $"{i}";
                     i = i + 2;
                 }
                 else
                 {
-                    matchRanking.TeamRank = $"#{i++}";
+                    matchRanking.TeamRank = $"{i++}";
                 }
 
                 matchRanking.PubGOpenApiTeamId = item.PubGOpenApiTeamId;
@@ -238,8 +248,18 @@ namespace Fanview.API.BusinessLayer
 
             matchStandings = matchStandings.OrderByDescending(o => o.TotalPoints).ThenByDescending(t => t.KillPoints).ToList();
 
+            Object rankingResult = matchStandings.Select(s => new
+            {
+                TeamRank = s.TeamRank,
+                TeamId = s.PubGOpenApiTeamId,
+                TeamName = s.TeamName,
+                KillPoints = s.KillPoints,
+                RankPoints = s.RankPoints,
+                TotalPoints = s.TotalPoints,
 
-           return Task.FromResult(matchStandings.Select(a => a));
+            });
+
+            return Task.FromResult(rankingResult);
           
         }
 

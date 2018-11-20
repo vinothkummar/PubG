@@ -9,8 +9,8 @@ namespace Fanview.API.BusinessLayer.Contracts
 {
     public interface ILiveStats
     {
-        Task<IEnumerable<LiveMatchStatus>> GetLiveStatus(int matchId);
+        Task<IEnumerable<Object>> GetLiveStatus(int matchId);
         
-        Task<IEnumerable<MatchRanking>> GetLiveStatsRanking(int matchId);
+        //Task<IEnumerable<MatchRanking>> GetLiveStatsRanking(int matchId);
     }
 }

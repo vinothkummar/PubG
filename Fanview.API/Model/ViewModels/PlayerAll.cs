@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 namespace Fanview.API.Model.ViewModels
 {
     public class PlayerAll
-    {       
-        public string Id { get; set; }
+    {   public string Id { get; set; }
         public int TeamId { get; set;}
         public string longTeamId { get; set; }
         public int PlayerId { get; set; }      
