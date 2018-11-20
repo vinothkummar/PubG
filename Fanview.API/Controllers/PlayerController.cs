@@ -36,6 +36,7 @@ namespace Fanview.API.Controllers
                     result.Add(
                     new PlayerAll()
                     {
+                        Id=item.Id,
                         TeamId = item.TeamIdShort,
                         PlayerId = item.PlayerId,
                         PlayerName = item.PlayerName,
@@ -99,11 +100,7 @@ namespace Fanview.API.Controllers
         {
             _teamPlayerRepository.Deleteplayer(playerid);
         }
-        [HttpPut("UpdatePlayer", Name = "UpdatePlayer")]
-        public void UpdatePlayer(TeamPlayer player)
-        {
-            _teamPlayerRepository.updateplayer(player);
-        }
+        
         [HttpPut("UpdateManyPlayers",Name = "UpdateManyPlayers")]
         public void UpdateManyPlayers(List<TeamPlayer> players)
         {

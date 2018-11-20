@@ -394,16 +394,8 @@ namespace Fanview.API.Repository
             _genericTeamPlayerRepository.DeleteOne(filter, "TeamPlayers");
 
         }
-        public void updateplayer(TeamPlayer player)
-        {
-            var playersdetails = _genericTeamPlayerRepository.GetMongoDbCollection("TeamPlayers");
-            var document = playersdetails.Find(Builders<TeamPlayer>.Filter.Where(x=> x.PlayerId== player.PlayerId)).FirstOrDefault();
-            player.Id = document.Id;
-            var filter = Builders<TeamPlayer>.Filter.Eq(s => s.Id, player.Id);
-            _genericTeamPlayerRepository.Replace(player, filter, "TeamPlayers");
-
-
-        }
+        
+        
         public void Updatemanyplayers(IEnumerable<TeamPlayer> players)
         {
             var playersdetails = _genericTeamPlayerRepository.GetMongoDbCollection("TeamPlayers");
