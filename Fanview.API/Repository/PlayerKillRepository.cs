@@ -467,9 +467,9 @@ namespace Fanview.API.Repository
             var playerKilledFromOpenApi = GetPlayerKilled(matchId).Result.Select(s => new KillZone() {
 
                 MatchId = s.MatchId,
+                PlayerId = _teamPlayerRepository.GetTeamPlayers().Result.FirstOrDefault(cn => cn.PlayerName == s.Victim.Name).PlayerId,
                 PlayerName = s.Victim.Name,
                 TeamId = s.Victim.TeamId,
-                Health = s.Victim.Health,
                 Location = s.Victim.Location
             });
 

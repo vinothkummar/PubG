@@ -62,7 +62,7 @@ namespace Fanview.API.BusinessLayer
            
 
 
-            var playerLocation = matchPlayerPosition.Join(teamStatsRanking, mpp => mpp.TeamId, t => t.ShortTeamID, (mpp, t) => new { mpp, t })
+            var playerLocation = matchPlayerPosition.Join(teamStatsRanking, mpp => mpp.TeamId, t => t.TeamId, (mpp, t) => new { mpp, t })
                                                     .OrderBy(o => o.mpp.TeamId).ThenBy(o1 => o1.mpp.Name)
                                                     .Select(s => new
                                                     {  
@@ -97,7 +97,7 @@ namespace Fanview.API.BusinessLayer
 
                                                    
 
-            var playerVehicleLeaveTop3Teams = playerVehicleLeave.Where(cn => teamStatsRanking.Select(s => s.ShortTeamID).Contains(cn.Character.TeamId));
+            var playerVehicleLeaveTop3Teams = playerVehicleLeave.Where(cn => teamStatsRanking.Select(s => s.TeamId).Contains(cn.Character.TeamId));
 
             var logPlayerKilled = _kill.GetMongoDbCollection("Kill").FindAsync(Builders<Kill>.Filter.Where(cn => cn.MatchId == tournamentMatchId)).Result.ToListAsync().Result
                                                                   .Join(playerVehicleLeaveTop3Teams, k => new { Name = k.Victim.Name }, t => new { Name = t.Character.Name },
