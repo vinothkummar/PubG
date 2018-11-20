@@ -23,6 +23,7 @@ namespace Fanview.API.Repository.Interface
         void PostNewPlayer(TeamPlayer player);
         void Deleteplayer(string playerid);
         void Updatemanyplayers(IEnumerable<TeamPlayer> players);
+        void DeleteAllTeamPlayers();
 
     }
 }
