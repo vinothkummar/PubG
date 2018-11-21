@@ -36,7 +36,7 @@ namespace Fanview.API.Controllers
                     result.Add(
                     new PlayerAll()
                     {
-                        Id = item.Id,
+                        Id=item.Id,
                         TeamId = item.TeamIdShort,
                         PlayerId = item.PlayerId,
                         PlayerName = item.PlayerName,
@@ -84,8 +84,7 @@ namespace Fanview.API.Controllers
         {
             return _teamPlayerRepository.GetTeamPlayersStatsMatchUp(playerId1, playerId2, matchId);
         }
-       
-     
+   
         [HttpPost("PostPlayer", Name = "PostNewPlayer")]
         public void PostNewPlayer(TeamPlayer player)
         {
@@ -97,7 +96,16 @@ namespace Fanview.API.Controllers
         {
             _teamPlayerRepository.Deleteplayer(playerid);
         }
-      
-
+        
+        [HttpPut("UpdateManyPlayers",Name = "UpdateManyPlayers")]
+        public void UpdateManyPlayers(List<TeamPlayer> players)
+        {
+            _teamPlayerRepository.Updatemanyplayers(players);
+        }
+        [HttpDelete("DeleteAllplayers", Name = "DeleteAllplayers")]
+        public void DeleteAllPlayers()
+        {
+            _teamPlayerRepository.DeleteAllTeamPlayers();
+        }
     }
 }

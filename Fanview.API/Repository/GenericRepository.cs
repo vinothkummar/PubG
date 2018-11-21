@@ -40,8 +40,11 @@ namespace FanviewPollingService.Repository
         public async Task<DeleteResult> DeleteMany(FilterDefinition<T> filter, string collectionName)
         {
             var collection = database.GetCollection<T>(collectionName);
+            
             return await collection.DeleteManyAsync(filter);
+           
         }
+     
          
         public async Task<IEnumerable<T>> GetAll(string collectionName)
         {

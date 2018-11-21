@@ -445,6 +445,11 @@ namespace Fanview.API.Repository
             _team.DeleteOne(filter,"Team");
 
         }
+        public void DeleteAll()
+        {
+            var filter = FilterDefinition<Team>.Empty;
+            _team.DeleteMany(filter, "Team");
+        }
 
     }
 }
