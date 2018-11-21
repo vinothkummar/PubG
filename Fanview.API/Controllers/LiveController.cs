@@ -14,6 +14,7 @@ using Fanview.API.Model.ViewModels;
 namespace Fanview.API.Controllers
 {
     [Route("api/[controller]")]
+    [Produces("application/json")]
     [ApiController]
     public class LiveController : ControllerBase
     {
@@ -52,12 +53,13 @@ namespace Fanview.API.Controllers
             return _playerKilled.GetLivePlayerKilled(matchId);
         }
 
+        
         /// <summary>
         /// Returns Live Team Status
         /// </summary>       
         /// <param name='matchId'>1</param>
         [HttpGet("Status/{matchId}", Name = "GetLiveStatus")]
-        public Task<IEnumerable<Object>> GetLiveStatus(int matchId)
+        public Task<Object> GetLiveStatus(int matchId)
         {
             return _liveStatus.GetLiveStatus(matchId);
         }
