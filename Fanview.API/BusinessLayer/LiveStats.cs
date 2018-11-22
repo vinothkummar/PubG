@@ -9,6 +9,8 @@ using Fanview.API.Model.LiveModels;
 using Fanview.API.Model;
 using MongoDB.Driver;
 using Fanview.API.Model.ViewModels;
+using System.Globalization;
+using Fanview.API.Utility;
 
 namespace Fanview.API.BusinessLayer
 {
@@ -124,28 +126,31 @@ namespace Fanview.API.BusinessLayer
 
         //}
 
-        public async Task<IEnumerable<Object>> GetLiveStatus(int matchId)
+        public async Task<Object> GetLiveStatus(int matchId)
         {
 
             var matchStatus = _matchSummaryRepository.GetLiveMatchStatus(matchId).Result;
 
-            var matchStatusObject = matchStatus.Where(cn => cn.TeamId != 0).Select(s => new 
+            object matchStatusObject = matchStatus.Where(cn => cn.TeamId != 0).Select(s => new 
                                     {
                                         TeamId = s.TeamId,
                                         TeamName = s.TeamName,
                                         Players = s.TeamPlayers,
                                         AliveCount = s.AliveCount,
                                         DeadCount = s.DeadCount,
-                                        EliminatedAt = (double)Convert.ToDateTime(s.EliminatedAt).Subtract(new DateTime(1970,1,1)).TotalSeconds,                                        
+                                        //EliminatedAt = (double)DateTime.ParseExact(s.EliminatedAt, "dd/MM/yyyy hh:mm:ss.fff tt", CultureInfo.InvariantCulture).Subtract(new DateTime(1970,1,1)).TotalSeconds,                                        
+                                        EliminatedAt = Util.DateTimeToUnixTimestamp(s.EliminatedAt),
                                         IsEliminated = s.IsEliminated
                                     });
+
+           
             
             if(matchStatusObject == null)
             {
                 return null;
             } 
-            return await Task.FromResult(matchStatusObject);
-            
+
+            return await Task.FromResult(matchStatusObject);            
         }
 
 
