@@ -283,7 +283,6 @@ namespace Fanview.API.BusinessLayer
 
                 return await await Task.FromResult(matchRankings);
         }
-
         #region Unused code for the removal 
         //public async Task<IEnumerable<DailyMatchRankingScore>> GetSummaryRanking(string matchId1, string matchId2, string matchId3, string matchId4)
         //{
@@ -360,8 +359,6 @@ namespace Fanview.API.BusinessLayer
         //    return await Task.FromResult(dailysummaryRanking);
 
         //}
-        #endregion
-
         private IEnumerable<TeamRankPoints> GetTeamEliminatedPosition(IEnumerable<Kill> kills, string matchId, int totalTeamCount)
         {
             var teamPlayers = _teamPlayerRespository.GetTeamPlayers().Result;
@@ -472,6 +469,8 @@ namespace Fanview.API.BusinessLayer
 
             return teamsRankPoints;
         }
+
+        #endregion
         private int GetTeamFinishingPositions(int i)
         {
 

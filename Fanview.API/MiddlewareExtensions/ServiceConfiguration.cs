@@ -34,6 +34,7 @@ namespace Fanview.API.MiddlewareExtensions
             services.AddSingleton(typeof(ILiveRepository), typeof(LiveRepository));
             services.AddTransient<ILiveStats, LiveStats>();
             services.AddTransient<IMatchManagementRepository, MatchManagementRepository>();
+            services.AddTransient<ITeamLiveStatusRepository, TeamLiveStatusRepository>();
         }
     }
 }
