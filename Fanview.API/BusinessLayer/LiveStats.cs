@@ -138,8 +138,7 @@ namespace Fanview.API.BusinessLayer
                                         Players = s.TeamPlayers,
                                         AliveCount = s.AliveCount,
                                         DeadCount = s.DeadCount,
-                                        //EliminatedAt = (double)DateTime.ParseExact(s.EliminatedAt, "dd/MM/yyyy hh:mm:ss.fff tt", CultureInfo.InvariantCulture).Subtract(new DateTime(1970,1,1)).TotalSeconds,                                        
-                                        EliminatedAt = Util.DateTimeToUnixTimestamp(s.EliminatedAt),
+                                        EliminatedAt = s.EliminatedAt,
                                         IsEliminated = s.IsEliminated
                                     });
 

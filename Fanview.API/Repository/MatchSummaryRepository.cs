@@ -410,7 +410,8 @@ namespace Fanview.API.Repository
                 }).ToList(),
 
                 Version = (int)s["_V"],
-                EventTimeStamp = dateTime.AddSeconds((double)s["time"]).ToString("dd/MM/yyyy hh:mm:ss.fff tt"),               
+                //EventTimeStamp = dateTime.AddSeconds((double)s["time"]).ToString("dd/MM/yyyy hh:mm:ss.fff tt"), 
+                EventTimeStamp = (double)s["time"],
                 EventType = (string)s["_T"],
                 EventSourceFileName = fileName
 
@@ -424,11 +425,13 @@ namespace Fanview.API.Repository
         }
 
         private async Task CreateMatchLiveStatus(IEnumerable<EventLiveMatchStatus> matchStatus, string matchId)
-        {            
-            var teamPlayerCollection = _genericTeamPlayerRepository.GetMongoDbCollection("TeamPlayers");
+        {
+            //var teamPlayerCollection = _genericTeamPlayerRepository.GetMongoDbCollection("TeamPlayers");
 
-            var teamPlayers = await teamPlayerCollection.FindAsync(Builders<TeamPlayer>.Filter.Empty).Result.ToListAsync();
+            //var teamPlayers = await teamPlayerCollection.FindAsync(Builders<TeamPlayer>.Filter.Empty).Result.ToListAsync();
 
+            var teamPlayers = await _teamPlayerRepository.GetTeamPlayers();
+                
             var liveMatchStatus = _genericLiveMatchStatusRepository.GetMongoDbCollection("TeamLiveStatus");
 
             var isTeamLiveStatusCount = liveMatchStatus.FindAsync(Builders<LiveMatchStatus>.Filter.Where(cn => cn.MatchId == matchId)).Result.ToListAsync().Result.Count;           
