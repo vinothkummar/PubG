@@ -15,8 +15,6 @@ namespace FanviewPollingService.Services
 
         public static IServiceProvider BuildDI()
         {
-
-
             var serviceProvider = new ServiceCollection().AddLogging(configure => configure.AddSerilog())
                                                          .AddSingleton<IHttpClientRequest, HttpClientRequest>()
                                                          .AddSingleton<IClientBuilder, ClientBuilder>()
@@ -29,9 +27,9 @@ namespace FanviewPollingService.Services
                                                          .AddTransient<ITeamRepository, TeamRepository>()
                                                          .AddTransient<IMatchRepository, MatchRepository>()
                                                          .AddTransient<IMatchSummaryRepository, MatchSummaryRepository>()
+                                                         .AddTransient<ITeamLiveStatusRepository, TeamLiveStatusRepository>()
                                                          .BuildServiceProvider();
             return serviceProvider;
         }
-
     }
 }

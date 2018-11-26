@@ -13,7 +13,7 @@ namespace Fanview.API.BusinessLayer.Contracts
 
         Task<IEnumerable<RankingResults>> GetMatchRankings(int matchId);
 
-        Task<IEnumerable<DailyMatchRankingScore>> GetSummaryRanking(string matchId1, string matchId2, string matchId3, string matchId4 );
+        //Task<IEnumerable<DailyMatchRankingScore>> GetSummaryRanking(string matchId1, string matchId2, string matchId3, string matchId4 );
 
         Task<IEnumerable<MatchRanking>> PollAndGetMatchRanking(string matchId);
 

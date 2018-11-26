@@ -26,7 +26,8 @@ namespace Fanview.API.Repository
         private ITeamRepository _teamRepository;
         private IGenericRepository<Event> _tournament;
         private ITeamPlayerRepository _teamPlayerRepository;
-        private IPlayerKillRepository _playerKillRepository;       
+        private IPlayerKillRepository _playerKillRepository;
+        private ITeamLiveStatusRepository _teamLiveStatusRepository;
         private ILogger<PlayerKillRepository> _logger;
         private Task<HttpResponseMessage> _pubGClientResponse;
         private DateTime LastMatchCreatedTimeStamp = DateTime.MinValue;
@@ -36,12 +37,13 @@ namespace Fanview.API.Repository
                                       IGenericRepository<MatchSummary> genericMatchSummaryRepository,
                                       IGenericRepository<MatchPlayerStats> genericMatchPlayerStatsRepository,
                                       IGenericRepository<TeamPlayer> genericTeamPlayerRepository,
-                                      IGenericRepository<MatchRanking> genericMatchRankingRepository,                                      
+                                      IGenericRepository<MatchRanking> genericMatchRankingRepository,
                                       IGenericRepository<LiveMatchStatus> genericLiveMatchStatusRepository,
                                       IGenericRepository<Event> tournament,
                                       ITeamRepository teamRepository,
                                       ITeamPlayerRepository teamPlayerRepository,
                                       IPlayerKillRepository playerKillRepository,
+                                      ITeamLiveStatusRepository teamLiveStatusRepository,
                                       ILogger<PlayerKillRepository> logger)
         {
             _httpClientBuilder = httpClientBuilder;            
@@ -55,6 +57,7 @@ namespace Fanview.API.Repository
             _tournament = tournament;
             _teamPlayerRepository = teamPlayerRepository;
             _playerKillRepository = playerKillRepository;
+            _teamLiveStatusRepository = teamLiveStatusRepository;
             _logger = logger;
         }
 
@@ -99,17 +102,13 @@ namespace Fanview.API.Repository
 
             var CurrentMatchCreatedTimeStamp = (string)jsonToJObject["data"]["attributes"]["createdAt"];
 
-            var matchSummaryData = GetMatchSummaryData(jsonToJObject);           
-
-            //var CurrentMatchCreatedTimeStamp = matchSummaryData.Attributes.CreatedAT.ToDateTimeFormat();
+            var matchSummaryData = GetMatchSummaryData(jsonToJObject);
 
             if (CurrentMatchCreatedTimeStamp.ToDateTimeFormat()  >  LastMatchCreatedTimeStamp)
             {
                 Func<Task> persistDataToMongo = async () => _genericMatchSummaryRepository.Insert(matchSummaryData, "MatchSummary");
 
                  await Task.Run(persistDataToMongo);
-
-                //_genericRepository.Insert(matchSummaryData, "MatchSummary");
 
                 LastMatchCreatedTimeStamp = CurrentMatchCreatedTimeStamp.ToDateTimeFormat();
             }
@@ -133,10 +132,6 @@ namespace Fanview.API.Repository
                     var jsonResult = _pubGClientResponse.Result.Content.ReadAsStringAsync().Result;
 
                      await Task.Run(async () => InsertMatchSummary(jsonResult));
-
-                    //await Task.Run(async () => _takeDamageRepository.InsertTakeDamageTelemetry(jsonResult));
-
-                    //InsertMatchSummary(jsonResult);
 
                     _logger.LogInformation("Completed Loading Poll Match Summary Response Json" + Environment.NewLine);
                 }
@@ -410,7 +405,7 @@ namespace Fanview.API.Repository
                 }).ToList(),
 
                 Version = (int)s["_V"],
-                EventTimeStamp = dateTime.AddSeconds((double)s["time"]).ToString("dd/MM/yyyy hh:mm:ss.fff tt"),               
+                EventTimeStamp = (double)s["time"],
                 EventType = (string)s["_T"],
                 EventSourceFileName = fileName
 
@@ -424,14 +419,18 @@ namespace Fanview.API.Repository
         }
 
         private async Task CreateMatchLiveStatus(IEnumerable<EventLiveMatchStatus> matchStatus, string matchId)
-        {            
-            var teamPlayerCollection = _genericTeamPlayerRepository.GetMongoDbCollection("TeamPlayers");
+        {
+            //var teamPlayerCollection = _genericTeamPlayerRepository.GetMongoDbCollection("TeamPlayers");
 
-            var teamPlayers = await teamPlayerCollection.FindAsync(Builders<TeamPlayer>.Filter.Empty).Result.ToListAsync();
+            //var teamPlayers = await teamPlayerCollection.FindAsync(Builders<TeamPlayer>.Filter.Empty).Result.ToListAsync();
+
+            var teamPlayers = await _teamPlayerRepository.GetTeamPlayers();
 
             var liveMatchStatus = _genericLiveMatchStatusRepository.GetMongoDbCollection("TeamLiveStatus");
 
-            var isTeamLiveStatusCount = liveMatchStatus.FindAsync(Builders<LiveMatchStatus>.Filter.Where(cn => cn.MatchId == matchId)).Result.ToListAsync().Result.Count;           
+            //var isTeamLiveStatusCount = liveMatchStatus.FindAsync(Builders<LiveMatchStatus>.Filter.Where(cn => cn.MatchId == matchId)).Result.ToListAsync().Result.Count;
+
+            var isTeamLiveStatusCount = _teamLiveStatusRepository.GetTeamLiveStatusCount(matchId).Result;
 
             var matchPlayerStatus = matchStatus.Select(a => a.PlayerInfos.GroupBy(g => g.TeamId).OrderBy(o => o.Key));
 
@@ -463,8 +462,15 @@ namespace Fanview.API.Repository
 
                         teamPlayerStatus.PlayerId = teamPlayers.Where(cn => cn.PlayerName == item2.PlayerName).Select(a => a.PlayerId).FirstOrDefault();
                         teamPlayerStatus.PlayerName = item2.PlayerName;
-                        teamPlayerStatus.IsAlive = item2.Health > 0 ? true : false;
+                        teamPlayerStatus.Location = item2.Location;
+                        teamPlayerStatus.Health = item2.Health;
+                        teamPlayerStatus.BoostGauge = item2.BoostGauge;
+                        teamPlayerStatus.State = item2.State;
+                        teamPlayerStatus.ArmedWeapon = item2.ArmedWeapon;
+                        teamPlayerStatus.ArmedAmmoCount = item2.ArmedAmmoCount;
+                        teamPlayerStatus.InventoryAmmoCount = item2.InventoryAmmoCount;
 
+                        teamPlayerStatus.IsAlive = item2.Health > 0 ? true : false;
 
                         aliveCount = item2.Health > 0 ? ++aliveCountIncremental : aliveCountIncremental;
 
@@ -488,7 +494,7 @@ namespace Fanview.API.Repository
 
                             if (isTeamPlayerStatus != null)
                             {
-                                if (isTeamPlayerStatus.EliminatedAt == null && teamLiveStatus.IsEliminated == true)
+                                if (isTeamPlayerStatus.EliminatedAt == 0  && teamLiveStatus.IsEliminated == true)
                                 {
                                     teamLiveStatus.EliminatedAt = matchStatusTimeStamp.ElementAtOrDefault(0);
                                 }
@@ -500,7 +506,8 @@ namespace Fanview.API.Repository
 
                 if (isTeamLiveStatusCount == 0)
                 {
-                    _genericLiveMatchStatusRepository.Insert(teamLiveStatusCollection, "TeamLiveStatus");
+                    //_genericLiveMatchStatusRepository.Insert(teamLiveStatusCollection, "TeamLiveStatus");
+                    _teamLiveStatusRepository.CreateTeamLiveStatus(teamLiveStatusCollection);
                 }
                 else
                 {
@@ -517,7 +524,9 @@ namespace Fanview.API.Repository
 
                                 var filter = Builders<LiveMatchStatus>.Filter.Eq(s => s.Id, document.Id);
 
-                                _genericLiveMatchStatusRepository.Replace(team, filter, "TeamLiveStatus");
+                                _teamLiveStatusRepository.ReplaceTeamLiveStatus(team, filter);
+
+                               //_genericLiveMatchStatusRepository.Replace(team, filter, "TeamLiveStatus");
                             }
                         }
                     }
