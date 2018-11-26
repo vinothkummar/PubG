@@ -41,9 +41,13 @@ namespace Fanview.API.Controllers
         {
             _teamRepository.PostTeam(team);
         }
-        
+        [HttpPut("UpdateManyTeams", Name = "UpdateManyTeams")]
+        public void UpdateManyTeams(IEnumerable<Team> teams)
+        {
+            _teamRepository.UpdatemanyTeams(teams);
+        }
         [HttpDelete("Deleteteam/{teamId}", Name = "Deleteteam")]
-        public void DeleteTeam(int teamid)
+        public void DeleteTeam(string teamid)
         {
             _teamRepository.DeleteTeam(teamid);
         }
@@ -80,5 +84,6 @@ namespace Fanview.API.Controllers
         {
             return _teamRepository.GetTeamProfilesByTeamIdAndMatchId(teamId1, teamId2, matchId);
         }
+
     }
 }

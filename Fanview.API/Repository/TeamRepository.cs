@@ -439,12 +439,24 @@ namespace Fanview.API.Repository
             _team.Insert(team, "Team");
         }
      
-        public void DeleteTeam(int teamid)
+        public void DeleteTeam(string teamid)
         {
-            var filter = Builders<Team>.Filter.Eq(x => x.TeamId, teamid);
+            var filter = Builders<Team>.Filter.Eq(x => x.Id, teamid);
             _team.DeleteOne(filter,"Team");
 
         }
+        public void UpdatemanyTeams(IEnumerable<Team> teams)
+        {
+            var teamdetails = _team.GetMongoDbCollection("Team");
+            foreach (var team in teams)
+            {
+                var document = teamdetails.Find(Builders<Team>.Filter.Where(x => x.Id== team.Id)).FirstOrDefault();
+                var filter = Builders<Team>.Filter.Eq(s => s.Id, team.Id);
+                _team.Replace(team, filter, "Team");
+            }
+
+        }
+
         public void DeleteAll()
         {
             var filter = FilterDefinition<Team>.Empty;
