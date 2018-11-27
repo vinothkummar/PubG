@@ -413,6 +413,8 @@ namespace Fanview.API.Repository
 
             if (matchStatus.Count() > 0)
             {
+                _teamLiveStatusRepository.CreateEventLiveMatchStatus(matchStatus);
+
                 var test = CreateMatchLiveStatus(matchStatus, matchStatus.Select(a => a.MatchId).ElementAtOrDefault(0));
             }
 
