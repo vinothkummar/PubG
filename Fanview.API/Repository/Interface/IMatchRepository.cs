@@ -12,6 +12,8 @@ namespace Fanview.API.Repository.Interface
     {
         //void PollMatchSessionId(string eventName);
         //void InsertEvent(string jsonResult, string eventName);
+
+        void InsertMatchSummary(string jsonResult, string matchId);
         Task<JObject> GetMatchesDetailsByID(string id);
         Task<JObject> GetMatchIdByTournament(string tournament);
         Task<IEnumerable<Event>> GetTournamentMatchId();

@@ -20,12 +20,14 @@ namespace Fanview.API.Repository
         private IHttpClientRequest _httpClientRequest;
         private IGenericRepository<Event> _genericRepository;
         private ILogger<MatchRepository> _logger;
-        private IGenericRepository<MatchSafeZone> _matchSafeZoneRepository;       
+        private IGenericRepository<MatchSafeZone> _matchSafeZoneRepository;
+        private IGenericRepository<MatchSummary> _matchSummaryRepository;
 
         public MatchRepository(IClientBuilder httpClientBuilder, 
                                IHttpClientRequest httpClientRequest,                               
                                IGenericRepository<Event> genericRepository,
                                IGenericRepository<MatchSafeZone> matchSafeZoneRepository,
+                               IGenericRepository<MatchSummary> matchSummaryRepository,
                                ILogger<MatchRepository> logger)
         {
             _httpClientBuilder = httpClientBuilder;
@@ -33,6 +35,7 @@ namespace Fanview.API.Repository
             _genericRepository = genericRepository;          
             _logger = logger;
             _matchSafeZoneRepository = matchSafeZoneRepository;
+            _matchSummaryRepository = matchSummaryRepository;
         }
         public async Task<JObject> GetMatchesDetailsByID(string id)
         {            
@@ -248,6 +251,25 @@ namespace Fanview.API.Repository
             
             return await Task.FromResult(findCircleDuplicate);
         }
-      
+
+        public async void InsertMatchSummary(string jsonResult, string matchId)
+        {
+            var matchSummary = _matchSummaryRepository.GetMongoDbCollection("MatchSummary");
+
+            var isMatchSafeZoneExist = await matchSummary.FindAsync(Builders<MatchSummary>.Filter.Where(cn => cn.MatchId == matchId)).Result.ToListAsync();
+
+            if (isMatchSafeZoneExist.Count() == 0 || isMatchSafeZoneExist == null)
+            {
+                var jsonToJObject = JObject.Parse(jsonResult);
+
+                var matchSummaryData = jsonToJObject.SelectToken("data").ToObject<MatchSummary>();
+
+                Func<Task> persistMatchSummaryToMongo = async () => _matchSummaryRepository.Insert(matchSummaryData, "MatchSummary");
+
+                await Task.Run(persistMatchSummaryToMongo);
+            }
+        }
+
+       
     }
 }
