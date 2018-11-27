@@ -288,8 +288,6 @@ namespace Fanview.API.Repository
             {
                 var response = _genericMatchPlayerStatsRepository.GetAll("MatchPlayerStats").Result.Where(cn => cn.MatchId == matchId);
 
-                // var response = _genericRepository.GetMongoDbCollection("Kill").FindAsyn(new BsonDocument());
-
                 _logger.LogInformation("GetPlayerMatchStats Repository Function call completed" + Environment.NewLine);
 
                 return await Task.FromResult(response);
