@@ -276,8 +276,6 @@ namespace Fanview.API.Repository
             {
                 _logger.LogInformation("Match Request Started" + Environment.NewLine);
 
-                //_pubGClientResponse = Task.Run(async () => await _servicerRequest.GetAsync(await _httpClient.CreateRequestHeader(), query));
-
                 _pubGClientResponse = _httpClientRequest.GetAsync(await _httpClientBuilder.CreateRequestHeader(), "shards/pc-tournaments/matches/" + matchId);
 
                 if (_pubGClientResponse.Result.StatusCode == HttpStatusCode.OK && _pubGClientResponse != null)
@@ -294,12 +292,11 @@ namespace Fanview.API.Repository
                     await Task.Run(async () => _playerRepository.InsertLogPlayerPosition(telemetryJsonResult, matchId));
                     await Task.Run(async () => _playerRepository.InsertVehicleLeaveTelemetry(telemetryJsonResult, matchId));
                     await Task.Run(async () => _matchRepository.InsertMatchSafeZonePosition(telemetryJsonResult, matchId));
+                    await Task.Run(async () => _matchRepository.InsertMatchSummary(jsonResult, matchId));
 
                     //await Task.Run(async () => InsertMatchPlayerStats(jsonResult));
 
-                    //await Task.Run(async () => _takeDamageRepository.InsertTakeDamageTelemetry(jsonResult));
-
-                    //InsertMatchSummary(jsonResult);
+                    //await Task.Run(async () => _takeDamageRepository.InsertTakeDamageTelemetry(jsonResult));              
 
                     _logger.LogInformation("Completed Loading Match Player Stats  Response Json" + Environment.NewLine);
                 }
@@ -317,7 +314,7 @@ namespace Fanview.API.Repository
         {
             var jsonToJObject = JObject.Parse(jsonResult);
 
-            var match = jsonToJObject.SelectToken("data").ToObject<MatchSummary>();
+            //var match = jsonToJObject.SelectToken("data").ToObject<MatchSummary>();
 
             JArray playerResultsIncluded = (JArray)jsonToJObject["included"];
 
@@ -462,8 +459,12 @@ namespace Fanview.API.Repository
             return killLeaders;
         }
 
-        public Task<IEnumerable<KillZone>> GetKillZone(int matchId)
+        public Task<Object> GetKillZone(int matchId)
         {
+            var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
+
+            var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
+
             var playerKilledFromOpenApi = GetPlayerKilled(matchId).Result.Select(s => new KillZone() {
 
                 MatchId = s.MatchId,
@@ -473,8 +474,14 @@ namespace Fanview.API.Repository
                 Location = s.Victim.Location
             });
 
+            Object killLocationData = new
+            {
+                MapName = _matchRepository.GetMapName(tournamentMatchId).Result,
+                KillLocation = playerKilledFromOpenApi
+               
+            };
 
-            return Task.FromResult(playerKilledFromOpenApi);
+            return Task.FromResult(killLocationData);
         }
 
         public void InsertLiveKillEventTelemetry(JObject[] jsonResult, string fileName)
@@ -503,7 +510,7 @@ namespace Fanview.API.Repository
                         var tournamentMatchDetails = new Event()
                         {
                             Id = _matchId,
-                            EventName = "PUBG Global Invitational Berlin 2018",
+                            EventName = "",
                             MatchId = tournamentMatchIdCount + 1,
                             CreatedAT = dateTime.AddSeconds((double)matchJoinTime).ToString()
                         };

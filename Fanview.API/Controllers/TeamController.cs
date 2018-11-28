@@ -41,7 +41,7 @@ namespace Fanview.API.Controllers
         {
             _teamRepository.PostTeam(team);
         }
-        [HttpPut("UpdateManyTeams", Name = "UpdateManyTeams")]
+        [HttpPost("UpdateManyTeams", Name = "UpdateManyTeams")]
         public void UpdateManyTeams(IEnumerable<Team> teams)
         {
             _teamRepository.UpdatemanyTeams(teams);

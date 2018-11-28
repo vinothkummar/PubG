@@ -97,7 +97,7 @@ namespace Fanview.API.Controllers
             _teamPlayerRepository.Deleteplayer(playerid);
         }
         
-        [HttpPut("UpdateManyPlayers",Name = "UpdateManyPlayers")]
+        [HttpPost("UpdateManyPlayers",Name = "UpdateManyPlayers")]
         public void UpdateManyPlayers(List<TeamPlayer> players)
         {
             _teamPlayerRepository.Updatemanyplayers(players);

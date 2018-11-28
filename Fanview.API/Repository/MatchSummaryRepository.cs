@@ -151,8 +151,6 @@ namespace Fanview.API.Repository
             {
                 _logger.LogInformation("Match Player Stats Request Started" + Environment.NewLine);
 
-                //_pubGClientResponse = Task.Run(async () => await _servicerRequest.GetAsync(await _httpClient.CreateRequestHeader(), query));
-
                 _pubGClientResponse = _httpClientRequest.GetAsync(await _httpClientBuilder.CreateRequestHeader(), "shards/pc-tournaments/matches/" + matchId);
 
                 if (_pubGClientResponse.Result.StatusCode == HttpStatusCode.OK && _pubGClientResponse != null)
@@ -289,8 +287,6 @@ namespace Fanview.API.Repository
             try
             {
                 var response = _genericMatchPlayerStatsRepository.GetAll("MatchPlayerStats").Result.Where(cn => cn.MatchId == matchId);
-
-                // var response = _genericRepository.GetMongoDbCollection("Kill").FindAsyn(new BsonDocument());
 
                 _logger.LogInformation("GetPlayerMatchStats Repository Function call completed" + Environment.NewLine);
 

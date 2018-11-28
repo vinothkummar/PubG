@@ -16,6 +16,7 @@ namespace Fanview.API.Repository
 {
     public class PlayerRepository : IPlayerRepository
     {
+        private IMatchRepository _matchRepository;
         private IGenericRepository<VehicleLeave> _genericRepository;
         private ILogger<PlayerRepository> _logger;        
         private IGenericRepository<PlayerPoition> _PlayerPositionRepository;
@@ -23,10 +24,11 @@ namespace Fanview.API.Repository
         private IGenericRepository<TeamPlayer> _teamPlayers;
         private IGenericRepository<Event> _tournament;
 
-        public PlayerRepository(IGenericRepository<VehicleLeave> genericRepository,
+        public PlayerRepository(IMatchRepository matchRepository, IGenericRepository<VehicleLeave> genericRepository, 
              IGenericRepository<PlayerPoition> playerPositionRepository,
              IGenericRepository<TeamPlayer> teamPlayers, ILogger<PlayerRepository> logger, IGenericRepository<Event> tournament)
         {
+            _matchRepository = matchRepository;
             _genericRepository = genericRepository;
             _PlayerPositionRepository = playerPositionRepository;
             _teamPlayers = teamPlayers;
@@ -152,6 +154,8 @@ namespace Fanview.API.Repository
             var fpath = new FlightPath();
 
             fpath.MatchId = matchId;
+
+            fpath.MapName = _matchRepository.GetMapName(tournamentMatchId).Result;
 
             fpath.FlightPathStart = flightPathfirstPosition.Character.Location;
 
