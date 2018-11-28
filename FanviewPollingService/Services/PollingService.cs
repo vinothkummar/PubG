@@ -51,9 +51,7 @@ namespace FanviewPollingService.Services
                     _logger.LogInformation("Service Polling Failure " + excep + Environment.NewLine);
 
                     throw;
-                }
-
-                ;
+                };
 
                 _logger.LogInformation( "Service Completed Polling "+ Environment.NewLine );
             });

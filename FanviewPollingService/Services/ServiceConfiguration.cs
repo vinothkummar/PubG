@@ -27,6 +27,7 @@ namespace FanviewPollingService.Services
                                                          .AddTransient<ITeamRepository, TeamRepository>()
                                                          .AddTransient<IMatchRepository, MatchRepository>()
                                                          .AddTransient<IMatchSummaryRepository, MatchSummaryRepository>()
+                                                         .AddTransient<IMatchRepository, MatchRepository>()
                                                          .AddTransient<ITeamLiveStatusRepository, TeamLiveStatusRepository>()
                                                          .BuildServiceProvider();
             return serviceProvider;
