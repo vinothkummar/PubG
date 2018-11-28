@@ -21,13 +21,13 @@ namespace Fanview.API.Repository
         private IGenericRepository<Event> _genericRepository;
         private ILogger<MatchRepository> _logger;
         private IGenericRepository<MatchSafeZone> _matchSafeZoneRepository;
-        private IGenericRepository<MatchSummary> _matchSummaryRepository;
+        private IGenericRepository<MatchSummaryData> _matchSummaryRepository;
 
         public MatchRepository(IClientBuilder httpClientBuilder, 
                                IHttpClientRequest httpClientRequest,                               
                                IGenericRepository<Event> genericRepository,
                                IGenericRepository<MatchSafeZone> matchSafeZoneRepository,
-                               IGenericRepository<MatchSummary> matchSummaryRepository,
+                               IGenericRepository<MatchSummaryData> matchSummaryRepository,
                                ILogger<MatchRepository> logger)
         {
             _httpClientBuilder = httpClientBuilder;
@@ -214,7 +214,7 @@ namespace Fanview.API.Repository
             return result;
         }
 
-        public async Task<IEnumerable<SafeZoneViewModel>> GetMatchSafeZone(int matchId)
+        public async Task<Object> GetMatchSafeZone(int matchId)
         {
             var tournaments = _genericRepository.GetMongoDbCollection("TournamentMatchId");
 
@@ -223,13 +223,12 @@ namespace Fanview.API.Repository
             var safeZone = _matchSafeZoneRepository.GetMongoDbCollection("MatchSafeZone");
 
             var matchSafeZone = safeZone.FindAsync(Builders<MatchSafeZone>.Filter.Where(cn => cn.MatchId == tournamentMatchId )).Result.ToListAsync().Result
-                                            .Select(s => new SafeZoneViewModel() { SafetyZonePosition = s.GameState.SafetyZonePosition,
+                                            .Select(s => new SafeZone() { SafetyZonePosition = s.GameState.SafetyZonePosition,
                                                                                 SafetyZoneRadius = s.GameState.SafetyZoneRadius }).GroupBy(g => new { x = g.SafetyZonePosition.X, y = g.SafetyZonePosition.Y, z = g.SafetyZonePosition.Z , Radius = g.SafetyZoneRadius });
              
+            var findCircle = new List<SafeZone>();
 
-            var findCircle = new List<SafeZoneViewModel>();
-
-            var findCircleDuplicate = new List<SafeZoneViewModel>();
+            var findCircleDuplicate = new List<SafeZone>();
             var i = 1;
             foreach (var item in matchSafeZone)
             {
@@ -237,7 +236,7 @@ namespace Fanview.API.Repository
                              && item.Select(a => (a.SafetyZonePosition.Z)).Count() > 1 && item.Select(a => a.SafetyZoneRadius).Count() > 1)
                 {
                     findCircleDuplicate.Add(
-                    new SafeZoneViewModel()
+                    new SafeZone()
                     {
                         circle = i++,
                         SafetyZonePosition = item.Select(a => a.SafetyZonePosition).ElementAtOrDefault(0),
@@ -247,22 +246,27 @@ namespace Fanview.API.Repository
                 }
             }
 
-           
-            
-            return await Task.FromResult(findCircleDuplicate);
+            Object matchSafeZonePositions = new 
+            {
+                MapName = GetMapName(tournamentMatchId).Result,
+                safeZone = findCircleDuplicate
+
+            };
+
+            return await Task.FromResult(matchSafeZonePositions);
         }
 
         public async void InsertMatchSummary(string jsonResult, string matchId)
         {
             var matchSummary = _matchSummaryRepository.GetMongoDbCollection("MatchSummary");
 
-            var isMatchSafeZoneExist = await matchSummary.FindAsync(Builders<MatchSummary>.Filter.Where(cn => cn.MatchId == matchId)).Result.ToListAsync();
+            var isMatchSafeZoneExist = await matchSummary.FindAsync(Builders<MatchSummaryData>.Filter.Where(cn => cn.Id == matchId)).Result.ToListAsync();
 
             if (isMatchSafeZoneExist.Count() == 0 || isMatchSafeZoneExist == null)
             {
                 var jsonToJObject = JObject.Parse(jsonResult);
 
-                var matchSummaryData = jsonToJObject.SelectToken("data").ToObject<MatchSummary>();
+                var matchSummaryData = jsonToJObject.SelectToken("data").ToObject<MatchSummaryData>();
 
                 Func<Task> persistMatchSummaryToMongo = async () => _matchSummaryRepository.Insert(matchSummaryData, "MatchSummary");
 
@@ -270,6 +274,13 @@ namespace Fanview.API.Repository
             }
         }
 
-       
+        public async Task<string> GetMapName(string matchId)
+        {
+            var matchSummary = _matchSummaryRepository.GetMongoDbCollection("MatchSummary");
+
+            var mapName = await matchSummary.FindAsync(Builders<MatchSummaryData>.Filter.Where(cn => cn.Id == matchId)).Result.FirstOrDefaultAsync();
+
+            return await Task.FromResult(mapName.Attributes.MapName);
+        }
     }
 }

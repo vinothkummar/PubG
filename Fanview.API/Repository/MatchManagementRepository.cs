@@ -108,6 +108,12 @@ namespace Fanview.API.Repository
 
             var tournamentMatchIdResponse = _tournamentRepository.DeleteOne(tournamentMatchIdFilter, "TournamentMatchId");
 
+            var matchSummaryFilter = Builders<MatchSummaryData>.Filter.Eq(s => s.Id, matchId);
+
+            var matchSummaryResponse = _tournamentRepository.DeleteOne(tournamentMatchIdFilter, "MatchSummary");
+
+
+
             dynamic mongoDeletedCollection = new ExpandoObject();
 
             List<dynamic> deletedColletionInfo = new List<dynamic>() {
@@ -158,7 +164,11 @@ namespace Fanview.API.Repository
                 new ExpandoObject().Init(
                     "CollectionName".WithValue("TournamentMatchId"),
                     "DocumentDeleteCount".WithValue(tournamentMatchIdResponse.Result.DeletedCount),
-                    "CompletedSuccessfully".WithValue(tournamentMatchIdResponse.IsCompletedSuccessfully))
+                    "CompletedSuccessfully".WithValue(tournamentMatchIdResponse.IsCompletedSuccessfully)),
+                 new ExpandoObject().Init(
+                    "CollectionName".WithValue("MatchSummary"),
+                    "DocumentDeleteCount".WithValue(matchSummaryResponse.Result.DeletedCount),
+                    "CompletedSuccessfully".WithValue(matchSummaryResponse.IsCompletedSuccessfully))
             };
 
             mongoDeletedCollection.Result = deletedColletionInfo;

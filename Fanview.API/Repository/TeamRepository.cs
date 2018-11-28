@@ -17,7 +17,8 @@ namespace Fanview.API.Repository
         private IGenericRepository<Team> _team;
         private IGenericRepository<MatchPlayerStats> _matchPlayerStats;
         private IGenericRepository<TeamPlayer> _teamPlayers;
-        private IGenericRepository<PlayerPoition> _teamPlayersPosition;       
+        private IGenericRepository<PlayerPoition> _teamPlayersPosition;
+        private IMatchRepository _matchRepository;
         private IGenericRepository<TeamRanking> _teamRankings;
         private IGenericRepository<VehicleLeave> _vehicleLeave;
         private IGenericRepository<Event> _tournament;        
@@ -29,7 +30,8 @@ namespace Fanview.API.Repository
                               IGenericRepository<TeamRanking> teamRankings,
                               IGenericRepository<Event> tournament,
                               IGenericRepository<VehicleLeave> vehicleLeave,
-                              IGenericRepository<PlayerPoition> teamPlayersPosition,                              
+                              IGenericRepository<PlayerPoition> teamPlayersPosition,   
+                              IMatchRepository matchRepository,
                               ILogger<TeamRepository> logger)
         {
             _team = team;
@@ -39,6 +41,7 @@ namespace Fanview.API.Repository
             _tournament = tournament;
             _vehicleLeave = vehicleLeave;
             _teamPlayersPosition = teamPlayersPosition;
+            _matchRepository = matchRepository;
             _logger = logger;
         }
 
@@ -396,9 +399,15 @@ namespace Fanview.API.Repository
             var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
 
             var veichelLanding = _vehicleLeave.GetMongoDbCollection("VehicleLeave").AsQueryable().Where(c=>c.MatchId == tournamentMatchId && c.Vehicle.VehicleType== "Parachute" && c.RideDistance != 0).ToList();
+
             var response = new TeamLanding();
+
             var landing = new List<Landing>();
+
             response.MatchdId = tournamentMatchId;
+
+            response.MapName = _matchRepository.GetMapName(tournamentMatchId).Result;
+
             foreach (var q in teams.OrderBy(o=>o.Name))
             {
                 var vl = veichelLanding.Where(o => o.Character.TeamId == q.TeamId && o.Vehicle.VehicleType == "Parachute").ToList();

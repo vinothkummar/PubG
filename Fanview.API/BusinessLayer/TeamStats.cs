@@ -20,6 +20,7 @@ namespace Fanview.API.BusinessLayer
         private IGenericRepository<Event> _tournament;
         private IGenericRepository<VehicleLeave> _vehicleLeave;
         private IGenericRepository<PlayerPoition> _teamPlayersPosition;
+        private IMatchRepository _matchRepository;
         private IRanking _ranking;
         private ILogger<TeamStats> _logger;
 
@@ -30,6 +31,7 @@ namespace Fanview.API.BusinessLayer
                               IGenericRepository<Event> tournament,
                               IGenericRepository<VehicleLeave> vehicleLeave,
                               IGenericRepository<PlayerPoition> teamPlayersPosition,
+                              IMatchRepository matchRepository,
                               IRanking ranking,
                               ILogger<TeamStats> logger)
         {
@@ -40,6 +42,7 @@ namespace Fanview.API.BusinessLayer
             _tournament = tournament;
             _vehicleLeave = vehicleLeave;
             _teamPlayersPosition = teamPlayersPosition;
+            _matchRepository = matchRepository;
             _ranking = ranking;
             _logger = logger;
         }
@@ -58,9 +61,6 @@ namespace Fanview.API.BusinessLayer
 
             var matchPlayerPosition = logPlayersPosition.FindAsync(Builders<PlayerPoition>.Filter.Where(cn => cn.MatchId == tournamentMatchId)).Result
                                         .ToListAsync().Result.OrderBy(o => o.EventTimeStamp);
-
-           
-
 
             var playerLocation = matchPlayerPosition.Join(teamStatsRanking, mpp => mpp.TeamId, t => t.TeamId, (mpp, t) => new { mpp, t })
                                                     .OrderBy(o => o.mpp.TeamId).ThenBy(o1 => o1.mpp.Name)
@@ -132,6 +132,8 @@ namespace Fanview.API.BusinessLayer
             var teamRoute = new TeamRoute();
 
             teamRoute.MatchId = matchId;
+
+            teamRoute.MapName = _matchRepository.GetMapName(tournamentMatchId).Result;
 
 
             var routes = new List<Route>();

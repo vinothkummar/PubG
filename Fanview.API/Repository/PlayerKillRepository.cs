@@ -292,7 +292,7 @@ namespace Fanview.API.Repository
                     await Task.Run(async () => _playerRepository.InsertLogPlayerPosition(telemetryJsonResult, matchId));
                     await Task.Run(async () => _playerRepository.InsertVehicleLeaveTelemetry(telemetryJsonResult, matchId));
                     await Task.Run(async () => _matchRepository.InsertMatchSafeZonePosition(telemetryJsonResult, matchId));
-                   // await Task.Run(async () => _matchRepository.InsertMatchSummary(jsonResult, matchId));
+                    await Task.Run(async () => _matchRepository.InsertMatchSummary(jsonResult, matchId));
 
                     //await Task.Run(async () => InsertMatchPlayerStats(jsonResult));
 
@@ -314,7 +314,7 @@ namespace Fanview.API.Repository
         {
             var jsonToJObject = JObject.Parse(jsonResult);
 
-            var match = jsonToJObject.SelectToken("data").ToObject<MatchSummary>();
+            //var match = jsonToJObject.SelectToken("data").ToObject<MatchSummary>();
 
             JArray playerResultsIncluded = (JArray)jsonToJObject["included"];
 
@@ -459,8 +459,12 @@ namespace Fanview.API.Repository
             return killLeaders;
         }
 
-        public Task<IEnumerable<KillZone>> GetKillZone(int matchId)
+        public Task<Object> GetKillZone(int matchId)
         {
+            var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
+
+            var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
+
             var playerKilledFromOpenApi = GetPlayerKilled(matchId).Result.Select(s => new KillZone() {
 
                 MatchId = s.MatchId,
@@ -470,8 +474,14 @@ namespace Fanview.API.Repository
                 Location = s.Victim.Location
             });
 
+            Object killLocationData = new
+            {
+                MapName = _matchRepository.GetMapName(tournamentMatchId).Result,
+                KillLocation = playerKilledFromOpenApi
+               
+            };
 
-            return Task.FromResult(playerKilledFromOpenApi);
+            return Task.FromResult(killLocationData);
         }
 
         public void InsertLiveKillEventTelemetry(JObject[] jsonResult, string fileName)
