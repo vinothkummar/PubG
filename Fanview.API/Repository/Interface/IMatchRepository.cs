@@ -12,10 +12,13 @@ namespace Fanview.API.Repository.Interface
     {
         //void PollMatchSessionId(string eventName);
         //void InsertEvent(string jsonResult, string eventName);
+
+        void InsertMatchSummary(string jsonResult, string matchId);
+        Task<string> GetMapName(string matchId);
         Task<JObject> GetMatchesDetailsByID(string id);
         Task<JObject> GetMatchIdByTournament(string tournament);
         Task<IEnumerable<Event>> GetTournamentMatchId();
         void InsertMatchSafeZonePosition(string jsonResult, string matchId);
-        Task<IEnumerable<SafeZoneViewModel>> GetMatchSafeZone(int matchId);
+        Task<Object> GetMatchSafeZone(int matchId);
     }
 }

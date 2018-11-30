@@ -288,8 +288,6 @@ namespace Fanview.API.Repository
             {
                 _logger.LogInformation("Match Request Started" + Environment.NewLine);
 
-                //_pubGClientResponse = Task.Run(async () => await _servicerRequest.GetAsync(await _httpClient.CreateRequestHeader(), query));
-
                 _pubGClientResponse = _httpClientRequest.GetAsync(await _httpClientBuilder.CreateRequestHeader(), "shards/pc-tournaments/matches/" + matchId);
 
                 if (_pubGClientResponse.Result.StatusCode == HttpStatusCode.OK && _pubGClientResponse != null)
@@ -306,12 +304,11 @@ namespace Fanview.API.Repository
                     await Task.Run(async () => _playerRepository.InsertLogPlayerPosition(telemetryJsonResult, matchId));
                     await Task.Run(async () => _playerRepository.InsertVehicleLeaveTelemetry(telemetryJsonResult, matchId));
                     await Task.Run(async () => _matchRepository.InsertMatchSafeZonePosition(telemetryJsonResult, matchId));
+                    await Task.Run(async () => _matchRepository.InsertMatchSummary(jsonResult, matchId));
 
                     //await Task.Run(async () => InsertMatchPlayerStats(jsonResult));
 
-                    //await Task.Run(async () => _takeDamageRepository.InsertTakeDamageTelemetry(jsonResult));
-
-                    //InsertMatchSummary(jsonResult);
+                    //await Task.Run(async () => _takeDamageRepository.InsertTakeDamageTelemetry(jsonResult));              
 
                     _logger.LogInformation("Completed Loading Match Player Stats  Response Json" + Environment.NewLine);
                 }
@@ -329,7 +326,7 @@ namespace Fanview.API.Repository
         {
             var jsonToJObject = JObject.Parse(jsonResult);
 
-            var match = jsonToJObject.SelectToken("data").ToObject<MatchSummary>();
+            //var match = jsonToJObject.SelectToken("data").ToObject<MatchSummary>();
 
             JArray playerResultsIncluded = (JArray)jsonToJObject["included"];
 
@@ -458,15 +455,14 @@ namespace Fanview.API.Repository
             var teamPlayers = _teamPlayerRepository.GetTeamPlayers().Result;
 
             var liveEventKillList = _LiveEventKill.GetAll("LiveEventKill").Result.Where(cn => cn.MatchId == tournamentMatchId)
-                                                  .Join(teamPlayers, lek => lek.VictimTeamId, tp => tp.TeamIdShort, (lek, tp) => new { lek, tp })
-                                                  .Join(teams, pktp => new { TeamShortId = pktp.tp.TeamIdShort }, t => new { TeamShortId = t.TeamId }, (pktp, t) => new { pktp, t })
-                                                  .Where(cn => cn.pktp.lek.IsGroggy == false)
-                                                  .GroupBy(g => g.pktp.lek.KillerName).Select(s => new Kills()
+                                                  .Join(teams, lek => new { TeamShortId = lek.KillerTeamId}, t => new { TeamShortId = t.TeamId }, (pkt, t) => new { pkt, t })
+                                                  .Where(cn => cn.pkt.IsGroggy == false)
+                                                  .GroupBy(g => g.pkt.KillerName).Select(s => new Kills()
                                                   {
                 kills = s.Count(),
                 playerName = s.Key,
-                playerId = s.Select(a => a.pktp.tp.PlayerId).ElementAtOrDefault(0),
-                teamId = s.Select(a => a.pktp.lek.KillerTeamId).ElementAtOrDefault(0)
+                playerId = teamPlayers.FirstOrDefault(f => f.PlayerName == s.Key).PlayerId,
+                teamId = s.FirstOrDefault().pkt.KillerTeamId
             }).OrderByDescending(o => o.kills).Take(topCount > 0 ? topCount : 10);           
                                                 
             var killLeaders = new KillLeader()
@@ -477,19 +473,25 @@ namespace Fanview.API.Repository
             return killLeaders;
         }
 
-        public Task<IEnumerable<KillZone>> GetKillZone(int matchId)
+        public Task<Object> GetKillZone(int matchId)
         {
             var playerKilledFromOpenApi = GetPlayerKilled(matchId).Result.Select(s => new KillZone() {
 
                 MatchId = s.MatchId,
+                PlayerId = _teamPlayerRepository.GetTeamPlayers().Result.FirstOrDefault(cn => cn.PlayerName == s.Victim.Name).PlayerId,
                 PlayerName = s.Victim.Name,
                 TeamId = s.Victim.TeamId,
-                Health = s.Victim.Health,
                 Location = s.Victim.Location
             });
 
+            Object killLocationData = new
+            {
+                MapName = _matchRepository.GetMapName(_eventRepository.GetTournamentMatchId(matchId).Result).Result,
+                KillLocation = playerKilledFromOpenApi
+               
+            };
 
-            return Task.FromResult(playerKilledFromOpenApi);
+            return Task.FromResult(killLocationData);
         }
 
         public void InsertLiveKillEventTelemetry(JObject[] jsonResult, string fileName)

@@ -20,6 +20,7 @@ namespace Fanview.API.BusinessLayer
         private IGenericRepository<Event> _tournament;
         private IGenericRepository<VehicleLeave> _vehicleLeave;
         private IGenericRepository<PlayerPoition> _teamPlayersPosition;
+        private IMatchRepository _matchRepository;
         private IRanking _ranking;
         private ILogger<TeamStats> _logger;
 
@@ -30,6 +31,7 @@ namespace Fanview.API.BusinessLayer
                               IGenericRepository<Event> tournament,
                               IGenericRepository<VehicleLeave> vehicleLeave,
                               IGenericRepository<PlayerPoition> teamPlayersPosition,
+                              IMatchRepository matchRepository,
                               IRanking ranking,
                               ILogger<TeamStats> logger)
         {
@@ -40,6 +42,7 @@ namespace Fanview.API.BusinessLayer
             _tournament = tournament;
             _vehicleLeave = vehicleLeave;
             _teamPlayersPosition = teamPlayersPosition;
+            _matchRepository = matchRepository;
             _ranking = ranking;
             _logger = logger;
         }
@@ -59,10 +62,7 @@ namespace Fanview.API.BusinessLayer
             var matchPlayerPosition = logPlayersPosition.FindAsync(Builders<PlayerPoition>.Filter.Where(cn => cn.MatchId == tournamentMatchId)).Result
                                         .ToListAsync().Result.OrderBy(o => o.EventTimeStamp);
 
-           
-
-
-            var playerLocation = matchPlayerPosition.Join(teamStatsRanking, mpp => mpp.TeamId, t => t.ShortTeamID, (mpp, t) => new { mpp, t })
+            var playerLocation = matchPlayerPosition.Join(teamStatsRanking, mpp => mpp.TeamId, t => t.TeamId, (mpp, t) => new { mpp, t })
                                                     .OrderBy(o => o.mpp.TeamId).ThenBy(o1 => o1.mpp.Name)
                                                     .Select(s => new
                                                     {  
@@ -97,7 +97,7 @@ namespace Fanview.API.BusinessLayer
 
                                                    
 
-            var playerVehicleLeaveTop3Teams = playerVehicleLeave.Where(cn => teamStatsRanking.Select(s => s.ShortTeamID).Contains(cn.Character.TeamId));
+            var playerVehicleLeaveTop3Teams = playerVehicleLeave.Where(cn => teamStatsRanking.Select(s => s.TeamId).Contains(cn.Character.TeamId));
 
             var logPlayerKilled = _kill.GetMongoDbCollection("Kill").FindAsync(Builders<Kill>.Filter.Where(cn => cn.MatchId == tournamentMatchId)).Result.ToListAsync().Result
                                                                   .Join(playerVehicleLeaveTop3Teams, k => new { Name = k.Victim.Name }, t => new { Name = t.Character.Name },
@@ -121,7 +121,7 @@ namespace Fanview.API.BusinessLayer
                                       .OrderBy(o => o.pl.EventTimeStamp).GroupBy(g => g.pl.TeamId)
                                       .Select(s => new Route()
                                       {
-                                          TeamID = s.Select(a => a.pl.TeamId).ElementAtOrDefault(0),
+                                          TeamId = s.Select(a => a.pl.TeamId).ElementAtOrDefault(0),
                                           TeamName = s.Select(a => a.pl.TeamName).ElementAtOrDefault(0),
                                           TeamRank = s.Select(a => a.pl.TeamRank).ElementAtOrDefault(0),
                                           PlayerName = s.Select(a => a.pl.PlayerName).ElementAtOrDefault(0),
@@ -132,6 +132,8 @@ namespace Fanview.API.BusinessLayer
             var teamRoute = new TeamRoute();
 
             teamRoute.MatchId = matchId;
+
+            teamRoute.MapName = _matchRepository.GetMapName(tournamentMatchId).Result;
 
 
             var routes = new List<Route>();
@@ -153,7 +155,7 @@ namespace Fanview.API.BusinessLayer
 
                 var route = new Route();
 
-                route.TeamID = item.TeamID;
+                route.TeamId = item.TeamId;
                 route.TeamName = item.TeamName;
                 route.TeamRank = item.TeamRank;
                 route.PlayerName = item.PlayerName;

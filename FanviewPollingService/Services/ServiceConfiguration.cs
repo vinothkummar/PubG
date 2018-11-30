@@ -15,8 +15,6 @@ namespace FanviewPollingService.Services
 
         public static IServiceProvider BuildDI()
         {
-
-
             var serviceProvider = new ServiceCollection().AddLogging(configure => configure.AddSerilog())
                                                          .AddSingleton<IHttpClientRequest, HttpClientRequest>()
                                                          .AddSingleton<IClientBuilder, ClientBuilder>()
@@ -31,6 +29,8 @@ namespace FanviewPollingService.Services
                                                          .AddTransient<ITeamRepository, TeamRepository>()
                                                          .AddTransient<IMatchRepository, MatchRepository>()
                                                          .AddTransient<IMatchSummaryRepository, MatchSummaryRepository>()
+                                                         .AddTransient<IMatchRepository, MatchRepository>()
+                                                         .AddTransient<ITeamLiveStatusRepository, TeamLiveStatusRepository>()
                                                          .AddDistributedRedisCache(options =>
                                                          {
                                                              options.Configuration = "127.0.0.1:6379";
@@ -40,6 +40,5 @@ namespace FanviewPollingService.Services
                                                          .BuildServiceProvider();
             return serviceProvider;
         }
-
     }
 }

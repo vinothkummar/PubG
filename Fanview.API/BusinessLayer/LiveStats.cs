@@ -9,6 +9,8 @@ using Fanview.API.Model.LiveModels;
 using Fanview.API.Model;
 using MongoDB.Driver;
 using Fanview.API.Model.ViewModels;
+using System.Globalization;
+using Fanview.API.Utility;
 
 namespace Fanview.API.BusinessLayer
 {
@@ -54,88 +56,100 @@ namespace Fanview.API.BusinessLayer
             _genericLiveMatchStatusRepository = genericLiveMatchStatusRepository;
         }
 
-        public async Task<IEnumerable<MatchRanking>> GetLiveStatsRanking(int matchId)
-        {
-            var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
+        //public async Task<IEnumerable<MatchRanking>> GetLiveStatsRanking(int matchId)
+        //{
+        //    var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
 
-            var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
+        //    var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
 
-            var matchRanking = _ranking.GetTournamentRankings();
+        //    var matchRanking = _ranking.GetTournamentRankings();
 
-            var rankPoints = _rankRepository.GetAll("RankPoints").Result.OrderByDescending(o => o.RankPosition);
+        //    var rankPoints = _rankRepository.GetAll("RankPoints").Result.OrderByDescending(o => o.RankPosition);
 
-            var teamCount = _teamRepository.GetAllTeam().Result.Count();
+        //    var teamCount = _teamRepository.GetAllTeam().Result.Count();
 
-            var LiveKills = _playerKillRepository.GetLiveKilled(matchId).Result;
+        //    var LiveKills = _playerKillRepository.GetLiveKilled(matchId).Result;
 
-            var liveKillCount = _playerKillRepository.GetLiveKillCount(LiveKills);
+        //    var liveKillCount = _playerKillRepository.GetLiveKillCount(LiveKills);
 
-            var teamEliminationPosition = GetTeamEliminatedPosition(LiveKills, tournamentMatchId, teamCount);          
+        //    var teamEliminationPosition = GetTeamEliminatedPosition(LiveKills, tournamentMatchId, teamCount);          
 
-            var rankPositionIndex = rankPoints.Select((item, index) => new { Position = (int)index, RankPositionScore = item.ScoringPoints });
+        //    var rankPositionIndex = rankPoints.Select((item, index) => new { Position = (int)index, RankPositionScore = item.ScoringPoints });
 
-            var presentEligibleRankScore = rankPoints.Where(cn => teamEliminationPosition.Select(s => s.Positions).Contains(cn.RankPosition)).Select(s => s.ScoringPoints);
-
-
-
-            //rankPositionIndex.Where(cn => teamEliminationPosition.Count() == cn.Position).Select(s => s.RankPositionScore).SingleOrDefault();
-
-            //var teamEliminated = new List<TeamRankPoints>();
-
-            //teamEliminated.Add(new TeamRankPoints() { Name = teamEliminatedLastPosition.Name, TeamId = teamEliminatedLastPosition.TeamId });
+        //    var presentEligibleRankScore = rankPoints.Where(cn => teamEliminationPosition.Select(s => s.Positions).Contains(cn.RankPosition)).Select(s => s.ScoringPoints);
 
 
 
+        //    //rankPositionIndex.Where(cn => teamEliminationPosition.Count() == cn.Position).Select(s => s.RankPositionScore).SingleOrDefault();
+
+        //    //var teamEliminated = new List<TeamRankPoints>();
+
+        //    //teamEliminated.Add(new TeamRankPoints() { Name = teamEliminatedLastPosition.Name, TeamId = teamEliminatedLastPosition.TeamId });
 
 
-            var tournamentRanking = matchRanking.Result.Select(a => new MatchRanking()
-            {
-                MatchId = a.MatchId,
-                TeamId = a.TeamId,
-                TeamName = a.TeamName,
-                KillPoints = a.KillPoints,
-                RankPoints = a.RankPoints,
-                TotalPoints = a.TotalPoints,
-                TeamRank = a.TeamRank,
-                PubGOpenApiTeamId = a.PubGOpenApiTeamId
 
-            });
 
-            var liveRanking = new List<MatchRanking>();
-            foreach (var item in tournamentRanking)
-            {
 
-                liveRanking.Add(
-                new MatchRanking()
-                {
-                    MatchId = item.MatchId,
-                    TeamId = item.TeamId,
-                    TeamName = item.TeamName,
-                    KillPoints = item.KillPoints,
-                    RankPoints = item.RankPoints, //+ presentEligibleRankScore,
-                    TotalPoints = item.TotalPoints,
-                    TeamRank = item.TeamRank,
-                    PubGOpenApiTeamId = item.PubGOpenApiTeamId
+        //    var tournamentRanking = matchRanking.Result.Select(a => new MatchRanking()
+        //    {
+        //        MatchId = a.MatchId,
+        //        TeamId = a.TeamId,
+        //        TeamName = a.TeamName,
+        //        KillPoints = a.KillPoints,
+        //        RankPoints = a.RankPoints,
+        //        TotalPoints = a.TotalPoints,
+        //        TeamRank = a.TeamRank,
+        //        PubGOpenApiTeamId = a.PubGOpenApiTeamId
 
-                });
-            }
+        //    });
 
-            return liveRanking;
+        //    var liveRanking = new List<MatchRanking>();
+        //    foreach (var item in tournamentRanking)
+        //    {
 
-        }
+        //        liveRanking.Add(
+        //        new MatchRanking()
+        //        {
+        //            MatchId = item.MatchId,
+        //            TeamId = item.TeamId,
+        //            TeamName = item.TeamName,
+        //            KillPoints = item.KillPoints,
+        //            RankPoints = item.RankPoints, //+ presentEligibleRankScore,
+        //            TotalPoints = item.TotalPoints,
+        //            TeamRank = item.TeamRank,
+        //            PubGOpenApiTeamId = item.PubGOpenApiTeamId
 
-        public async Task<IEnumerable<LiveMatchStatus>> GetLiveStatus(int matchId)
+        //        });
+        //    }
+
+        //    return liveRanking;
+
+        //}
+
+        public async Task<Object> GetLiveStatus(int matchId)
         {
 
             var matchStatus = _matchSummaryRepository.GetLiveMatchStatus(matchId).Result;
 
-            if(matchStatus == null)
+            object matchStatusObject = matchStatus.Where(cn => cn.TeamId != 0).Select(s => new 
+                                    {
+                                        TeamId = s.TeamId,
+                                        TeamName = s.TeamName,
+                                        Players = s.TeamPlayers,
+                                        AliveCount = s.AliveCount,
+                                        DeadCount = s.DeadCount,
+                                        EliminatedAt = s.EliminatedAt,
+                                        IsEliminated = s.IsEliminated
+                                    });
+
+           
+            
+            if(matchStatusObject == null)
             {
                 return null;
-            }
+            } 
 
-            return matchStatus;
-            
+            return await Task.FromResult(matchStatusObject);            
         }
 
 

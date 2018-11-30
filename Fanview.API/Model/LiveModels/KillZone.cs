@@ -10,8 +10,8 @@ namespace Fanview.API.Model.LiveModels
     {   
         public string MatchId { get; set; }
         public string PlayerName { get; set; }
+        public int PlayerId { get; set; }
         public int TeamId { get; set; }
-        public float Health { get; set; }        
         public Location Location { get; set; }
     }
 }

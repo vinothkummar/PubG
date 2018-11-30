@@ -125,13 +125,6 @@ namespace Fanview.API.Repository
 
         }
 
-       
-      
-        public async Task<IEnumerable<TeamPlayer>> GetAllTeamPlayer()
-        {
-            return await _genericTeamPlayerRepository.GetAll("TeamPlayers");
-        }
-
         public async Task<IEnumerable<TeamPlayer>> GetTeamPlayers(string matchId1, string matchId2, string matchId3, string matchId4)
         {
             var teamPlayerCollection = _genericTeamPlayerRepository.GetMongoDbCollection("TeamPlayers");
@@ -403,6 +396,35 @@ namespace Fanview.API.Repository
             });
 
             return PlayerProfileGrouped;
+        }
+        
+        public void PostNewPlayer(TeamPlayer player)
+        {
+            _genericTeamPlayerRepository.Insert(player, "TeamPlayers");
+        }
+        public void Deleteplayer(string playerid)
+        {
+            var filter = Builders<TeamPlayer>.Filter.Eq(x => x.Id, playerid);
+            _genericTeamPlayerRepository.DeleteOne(filter, "TeamPlayers");
+
+        }
+        
+        
+        public void Updatemanyplayers(IEnumerable<TeamPlayer> players)
+        {
+            var playersdetails = _genericTeamPlayerRepository.GetMongoDbCollection("TeamPlayers");
+            foreach (var player in players)
+            {
+                var document = playersdetails.Find(Builders<TeamPlayer>.Filter.Where(x => x.Id == player.Id)).FirstOrDefault();
+                var filter = Builders<TeamPlayer>.Filter.Eq(s => s.Id, player.Id);
+                _genericTeamPlayerRepository.Replace(player, filter, "TeamPlayers");
+            }
+
+        }
+        public void DeleteAllTeamPlayers()
+        {
+            var filter = Builders<TeamPlayer>.Filter.Empty;
+            _genericTeamPlayerRepository.DeleteMany(filter, "TeamPlayers");
         }
     }
 }

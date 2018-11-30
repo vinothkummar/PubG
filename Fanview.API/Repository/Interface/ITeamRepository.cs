@@ -29,5 +29,10 @@ namespace Fanview.API.Repository.Interface
         Task<IEnumerable<TeamParticipants>> GetAllTeam();
 
         Task<TeamLanding> GetTeamLanding(int matchId);
+        Task<IEnumerable<Team>> GetTeams();
+        void PostTeam(Team team);
+        void DeleteTeam(string teamid);
+        void DeleteAll();
+        void UpdatemanyTeams(IEnumerable<Team> teams);
     }
 }

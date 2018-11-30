@@ -36,5 +36,19 @@ namespace Fanview.API.Utility
             }
             return expando;
         }
+
+        public static double DateTimeToUnixTimestamp(string dateTime)
+        {
+            if (dateTime == null)
+            {
+                return 0 ;
+            }
+
+            var dateTimeFormat = DateTime.ParseExact(dateTime, "dd/MM/yyyy hh:mm:ss.fff tt", CultureInfo.InvariantCulture);
+
+            return (TimeZoneInfo.ConvertTimeToUtc(dateTimeFormat) -
+                   new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc)).TotalSeconds;
+        }
+     
     }
 }

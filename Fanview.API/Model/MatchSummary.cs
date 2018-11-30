@@ -17,7 +17,7 @@ namespace Fanview.API.Model
         [BsonElement("type")]
         public string Type { get; set; }
         [BsonElement("matchId")]
-        public string Matchid { get; set; }
+        public string MatchId { get; set; }
         [BsonElement("attributes")]
         public MatchAttributes Attributes { get; set; }
         [BsonElement("relationsShips")]
@@ -26,7 +26,5 @@ namespace Fanview.API.Model
         public IEnumerable<MatchParticipant> MatchParticipant { get; set; }
         [BsonElement("matchRoster")]
         public IEnumerable<MatchRoster> MatchRoster { get; set; }
-
-
     }
 }

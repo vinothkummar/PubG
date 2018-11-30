@@ -83,7 +83,7 @@ namespace Fanview.API.Repository
             }
         }
 
-        public void ReadUDPStreamFromFile()
+        public async void ReadUDPStreamFromFile()
         {
             _logger.LogInformation("UDP Streaming Read Started " + Environment.NewLine);
             try
@@ -110,11 +110,11 @@ namespace Fanview.API.Repository
 
                     var array = objects.ToArray();
 
-                    _playerKillRepository.InsertLiveKillEventTelemetry(array, fileName);
+                    await Task.Run(async () => _playerKillRepository.InsertLiveKillEventTelemetry(array, fileName));
 
-                    _takeDamageRepository.InsertEventDamageTelemetry(array, fileName);
+                    await Task.Run(async () => _takeDamageRepository.InsertEventDamageTelemetry(array, fileName));
 
-                    _matchSummaryRepository.InsertLiveEventMatchStatusTelemetry(array, fileName);
+                    await Task.Run(async () => _matchSummaryRepository.InsertLiveEventMatchStatusTelemetry(array, fileName));
 
                     File.Move(file, folderPathToMoveProcessedFile + "\\" + fileName + "_" + _random.Next().ToString());
 

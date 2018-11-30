@@ -31,6 +31,26 @@ namespace Fanview.API.Controllers
         {
             return _teamRepository.GetAllTeam();
         }
+        [HttpGet("GetTeamDetails", Name = "GetTeamDetails")]
+        public Task<IEnumerable<Team>> GetTeamDetails()
+        {
+            return _teamRepository.GetTeam();
+        }
+        [HttpPost("PostNewTeam",Name = "PostNewTeam")]
+        public void PostNewTeam(Team team)
+        {
+            _teamRepository.PostTeam(team);
+        }
+        [HttpPost("UpdateManyTeams", Name = "UpdateManyTeams")]
+        public void UpdateManyTeams(IEnumerable<Team> teams)
+        {
+            _teamRepository.UpdatemanyTeams(teams);
+        }
+        [HttpDelete("Deleteteam/{teamId}", Name = "Deleteteam")]
+        public void DeleteTeam(string teamid)
+        {
+            _teamRepository.DeleteTeam(teamid);
+        }
 
         /// <summary>
         /// Returns Team Stats for all the teams  
@@ -40,6 +60,11 @@ namespace Fanview.API.Controllers
         public Task<object> GetAllTeamStats()
         {
             return _teamRepository.GetAllTeamStats();
+        }
+        [HttpDelete("DeleteAllteam", Name = "DeleteAllteam")]
+        public void DeleteAll()
+        {
+            _teamRepository.DeleteAll();
         }
 
         [HttpGet("Stats/{matchId}", Name = "GetTeamStats")]
@@ -59,5 +84,6 @@ namespace Fanview.API.Controllers
         {
             return _teamRepository.GetTeamProfilesByTeamIdAndMatchId(teamId1, teamId2, matchId);
         }
+
     }
 }

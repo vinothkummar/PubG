@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Fanview.API.BusinessLayer.Contracts;
 using Fanview.API.Model;
+using Fanview.API.Model.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,9 +32,9 @@ namespace Fanview.API.Controllers
         /// Calculate the cumulative total points for the single Match.
         /// Calculate the Team Ranking Order from the stats.
         /// </remarks>
-        /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
+        /// <param name='matchId'>1</param>
         [HttpGet("MatchRank/{matchId}", Name = "GetMatchRanking")]
-        public async Task<IEnumerable<MatchRanking>> GetMatchRanking(int matchId)
+        public async Task<IEnumerable<RankingResults>> GetMatchRanking(int matchId)
         {
             return await _ranking.GetMatchRankings(matchId);
             
@@ -66,7 +67,7 @@ namespace Fanview.API.Controllers
         /// Sample request: TournamentRankings        
         /// </remarks>        
         [HttpGet("TournamentRankings", Name = "GetTournamentRanking")]
-        public async Task<IEnumerable<MatchRanking>> GetTournamentRanking()
+        public async Task<Object> GetTournamentRanking()
         {
             return await _ranking.GetTournamentRankings();
         }

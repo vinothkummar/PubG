@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Fanview.API.Model.ViewModels
 {
-    public class SafeZoneViewModel
+    public class SafeZone
     {
         public int circle;
 

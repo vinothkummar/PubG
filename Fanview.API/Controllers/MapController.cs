@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using Fanview.API.Model.LiveModels;
 using Fanview.API.Model.ViewModels;
 
+
 namespace Fanview.API.Controllers
 {
     [Produces("application/json")]
@@ -58,7 +59,7 @@ namespace Fanview.API.Controllers
         /// </remarks>
         /// <param name='matchId'>1</param>
         [HttpGet("SafeZone/{matchId}", Name = "GetMatchSafeZone")]
-        public Task<IEnumerable<SafeZoneViewModel>> GetMatchSafeZone(int matchId)
+        public Task<object> GetMatchSafeZone(int matchId)
         {
             return _matchRepository.GetMatchSafeZone(matchId);
         }
@@ -71,7 +72,7 @@ namespace Fanview.API.Controllers
         /// </remarks>
         /// <param name='matchId'>1</param>
         [HttpGet("KillLocation/{matchId}")]
-        public Task<IEnumerable<KillZone>> GetKillZone(int matchId)
+        public Task<object> GetKillZone(int matchId)
         {
             return _playerKillRepository.GetKillZone(matchId);
         }
