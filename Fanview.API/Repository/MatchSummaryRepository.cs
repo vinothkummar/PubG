@@ -31,6 +31,9 @@ namespace Fanview.API.Repository
         private ILogger<PlayerKillRepository> _logger;
         private Task<HttpResponseMessage> _pubGClientResponse;
         private DateTime LastMatchCreatedTimeStamp = DateTime.MinValue;
+        private IEventRepository _eventRepository;
+
+        private string _matchId;
 
         public MatchSummaryRepository(IClientBuilder httpClientBuilder,
                                       IHttpClientRequest httpClientRequest,
@@ -44,6 +47,7 @@ namespace Fanview.API.Repository
                                       ITeamPlayerRepository teamPlayerRepository,
                                       IPlayerKillRepository playerKillRepository,
                                       ITeamLiveStatusRepository teamLiveStatusRepository,
+                                      IEventRepository eventRepository,
                                       ILogger<PlayerKillRepository> logger)
         {
             _httpClientBuilder = httpClientBuilder;            
@@ -58,6 +62,7 @@ namespace Fanview.API.Repository
             _teamPlayerRepository = teamPlayerRepository;
             _playerKillRepository = playerKillRepository;
             _teamLiveStatusRepository = teamLiveStatusRepository;
+            _eventRepository = eventRepository;
             _logger = logger;
         }
 
@@ -342,10 +347,23 @@ namespace Fanview.API.Repository
             }
         }
 
-        public void InsertLiveEventMatchStatusTelemetry(JObject[] jsonResult, string fileName)
+        public async void InsertLiveEventMatchStatusTelemetry(JObject[] jsonResult, string fileName)
         {
             System.DateTime dateTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
-            
+
+            if (jsonResult.Where(cn => (string)cn["_T"] == "EventMatchJoin").Count() > 0)
+            {
+                _matchId = jsonResult.Where(cn => (string)cn["_T"] == "EventMatchJoin").Select(s => s.Value<string>("matchId")).FirstOrDefault();
+
+                var matchJoinTime = jsonResult.Where(cn => (string)cn["_T"] == "EventMatchJoin").Select(s => s.Value<double>("time")).FirstOrDefault();
+
+                if (_matchId != null)
+                {
+                    CreateMatch(dateTime, matchJoinTime);
+                }
+            }
+
+
             var matchStatus = jsonResult.Where(x => x.Value<string>("_T") == "EventMatchStatus").Select(s => new EventLiveMatchStatus()
             {
 
@@ -416,6 +434,29 @@ namespace Fanview.API.Repository
 
         }
 
+        private void CreateMatch(DateTime dateTime, double matchJoinTime)
+        {
+            _matchId = _matchId.Split(".").ElementAtOrDefault(9);
+
+            var tournamentMatch = _eventRepository.FindEvent(_matchId).Result;
+
+            if (tournamentMatch == null)
+            {
+                var tournamentMatchIdCount = _eventRepository.GetTournamentMatchCount().Result;
+
+                var tournamentMatchDetails = new Event()
+                {
+                    Id = _matchId,
+                    EventName = "",
+                    MatchId = tournamentMatchIdCount + 1,
+                    CreatedAT = dateTime.AddSeconds((double)matchJoinTime).ToString()
+                };
+
+                _eventRepository.CreateAnEvent(tournamentMatchDetails);
+
+                _logger.LogInformation("Live Killing Match Id Is created in the Tournament Match Id" + Environment.NewLine);
+            }
+        }
         private async Task CreateMatchLiveStatus(IEnumerable<EventLiveMatchStatus> matchStatus, string matchId)
         {
             //var teamPlayerCollection = _genericTeamPlayerRepository.GetMongoDbCollection("TeamPlayers");

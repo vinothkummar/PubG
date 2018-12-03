@@ -494,7 +494,7 @@ namespace Fanview.API.Repository
             return Task.FromResult(killLocationData);
         }
 
-        public void InsertLiveKillEventTelemetry(JObject[] jsonResult, string fileName)
+        public async void InsertLiveKillEventTelemetry(JObject[] jsonResult, string fileName)
         {
             System.DateTime dateTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);            
 
@@ -549,7 +549,7 @@ namespace Fanview.API.Repository
                 {
                     _liveKilledCachedData.Add(itemLiveKilled);                   
 
-                    _cacheService.SaveToCache<IEnumerable<LiveEventKill>>("LiveKilledCache", _liveKilledCachedData, 30, 7);
+                    await _cacheService.SaveToCache<IEnumerable<LiveEventKill>>("LiveKilledCache", _liveKilledCachedData, 30, 7);
 
                     _logger.LogInformation("LiveEventKilled added to the LiveKilledCache" + Environment.NewLine);
 
@@ -576,7 +576,7 @@ namespace Fanview.API.Repository
                 var tournamentMatchDetails = new Event()
                 {
                     Id = _matchId,
-                    EventName = "PUBG Global Invitational Berlin 2018",
+                    EventName = "",
                     MatchId = tournamentMatchIdCount + 1,
                     CreatedAT = dateTime.AddSeconds((double)matchJoinTime).ToString()
                 };
