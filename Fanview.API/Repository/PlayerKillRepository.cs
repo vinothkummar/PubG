@@ -80,8 +80,6 @@ namespace Fanview.API.Repository
             _eventRepository = eventRepository;
             _cacheService = cacheService;
             _liveKilledCachedData = new List<LiveEventKill>();
-            
-
         }
         
 
@@ -344,7 +342,7 @@ namespace Fanview.API.Repository
             {
                 var response = _Kill.GetAll("Kill").Result.Where(cn => cn.MatchId == matchId1 || cn.MatchId == matchId2 || cn.MatchId == matchId3 || cn.MatchId == matchId4);
 
-                // var response = _genericRepository.GetMongoDbCollection("Kill").FindAsyn(new BsonDocument());
+              
 
                 _logger.LogInformation("GetPlayedKilled Repository Function call completed" + Environment.NewLine);
 
@@ -494,19 +492,15 @@ namespace Fanview.API.Repository
             return Task.FromResult(killLocationData);
         }
 
-        public async void InsertLiveKillEventTelemetry(JObject[] jsonResult, string fileName)
+        public async void InsertLiveKillEventTelemetry(JObject[] jsonResult, string fileName, DateTime eventTime)
         {
-            System.DateTime dateTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);            
-
             if (jsonResult.Where(cn => (string)cn["_T"] == "EventMatchJoin").Count() > 0)
             {
                _matchId = jsonResult.Where(cn => (string)cn["_T"] == "EventMatchJoin").Select(s => s.Value<string>("matchId")).FirstOrDefault();
-
-                var matchJoinTime = jsonResult.Where(cn => (string)cn["_T"] == "EventMatchJoin").Select(s => s.Value<double>("time")).FirstOrDefault();
-                
+               
                 if (_matchId != null)
                 {
-                    CreateMatch(dateTime, matchJoinTime);
+                    CreateMatch(eventTime);
                 }
             }
 
@@ -538,7 +532,7 @@ namespace Fanview.API.Repository
                 IsStealKilled = s.Value<bool>("isStealKilled"),
                 Version = (int)s["_V"],
                 EventType = (string)s["_T"],
-                EventTimeStamp = dateTime.AddSeconds((double)s["time"]).ToString(),
+                EventTimeStamp = DateTime.Now.ToString(),
                 EventSourceFileName = fileName
 
             });
@@ -563,7 +557,7 @@ namespace Fanview.API.Repository
 
         }
 
-        private void CreateMatch(DateTime dateTime, double matchJoinTime)
+        private void CreateMatch(DateTime dateTime)
         {
             _matchId = _matchId.Split(".").ElementAtOrDefault(9);
 
@@ -578,7 +572,7 @@ namespace Fanview.API.Repository
                     Id = _matchId,
                     EventName = "",
                     MatchId = tournamentMatchIdCount + 1,
-                    CreatedAT = dateTime.AddSeconds((double)matchJoinTime).ToString()
+                    CreatedAT = dateTime.ToString()
                 };
 
                 _eventRepository.CreateAnEvent(tournamentMatchDetails);

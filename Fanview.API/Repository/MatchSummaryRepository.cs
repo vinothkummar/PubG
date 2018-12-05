@@ -347,22 +347,17 @@ namespace Fanview.API.Repository
             }
         }
 
-        public async void InsertLiveEventMatchStatusTelemetry(JObject[] jsonResult, string fileName)
-        {
-            System.DateTime dateTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
-
+        public async void InsertLiveEventMatchStatusTelemetry(JObject[] jsonResult, string fileName, DateTime eventTime)
+        {   
             if (jsonResult.Where(cn => (string)cn["_T"] == "EventMatchJoin").Count() > 0)
             {
                 _matchId = jsonResult.Where(cn => (string)cn["_T"] == "EventMatchJoin").Select(s => s.Value<string>("matchId")).FirstOrDefault();
-
-                var matchJoinTime = jsonResult.Where(cn => (string)cn["_T"] == "EventMatchJoin").Select(s => s.Value<double>("time")).FirstOrDefault();
-
+                             
                 if (_matchId != null)
                 {
-                    CreateMatch(dateTime, matchJoinTime);
+                    CreateMatch(eventTime);
                 }
             }
-
 
             var matchStatus = jsonResult.Where(x => x.Value<string>("_T") == "EventMatchStatus").Select(s => new EventLiveMatchStatus()
             {
@@ -419,7 +414,7 @@ namespace Fanview.API.Repository
                 }).ToList(),
 
                 Version = (int)s["_V"],
-                EventTimeStamp = (double)s["time"],
+                EventTimeStamp = Util.DateTimeToUnixTimestamp(DateTime.UtcNow),
                 EventType = (string)s["_T"],
                 EventSourceFileName = fileName
 
@@ -434,7 +429,7 @@ namespace Fanview.API.Repository
 
         }
 
-        private void CreateMatch(DateTime dateTime, double matchJoinTime)
+        private void CreateMatch(DateTime dateTime)
         {
             _matchId = _matchId.Split(".").ElementAtOrDefault(9);
 
@@ -449,7 +444,7 @@ namespace Fanview.API.Repository
                     Id = _matchId,
                     EventName = "",
                     MatchId = tournamentMatchIdCount + 1,
-                    CreatedAT = dateTime.AddSeconds((double)matchJoinTime).ToString()
+                    CreatedAT = dateTime.ToString()
                 };
 
                 _eventRepository.CreateAnEvent(tournamentMatchDetails);

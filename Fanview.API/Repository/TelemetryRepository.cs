@@ -110,13 +110,13 @@ namespace Fanview.API.Repository
 
                     var array = objects.ToArray();
 
-                    await Task.Run(async () => _matchSummaryRepository.InsertLiveEventMatchStatusTelemetry(array, fileName));
+                    //await Task.Run(async () => _matchSummaryRepository.InsertLiveEventMatchStatusTelemetry(array, fileName));
 
-                    await Task.Run(async () => _playerKillRepository.InsertLiveKillEventTelemetry(array, fileName));
+                    //await Task.Run(async () => _playerKillRepository.InsertLiveKillEventTelemetry(array, fileName));
 
                     await Task.Run(async () => _takeDamageRepository.InsertEventDamageTelemetry(array, fileName));
 
-                    
+
 
                     File.Move(file, folderPathToMoveProcessedFile + "\\" + fileName + "_" + _random.Next().ToString());
 
