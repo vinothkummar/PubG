@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PollingServiceTest", "Polli
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FanviewEventPollingService", "FanviewSummaryPollingService\FanviewEventPollingService.csproj", "{71DDB0F6-23D0-4CB0-AA97-9FCB59F88C77}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UdpProcessor", "UdpProcessor\UdpProcessor.csproj", "{8C504933-6952-4111-8527-DBEF68BC1D1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fanview.UDPProcessor", "UdpProcessor\Fanview.UDPProcessor.csproj", "{8C504933-6952-4111-8527-DBEF68BC1D1E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

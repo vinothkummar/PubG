@@ -33,8 +33,6 @@ namespace Fanview.API.Repository
         private DateTime LastMatchCreatedTimeStamp = DateTime.MinValue;
         private IEventRepository _eventRepository;
 
-        private string _matchId;
-
         public MatchSummaryRepository(IClientBuilder httpClientBuilder,
                                       IHttpClientRequest httpClientRequest,
                                       IGenericRepository<MatchSummary> genericMatchSummaryRepository,
@@ -348,17 +346,7 @@ namespace Fanview.API.Repository
         }
 
         public async void InsertLiveEventMatchStatusTelemetry(JObject[] jsonResult, string fileName, DateTime eventTime)
-        {   
-            if (jsonResult.Where(cn => (string)cn["_T"] == "EventMatchJoin").Count() > 0)
-            {
-                _matchId = jsonResult.Where(cn => (string)cn["_T"] == "EventMatchJoin").Select(s => s.Value<string>("matchId")).FirstOrDefault();
-                             
-                if (_matchId != null)
-                {
-                    CreateMatch(eventTime);
-                }
-            }
-
+        {  
             var matchStatus = jsonResult.Where(x => x.Value<string>("_T") == "EventMatchStatus").Select(s => new EventLiveMatchStatus()
             {
 
@@ -414,7 +402,7 @@ namespace Fanview.API.Repository
                 }).ToList(),
 
                 Version = (int)s["_V"],
-                EventTimeStamp = Util.DateTimeToUnixTimestamp(DateTime.UtcNow),
+                EventTimeStamp = Util.DateTimeToUnixTimestamp(eventTime),
                 EventType = (string)s["_T"],
                 EventSourceFileName = fileName
 
@@ -428,30 +416,7 @@ namespace Fanview.API.Repository
             }
 
         }
-
-        private void CreateMatch(DateTime dateTime)
-        {
-            _matchId = _matchId.Split(".").ElementAtOrDefault(9);
-
-            var tournamentMatch = _eventRepository.FindEvent(_matchId).Result;
-
-            if (tournamentMatch == null)
-            {
-                var tournamentMatchIdCount = _eventRepository.GetTournamentMatchCount().Result;
-
-                var tournamentMatchDetails = new Event()
-                {
-                    Id = _matchId,
-                    EventName = "",
-                    MatchId = tournamentMatchIdCount + 1,
-                    CreatedAT = dateTime.ToString()
-                };
-
-                _eventRepository.CreateAnEvent(tournamentMatchDetails);
-
-                _logger.LogInformation("Live Killing Match Id Is created in the Tournament Match Id" + Environment.NewLine);
-            }
-        }
+       
         private async Task CreateMatchLiveStatus(IEnumerable<EventLiveMatchStatus> matchStatus, string matchId)
         {
             //var teamPlayerCollection = _genericTeamPlayerRepository.GetMongoDbCollection("TeamPlayers");
@@ -570,9 +535,11 @@ namespace Fanview.API.Repository
 
         public async Task<IEnumerable<LiveMatchStatus>> GetLiveMatchStatus(int matchId)
         {
-            var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
+            //var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
 
-            var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
+            //var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
+
+            var tournamentMatchId = _eventRepository.GetTournamentMatchId(matchId).Result;
 
             var matchStatus = _genericLiveMatchStatusRepository.GetMongoDbCollection("TeamLiveStatus");
 

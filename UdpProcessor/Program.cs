@@ -1,10 +1,10 @@
 ﻿using Fanview.API.Repository;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using UdpProcessor.Services;
+using Fanview.UDPProcessor.Services;
 
 
-namespace UdpProcessor
+namespace Fanview.UDPProcessor
 {
     public class Program
     { 

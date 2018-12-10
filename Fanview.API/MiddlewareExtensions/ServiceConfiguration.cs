@@ -1,11 +1,14 @@
 ﻿using Fanview.API.BusinessLayer;
 using Fanview.API.BusinessLayer.Contracts;
+using Fanview.API.Model;
 using Fanview.API.Repository;
 using Fanview.API.Repository.Interface;
 using Fanview.API.Services;
 using Fanview.API.Services.Interface;
 using FanviewPollingService.Repository;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.IO;
 
 namespace Fanview.API.MiddlewareExtensions
 {
@@ -13,6 +16,11 @@ namespace Fanview.API.MiddlewareExtensions
     {
         public static void AddCustomServices(this IServiceCollection services)
         {
+
+            var path = Directory.GetCurrentDirectory();
+
+            var _configuration = new ConfigurationBuilder().SetBasePath(path).AddJsonFile("appsettings.json", true, true).Build();
+
             services.AddSingleton<IHttpClientRequest, HttpClientRequest>();
             services.AddSingleton<IClientBuilder, ClientBuilder>();
             services.AddSingleton<IEventRepository, EventRepository>();
@@ -37,6 +45,7 @@ namespace Fanview.API.MiddlewareExtensions
             services.AddTransient<ILiveStats, LiveStats>();
             services.AddTransient<IMatchManagementRepository, MatchManagementRepository>();
             services.AddTransient<ITeamLiveStatusRepository, TeamLiveStatusRepository>();
+            services.AddTransient<IAssetsRepository, AssetsRepository>();
         }
     }
 }

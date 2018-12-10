@@ -67,16 +67,18 @@ namespace Fanview.API.Repository
                 _logger.LogInformation("TeamPlayer Repository call started" + Environment.NewLine);
 
                 var players = _genericTeamPlayerRepository.GetAll("TeamPlayers").Result;
-                
-                var distinctTeamPlayers = players.GroupBy(o => new { o.PlayerName, o.PubgAccountId }).Select(o => o.FirstOrDefault());
+
+                //var distinctTeamPlayers = players.GroupBy(o => new { o.PlayerName, o.PubgAccountId }).Select(o => o.FirstOrDefault());
+
+                var teamPlayers = players.OrderBy(o => o.TeamIdShort).ThenBy(t => t.FullName);
 
                 _logger.LogInformation("TeamPlayer Results stored to the " + cacheKey + Environment.NewLine);
 
-                await _cacheService.SaveToCache<IEnumerable<TeamPlayer>>(cacheKey, distinctTeamPlayers, 30, 7);
+                await _cacheService.SaveToCache<IEnumerable<TeamPlayer>>(cacheKey, teamPlayers, 59, 7);
 
                 _logger.LogInformation("TeamPlayer Repository call Ended" + Environment.NewLine);
 
-                return await Task.FromResult(distinctTeamPlayers);
+                return await Task.FromResult(teamPlayers);
             }
           
            
@@ -425,6 +427,44 @@ namespace Fanview.API.Repository
         {
             var filter = Builders<TeamPlayer>.Filter.Empty;
             _genericTeamPlayerRepository.DeleteMany(filter, "TeamPlayers");
+        }
+
+        public IEnumerable<PlayerKilledGraphics> GetPlayersId(IEnumerable<LiveEventKill> liveEventKills)
+        {
+            //var cacheKey = "liveKilledPlayersCache";
+
+            //var liveKilledPlayersCache = _cacheService.RetrieveFromCache<IEnumerable<PlayerKilledGraphics>>(cacheKey).Result;
+
+            //if (liveKilledPlayersCache != null)
+            //{            
+
+            //    return liveKilledPlayersCache;
+            //}
+            //else
+            //{
+                var teamPlayers = GetTeamPlayers().Result;
+
+                var liveKilledPlayers = liveEventKills.Join(teamPlayers, pk => pk.VictimName.Trim(), tp => tp.PlayerName.Trim(), (pk, tp) => new { pk, tp })
+                                           .Join(teamPlayers, pktp => pktp.pk.KillerName.Trim(), tp1 => tp1.PlayerName.Trim(), (pktp, tp1) => new { pktp, tp1 })
+                                          .Select(s => new PlayerKilledGraphics()
+                                          {
+                                              TimeKilled = s.pktp.pk.EventTimeStamp,
+                                              KillerName = s.pktp.pk.KillerName,
+                                              VictimName = s.pktp.pk.VictimName,
+                                              DamagedCausedBy = s.pktp.pk.DamageCauser,
+                                              DamageReason = s.pktp.pk.DamageReason,
+                                              VictimTeamId = s.pktp.pk.VictimTeamId,
+                                              KillerTeamId = s.pktp.pk.KillerTeamId,
+                                              IsGroggy =  s.pktp.pk.IsGroggy,
+                                              VictimPlayerId = s.pktp.tp.PlayerId,
+                                              KillerPlayerId = s.tp1.PlayerId,
+                                          }).OrderBy(o => o.TimeKilled);
+
+                //_cacheService.SaveToCache<IEnumerable<PlayerKilledGraphics>>(cacheKey, liveKilledPlayers, 5, 2);
+
+                return liveKilledPlayers;
+            //}
+            
         }
     }
 }

@@ -11,8 +11,7 @@ namespace Fanview.API.BusinessLayer.Contracts
         IEnumerable<string> GetPlayerKilledText(string matchID);
 
         IEnumerable<string> GetLast4PlayerKilledText (string matchID);
-
-        IEnumerable<KilliPrinter> GetPlayerKilled(string matchId);
+       
 
         Task<IEnumerable<KilliPrinter>> GetLivePlayerKilled(int matchId);
     }

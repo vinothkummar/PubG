@@ -34,5 +34,6 @@ namespace Fanview.API.Repository.Interface
         void DeleteTeam(string teamid);
         void DeleteAll();
         void UpdatemanyTeams(IEnumerable<Team> teams);
+        Task<int> GetTeamCount();
     }
 }
