@@ -91,7 +91,7 @@ namespace Fanview.UDPProcessor.Services
 
                 Task.Run(async () => _playerKillRepository.InsertLiveKillEventTelemetry(array, fileName, eventTime));
 
-               // Task.Run(async () => _matchSummaryRepository.InsertLiveEventMatchStatusTelemetry(array, fileName, eventTime));
+                Task.Run(async () => _matchSummaryRepository.InsertLiveEventMatchStatusTelemetry(array, fileName, eventTime));
 
                 so.buffer = new byte[bufSize];
 

@@ -11,6 +11,7 @@ using MongoDB.Driver;
 using Fanview.API.Model.ViewModels;
 using System.Globalization;
 using Fanview.API.Utility;
+using Fanview.API.Services.Interface;
 
 namespace Fanview.API.BusinessLayer
 {
@@ -22,6 +23,7 @@ namespace Fanview.API.BusinessLayer
         private IMatchSummaryRepository _matchSummaryRepository;
         private IGenericRepository<TeamPlayer> _genericTeamPlayerRepository;
         private IGenericRepository<LiveMatchStatus> _genericLiveMatchStatusRepository;
+        private ICacheService _cacheService;
         private ITeamRepository _teamRepository;
         private IGenericRepository<Event> _EventRepository;
         private IGenericRepository<RankPoints> _rankRepository;
@@ -40,6 +42,7 @@ namespace Fanview.API.BusinessLayer
                               IMatchSummaryRepository matchSummaryRepository,
                               IGenericRepository<TeamPlayer> genericTeamPlayerRepository, 
                               IGenericRepository<LiveMatchStatus> genericLiveMatchStatusRepository,
+                              ICacheService cacheService,
                               ILogger<LiveStats> logger)
         {
             _logger = logger;
@@ -54,6 +57,7 @@ namespace Fanview.API.BusinessLayer
             _matchSummaryRepository = matchSummaryRepository;
             _genericTeamPlayerRepository = genericTeamPlayerRepository;
             _genericLiveMatchStatusRepository = genericLiveMatchStatusRepository;
+            _cacheService = cacheService;
         }
 
         //public async Task<IEnumerable<MatchRanking>> GetLiveStatsRanking(int matchId)
@@ -128,6 +132,13 @@ namespace Fanview.API.BusinessLayer
 
         public async Task<Object> GetLiveStatus(int matchId)
         {
+            var teamLiveStatusCache = await _cacheService.RetrieveFromCache<List<LiveMatchStatus>>("TeamLiveStatusCache");
+
+            if (teamLiveStatusCache != null && teamLiveStatusCache.Count() != 0)
+            {              
+
+                return teamLiveStatusCache;
+            }
 
             var matchStatus = _matchSummaryRepository.GetLiveMatchStatus(matchId).Result;
 

@@ -21,4 +21,13 @@
     <ProjectReference Include="..\Fanview.API\Fanview.API.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Assets\DamageCauserName.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\DamageTypeCategroy.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

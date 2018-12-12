@@ -33,7 +33,7 @@ namespace Fanview.API.Repository
         private IEventRepository _eventRepository;
         private ICacheService _cacheService;
         private IAssetsRepository _assetsRepository;
-        private List<LiveEventKill> _liveKilledCachedData;
+        private List<KilliPrinter> _liveKilledCachedData;
         private Task<HttpResponseMessage> _pubGClientResponse;
         private DateTime killEventlastTimeStamp = DateTime.MinValue;
         private IClientBuilder _httpClientBuilder;
@@ -87,7 +87,7 @@ namespace Fanview.API.Repository
             _eventRepository = eventRepository;
             _cacheService = cacheService;
             _assetsRepository = assetsRepository;
-            _liveKilledCachedData = new List<LiveEventKill>();
+            _liveKilledCachedData = new List<KilliPrinter>();
         }
         
 
@@ -248,7 +248,7 @@ namespace Fanview.API.Repository
 
         public async Task<IEnumerable<LiveEventKill>> GetLiveKilled(int matchId)
         {
-            var liveKilledFromCache = await _cacheService.RetrieveFromCache<IEnumerable<LiveEventKill>>("LiveKilledCache");
+            var liveKilledFromCache = await _cacheService.RetrieveFromCache<IEnumerable<LiveEventKill>>("LiveEventKilledCache");
 
             if (liveKilledFromCache != null)
             {
@@ -266,7 +266,7 @@ namespace Fanview.API.Repository
 
                     var response = _LiveEventKill.GetAll("LiveEventKill").Result.Where(cn => cn.MatchId == tournamentMatchId);
 
-                    //await _cacheService.SaveToCache<IEnumerable<LiveEventKill>>("LiveKilledCache", response, 50, 5);
+                    await _cacheService.SaveToCache<IEnumerable<LiveEventKill>>("LiveEventKilledCache", response, 30, 5);                   
 
                     _logger.LogInformation("GetLivePlayerKilled Repository call completed" + Environment.NewLine);
 
@@ -549,20 +549,25 @@ namespace Fanview.API.Repository
 
             if(kills.Count() > 0){
 
-                foreach (var itemLiveKilled in kills.Where(cn => cn.IsGroggy == false))
-                {
-                    _liveKilledCachedData.Add(itemLiveKilled);
+                //foreach (var itemLiveKilled in kills.Where(cn => cn.IsGroggy == false))
+                //{
+                //    _liveKilledCachedData.Add(itemLiveKilled);
 
-                    //_logger.LogInformation("LiveEventKilled added to the LiveKilledCache" + Environment.NewLine);
+                //    //_logger.LogInformation("LiveEventKilled added to the LiveKilledCache" + Environment.NewLine);
 
-                    //var cacheTestData = _cacheService.RetrieveFromCache<IEnumerable<LiveEventKill>>("LiveKilledCache").Result;
+                //    //var cacheTestData = _cacheService.RetrieveFromCache<IEnumerable<LiveEventKill>>("LiveKilledCache").Result;
 
-                    //_logger.LogInformation(cacheTestData.ToJson());
-                }
+                //    //_logger.LogInformation(cacheTestData.ToJson());
+                //}
             
-                var liveKilledOrTeamEliminated = LiveKilledOrTeamEliminiated(_liveKilledCachedData);
+                if (kills.Where(cn => cn.IsGroggy == false).Count() == 1)
+                {
+                    var liveKilledOrTeamEliminated = LiveKilledOrTeamEliminiated(kills);
 
-                await _cacheService.SaveToCache<IEnumerable<KilliPrinter>>("LiveKilledCache", liveKilledOrTeamEliminated, 80, 10);
+                    _liveKilledCachedData.Add(liveKilledOrTeamEliminated);
+
+                    await _cacheService.SaveToCache<IEnumerable<KilliPrinter>>("LiveKilledCache", _liveKilledCachedData, 30, 5);
+                }
 
                 _LiveEventKill.Insert(kills.ToList(), "LiveEventKill");
             }
@@ -635,37 +640,27 @@ namespace Fanview.API.Repository
             return Task.FromResult(killLeaders);
         }
 
-        private IEnumerable<KilliPrinter> LiveKilledOrTeamEliminiated(IEnumerable<LiveEventKill> playerKilled)
+        private KilliPrinter LiveKilledOrTeamEliminiated(IEnumerable<LiveEventKill> playerKilled)
         {
-            //var tournamentMatchCreatedAt = _eventRepository.FindEvent(_matchId).Result.CreatedAT;
          
             var result = _teamPlayerRepository.GetPlayersId(playerKilled);
 
-            var killiPrinter = new List<KilliPrinter>();
-
-            var teamCount = new List<int>();
-
-            foreach (var item in result.Where(c => c.IsGroggy == false))
+            var playerKillMessage = result.Select(item => new PlayerKilledGraphics()
             {
-                var playerKillMessage = new PlayerKilledGraphics()
-                {
-                    TimeKilled = item.TimeKilled,
-                    KillerName = item.KillerName,                   
-                    VictimName = item.VictimName,
-                    DamagedCausedBy = _assetsRepository.GetDamageCauserName(item.DamagedCausedBy),
-                    DamageReason = item.DamageReason,
-                    VictimTeamId = item.VictimTeamId,
-                    KillerTeamId = item.KillerTeamId,
-                    KillerPlayerId = item.KillerPlayerId,
-                    VictimPlayerId = item.VictimPlayerId
-                };
+                TimeKilled = item.TimeKilled,
+                KillerName = item.KillerName,
+                VictimName = item.VictimName,
+                DamagedCausedBy = _assetsRepository.GetDamageCauserName(item.DamagedCausedBy),
+                DamageReason = item.DamageReason,
+                VictimTeamId = item.VictimTeamId,
+                KillerTeamId = item.KillerTeamId,
+                KillerPlayerId = item.KillerPlayerId,
+                VictimPlayerId = item.VictimPlayerId
+            }).FirstOrDefault();
 
-                var killMessage = new KilliPrinter() { PlayerKilled = playerKillMessage };
+            var killMessage = new KilliPrinter() { PlayerKilled = playerKillMessage };
 
-                killiPrinter.Add(killMessage);
-            }
-
-            return killiPrinter;
+            return killMessage;
         }
     }
 }

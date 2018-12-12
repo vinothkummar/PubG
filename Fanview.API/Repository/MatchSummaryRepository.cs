@@ -32,6 +32,7 @@ namespace Fanview.API.Repository
         private Task<HttpResponseMessage> _pubGClientResponse;
         private DateTime LastMatchCreatedTimeStamp = DateTime.MinValue;
         private IEventRepository _eventRepository;
+        private ICacheService _cacheService;
 
         public MatchSummaryRepository(IClientBuilder httpClientBuilder,
                                       IHttpClientRequest httpClientRequest,
@@ -46,7 +47,8 @@ namespace Fanview.API.Repository
                                       IPlayerKillRepository playerKillRepository,
                                       ITeamLiveStatusRepository teamLiveStatusRepository,
                                       IEventRepository eventRepository,
-                                      ILogger<PlayerKillRepository> logger)
+                                      ILogger<PlayerKillRepository> logger,
+                                      ICacheService cacheService)
         {
             _httpClientBuilder = httpClientBuilder;            
             _httpClientRequest = httpClientRequest;
@@ -62,6 +64,7 @@ namespace Fanview.API.Repository
             _teamLiveStatusRepository = teamLiveStatusRepository;
             _eventRepository = eventRepository;
             _logger = logger;
+            _cacheService = cacheService;
         }
 
         private MatchSummary GetMatchSummaryData(JObject jsonToJObject)
@@ -503,10 +506,13 @@ namespace Fanview.API.Repository
                     teamLiveStatusCollection.Add(teamLiveStatus);
                 }
 
+                await _cacheService.SaveToCache<List<LiveMatchStatus>>("TeamLiveStatusCache", teamLiveStatusCollection, 80, 10);
+
                 if (isTeamLiveStatusCount == 0)
                 {
                     //_genericLiveMatchStatusRepository.Insert(teamLiveStatusCollection, "TeamLiveStatus");
                     _teamLiveStatusRepository.CreateTeamLiveStatus(teamLiveStatusCollection);
+                  
                 }
                 else
                 {

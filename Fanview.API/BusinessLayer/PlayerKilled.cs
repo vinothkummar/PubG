@@ -104,7 +104,7 @@ namespace Fanview.API.BusinessLayer
        
 
         public async Task<IEnumerable<KilliPrinter>> GetLivePlayerKilled(int matchId)
-        {
+        {            
             var liveKilledFromCache = await _cacheService.RetrieveFromCache<IEnumerable<KilliPrinter>>("LiveKilledCache");
             
             if (liveKilledFromCache != null && liveKilledFromCache.Count() != 0 )
@@ -129,6 +129,8 @@ namespace Fanview.API.BusinessLayer
                     playerKilledOrTeamEliminatedMessages = output.ToList();
                 }
             }
+
+            await _cacheService.SaveToCache<IEnumerable<KilliPrinter>>("LiveKilledCache", playerKilledOrTeamEliminatedMessages, 30, 5);
 
             return await Task.FromResult(playerKilledOrTeamEliminatedMessages);
         }
