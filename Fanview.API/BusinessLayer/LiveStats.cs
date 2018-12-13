@@ -17,126 +17,72 @@ namespace Fanview.API.BusinessLayer
 {
     public class LiveStats : ILiveStats
     {
-        private ILogger<LiveStats> _logger;
-        private IPlayerKillRepository _playerKillRepository;
+        private ILogger<LiveStats> _logger;        
         private ITeamPlayerRepository _teamPlayerRepository;
         private IMatchSummaryRepository _matchSummaryRepository;
-        private IGenericRepository<TeamPlayer> _genericTeamPlayerRepository;
-        private IGenericRepository<LiveMatchStatus> _genericLiveMatchStatusRepository;
+        private ITeamLiveStatusRepository _teamLiveStatusRepository;
         private ICacheService _cacheService;
         private ITeamRepository _teamRepository;
-        private IGenericRepository<Event> _EventRepository;
-        private IGenericRepository<RankPoints> _rankRepository;
-        private IGenericRepository<Event> _tournament;
-        private IRanking _ranking;
-        private ITeamPlayerRepository _teamPlayerRespository;
+        private IRanking _ranking;      
+        private IEventRepository _eventRepository;
 
-        public LiveStats(IPlayerKillRepository playerKillRepository,
-                              ITeamPlayerRepository teamPlayerRepository,
+
+        public LiveStats(ITeamPlayerRepository teamPlayerRepository,
                               ITeamRepository teamRepository,
-                              IGenericRepository<Event> eventRepository,
-                              IGenericRepository<RankPoints> rankRepository,
                               IRanking ranking,
-                              IGenericRepository<Event> tournament,
-                              ITeamPlayerRepository teamPlayerRespository,
                               IMatchSummaryRepository matchSummaryRepository,
-                              IGenericRepository<TeamPlayer> genericTeamPlayerRepository, 
-                              IGenericRepository<LiveMatchStatus> genericLiveMatchStatusRepository,
+                              IEventRepository eventRepository,
                               ICacheService cacheService,
+                              ITeamLiveStatusRepository teamLiveStatusRepository,
                               ILogger<LiveStats> logger)
         {
-            _logger = logger;
-            _playerKillRepository = playerKillRepository;
-            _teamPlayerRepository = teamPlayerRepository;
+            _logger = logger;            
+            _teamPlayerRepository = teamPlayerRepository;           
             _teamRepository = teamRepository;
-            _EventRepository = eventRepository;
-            _rankRepository = rankRepository;
-            _ranking = ranking;
-            _tournament = tournament;
-            _teamPlayerRepository = teamPlayerRepository;
+            _eventRepository = eventRepository;           
+            _ranking = ranking;                     
             _matchSummaryRepository = matchSummaryRepository;
-            _genericTeamPlayerRepository = genericTeamPlayerRepository;
-            _genericLiveMatchStatusRepository = genericLiveMatchStatusRepository;
+            _teamLiveStatusRepository = teamLiveStatusRepository;
             _cacheService = cacheService;
         }
 
-        //public async Task<IEnumerable<MatchRanking>> GetLiveStatsRanking(int matchId)
-        //{
-        //    var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
+        public async Task<object> GetLiveMatchStatus(int matchId)
+        {
+            var liveMatchStatus = await  _teamLiveStatusRepository.GetEventLiveMatchStatus(await _eventRepository.GetTournamentMatchId(matchId));
 
-        //    var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
+            var result = new
+            {
+                MatchId = matchId,
+                MatchState = liveMatchStatus.MatchState == "WaitingPostMatch" ? "Completed" : liveMatchStatus.MatchState,
+                ElapsedTime = liveMatchStatus.ElapsedTime,
+                BlueZonePhase = liveMatchStatus.BlueZonePhase,
+                IsBlueZoneMoving = liveMatchStatus.IsBlueZoneMoving,
+                BlueZoneRadius = liveMatchStatus.BlueZoneRadius,
+                BlueZoneLocation = liveMatchStatus.BlueZoneLocation,
+                WhiteZoneRadius = liveMatchStatus.WhiteZoneRadius,
+                WhiteZoneLocation = liveMatchStatus.WhiteZoneLocation,
+                RedZoneRadius = liveMatchStatus.RedZoneRadius,
+                RedZoneLocation = liveMatchStatus.RedZoneLocation,
+                StartPlayerCount = liveMatchStatus.StartPlayerCount,
+                AlivePlayerCount = liveMatchStatus.AlivePlayerCount,
+                StartTeamCount = liveMatchStatus.StartTeamCount,
+                AliveTeamCount = liveMatchStatus.AliveTeamCount
+            };
 
-        //    var matchRanking = _ranking.GetTournamentRankings();
+            return result;
+        }
 
-        //    var rankPoints = _rankRepository.GetAll("RankPoints").Result.OrderByDescending(o => o.RankPosition);
-
-        //    var teamCount = _teamRepository.GetAllTeam().Result.Count();
-
-        //    var LiveKills = _playerKillRepository.GetLiveKilled(matchId).Result;
-
-        //    var liveKillCount = _playerKillRepository.GetLiveKillCount(LiveKills);
-
-        //    var teamEliminationPosition = GetTeamEliminatedPosition(LiveKills, tournamentMatchId, teamCount);          
-
-        //    var rankPositionIndex = rankPoints.Select((item, index) => new { Position = (int)index, RankPositionScore = item.ScoringPoints });
-
-        //    var presentEligibleRankScore = rankPoints.Where(cn => teamEliminationPosition.Select(s => s.Positions).Contains(cn.RankPosition)).Select(s => s.ScoringPoints);
-
-
-
-        //    //rankPositionIndex.Where(cn => teamEliminationPosition.Count() == cn.Position).Select(s => s.RankPositionScore).SingleOrDefault();
-
-        //    //var teamEliminated = new List<TeamRankPoints>();
-
-        //    //teamEliminated.Add(new TeamRankPoints() { Name = teamEliminatedLastPosition.Name, TeamId = teamEliminatedLastPosition.TeamId });
-
-
-
-
-
-        //    var tournamentRanking = matchRanking.Result.Select(a => new MatchRanking()
-        //    {
-        //        MatchId = a.MatchId,
-        //        TeamId = a.TeamId,
-        //        TeamName = a.TeamName,
-        //        KillPoints = a.KillPoints,
-        //        RankPoints = a.RankPoints,
-        //        TotalPoints = a.TotalPoints,
-        //        TeamRank = a.TeamRank,
-        //        PubGOpenApiTeamId = a.PubGOpenApiTeamId
-
-        //    });
-
-        //    var liveRanking = new List<MatchRanking>();
-        //    foreach (var item in tournamentRanking)
-        //    {
-
-        //        liveRanking.Add(
-        //        new MatchRanking()
-        //        {
-        //            MatchId = item.MatchId,
-        //            TeamId = item.TeamId,
-        //            TeamName = item.TeamName,
-        //            KillPoints = item.KillPoints,
-        //            RankPoints = item.RankPoints, //+ presentEligibleRankScore,
-        //            TotalPoints = item.TotalPoints,
-        //            TeamRank = item.TeamRank,
-        //            PubGOpenApiTeamId = item.PubGOpenApiTeamId
-
-        //        });
-        //    }
-
-        //    return liveRanking;
-
-        //}
+        public Task<object> GetLiveRanking(int matchId)
+        {
+            return null;
+        }
 
         public async Task<Object> GetLiveStatus(int matchId)
         {
-            var teamLiveStatusCache = await _cacheService.RetrieveFromCache<List<LiveMatchStatus>>("TeamLiveStatusCache");
+            var teamLiveStatusCache = await _cacheService.RetrieveFromCache<Object>("TeamLiveStatusCache");
 
-            if (teamLiveStatusCache != null && teamLiveStatusCache.Count() != 0)
-            {              
-
+            if (teamLiveStatusCache != null)
+            {
                 return teamLiveStatusCache;
             }
 
@@ -153,16 +99,18 @@ namespace Fanview.API.BusinessLayer
                                         IsEliminated = s.IsEliminated
                                     });
 
-           
-            
-            if(matchStatusObject == null)
+            await _cacheService.SaveToCache<Object>("TeamLiveStatusCache", matchStatusObject, 30, 10);
+
+
+            if (matchStatusObject == null)
             {
                 return null;
-            } 
+            }
+
+            
 
             return await Task.FromResult(matchStatusObject);            
         }
-
 
         private IEnumerable<TeamRankPoints> GetTeamEliminatedPosition(IEnumerable<LiveEventKill> kills, string matchId, int totalTeamCount)
         {
@@ -180,8 +128,6 @@ namespace Fanview.API.BusinessLayer
                     TeamId = item.TeamIdShort,
                     
                 });
-
-
             }
 
             var playersKilled = kills.Select(s => new

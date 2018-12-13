@@ -415,22 +415,16 @@ namespace Fanview.API.Repository
             {
                 _teamLiveStatusRepository.CreateEventLiveMatchStatus(matchStatus);
 
-                var test = CreateMatchLiveStatus(matchStatus, matchStatus.Select(a => a.MatchId).ElementAtOrDefault(0));
+                await CreateMatchLiveStatus(matchStatus, matchStatus.Select(a => a.MatchId).ElementAtOrDefault(0));
             }
 
         }
        
         private async Task CreateMatchLiveStatus(IEnumerable<EventLiveMatchStatus> matchStatus, string matchId)
         {
-            //var teamPlayerCollection = _genericTeamPlayerRepository.GetMongoDbCollection("TeamPlayers");
-
-            //var teamPlayers = await teamPlayerCollection.FindAsync(Builders<TeamPlayer>.Filter.Empty).Result.ToListAsync();
-
             var teamPlayers = await _teamPlayerRepository.GetTeamPlayers();
 
-            var liveMatchStatus = _genericLiveMatchStatusRepository.GetMongoDbCollection("TeamLiveStatus");
-
-            //var isTeamLiveStatusCount = liveMatchStatus.FindAsync(Builders<LiveMatchStatus>.Filter.Where(cn => cn.MatchId == matchId)).Result.ToListAsync().Result.Count;
+            var liveMatchStatus = _genericLiveMatchStatusRepository.GetMongoDbCollection("TeamLiveStatus");          
 
             var isTeamLiveStatusCount = _teamLiveStatusRepository.GetTeamLiveStatusCount(matchId).Result;
 
@@ -509,8 +503,7 @@ namespace Fanview.API.Repository
                 await _cacheService.SaveToCache<List<LiveMatchStatus>>("TeamLiveStatusCache", teamLiveStatusCollection, 80, 10);
 
                 if (isTeamLiveStatusCount == 0)
-                {
-                    //_genericLiveMatchStatusRepository.Insert(teamLiveStatusCollection, "TeamLiveStatus");
+                {                    
                     _teamLiveStatusRepository.CreateTeamLiveStatus(teamLiveStatusCollection);
                   
                 }
@@ -530,8 +523,7 @@ namespace Fanview.API.Repository
                                 var filter = Builders<LiveMatchStatus>.Filter.Eq(s => s.Id, document.Id);
 
                                 _teamLiveStatusRepository.ReplaceTeamLiveStatus(team, filter);
-
-                               //_genericLiveMatchStatusRepository.Replace(team, filter, "TeamLiveStatus");
+                             
                             }
                         }
                     }
@@ -541,9 +533,7 @@ namespace Fanview.API.Repository
 
         public async Task<IEnumerable<LiveMatchStatus>> GetLiveMatchStatus(int matchId)
         {
-            //var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
-
-            //var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
+           
 
             var tournamentMatchId = _eventRepository.GetTournamentMatchId(matchId).Result;
 
