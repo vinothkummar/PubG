@@ -116,7 +116,7 @@ namespace Fanview.API.BusinessLayer
 
             var playerKilledOrTeamEliminatedMessages = new List<KilliPrinter>();
 
-            var kills = _playerKillRepository.GetLiveKilled(matchId).Result;
+            var kills = await _playerKillRepository.GetLiveKilled(matchId);
 
             var tournamentMatchCreatedAt =  _eventRepository.GetEventCreatedAt(matchId).Result;
 

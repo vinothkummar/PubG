@@ -500,7 +500,7 @@ namespace Fanview.API.Repository
                     teamLiveStatusCollection.Add(teamLiveStatus);
                 }
 
-                await _cacheService.SaveToCache<List<LiveMatchStatus>>("TeamLiveStatusCache", teamLiveStatusCollection, 80, 10);
+                await _cacheService.SaveToCache<Object>("TeamLiveStatusCache", teamLiveStatusCollection, 80, 10);
 
                 if (isTeamLiveStatusCount == 0)
                 {                    

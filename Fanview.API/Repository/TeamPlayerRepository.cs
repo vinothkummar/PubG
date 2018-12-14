@@ -451,6 +451,7 @@ namespace Fanview.API.Repository
                                               TimeKilled = s.pktp.pk.EventTimeStamp,
                                               KillerName = s.pktp.pk.KillerName,
                                               VictimName = s.pktp.pk.VictimName,
+                                              VictimLocation = s.pktp.pk.VictimLocation,
                                               DamagedCausedBy = s.pktp.pk.DamageCauser,
                                               DamageReason = s.pktp.pk.DamageReason,
                                               VictimTeamId = s.pktp.pk.VictimTeamId,

@@ -120,6 +120,7 @@ namespace Fanview.API.BusinessLayer
                     TimeKilled = item.TimeKilled,
                     KillerName = item.KillerName,
                     VictimName = item.VictimName,
+                    VictimLocation = item.VictimLocation,
                     DamagedCausedBy = _assetsRepository.GetDamageCauserName(item.DamagedCausedBy),
                     DamageReason = item.DamageReason,
                     VictimTeamId = item.VictimTeamId,

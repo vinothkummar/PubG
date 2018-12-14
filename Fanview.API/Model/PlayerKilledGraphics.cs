@@ -12,6 +12,7 @@ namespace Fanview.API.Model
         //public string FreeText1 { get; set; }
         public string VictimName { get; set; }
         //public string FreeText2 { get; set; }
+        public Location VictimLocation { get; set; }
         public string DamagedCausedBy { get; set; }
         public string DamageReason { get; set; }
         public int VictimTeamId { get; set; }

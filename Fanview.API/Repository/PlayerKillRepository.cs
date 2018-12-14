@@ -548,17 +548,6 @@ namespace Fanview.API.Repository
             });
 
             if(kills.Count() > 0){
-
-                //foreach (var itemLiveKilled in kills.Where(cn => cn.IsGroggy == false))
-                //{
-                //    _liveKilledCachedData.Add(itemLiveKilled);
-
-                //    //_logger.LogInformation("LiveEventKilled added to the LiveKilledCache" + Environment.NewLine);
-
-                //    //var cacheTestData = _cacheService.RetrieveFromCache<IEnumerable<LiveEventKill>>("LiveKilledCache").Result;
-
-                //    //_logger.LogInformation(cacheTestData.ToJson());
-                //}
             
                 if (kills.Where(cn => cn.IsGroggy == false).Count() == 1)
                 {
@@ -566,7 +555,7 @@ namespace Fanview.API.Repository
 
                     _liveKilledCachedData.Add(liveKilledOrTeamEliminated);
 
-                    await _cacheService.SaveToCache<IEnumerable<KilliPrinter>>("LiveKilledCache", _liveKilledCachedData, 30, 5);
+                    await _cacheService.SaveToCache<IEnumerable<KilliPrinter>>("LiveKilledCache", _liveKilledCachedData, 30, 10);
                 }
 
                 _LiveEventKill.Insert(kills.ToList(), "LiveEventKill");
@@ -650,6 +639,7 @@ namespace Fanview.API.Repository
                 TimeKilled = item.TimeKilled,
                 KillerName = item.KillerName,
                 VictimName = item.VictimName,
+                VictimLocation = item.VictimLocation,
                 DamagedCausedBy = _assetsRepository.GetDamageCauserName(item.DamagedCausedBy),
                 DamageReason = item.DamageReason,
                 VictimTeamId = item.VictimTeamId,
