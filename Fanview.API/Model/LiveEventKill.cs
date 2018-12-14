@@ -43,7 +43,7 @@ namespace Fanview.API.Model
         [BsonElement("version")]
         public int Version { get; set; }
         [BsonElement("eventTimeStamp")]
-        public string EventTimeStamp { get; set; }
+        public DateTime EventTimeStamp { get; set; }
         [BsonElement("eventType")]
         public string EventType { get; set; }
         [BsonElement("eventSourceFileName")]

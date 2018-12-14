@@ -20,5 +20,9 @@ namespace Fanview.API.Repository.Interface
         Task<IEnumerable<Event>> GetTournamentMatchId();
         void InsertMatchSafeZonePosition(string jsonResult, string matchId);
         Task<Object> GetMatchSafeZone(int matchId);
+
+        Task<IEnumerable<RankPoints>> GetMatchRankPoints();
+        
+
     }
 }

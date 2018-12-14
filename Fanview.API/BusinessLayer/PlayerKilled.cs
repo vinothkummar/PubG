@@ -7,6 +7,7 @@ using Fanview.API.Repository.Interface;
 using Fanview.API.Model;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
+using Fanview.API.Services.Interface;
 
 namespace Fanview.API.BusinessLayer
 {
@@ -15,25 +16,33 @@ namespace Fanview.API.BusinessLayer
        
         List<IKillingRule> _rules = new List<IKillingRule>();
         private IPlayerKillRepository _playerKillRepository;       
-        private ILogger<PlayerKilled> _logger;
-        private IReadAssets _readAssets;
+        private ILogger<PlayerKilled> _logger;        
         private ITeamRepository _teamRepository;
-        private IGenericRepository<Event> _tournament;
+        private ITeamPlayerRepository _playerRepository;
+        private IEventRepository _eventRepository;
+        private ICacheService _cacheService;
+        private IAssetsRepository _assetsRepository;
 
         public PlayerKilled(IPlayerKillRepository playerKillRepository,                           
-                            ILogger<PlayerKilled> logger,
-                            IReadAssets readAssets,
-                            IGenericRepository<Event> tournament,
+                            ILogger<PlayerKilled> logger,                           
                             ITeamPlayerRepository playerRepository,
-                            ITeamRepository teamRepository)
+                            IEventRepository eventRepository,
+                            ITeamRepository teamRepository,
+                            IAssetsRepository assetsRepository,
+                            ICacheService cacheService                           
+                            )
         {
             _playerKillRepository = playerKillRepository;
-            _logger = logger;
-            _readAssets = readAssets;
+            _logger = logger;           
             _teamRepository = teamRepository;
-            _tournament = tournament;
+            _playerRepository = playerRepository;            
+            _eventRepository = eventRepository;
+            _assetsRepository = assetsRepository;
+            _cacheService = cacheService;
 
-            _rules.Add(new IndividualPlayerKilled(_readAssets, _teamRepository, playerRepository));
+
+
+            _rules.Add(new IndividualPlayerKilled(_teamRepository, _assetsRepository, playerRepository));
            
         }
 
@@ -92,47 +101,39 @@ namespace Fanview.API.BusinessLayer
            
         }
 
-        public IEnumerable<KilliPrinter> GetPlayerKilled(string matchId)
+       
+
+        public async Task<IEnumerable<KilliPrinter>> GetLivePlayerKilled(int matchId)
         {
+            var liveKilledFromCache = await _cacheService.RetrieveFromCache<IEnumerable<KilliPrinter>>("LiveKilledCache");
+
+            if (liveKilledFromCache != null && liveKilledFromCache.Count() != 0)
+            {
+                _logger.LogInformation("GetLiveKilled returned from LiveKilledCache " + Environment.NewLine);
+
+                return liveKilledFromCache;
+            }
 
             var playerKilledOrTeamEliminatedMessages = new List<KilliPrinter>();
 
-            var kills = _playerKillRepository.GetPlayerKilled(matchId).Result;
-            
+            var kills = await _playerKillRepository.GetLiveKilled(matchId);
+
+            var tournamentMatchCreatedAt =  _eventRepository.GetEventCreatedAt(matchId).Result;
 
             foreach (var rule in _rules)
             {
-                var output = rule.PlayerKilledOrTeamEliminiated(kills);
+                var output =  rule.LiveKilledOrTeamEliminiated(kills, tournamentMatchCreatedAt);
 
                 if (output != null)
                 {
                     playerKilledOrTeamEliminatedMessages = output.ToList();
                 }
             }
-            return playerKilledOrTeamEliminatedMessages;
+
+            await _cacheService.SaveToCache<IEnumerable<KilliPrinter>>("LiveKilledCache", playerKilledOrTeamEliminatedMessages, 30, 10);
+
+            return await Task.FromResult(playerKilledOrTeamEliminatedMessages);
         }
-
-        public IEnumerable<KilliPrinter> GetLivePlayerKilled(int matchId)
-        {
-            var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
-
-            var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.CreatedAT;
-
-            var playerKilledOrTeamEliminatedMessages = new List<KilliPrinter>();
-
-            var kills = _playerKillRepository.GetLiveKilled(matchId).Result;
-
-
-            foreach (var rule in _rules)
-            {
-                var output = rule.LiveKilledOrTeamEliminiated(kills, tournamentMatchId);
-
-                if (output != null)
-                {
-                    playerKilledOrTeamEliminatedMessages = output.ToList();
-                }
-            }
-            return playerKilledOrTeamEliminatedMessages;
-        }
+      
     }
 }

@@ -27,7 +27,7 @@ namespace Fanview.API.Repository.Interface
 
         Task<Object> GetKillZone(int matchId);
 
-        void InsertLiveKillEventTelemetry(JObject[] jsonResult, string fileName);
+        void InsertLiveKillEventTelemetry(JObject[] jsonResult, string fileName, DateTime eventTime);
 
         Task<KillLeader> GetKillLeaderList();
 
@@ -35,7 +35,7 @@ namespace Fanview.API.Repository.Interface
 
         Task<KillLeader> GetKillLeaderListToppedByDamageDealt();
 
-        Task<KillLeader> GetLiveKillList(string matchId, int topN);
+        Task<KillLeader> GetLiveKillList(int matchId, int topN);
 
         Task<IEnumerable<LiveKillCount>> GetLiveKillCount(IEnumerable<LiveEventKill> liveEventKills);
     }

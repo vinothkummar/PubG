@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PollingServiceTest", "Polli
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FanviewEventPollingService", "FanviewSummaryPollingService\FanviewEventPollingService.csproj", "{71DDB0F6-23D0-4CB0-AA97-9FCB59F88C77}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fanview.UDPProcessor", "UdpProcessor\Fanview.UDPProcessor.csproj", "{8C504933-6952-4111-8527-DBEF68BC1D1E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{71DDB0F6-23D0-4CB0-AA97-9FCB59F88C77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{71DDB0F6-23D0-4CB0-AA97-9FCB59F88C77}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71DDB0F6-23D0-4CB0-AA97-9FCB59F88C77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C504933-6952-4111-8527-DBEF68BC1D1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C504933-6952-4111-8527-DBEF68BC1D1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C504933-6952-4111-8527-DBEF68BC1D1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C504933-6952-4111-8527-DBEF68BC1D1E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

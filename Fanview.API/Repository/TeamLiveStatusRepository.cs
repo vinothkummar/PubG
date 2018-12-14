@@ -29,6 +29,16 @@ namespace Fanview.API.Repository
             _liveMatchStatusRepository.Insert(teamLiveStatuses, "TeamLiveStatus");
         }
 
+        public async Task<EventLiveMatchStatus> GetEventLiveMatchStatus(string matchId)
+        {
+            var eventLiveMatchStatus = _eventLiveMatchStatus.GetMongoDbCollection("EventMatchStatus");
+
+            var lastLiveMatchStatus = eventLiveMatchStatus.FindAsync(Builders<EventLiveMatchStatus>.Filter.Where(cn => cn.MatchId == matchId)).Result.ToListAsync().Result.OrderByDescending(o => o.Id).FirstOrDefault();
+
+            return await Task.FromResult(lastLiveMatchStatus);
+
+        }
+
         public async Task<int> GetTeamLiveStatusCount(string matchId)
         {
             var liveMatchStatus = _liveMatchStatusRepository.GetMongoDbCollection("TeamLiveStatus");

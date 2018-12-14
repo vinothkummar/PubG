@@ -16,5 +16,8 @@ namespace Fanview.API.Repository.Interface
         void ReplaceTeamLiveStatus(LiveMatchStatus liveMatchStatus, FilterDefinition<LiveMatchStatus> filter);
 
         void CreateEventLiveMatchStatus(IEnumerable<EventLiveMatchStatus> eventLiveMatchStatus);
+
+        Task<EventLiveMatchStatus> GetEventLiveMatchStatus(string matchId);
+
     }
 }

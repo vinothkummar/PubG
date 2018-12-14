@@ -41,6 +41,15 @@ namespace Fanview.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //string redisConnection = Configuration["RedisSettings:RedisConnectionString"];
+
+            //services.AddMemoryCache();
+            services.AddDistributedRedisCache(options =>
+            {
+                options.Configuration = "127.0.0.1:6379,abortConnect=False";
+                options.InstanceName = "Master";
+            });
+
 
             services.AddMvc();
             //.AddJsonOptions(options =>
@@ -54,14 +63,9 @@ namespace Fanview.API
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
-
-
             });
 
-            
-
             services.AddCustomServices();
-            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

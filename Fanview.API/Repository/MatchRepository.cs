@@ -19,15 +19,20 @@ namespace Fanview.API.Repository
         private IClientBuilder _httpClientBuilder;
         private IHttpClientRequest _httpClientRequest;
         private IGenericRepository<Event> _genericRepository;
+        private IGenericRepository<RankPoints> _rankPointsRepository;
         private ILogger<MatchRepository> _logger;
         private IGenericRepository<MatchSafeZone> _matchSafeZoneRepository;
         private IGenericRepository<MatchSummaryData> _matchSummaryRepository;
+
+        private ICacheService _cacheService;
 
         public MatchRepository(IClientBuilder httpClientBuilder, 
                                IHttpClientRequest httpClientRequest,                               
                                IGenericRepository<Event> genericRepository,
                                IGenericRepository<MatchSafeZone> matchSafeZoneRepository,
                                IGenericRepository<MatchSummaryData> matchSummaryRepository,
+                               IGenericRepository<RankPoints> rankPointsRepository,
+                               ICacheService cacheService,
                                ILogger<MatchRepository> logger)
         {
             _httpClientBuilder = httpClientBuilder;
@@ -36,6 +41,8 @@ namespace Fanview.API.Repository
             _logger = logger;
             _matchSafeZoneRepository = matchSafeZoneRepository;
             _matchSummaryRepository = matchSummaryRepository;
+            _rankPointsRepository = rankPointsRepository;
+            _cacheService = cacheService;
         }
         public async Task<JObject> GetMatchesDetailsByID(string id)
         {            
@@ -281,6 +288,26 @@ namespace Fanview.API.Repository
             var mapName = await matchSummary.FindAsync(Builders<MatchSummaryData>.Filter.Where(cn => cn.Id == matchId)).Result.FirstOrDefaultAsync();
 
             return await Task.FromResult(mapName.Attributes.MapName);
+        }
+
+        public async Task<IEnumerable<RankPoints>> GetMatchRankPoints()
+        {
+            var cacheKey = "MatchRankPointsCache";
+
+            var matchRankPointsCache = await _cacheService.RetrieveFromCache<IEnumerable<RankPoints>>(cacheKey);
+
+            if (matchRankPointsCache != null)
+            {
+                return matchRankPointsCache;
+            }
+            else
+            {
+                var rankPoints = _rankPointsRepository.GetAll("RankPoints").Result.OrderByDescending(o => o.RankPosition);
+
+                await _cacheService.SaveToCache<IEnumerable<RankPoints>>(cacheKey, rankPoints, 50, 10);
+
+                return await Task.FromResult(rankPoints);
+            }
         }
     }
 }

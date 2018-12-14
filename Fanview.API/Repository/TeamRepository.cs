@@ -2,6 +2,7 @@
 using Fanview.API.Model.LiveModels;
 using Fanview.API.Model.ViewModels;
 using Fanview.API.Repository.Interface;
+using Fanview.API.Services.Interface;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
@@ -23,6 +24,7 @@ namespace Fanview.API.Repository
         private IGenericRepository<VehicleLeave> _vehicleLeave;
         private IGenericRepository<Event> _tournament;        
         private ILogger<TeamRepository> _logger;
+        private ICacheService _cacheService;
 
         public TeamRepository(IGenericRepository<Team> team,
                               IGenericRepository<MatchPlayerStats> matchPlayerStats,                              
@@ -32,6 +34,7 @@ namespace Fanview.API.Repository
                               IGenericRepository<VehicleLeave> vehicleLeave,
                               IGenericRepository<PlayerPoition> teamPlayersPosition,   
                               IMatchRepository matchRepository,
+                              ICacheService cacheService,
                               ILogger<TeamRepository> logger)
         {
             _team = team;
@@ -43,6 +46,7 @@ namespace Fanview.API.Repository
             _teamPlayersPosition = teamPlayersPosition;
             _matchRepository = matchRepository;
             _logger = logger;
+            _cacheService = cacheService;
         }
 
         public async Task<IEnumerable<Team>> GetTeam()
@@ -470,6 +474,39 @@ namespace Fanview.API.Repository
         {
             var filter = FilterDefinition<Team>.Empty;
             _team.DeleteMany(filter, "Team");
+        }
+
+        public async Task<int> GetTeamCount()
+        {
+            var cacheKey = "TeamCountCache";
+
+            var teamPlayerFromCache = await _cacheService.RetrieveFromCache<int>(cacheKey);
+
+            if (teamPlayerFromCache != 0)
+            {
+                _logger.LogInformation("TeamPlayer returned from " + cacheKey + Environment.NewLine);
+
+                return teamPlayerFromCache;
+            }
+            else
+            {
+
+                _logger.LogInformation("TeamPlayer Repository call started" + Environment.NewLine);
+
+                var teams = _team.GetAll("Team").Result;
+
+                //var distinctTeamPlayers = players.GroupBy(o => new { o.PlayerName, o.PubgAccountId }).Select(o => o.FirstOrDefault());
+
+                var teamCount = teams.Count();
+
+                _logger.LogInformation("TeamPlayer Results stored to the " + cacheKey + Environment.NewLine);
+
+                await _cacheService.SaveToCache<int>(cacheKey, teamCount, 59, 7);
+
+                _logger.LogInformation("TeamPlayer Repository call Ended" + Environment.NewLine);
+
+                return await Task.FromResult(teamCount);
+            }
         }
 
     }

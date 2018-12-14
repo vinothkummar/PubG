@@ -30,7 +30,7 @@ namespace Fanview.API.BusinessLayer
                        IGenericRepository<MatchRanking> genericMatchRankingRepository,
                        IGenericRepository<TeamRanking> genericTeamRankingRepository,
                        ITeamRepository teamRepository,
-                       ITeamPlayerRepository teamPlayerRepository, IReadAssets readAssets,
+                       ITeamPlayerRepository teamPlayerRepository, 
                        IGenericRepository<Event> tournament)
         {
             _logger = logger;
