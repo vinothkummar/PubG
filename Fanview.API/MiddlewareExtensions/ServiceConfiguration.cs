@@ -6,6 +6,8 @@ using Fanview.API.Repository.Interface;
 using Fanview.API.Services;
 using Fanview.API.Services.Interface;
 using FanviewPollingService.Repository;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Redis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.IO;
@@ -46,6 +48,10 @@ namespace Fanview.API.MiddlewareExtensions
             services.AddTransient<IMatchManagementRepository, MatchManagementRepository>();
             services.AddTransient<ITeamLiveStatusRepository, TeamLiveStatusRepository>();
             services.AddTransient<IAssetsRepository, AssetsRepository>();
+            services.AddSingleton<IDistributedCache>(serviceProvider => new RedisCache(new RedisCacheOptions {
+                Configuration = "127.0.0.1:6379,abortConnect=false,connectTimeout=3000,responseTimeout=3000,syncTimeout=3000",
+                InstanceName =  "FanviewCaching"
+            }));
         }
     }
 }

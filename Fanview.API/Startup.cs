@@ -44,11 +44,13 @@ namespace Fanview.API
             //string redisConnection = Configuration["RedisSettings:RedisConnectionString"];
 
             //services.AddMemoryCache();
-            services.AddDistributedRedisCache(options =>
-            {
-                options.Configuration = "127.0.0.1:6379,abortConnect=false,connectTimeout=3000,responseTimeout=3000,syncTimeout=3000";
-                options.InstanceName = "Master";
-            });
+            //services.AddDistributedRedisCache(options =>
+            //{
+            //    options.Configuration = "127.0.0.1:6379,abortConnect=false,connectTimeout=3000,responseTimeout=3000,syncTimeout=3000";
+            //    options.InstanceName = "Master";
+            //});
+
+           
 
 
             services.AddMvc();
