@@ -79,12 +79,24 @@ namespace Fanview.API.BusinessLayer
 
         public async Task<Object> GetLiveStatus(int matchId)
         {
-            var teamLiveStatusCache = await _cacheService.RetrieveFromCache<Object>("TeamLiveStatusCache");
-
-            if (teamLiveStatusCache != null)
+            try
             {
-                return teamLiveStatusCache;
+                var teamLiveStatusCache = await _cacheService.RetrieveFromCache<Object>("TeamLiveStatusCache");
+
+                if (teamLiveStatusCache != null)
+                {
+                    return teamLiveStatusCache;
+                }
+
             }
+            catch (Exception ex)
+            {
+                _logger.LogInformation("TeamLiveStatusCache exception " + ex + Environment.NewLine);
+
+            }
+
+
+
 
             var matchStatus = _matchSummaryRepository.GetLiveMatchStatus(matchId).Result;
 

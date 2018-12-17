@@ -248,38 +248,44 @@ namespace Fanview.API.Repository
 
         public async Task<IEnumerable<LiveEventKill>> GetLiveKilled(int matchId)
         {
-            var liveKilledFromCache = await _cacheService.RetrieveFromCache<IEnumerable<LiveEventKill>>("LiveEventKilledCache");
-
-            if (liveKilledFromCache != null)
+            try
             {
-                _logger.LogInformation("GetLiveKilled returned from LiveKilledCache " + Environment.NewLine);
+                var liveKilledFromCache = await _cacheService.RetrieveFromCache<IEnumerable<LiveEventKill>>("LiveEventKilledCache");
 
-                return liveKilledFromCache;
+                if (liveKilledFromCache != null)
+                {
+                    return liveKilledFromCache;
+                }
             }
-            else
+            catch(Exception ex)
             {
+                _logger.LogInformation("LiveEventKilledCache exception " + ex + Environment.NewLine);
+            }
+           
+           
 
+            try
+            {
                 _logger.LogInformation("GetLivePlayerKilled Repository call started" + Environment.NewLine);
-                try
-                {
-                    var tournamentMatchId = _eventRepository.GetTournamentMatchId(matchId).Result;
 
-                    var response = _LiveEventKill.GetAll("LiveEventKill").Result.Where(cn => cn.MatchId == tournamentMatchId);
+                var tournamentMatchId = _eventRepository.GetTournamentMatchId(matchId).Result;
 
-                    await _cacheService.SaveToCache<IEnumerable<LiveEventKill>>("LiveEventKilledCache", response, 30, 5);                   
+                var response = _LiveEventKill.GetAll("LiveEventKill").Result.Where(cn => cn.MatchId == tournamentMatchId);
 
-                    _logger.LogInformation("GetLivePlayerKilled Repository call completed" + Environment.NewLine);
+                await _cacheService.SaveToCache<IEnumerable<LiveEventKill>>("LiveEventKilledCache", response, 30, 5);                   
 
-                    return await Task.FromResult(response);
+                _logger.LogInformation("GetLivePlayerKilled Repository call completed" + Environment.NewLine);
 
-                }
-                catch (Exception exception)
-                {
-                    _logger.LogError(exception, "GetlivePlayerKilled");
+                return await Task.FromResult(response);
 
-                    throw;
-                }
-           }
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError(exception, "GetlivePlayerKilled");
+
+                throw;
+            }
+          
           
         }
 

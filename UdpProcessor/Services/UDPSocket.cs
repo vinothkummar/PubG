@@ -19,7 +19,7 @@ namespace Fanview.UDPProcessor.Services
         private Socket _socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
         private const int bufSize = 100 * 1024;       
         private State state = new State();
-        private EndPoint epFrom = new IPEndPoint(IPAddress.Any, 1111);
+        private EndPoint epFrom = new IPEndPoint(IPAddress.Any, 9011);
         private AsyncCallback recv = null;
         private IMatchSummaryRepository _matchSummaryRepository;
         private IPlayerKillRepository _playerKillRepository;

@@ -9,6 +9,6 @@ namespace Fanview.API.BusinessLayer.Contracts
     public interface IKillingRule
     {
         IEnumerable<string> PlayerKilledOrTeamEliminiatedText(IEnumerable<Kill> playerKilled);
-        IEnumerable<KilliPrinter> LiveKilledOrTeamEliminiated(IEnumerable<LiveEventKill> playerKilled, string CreateAt);
+        IEnumerable<KilliPrinter> LiveKilledOrTeamEliminiated(IEnumerable<LiveEventKill> playerKilled);
     }
 }

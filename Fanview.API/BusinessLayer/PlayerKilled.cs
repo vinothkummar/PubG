@@ -105,24 +105,35 @@ namespace Fanview.API.BusinessLayer
 
         public async Task<IEnumerable<KilliPrinter>> GetLivePlayerKilled(int matchId)
         {
-            var liveKilledFromCache = await _cacheService.RetrieveFromCache<IEnumerable<KilliPrinter>>("LiveKilledCache");
-
-            if (liveKilledFromCache != null && liveKilledFromCache.Count() != 0)
+            try
             {
-                _logger.LogInformation("GetLiveKilled returned from LiveKilledCache " + Environment.NewLine);
+                var liveKilledFromCache = await _cacheService.RetrieveFromCache<IEnumerable<KilliPrinter>>("LiveKilledCache");
 
-                return liveKilledFromCache;
+                if (liveKilledFromCache != null && liveKilledFromCache.Count() != 0)
+                {   
+
+                    return liveKilledFromCache;
+                }
             }
+            catch (Exception ex)
+            {
+
+                _logger.LogInformation("LiveKilledCache exception " + ex  + Environment.NewLine);
+            }
+            
+            
 
             var playerKilledOrTeamEliminatedMessages = new List<KilliPrinter>();
 
             var kills = await _playerKillRepository.GetLiveKilled(matchId);
 
-            var tournamentMatchCreatedAt =  _eventRepository.GetEventCreatedAt(matchId).Result;
+            // var tournamentMatchCreatedAt =  _eventRepository.GetEventCreatedAt(matchId).Result;
+
+            //, tournamentMatchCreatedAt
 
             foreach (var rule in _rules)
             {
-                var output =  rule.LiveKilledOrTeamEliminiated(kills, tournamentMatchCreatedAt);
+                var output =  rule.LiveKilledOrTeamEliminiated(kills);
 
                 if (output != null)
                 {

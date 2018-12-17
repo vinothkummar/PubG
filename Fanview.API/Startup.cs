@@ -46,7 +46,7 @@ namespace Fanview.API
             //services.AddMemoryCache();
             services.AddDistributedRedisCache(options =>
             {
-                options.Configuration = "127.0.0.1:6379,abortConnect=False";
+                options.Configuration = "127.0.0.1:6379,abortConnect=false,connectTimeout=3000,responseTimeout=3000";
                 options.InstanceName = "Master";
             });
 

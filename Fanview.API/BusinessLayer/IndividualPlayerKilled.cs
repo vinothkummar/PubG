@@ -106,7 +106,7 @@ namespace Fanview.API.BusinessLayer
 
        
 
-        public IEnumerable<KilliPrinter> LiveKilledOrTeamEliminiated(IEnumerable<LiveEventKill> playerKilled, string CreateAt)
+        public IEnumerable<KilliPrinter> LiveKilledOrTeamEliminiated(IEnumerable<LiveEventKill> playerKilled)
         { 
 
             var result = _teamPlayerRepository.GetPlayersId(playerKilled);
@@ -128,8 +128,6 @@ namespace Fanview.API.BusinessLayer
                     KillerPlayerId = item.KillerPlayerId,
                     VictimPlayerId = item.VictimPlayerId,                   
                 };
-
-               
 
                 var killMessage = new KilliPrinter() { PlayerKilled = playerKillMessage };
 
