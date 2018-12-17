@@ -43,7 +43,7 @@ namespace Fanview.UDPProcessor.Services
                                                          .AddTransient<IAssetsRepository, AssetsRepository>()
                                                          .AddDistributedRedisCache(options =>
                                                          {
-                                                             options.Configuration = "13.66.243.193:6379,abortConnect=False";
+                                                             options.Configuration = "127.0.0.1:6379,abortConnect=False,connectTimeout=3000,responseTimeout=3000,syncTimeout=3000";
                                                              options.InstanceName = "Master";
                                                          })
                                                          //.AddSingleton<RedisService>()

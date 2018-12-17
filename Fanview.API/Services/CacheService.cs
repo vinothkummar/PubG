@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Threading;
 using System.Threading.Tasks;
 using Fanview.API.Services.Interface;
 using Microsoft.Extensions.Caching.Distributed;
@@ -19,7 +20,9 @@ namespace Fanview.API.Services
         }
         public async Task<T> RetrieveFromCache<T>(string key)
         {
-            var json = await _cache.GetStringAsync(key);
+            CancellationTokenSource source = new CancellationTokenSource();
+
+            var json = await _cache.GetStringAsync(key, source.Token);
 
             if (json == null)
             {
