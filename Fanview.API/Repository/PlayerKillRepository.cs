@@ -250,7 +250,7 @@ namespace Fanview.API.Repository
         {
             try
             {
-                var liveKilledFromCache = await _cacheService.RetrieveFromCache<IEnumerable<LiveEventKill>>("LiveEventKilledCache");
+                var liveKilledFromCache = _cacheService.RetrieveFromCache<IEnumerable<LiveEventKill>>("LiveEventKilledCache");
 
                 if (liveKilledFromCache != null)
                 {

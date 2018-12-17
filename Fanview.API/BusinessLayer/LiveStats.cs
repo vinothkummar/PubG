@@ -81,7 +81,7 @@ namespace Fanview.API.BusinessLayer
         {
             try
             {
-                var teamLiveStatusCache = await _cacheService.RetrieveFromCache<Object>("TeamLiveStatusCache");
+                var teamLiveStatusCache = _cacheService.RetrieveFromCache<Object>("TeamLiveStatusCache");
 
                 if (teamLiveStatusCache != null)
                 {

@@ -53,7 +53,7 @@ namespace Fanview.API.Repository
         {
             var cacheKey = "TeamPlayerCache";
 
-            var teamPlayerFromCache = await _cacheService.RetrieveFromCache<IEnumerable<TeamPlayer>>(cacheKey);
+            var teamPlayerFromCache = _cacheService.RetrieveFromCache<IEnumerable<TeamPlayer>>(cacheKey);
 
             if (teamPlayerFromCache != null)
             {

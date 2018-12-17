@@ -16,7 +16,7 @@ namespace Fanview.API.Assets
 
         public async Task<Dictionary<string, string>> GetDamageCauserName()
         {
-            var DamageCauserCache = await _cacheService.RetrieveFromCache<Dictionary<string, string>>("DamageCauserCache");
+            var DamageCauserCache = _cacheService.RetrieveFromCache<Dictionary<string, string>>("DamageCauserCache");
 
             if (DamageCauserCache != null)
             {

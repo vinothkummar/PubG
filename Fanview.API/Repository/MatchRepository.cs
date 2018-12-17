@@ -294,7 +294,7 @@ namespace Fanview.API.Repository
         {
             var cacheKey = "MatchRankPointsCache";
 
-            var matchRankPointsCache = await _cacheService.RetrieveFromCache<IEnumerable<RankPoints>>(cacheKey);
+            var matchRankPointsCache =  _cacheService.RetrieveFromCache<IEnumerable<RankPoints>>(cacheKey);
 
             if (matchRankPointsCache != null)
             {

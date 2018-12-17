@@ -37,7 +37,7 @@ namespace Fanview.API.Repository
         {
             var cacheKey = "TournamentMatchCache";
 
-            var tournamentMatchFromCache = await _cacheService.RetrieveFromCache<Event>(cacheKey);
+            var tournamentMatchFromCache = _cacheService.RetrieveFromCache<Event>(cacheKey);
 
             if (tournamentMatchFromCache != null)
             {
@@ -69,7 +69,7 @@ namespace Fanview.API.Repository
 
             try
             {
-                var tournamentMatchFromCache = await _cacheService.RetrieveFromCache<string>(cacheKey);
+                var tournamentMatchFromCache = _cacheService.RetrieveFromCache<string>(cacheKey);
 
                 if (tournamentMatchFromCache != null)
                 {                
@@ -109,7 +109,7 @@ namespace Fanview.API.Repository
 
             try
             { 
-                var tournamentMatchFromCache = await _cacheService.RetrieveFromCache<string>(cacheKey);
+                var tournamentMatchFromCache =  _cacheService.RetrieveFromCache<string>(cacheKey);
 
                 if (tournamentMatchFromCache != null)
                 {

@@ -480,7 +480,7 @@ namespace Fanview.API.Repository
         {
             var cacheKey = "TeamCountCache";
 
-            var teamPlayerFromCache = await _cacheService.RetrieveFromCache<int>(cacheKey);
+            var teamPlayerFromCache = _cacheService.RetrieveFromCache<int>(cacheKey);
 
             if (teamPlayerFromCache != 0)
             {

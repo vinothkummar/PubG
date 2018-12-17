@@ -9,20 +9,21 @@ using Fanview.API.Services.Interface;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 
+
 namespace Fanview.API.Services
 {
     public class CacheService : ICacheService
     {
         private IDistributedCache _cache;
+        
         public CacheService(IDistributedCache distributedCache)
         {
             _cache = distributedCache;
         }
-        public async Task<T> RetrieveFromCache<T>(string key)
-        {
-            CancellationTokenSource source = new CancellationTokenSource();
+        public T RetrieveFromCache<T>(string key)
+        { 
 
-            var json = await _cache.GetStringAsync(key, source.Token);
+            var json = _cache.GetString(key);
 
             if (json == null)
             {
@@ -30,7 +31,6 @@ namespace Fanview.API.Services
             }
 
             return JsonConvert.DeserializeObject<T>(json);
-
         }
 
         public async Task<T> RetrieveObjFromCache<T>(string key) where T : class

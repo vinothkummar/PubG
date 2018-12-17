@@ -107,7 +107,7 @@ namespace Fanview.API.BusinessLayer
         {
             try
             {
-                var liveKilledFromCache = await _cacheService.RetrieveFromCache<IEnumerable<KilliPrinter>>("LiveKilledCache");
+                var liveKilledFromCache =  _cacheService.RetrieveFromCache<IEnumerable<KilliPrinter>>("LiveKilledCache");
 
                 if (liveKilledFromCache != null && liveKilledFromCache.Count() != 0)
                 {   
