@@ -461,12 +461,22 @@ namespace Fanview.API.Repository
                         teamPlayerStatus.Location = item2.Location;
                         teamPlayerStatus.Health = item2.Health;
                         teamPlayerStatus.BoostGauge = item2.BoostGauge;
-                        teamPlayerStatus.State = item2.State;
+                       
                         teamPlayerStatus.ArmedWeapon = item2.ArmedWeapon;
                         teamPlayerStatus.ArmedAmmoCount = item2.ArmedAmmoCount;
                         teamPlayerStatus.InventoryAmmoCount = item2.InventoryAmmoCount;
 
                         teamPlayerStatus.IsAlive = item2.Health > 0 ? true : false;
+                        
+                        if(item2.Health <= 0 && teamPlayerStatus.IsAlive == false)
+                        {
+                            teamPlayerStatus.State = "Dead";
+                        }
+                        else
+                        {
+                            teamPlayerStatus.State = item2.State;
+                        }
+                            
 
                         aliveCount = item2.Health > 0 ? ++aliveCountIncremental : aliveCountIncremental;
 
@@ -499,8 +509,8 @@ namespace Fanview.API.Repository
                     }
                     teamLiveStatusCollection.Add(teamLiveStatus);
                 }
-
-                await _cacheService.SaveToCache<Object>("TeamLiveStatusCache", teamLiveStatusCollection, 80, 10);
+                
+                await _cacheService.SaveToCache<IEnumerable<LiveMatchStatus>>("TeamLiveStatusCache", teamLiveStatusCollection, 80, 10);
 
                 if (isTeamLiveStatusCount == 0)
                 {                    

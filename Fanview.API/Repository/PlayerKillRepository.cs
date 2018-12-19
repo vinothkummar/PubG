@@ -557,11 +557,24 @@ namespace Fanview.API.Repository
             
                 if (kills.Where(cn => cn.IsGroggy == false).Count() == 1)
                 {
-                    var liveKilledOrTeamEliminated = LiveKilledOrTeamEliminiated(kills);
 
-                    _liveKilledCachedData.Add(liveKilledOrTeamEliminated);
+                    Task t = Task.Run(async () => await _cacheService.SaveToCache<IEnumerable<KilliPrinter>>("LiveKilledCache", _liveKilledCachedData, 80, 10));
 
-                    await _cacheService.SaveToCache<IEnumerable<KilliPrinter>>("LiveKilledCache", _liveKilledCachedData, 30, 10);
+                    try
+                    {
+                        t.Wait();
+                        if (t.Status == TaskStatus.RanToCompletion)
+                        {
+                            var liveKilledOrTeamEliminated = LiveKilledOrTeamEliminiated(kills);
+
+                            _liveKilledCachedData.Add(liveKilledOrTeamEliminated);
+                        }
+                    }
+                    catch(Exception ex) {
+                        _logger.LogInformation("LiveKilledCache exception" + ex + Environment.NewLine);
+
+                    }
+                                                          
                 }
 
                 _LiveEventKill.Insert(kills.ToList(), "LiveEventKill");

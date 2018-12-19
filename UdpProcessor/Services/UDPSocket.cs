@@ -23,6 +23,7 @@ namespace Fanview.UDPProcessor.Services
         private AsyncCallback recv = null;
         private IMatchSummaryRepository _matchSummaryRepository;
         private IPlayerKillRepository _playerKillRepository;
+        private Queue<JObject[]> _eventMessages;
 
         public UDPSocket()
         {
@@ -31,6 +32,8 @@ namespace Fanview.UDPProcessor.Services
             _matchSummaryRepository = servicesProvider.GetService<IMatchSummaryRepository>();
 
             _playerKillRepository = servicesProvider.GetService<IPlayerKillRepository>();
+
+            _eventMessages = new Queue<JObject[]>();
         }
 
         public class State
@@ -85,15 +88,26 @@ namespace Fanview.UDPProcessor.Services
 
                 var objects = Deserializeobjects(receivedData);
 
-                var array = objects.ToArray();
+                var array = objects.ToArray();               
+
+                _eventMessages.Enqueue(array);
 
                 var eventTime = DateTime.UtcNow;
 
-                Task.Run(async () => _playerKillRepository.InsertLiveKillEventTelemetry(array, fileName, eventTime));
+                while (_eventMessages.Count >= 1)
+                {
 
-                Task.Run(async () => _matchSummaryRepository.InsertLiveEventMatchStatusTelemetry(array, fileName, eventTime));
+                    var message = _eventMessages.Dequeue();
 
-                so.buffer = new byte[bufSize];
+
+                    Task.Run(async () => _playerKillRepository.InsertLiveKillEventTelemetry(message, fileName, eventTime));
+                    Task.Run(async () => _matchSummaryRepository.InsertLiveEventMatchStatusTelemetry(message, fileName, eventTime));
+
+                }
+
+
+
+                    so.buffer = new byte[bufSize];
 
                 _socket.BeginReceiveFrom(so.buffer, 0, bufSize, SocketFlags.None, ref epFrom, recv, so);
 
