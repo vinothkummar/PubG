@@ -89,6 +89,7 @@ namespace Fanview.API.BusinessLayer
                 {
                     return teamLiveStatusCache.Where(cn => cn.TeamId != 0).Select(s => new LiveMatchStatus()
                     {
+                        MatchId = s.MatchId,
                         TeamId = s.TeamId,
                         TeamName = s.TeamName,
                         TeamPlayers = s.TeamPlayers,
@@ -114,6 +115,7 @@ namespace Fanview.API.BusinessLayer
 
             var matchStatusObject = matchStatus.Where(cn => cn.TeamId != 0).Select(s => new LiveMatchStatus()
             {
+                                        MatchId = s.MatchId,
                                         TeamId = s.TeamId,
                                         TeamName = s.TeamName,
                                         TeamPlayers = s.TeamPlayers,
