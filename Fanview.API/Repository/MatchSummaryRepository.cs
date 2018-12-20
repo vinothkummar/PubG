@@ -516,9 +516,9 @@ namespace Fanview.API.Repository
 
                                     if (isTeamPlayerStatus != null)
                                     {
-                                        if (isTeamPlayerStatus.EliminatedAt == null  && teamLiveStatus.IsEliminated == true)
+                                        if (isTeamPlayerStatus.EliminatedAt == 0  && teamLiveStatus.IsEliminated == true)
                                         {
-                                            teamLiveStatus.EliminatedAt = matchStatusTimeStamp.ElementAtOrDefault(0).ToString();
+                                            teamLiveStatus.EliminatedAt = matchStatusTimeStamp.ElementAtOrDefault(0);
                                         }
                                     }
                                 }
