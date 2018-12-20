@@ -77,26 +77,27 @@ namespace Fanview.API.BusinessLayer
             return null;
         }
 
-        public async Task<Object> GetLiveStatus(int matchId)
+        public async Task<IEnumerable<LiveMatchStatus>> GetLiveStatus(int matchId)
         {
             try
             {
-                Object teamLiveStatusCache = _cacheService.RetrieveFromCache<IEnumerable<LiveMatchStatus>>("TeamLiveStatusCache")
-                                             .Where(cn => cn.TeamId != 0).Select(s => new
-                                             {
-                                                 TeamId = s.TeamId,
-                                                 TeamName = s.TeamName,
-                                                 Players = s.TeamPlayers,
-                                                 AliveCount = s.AliveCount,
-                                                 DeadCount = s.DeadCount,
-                                                 EliminatedAt = s.EliminatedAt,
-                                                 IsEliminated = s.IsEliminated
-                                             });
-                ;
+                var teamLiveStatusCache = _cacheService.RetrieveFromCache<IEnumerable<LiveMatchStatus>>("TeamLiveStatusCache");
+                                             
+                
 
                 if (teamLiveStatusCache != null)
                 {
-                    return teamLiveStatusCache;
+                    return teamLiveStatusCache.Where(cn => cn.TeamId != 0).Select(s => new LiveMatchStatus()
+                    {
+                        TeamId = s.TeamId,
+                        TeamName = s.TeamName,
+                        TeamPlayers = s.TeamPlayers,
+                        //Players = s.TeamPlayers,
+                        AliveCount = s.AliveCount,
+                        DeadCount = s.DeadCount,
+                        EliminatedAt = s.EliminatedAt,
+                        IsEliminated = s.IsEliminated
+                    }); 
                 }
 
             }
@@ -111,18 +112,19 @@ namespace Fanview.API.BusinessLayer
 
             var matchStatus = _matchSummaryRepository.GetLiveMatchStatus(matchId).Result;
 
-            Object matchStatusObject = matchStatus.Where(cn => cn.TeamId != 0).Select(s => new 
-                                    {
+            var matchStatusObject = matchStatus.Where(cn => cn.TeamId != 0).Select(s => new LiveMatchStatus()
+            {
                                         TeamId = s.TeamId,
                                         TeamName = s.TeamName,
-                                        Players = s.TeamPlayers,
+                                        TeamPlayers = s.TeamPlayers,
+                                        //Players = s.TeamPlayers,
                                         AliveCount = s.AliveCount,
                                         DeadCount = s.DeadCount,
                                         EliminatedAt = s.EliminatedAt,
                                         IsEliminated = s.IsEliminated
                                     });
 
-            await _cacheService.SaveToCache<Object>("TeamLiveStatusCache", matchStatusObject, 45, 7);
+            await _cacheService.SaveToCache<IEnumerable<LiveMatchStatus>>("TeamLiveStatusCache", matchStatusObject, 45, 7);
 
 
             if (matchStatusObject == null)

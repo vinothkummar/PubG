@@ -27,6 +27,6 @@ namespace Fanview.API.Model
         [BsonElement("isEliminated")]
         public bool IsEliminated { get; set; }
         [BsonElement("eliminatedAt")]
-        public double EliminatedAt { get; set; }
+        public string EliminatedAt { get; set; }
     }
 }

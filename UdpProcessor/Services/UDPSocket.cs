@@ -16,6 +16,7 @@ namespace Fanview.UDPProcessor.Services
 {
     public class UDPSocket
     {
+        int failed = 0;
         private Socket _socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
         private const int bufSize = 100 * 1024;       
         private State state = new State();
@@ -24,6 +25,7 @@ namespace Fanview.UDPProcessor.Services
         private IMatchSummaryRepository _matchSummaryRepository;
         private IPlayerKillRepository _playerKillRepository;
         private Queue<JObject[]> _eventMessages;
+        
 
         public UDPSocket()
         {
@@ -34,6 +36,8 @@ namespace Fanview.UDPProcessor.Services
             _playerKillRepository = servicesProvider.GetService<IPlayerKillRepository>();
 
             _eventMessages = new Queue<JObject[]>();
+
+           
         }
 
         public class State
@@ -98,8 +102,22 @@ namespace Fanview.UDPProcessor.Services
                 {
                     var message = _eventMessages.Dequeue();
 
-                    Task.Run(async () => _playerKillRepository.InsertLiveKillEventTelemetry(message, fileName, eventTime));
-                    Task.Run(async () => _matchSummaryRepository.InsertLiveEventMatchStatusTelemetry(message, fileName, eventTime));
+                    var _listOfTasks = new List<Task>();
+
+                    _listOfTasks.Add(Task.Run(async () => _playerKillRepository.InsertLiveKillEventTelemetry(message, fileName, eventTime)));
+                    _listOfTasks.Add(Task.Run(async () => _matchSummaryRepository.InsertLiveEventMatchStatusTelemetry(message, fileName, eventTime)));
+
+                    Task t = Task.WhenAll(_listOfTasks);
+                    try
+                    {
+                        t.Wait(1000);
+                    }
+                    catch { }
+
+                    if (t.Status == TaskStatus.RanToCompletion)                       
+                        Console.WriteLine("All tasks succeeded.");
+                    else if (t.Status == TaskStatus.Faulted)
+                        Console.WriteLine("{0} ping attempts failed", failed);
 
                 }
 

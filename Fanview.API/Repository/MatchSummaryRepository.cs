@@ -33,6 +33,7 @@ namespace Fanview.API.Repository
         private DateTime LastMatchCreatedTimeStamp = DateTime.MinValue;
         private IEventRepository _eventRepository;
         private ICacheService _cacheService;
+        int postMatchWaitingCount;
 
         public MatchSummaryRepository(IClientBuilder httpClientBuilder,
                                       IHttpClientRequest httpClientRequest,
@@ -65,6 +66,10 @@ namespace Fanview.API.Repository
             _eventRepository = eventRepository;
             _logger = logger;
             _cacheService = cacheService;
+
+            postMatchWaitingCount = 0;
+
+
         }
 
         private MatchSummary GetMatchSummaryData(JObject jsonToJObject)
@@ -413,49 +418,46 @@ namespace Fanview.API.Repository
 
             if (matchStatus.Count() > 0)
             {
+                var matchState = matchStatus.Select(a => a.MatchState);
+
+                if (matchState.FirstOrDefault() == "WaitingPostMatch")
+                {
+                    postMatchWaitingCount++;
+                }
+
                 _teamLiveStatusRepository.CreateEventLiveMatchStatus(matchStatus);
 
-                await CreateMatchLiveStatus(matchStatus, matchStatus.Select(a => a.MatchId).ElementAtOrDefault(0));
+                await CreateMatchLiveStatus(matchStatus, matchStatus.Select(a => a.MatchId).ElementAtOrDefault(0), postMatchWaitingCount);
             }
 
         }
        
-        private async Task CreateMatchLiveStatus(IEnumerable<EventLiveMatchStatus> matchStatus, string matchId)
+        private async Task CreateMatchLiveStatus(IEnumerable<EventLiveMatchStatus> matchStatus, string matchId, int matchStateCount)
         {
             var teamPlayers = await _teamPlayerRepository.GetTeamPlayers();
 
             var liveMatchStatus = _genericLiveMatchStatusRepository.GetMongoDbCollection("TeamLiveStatus");
-
-            //var isTeamLiveStatusCount = 0; 
-
-            //Task t = Task.Run(() => {
+          
 
              var isTeamLiveStatusCount = _teamLiveStatusRepository.GetTeamLiveStatusCount(matchId).Result;
 
-            //    });
-
-            //try
-            //{
-            //    t.Wait(100);
-
-
-                //if (t.Status == TaskStatus.RanToCompletion)
-                //{
-
+          
                     var matchPlayerStatus = matchStatus.Select(a => a.PlayerInfos.GroupBy(g => g.TeamId).OrderBy(o => o.Key));
 
                     var matchStatusTimeStamp = matchStatus.Select(a => a.EventTimeStamp);
 
                     var matchStatusMatchId = matchStatus.Select(a => a.MatchId);
-
+                   
                     var teamLiveStatusCollection = new List<LiveMatchStatus>();
-            
+
                     foreach (var item in matchPlayerStatus)
                     {
                         foreach (var item1 in item)
                         {
                             var teamLiveStatus = new LiveMatchStatus();
+
                             var teamId = item1.Select(s => s.TeamId).ElementAtOrDefault(0);
+                           
                             teamLiveStatus.TeamId = teamId;
                             teamLiveStatus.TeamName = _teamRepository.GetTeam().Result.Where(cn => cn.TeamId == teamId).Select(s => s.ShortName).ElementAtOrDefault(0);
                             var teamPlayerLiveStatusCollection = new List<LiveMatchPlayerStatus>();
@@ -514,9 +516,9 @@ namespace Fanview.API.Repository
 
                                     if (isTeamPlayerStatus != null)
                                     {
-                                        if (isTeamPlayerStatus.EliminatedAt == 0  && teamLiveStatus.IsEliminated == true)
+                                        if (isTeamPlayerStatus.EliminatedAt == null  && teamLiveStatus.IsEliminated == true)
                                         {
-                                            teamLiveStatus.EliminatedAt = matchStatusTimeStamp.ElementAtOrDefault(0);
+                                            teamLiveStatus.EliminatedAt = matchStatusTimeStamp.ElementAtOrDefault(0).ToString();
                                         }
                                     }
                                 }
@@ -524,14 +526,15 @@ namespace Fanview.API.Repository
                             teamLiveStatusCollection.Add(teamLiveStatus);
                         }
 
-                        await _cacheService.SaveToCache<IEnumerable<LiveMatchStatus>>("TeamLiveStatusCache", teamLiveStatusCollection, 45, 7);
+                        if(matchStateCount <= 1)
+                        {
+                            await _cacheService.SaveToCache<IEnumerable<LiveMatchStatus>>("TeamLiveStatusCache", teamLiveStatusCollection, 45, 7);
+                        }
+                       
 
                         if (isTeamLiveStatusCount == 0)
                         {
                             _teamLiveStatusRepository.CreateTeamLiveStatus(teamLiveStatusCollection);
-
-                            
-
                         }
                         else
                         {
@@ -541,7 +544,7 @@ namespace Fanview.API.Repository
                                 {
                                     var document = liveMatchStatus.Find(Builders<LiveMatchStatus>.Filter.Where(cn => cn.TeamId == team.TeamId && cn.MatchId == matchId)).FirstOrDefault();
 
-                                    if (document.IsEliminated == false && document.DeadCount < 4)
+                                    if (document.IsEliminated == false )
                                     {
                                         team.Id = document.Id;
 
@@ -554,15 +557,6 @@ namespace Fanview.API.Repository
                             }
                         }
                     }
-
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    _logger.LogInformation("CreateMatchLiveStatus exception" + ex + Environment.NewLine);
-
-            //}
-
             
         }
 
