@@ -141,7 +141,7 @@ namespace Fanview.API.BusinessLayer
                 }
             }
 
-            await _cacheService.SaveToCache<IEnumerable<KilliPrinter>>("LiveKilledCache", playerKilledOrTeamEliminatedMessages, 30, 10);
+            await _cacheService.SaveToCache<IEnumerable<KilliPrinter>>("LiveKilledCache", playerKilledOrTeamEliminatedMessages, 45, 7);
 
             return await Task.FromResult(playerKilledOrTeamEliminatedMessages);
         }

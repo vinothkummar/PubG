@@ -113,7 +113,7 @@ namespace Fanview.API.Assets
                 damageCauser.Add("WeapWin94_C", "Win94");
                 damageCauser.Add("WeapWinchester_C", "S1897");
 
-                await _cacheService.SaveToCache<Dictionary<string, string>>("DamageCauserCache", damageCauser, 80, 5);
+                await _cacheService.SaveToCache<Dictionary<string, string>>("DamageCauserCache", damageCauser, 45, 7);
 
                 return damageCauser;
             }

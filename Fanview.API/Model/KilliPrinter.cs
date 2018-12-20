@@ -8,6 +8,5 @@ namespace Fanview.API.Model
     public class KilliPrinter
     {
         public PlayerKilledGraphics PlayerKilled { get; set; }
-        public TeamEliminated TeamEliminated { get; set; }
     }
 }

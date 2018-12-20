@@ -272,7 +272,7 @@ namespace Fanview.API.Repository
 
                 var response = _LiveEventKill.GetAll("LiveEventKill").Result.Where(cn => cn.MatchId == tournamentMatchId);
 
-                await _cacheService.SaveToCache<IEnumerable<LiveEventKill>>("LiveEventKilledCache", response, 30, 5);                   
+                await _cacheService.SaveToCache<IEnumerable<LiveEventKill>>("LiveEventKilledCache", response, 45, 7);                   
 
                 _logger.LogInformation("GetLivePlayerKilled Repository call completed" + Environment.NewLine);
 
@@ -558,7 +558,7 @@ namespace Fanview.API.Repository
                 if (kills.Where(cn => cn.IsGroggy == false).Count() == 1)
                 {
 
-                    Task t = Task.Run(async () => await _cacheService.SaveToCache<IEnumerable<KilliPrinter>>("LiveKilledCache", _liveKilledCachedData, 80, 10));
+                    Task t = Task.Run(async () => await _cacheService.SaveToCache<IEnumerable<KilliPrinter>>("LiveKilledCache", _liveKilledCachedData, 45, 7));
 
                     try
                     {

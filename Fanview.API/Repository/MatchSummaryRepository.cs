@@ -424,127 +424,150 @@ namespace Fanview.API.Repository
         {
             var teamPlayers = await _teamPlayerRepository.GetTeamPlayers();
 
-            var liveMatchStatus = _genericLiveMatchStatusRepository.GetMongoDbCollection("TeamLiveStatus");          
+            var liveMatchStatus = _genericLiveMatchStatusRepository.GetMongoDbCollection("TeamLiveStatus");
 
-            var isTeamLiveStatusCount = _teamLiveStatusRepository.GetTeamLiveStatusCount(matchId).Result;
+            //var isTeamLiveStatusCount = 0; 
 
-            var matchPlayerStatus = matchStatus.Select(a => a.PlayerInfos.GroupBy(g => g.TeamId).OrderBy(o => o.Key));
+            //Task t = Task.Run(() => {
 
-            var matchStatusTimeStamp = matchStatus.Select(a => a.EventTimeStamp);
+             var isTeamLiveStatusCount = _teamLiveStatusRepository.GetTeamLiveStatusCount(matchId).Result;
 
-            var matchStatusMatchId = matchStatus.Select(a => a.MatchId);
+            //    });
 
-            var teamLiveStatusCollection = new List<LiveMatchStatus>();
+            //try
+            //{
+            //    t.Wait(100);
 
-            foreach (var item in matchPlayerStatus)
-            {
-                foreach (var item1 in item)
-                {
-                    var teamLiveStatus = new LiveMatchStatus();
-                    var teamId = item1.Select(s => s.TeamId).ElementAtOrDefault(0);
-                    teamLiveStatus.TeamId = teamId;
-                    teamLiveStatus.TeamName = _teamRepository.GetTeam().Result.Where(cn => cn.TeamId == teamId).Select(s => s.ShortName).ElementAtOrDefault(0);
-                    var teamPlayerLiveStatusCollection = new List<LiveMatchPlayerStatus>();
 
-                    int aliveCountIncremental = 0;
-                    int deadCountIncremental = 0;
+                //if (t.Status == TaskStatus.RanToCompletion)
+                //{
 
-                    int aliveCount = 0;
-                    int deadCount = 0;
+                    var matchPlayerStatus = matchStatus.Select(a => a.PlayerInfos.GroupBy(g => g.TeamId).OrderBy(o => o.Key));
 
-                    foreach (var item2 in item1)
+                    var matchStatusTimeStamp = matchStatus.Select(a => a.EventTimeStamp);
+
+                    var matchStatusMatchId = matchStatus.Select(a => a.MatchId);
+
+                    var teamLiveStatusCollection = new List<LiveMatchStatus>();
+            
+                    foreach (var item in matchPlayerStatus)
                     {
-                        var teamPlayerStatus = new LiveMatchPlayerStatus();
-
-                        teamPlayerStatus.PlayerId = teamPlayers.Where(cn => cn.PlayerName == item2.PlayerName).Select(a => a.PlayerId).FirstOrDefault();
-                        teamPlayerStatus.PlayerName = item2.PlayerName;
-                        teamPlayerStatus.Location = item2.Location;
-                        teamPlayerStatus.Health = item2.Health;
-                        teamPlayerStatus.BoostGauge = item2.BoostGauge;
-                       
-                        teamPlayerStatus.ArmedWeapon = item2.ArmedWeapon;
-                        teamPlayerStatus.ArmedAmmoCount = item2.ArmedAmmoCount;
-                        teamPlayerStatus.InventoryAmmoCount = item2.InventoryAmmoCount;
-
-                        teamPlayerStatus.IsAlive = item2.Health > 0 ? true : false;
-                        
-                        if(item2.Health <= 0 && teamPlayerStatus.IsAlive == false)
+                        foreach (var item1 in item)
                         {
-                            teamPlayerStatus.State = "Dead";
+                            var teamLiveStatus = new LiveMatchStatus();
+                            var teamId = item1.Select(s => s.TeamId).ElementAtOrDefault(0);
+                            teamLiveStatus.TeamId = teamId;
+                            teamLiveStatus.TeamName = _teamRepository.GetTeam().Result.Where(cn => cn.TeamId == teamId).Select(s => s.ShortName).ElementAtOrDefault(0);
+                            var teamPlayerLiveStatusCollection = new List<LiveMatchPlayerStatus>();
+
+                            int aliveCountIncremental = 0;
+                            int deadCountIncremental = 0;
+
+                            int aliveCount = 0;
+                            int deadCount = 0;
+
+                            foreach (var item2 in item1)
+                            {
+                                var teamPlayerStatus = new LiveMatchPlayerStatus();
+
+                                teamPlayerStatus.PlayerId = teamPlayers.Where(cn => cn.PlayerName == item2.PlayerName).Select(a => a.PlayerId).FirstOrDefault();
+                                teamPlayerStatus.PlayerName = item2.PlayerName;
+                                teamPlayerStatus.Location = item2.Location;
+                                teamPlayerStatus.Health = item2.Health;
+                                teamPlayerStatus.BoostGauge = item2.BoostGauge;
+
+                                teamPlayerStatus.ArmedWeapon = item2.ArmedWeapon;
+                                teamPlayerStatus.ArmedAmmoCount = item2.ArmedAmmoCount;
+                                teamPlayerStatus.InventoryAmmoCount = item2.InventoryAmmoCount;
+
+                                teamPlayerStatus.IsAlive = item2.Health > 0 ? true : false;
+
+                                if(item2.Health <= 0 && teamPlayerStatus.IsAlive == false)
+                                {
+                                    teamPlayerStatus.State = "Dead";
+                                }
+                                else
+                                {
+                                    teamPlayerStatus.State = item2.State;
+                                }
+
+
+                                aliveCount = item2.Health > 0 ? ++aliveCountIncremental : aliveCountIncremental;
+
+                                deadCount = item2.Health > 0 ? deadCountIncremental : ++deadCountIncremental;
+
+                                teamPlayerLiveStatusCollection.Add(teamPlayerStatus);
+
+                                teamLiveStatus.TeamPlayers = teamPlayerLiveStatusCollection;
+
+                                teamLiveStatus.AliveCount = aliveCount;
+
+                                teamLiveStatus.DeadCount = deadCount;
+
+                                teamLiveStatus.IsEliminated = deadCount == 4 ? true : false;
+
+                                teamLiveStatus.MatchId = matchStatusMatchId.ElementAtOrDefault(0);
+
+                                if (isTeamLiveStatusCount != 0 && teamLiveStatus.TeamId != 0)
+                                {
+                                    var isTeamPlayerStatus = liveMatchStatus.FindAsync(Builders<LiveMatchStatus>.Filter.Where(cn => cn.TeamId == teamLiveStatus.TeamId && cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result;
+
+                                    if (isTeamPlayerStatus != null)
+                                    {
+                                        if (isTeamPlayerStatus.EliminatedAt == 0  && teamLiveStatus.IsEliminated == true)
+                                        {
+                                            teamLiveStatus.EliminatedAt = matchStatusTimeStamp.ElementAtOrDefault(0);
+                                        }
+                                    }
+                                }
+                            }
+                            teamLiveStatusCollection.Add(teamLiveStatus);
+                        }
+
+                        await _cacheService.SaveToCache<IEnumerable<LiveMatchStatus>>("TeamLiveStatusCache", teamLiveStatusCollection, 45, 7);
+
+                        if (isTeamLiveStatusCount == 0)
+                        {
+                            _teamLiveStatusRepository.CreateTeamLiveStatus(teamLiveStatusCollection);
+
+                            
+
                         }
                         else
                         {
-                            teamPlayerStatus.State = item2.State;
-                        }
-                            
-
-                        aliveCount = item2.Health > 0 ? ++aliveCountIncremental : aliveCountIncremental;
-
-                        deadCount = item2.Health > 0 ? deadCountIncremental : ++deadCountIncremental;
-
-                        teamPlayerLiveStatusCollection.Add(teamPlayerStatus);
-
-                        teamLiveStatus.TeamPlayers = teamPlayerLiveStatusCollection;
-
-                        teamLiveStatus.AliveCount = aliveCount;
-
-                        teamLiveStatus.DeadCount = deadCount;
-
-                        teamLiveStatus.IsEliminated = deadCount == 4 ? true : false;
-
-                        teamLiveStatus.MatchId = matchStatusMatchId.ElementAtOrDefault(0);
-
-                        if (isTeamLiveStatusCount != 0 && teamLiveStatus.TeamId != 0)
-                        {
-                            var isTeamPlayerStatus = liveMatchStatus.FindAsync(Builders<LiveMatchStatus>.Filter.Where(cn => cn.TeamId == teamLiveStatus.TeamId && cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result;
-
-                            if (isTeamPlayerStatus != null)
+                            foreach (var team in teamLiveStatusCollection)
                             {
-                                if (isTeamPlayerStatus.EliminatedAt == 0  && teamLiveStatus.IsEliminated == true)
+                                if (team.TeamId != 0)
                                 {
-                                    teamLiveStatus.EliminatedAt = matchStatusTimeStamp.ElementAtOrDefault(0);
+                                    var document = liveMatchStatus.Find(Builders<LiveMatchStatus>.Filter.Where(cn => cn.TeamId == team.TeamId && cn.MatchId == matchId)).FirstOrDefault();
+
+                                    if (document.IsEliminated == false && document.DeadCount < 4)
+                                    {
+                                        team.Id = document.Id;
+
+                                        var filter = Builders<LiveMatchStatus>.Filter.Eq(s => s.Id, document.Id);
+
+                                        _teamLiveStatusRepository.ReplaceTeamLiveStatus(team, filter);
+
+                                    }
                                 }
                             }
                         }
                     }
-                    teamLiveStatusCollection.Add(teamLiveStatus);
-                }
-                
-                await _cacheService.SaveToCache<IEnumerable<LiveMatchStatus>>("TeamLiveStatusCache", teamLiveStatusCollection, 80, 10);
 
-                if (isTeamLiveStatusCount == 0)
-                {                    
-                    _teamLiveStatusRepository.CreateTeamLiveStatus(teamLiveStatusCollection);
-                  
-                }
-                else
-                {
-                    foreach (var team in teamLiveStatusCollection)
-                    {
-                        if (team.TeamId != 0)
-                        {
-                            var document = liveMatchStatus.Find(Builders<LiveMatchStatus>.Filter.Where(cn => cn.TeamId == team.TeamId && cn.MatchId == matchId)).FirstOrDefault();
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    _logger.LogInformation("CreateMatchLiveStatus exception" + ex + Environment.NewLine);
 
-                            if (document.IsEliminated == false)
-                            {
+            //}
 
-                                team.Id = document.Id;
-
-                                var filter = Builders<LiveMatchStatus>.Filter.Eq(s => s.Id, document.Id);
-
-                                _teamLiveStatusRepository.ReplaceTeamLiveStatus(team, filter);
-                             
-                            }
-                        }
-                    }
-                }
-            }
+            
         }
 
         public async Task<IEnumerable<LiveMatchStatus>> GetLiveMatchStatus(int matchId)
-        {
-           
-
+        {           
             var tournamentMatchId = _eventRepository.GetTournamentMatchId(matchId).Result;
 
             var matchStatus = _genericLiveMatchStatusRepository.GetMongoDbCollection("TeamLiveStatus");

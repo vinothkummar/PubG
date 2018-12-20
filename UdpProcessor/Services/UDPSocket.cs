@@ -96,9 +96,7 @@ namespace Fanview.UDPProcessor.Services
 
                 while (_eventMessages.Count >= 1)
                 {
-
                     var message = _eventMessages.Dequeue();
-
 
                     Task.Run(async () => _playerKillRepository.InsertLiveKillEventTelemetry(message, fileName, eventTime));
                     Task.Run(async () => _matchSummaryRepository.InsertLiveEventMatchStatusTelemetry(message, fileName, eventTime));

@@ -53,7 +53,7 @@ namespace Fanview.API.Repository
 
                 _logger.LogInformation("tournament Match Results stored to the " + cacheKey + Environment.NewLine);
 
-                await _cacheService.SaveToCache<Event>(cacheKey, tournamentMatch, 30, 7);
+                await _cacheService.SaveToCache<Event>(cacheKey, tournamentMatch, 45, 7);
 
                 _logger.LogInformation("FindEvent Event Repository call Ended" + Environment.NewLine);
 
@@ -90,7 +90,7 @@ namespace Fanview.API.Repository
 
             _logger.LogInformation("tournament MatchcreatedAt Results stored to the " + cacheKey + Environment.NewLine);
 
-            await _cacheService.SaveToCache<string>(cacheKey, tournamentMatchCreateAt, 30, 7);
+            await _cacheService.SaveToCache<string>(cacheKey, tournamentMatchCreateAt, 45, 7);
 
             _logger.LogInformation("GetEventCreatedAT Event Repository call Ended" + Environment.NewLine);
 
@@ -130,7 +130,7 @@ namespace Fanview.API.Repository
             _logger.LogInformation("tournament MatchId Results stored to the " + cacheKey + Environment.NewLine);
 
            
-            await _cacheService.SaveToCache<string>(cacheKey, tournamentMatchId, 30, 7);
+            await _cacheService.SaveToCache<string>(cacheKey, tournamentMatchId, 45, 7);
           
             
             _logger.LogInformation("GetTournamentMatchIdEvent Repository call Ended" + Environment.NewLine);
