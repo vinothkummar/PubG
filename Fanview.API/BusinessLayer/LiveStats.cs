@@ -126,7 +126,7 @@ namespace Fanview.API.BusinessLayer
                                         IsEliminated = s.IsEliminated
                                     });
 
-            await _cacheService.SaveToCache<IEnumerable<LiveMatchStatus>>("TeamLiveStatusCache", matchStatusObject, 45, 7);
+            await _cacheService.SaveToCache<IEnumerable<LiveMatchStatus>>("TeamLiveStatusCache", matchStatusObject, 5, 2);
 
 
             if (matchStatusObject == null)

@@ -139,5 +139,13 @@ namespace Fanview.API.Repository
                    
             
         }
+
+        public async Task<string> GetTournamentMatchIdNotCached(int matchId)
+        {
+           
+            var tournamentMatchId = tournamentsDb.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
+
+            return await Task.FromResult(tournamentMatchId);
+        }
     }
 }

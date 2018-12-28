@@ -10,6 +10,8 @@ namespace Fanview.API.Repository.Interface
     {
         Task<string> GetTournamentMatchId(int matchId);
 
+        Task<String> GetTournamentMatchIdNotCached(int matchId);
+
         Task<string> GetEventCreatedAt(int matchId);
 
         Task<Event> FindEvent(string matchId);
