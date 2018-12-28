@@ -444,8 +444,8 @@ namespace Fanview.API.Repository
             //{
                 var teamPlayers = GetTeamPlayers().Result;
 
-                var liveKilledPlayers = liveEventKills.Join(teamPlayers, pk => pk.VictimName.Trim(), tp => tp.PlayerName.Trim(), (pk, tp) => new { pk, tp })
-                                           .Join(teamPlayers, pktp => pktp.pk.KillerName.Trim(), tp1 => tp1.PlayerName.Trim(), (pktp, tp1) => new { pktp, tp1 })
+                var liveKilledPlayers = liveEventKills.Join(teamPlayers, pk => pk.VictimName.ToLower().Trim(), tp => tp.PlayerName.ToLower().Trim(), (pk, tp) => new { pk, tp })
+                                           .Join(teamPlayers, pktp => pktp.pk.KillerName.ToLower().Trim(), tp1 => tp1.PlayerName.ToLower().Trim(), (pktp, tp1) => new { pktp, tp1 })
                                           .Select(s => new PlayerKilledGraphics()
                                           {
                                               TimeKilled = s.pktp.pk.EventTimeStamp,

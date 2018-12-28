@@ -228,7 +228,7 @@ namespace Fanview.API.Repository
             _logger.LogInformation("GetPlayedKiller Repository call started" + Environment.NewLine);
             try
             {
-                var tournamentMatchId = _eventRepository.GetTournamentMatchId(matchId).Result;
+                var tournamentMatchId = _eventRepository.GetTournamentMatchIdNotCached(matchId).Result;
 
                 var response = _Kill.GetAll("Kill").Result.Where(cn => cn.MatchId == tournamentMatchId);
 
@@ -558,7 +558,7 @@ namespace Fanview.API.Repository
                 if (kills.Where(cn => cn.IsGroggy == false).Count() == 1)
                 {
 
-                    Task t = Task.Run(async () => await _cacheService.SaveToCache<IEnumerable<KilliPrinter>>("LiveKilledCache", _liveKilledCachedData, 45, 7));
+                    Task t = Task.Run(async () => await _cacheService.SaveToCache<IEnumerable<KilliPrinter>>("LiveKilledCache", _liveKilledCachedData, 5, 2));
 
                     try
                     {

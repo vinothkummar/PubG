@@ -33,7 +33,9 @@ namespace Fanview.API.Repository
         private DateTime LastMatchCreatedTimeStamp = DateTime.MinValue;
         private IEventRepository _eventRepository;
         private ICacheService _cacheService;
-        int postMatchWaitingCount;
+        private IEnumerable<LiveMatchStatus> teamLiveStatus;
+        private int postMatchWaitingCount;
+       // private bool isTeamElimnated;
 
         public MatchSummaryRepository(IClientBuilder httpClientBuilder,
                                       IHttpClientRequest httpClientRequest,
@@ -68,8 +70,6 @@ namespace Fanview.API.Repository
             _cacheService = cacheService;
 
             postMatchWaitingCount = 0;
-
-
         }
 
         private MatchSummary GetMatchSummaryData(JObject jsonToJObject)
@@ -425,14 +425,54 @@ namespace Fanview.API.Repository
                     postMatchWaitingCount++;
                 }
 
-                _teamLiveStatusRepository.CreateEventLiveMatchStatus(matchStatus);
+                if (postMatchWaitingCount <= 1)
+                {
+                    Task t = Task.Run(async () => await _cacheService.SaveToCache<IEnumerable<LiveMatchStatus>>("TeamLiveStatusCache", teamLiveStatus, 5, 2));
+                
+                    try
+                    {
+                        t.Wait();
+                        if (t.Status == TaskStatus.RanToCompletion)
+                        {
+                            //There is bug in the live Cache which is not retrieving the team eliminated timestamp.
+                            //so, for the temporary workaround I have take the data from the mongo
+                            //if (isTeamElimnated == false)
+                            //{
+                                var matchLiveStatusProcess = CreateMatchLiveStatus(matchStatus, matchStatus.Select(a => a.MatchId).ElementAtOrDefault(0)).Result;
+                            //}
+                            //else
+                            //{
+                                //This whole workaround logic should go away
+                                var tournamentMatchId = _cacheService.RetrieveFromCache<string>("TournamentMatchIdCache");
 
-                await CreateMatchLiveStatus(matchStatus, matchStatus.Select(a => a.MatchId).ElementAtOrDefault(0), postMatchWaitingCount);
+                                if (tournamentMatchId != null)
+                                {
+                                    var teamCurrentStatus = _genericLiveMatchStatusRepository.GetMongoDbCollection("TeamLiveStatus");
+
+                                    teamLiveStatus = await teamCurrentStatus.FindAsync(Builders<LiveMatchStatus>.Filter.Where(cn => cn.MatchId == tournamentMatchId)).Result.ToListAsync();
+
+                                    //isTeamElimnated = false;
+
+
+                                }
+
+                               
+                            //}
+
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogInformation("LiveKilledCache exception" + ex + Environment.NewLine);
+                    }
+                }
+
+                _teamLiveStatusRepository.CreateEventLiveMatchStatus(matchStatus);
             }
 
         }
        
-        private async Task CreateMatchLiveStatus(IEnumerable<EventLiveMatchStatus> matchStatus, string matchId, int matchStateCount)
+        private async Task<IEnumerable<LiveMatchStatus>> CreateMatchLiveStatus(IEnumerable<EventLiveMatchStatus> matchStatus, string matchId)
         {
             var teamPlayers = await _teamPlayerRepository.GetTeamPlayers();
 
@@ -507,6 +547,9 @@ namespace Fanview.API.Repository
                                 teamLiveStatus.DeadCount = deadCount;
 
                                 teamLiveStatus.IsEliminated = deadCount == 4 ? true : false;
+                         
+                                //temporary fix for team EliminatedAT 
+                                //isTeamElimnated = deadCount == 4 ? true : false;
 
                                 teamLiveStatus.MatchId = matchStatusMatchId.ElementAtOrDefault(0);
 
@@ -525,12 +568,6 @@ namespace Fanview.API.Repository
                             }
                             teamLiveStatusCollection.Add(teamLiveStatus);
                         }
-
-                        if(matchStateCount <= 1)
-                        {
-                            await _cacheService.SaveToCache<IEnumerable<LiveMatchStatus>>("TeamLiveStatusCache", teamLiveStatusCollection, 45, 7);
-                        }
-                       
 
                         if (isTeamLiveStatusCount == 0)
                         {
@@ -556,7 +593,10 @@ namespace Fanview.API.Repository
                                 }
                             }
                         }
+
                     }
+
+                     return await Task.FromResult(teamLiveStatusCollection);
             
         }
 
