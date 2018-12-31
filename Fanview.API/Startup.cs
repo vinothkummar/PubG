@@ -41,18 +41,6 @@ namespace Fanview.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //string redisConnection = Configuration["RedisSettings:RedisConnectionString"];
-
-            //services.AddMemoryCache();
-            //services.AddDistributedRedisCache(options =>
-            //{
-            //    options.Configuration = "127.0.0.1:6379,abortConnect=false,connectTimeout=3000,responseTimeout=3000,syncTimeout=3000";
-            //    options.InstanceName = "Master";
-            //});
-
-           
-
-
             services.AddMvc();
             //.AddJsonOptions(options =>
             //                    options.SerializerSettings.ContractResolver = new DefaultContractResolver());

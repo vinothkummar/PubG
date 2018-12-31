@@ -431,40 +431,53 @@ namespace Fanview.API.Repository
 
         public IEnumerable<PlayerKilledGraphics> GetPlayersId(IEnumerable<LiveEventKill> liveEventKills)
         {
-            //var cacheKey = "liveKilledPlayersCache";
+            var teamPlayers = GetTeamPlayers().Result;
 
-            //var liveKilledPlayersCache = _cacheService.RetrieveFromCache<IEnumerable<PlayerKilledGraphics>>(cacheKey).Result;
+            var liveKilledPlayersVictim = liveEventKills.Join(teamPlayers, pk => pk.VictimName.ToLower().Trim(), tp => tp.PlayerName.ToLower().Trim(), (pk, tp) => new { pk, tp });
 
-            //if (liveKilledPlayersCache != null)
-            //{            
+            var liveKilledOuterJoin = liveKilledPlayersVictim.GroupJoin(teamPlayers, left => left.pk.KillerName.ToLower().Trim(), right => right.PlayerName.ToLower().Trim(),
+                                                            (left, right) => new { TableA = right, TableB = left }).SelectMany(p => p.TableA.DefaultIfEmpty(), (x, y) => new { TableA = y, TableB = x.TableB });
 
-            //    return liveKilledPlayersCache;
-            //}
-            //else
-            //{
-                var teamPlayers = GetTeamPlayers().Result;
+            var liveKilledPlayers = new List<PlayerKilledGraphics>();
 
-                var liveKilledPlayers = liveEventKills.Join(teamPlayers, pk => pk.VictimName.ToLower().Trim(), tp => tp.PlayerName.ToLower().Trim(), (pk, tp) => new { pk, tp })
-                                           .Join(teamPlayers, pktp => pktp.pk.KillerName.ToLower().Trim(), tp1 => tp1.PlayerName.ToLower().Trim(), (pktp, tp1) => new { pktp, tp1 })
-                                          .Select(s => new PlayerKilledGraphics()
-                                          {
-                                              TimeKilled = s.pktp.pk.EventTimeStamp,
-                                              KillerName = s.pktp.pk.KillerName,
-                                              VictimName = s.pktp.pk.VictimName,
-                                              VictimLocation = s.pktp.pk.VictimLocation,
-                                              DamagedCausedBy = s.pktp.pk.DamageCauser,
-                                              DamageReason = s.pktp.pk.DamageReason,
-                                              VictimTeamId = s.pktp.pk.VictimTeamId,
-                                              KillerTeamId = s.pktp.pk.KillerTeamId,
-                                              IsGroggy =  s.pktp.pk.IsGroggy,
-                                              VictimPlayerId = s.pktp.tp.PlayerId,
-                                              KillerPlayerId = s.tp1.PlayerId,
-                                          }).OrderBy(o => o.TimeKilled);
-
-                //_cacheService.SaveToCache<IEnumerable<PlayerKilledGraphics>>(cacheKey, liveKilledPlayers, 5, 2);
-
-                return liveKilledPlayers;
-            //}
+            foreach (var item in liveKilledOuterJoin)
+            {
+                if (item.TableA != null && item.TableB != null)
+                {
+                    liveKilledPlayers.Add(new PlayerKilledGraphics()
+                    {
+                        TimeKilled = item.TableB.pk.EventTimeStamp,
+                        KillerName = item.TableB.pk.KillerName,
+                        VictimName = item.TableB.pk.VictimName,
+                        VictimLocation = item.TableB.pk.VictimLocation,
+                        DamagedCausedBy = item.TableB.pk.DamageCauser,
+                        DamageReason = item.TableB.pk.DamageReason,
+                        VictimTeamId = item.TableB.pk.VictimTeamId,
+                        KillerTeamId = item.TableB.pk.KillerTeamId,
+                        IsGroggy = item.TableB.pk.IsGroggy,
+                        VictimPlayerId = item.TableB.tp.PlayerId,
+                        KillerPlayerId = item.TableA.PlayerId,
+                    });
+                }
+                else
+                {
+                    liveKilledPlayers.Add(new PlayerKilledGraphics()
+                    {
+                        TimeKilled = item.TableB.pk.EventTimeStamp,
+                        KillerName = item.TableB.pk.KillerName,
+                        VictimName = item.TableB.pk.VictimName,
+                        VictimLocation = item.TableB.pk.VictimLocation,
+                        DamagedCausedBy = item.TableB.pk.DamageCauser,
+                        DamageReason = item.TableB.pk.DamageReason,
+                        VictimTeamId = item.TableB.pk.VictimTeamId,
+                        KillerTeamId = item.TableB.pk.KillerTeamId,
+                        IsGroggy = item.TableB.pk.IsGroggy,
+                        VictimPlayerId = item.TableB.tp.PlayerId,
+                        KillerPlayerId = 0,
+                    });
+                }
+            }
+            return liveKilledPlayers;          
             
         }
     }

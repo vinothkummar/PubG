@@ -45,7 +45,7 @@ namespace Fanview.API.Controllers
         /// Sample request: api/Map/FlightPath/{matchId}
         /// </remarks>
         /// <param name='matchId'>1</param>
-        [HttpGet("FlighPath/{matchId}", Name = "GetFlightPath")]
+        [HttpGet("FlightPath/{matchId}", Name = "GetFlightPath")]
         public Task<FlightPath> GetFlightPath(int matchId)
         {
             return _playerRepository.GetFlightPath(matchId);

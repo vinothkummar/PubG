@@ -100,13 +100,13 @@ namespace Fanview.API.BusinessLayer
             }
            
         }
-
        
 
-        public async Task<IEnumerable<KilliPrinter>> GetLivePlayerKilled(int matchId)
+        public async Task<IEnumerable<KilliPrinter>> GetLivePlayerKilled()
         {
             try
             {
+
                 var liveKilledFromCache =  _cacheService.RetrieveFromCache<IEnumerable<KilliPrinter>>("LiveKilledCache");
 
                 if (liveKilledFromCache != null && liveKilledFromCache.Count() != 0)
@@ -125,7 +125,7 @@ namespace Fanview.API.BusinessLayer
 
             var playerKilledOrTeamEliminatedMessages = new List<KilliPrinter>();
 
-            var kills = await _playerKillRepository.GetLiveKilled(matchId);
+            var kills = await _playerKillRepository.GetLiveKilled();
 
             // var tournamentMatchCreatedAt =  _eventRepository.GetEventCreatedAt(matchId).Result;
 

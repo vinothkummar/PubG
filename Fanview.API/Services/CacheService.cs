@@ -15,11 +15,36 @@ namespace Fanview.API.Services
     public class CacheService : ICacheService
     {
         private IDistributedCache _cache;
-        
+        private string[] _cacheKeys;
+
         public CacheService(IDistributedCache distributedCache)
         {
             _cache = distributedCache;
+             _cacheKeys = new string[]{ "TeamCountCache", "TeamPlayerCache", "TeamLiveStatusCountCach", "LiveEventKilledCache",
+                                           "LiveKilledCache", "TeamLiveStatusCache", "TournamentMatchIdCache", "MatchRankPointsCache",
+                                           "TournamentMatchCache", "TournamentMatchCreatedAtCache", "LiveKilledCache", "DamageCauserCache"
+                                         };
         }
+
+        public void RefreshFromCache()
+        {
+            foreach (var item in _cacheKeys)
+            {
+                _cache.Refresh(item);
+            }
+            
+        }
+
+        public void RemoveFromCache()
+        {
+           
+            foreach (var item in _cacheKeys)
+            {
+                _cache.Remove(item);
+            }
+             
+        }
+
         public T RetrieveFromCache<T>(string key)
         { 
 

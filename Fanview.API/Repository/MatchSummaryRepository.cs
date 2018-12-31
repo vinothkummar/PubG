@@ -600,9 +600,9 @@ namespace Fanview.API.Repository
             
         }
 
-        public async Task<IEnumerable<LiveMatchStatus>> GetLiveMatchStatus(int matchId)
+        public async Task<IEnumerable<LiveMatchStatus>> GetLiveMatchStatus()
         {           
-            var tournamentMatchId = _eventRepository.GetTournamentMatchId(matchId).Result;
+            var tournamentMatchId = _eventRepository.GetTournamentLiveMatch().Result;
 
             var matchStatus = _genericLiveMatchStatusRepository.GetMongoDbCollection("TeamLiveStatus");
 

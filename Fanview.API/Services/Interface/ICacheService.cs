@@ -9,12 +9,9 @@ namespace Fanview.API.Services.Interface
     {
         Task SaveToCache<T>(string key, T item, int absoluteExpirationRelativeToNow, int slidingExpiration);
         T RetrieveFromCache<T>(string key);
-
         Task SaveObjToCache<T>(string key, T item, int absoluteExpirationRelativeToNow, int slidingExpiration);
-
         Task<T> RetrieveObjFromCache<T>(string key) where T : class;
-
-        //Task<T> RefreshFromCache<T>(string key);
-        //Task<T> RemoveFromCache<T>(string key);
+        void RefreshFromCache();
+        void RemoveFromCache();
     }
 }
