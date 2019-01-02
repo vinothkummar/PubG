@@ -400,9 +400,20 @@ namespace Fanview.API.Repository
             return PlayerProfileGrouped;
         }
         
-        public void PostNewPlayer(TeamPlayer player)
+        public void CreateNewPlayer(TeamPlayerViewModel player)
         {
-            _genericTeamPlayerRepository.Insert(player, "TeamPlayers");
+            var newPlayer = new TeamPlayer()
+            {
+                TeamId = player.TeamId,
+                TeamIdShort = player.TeamIdShort,
+                PlayerId = player.PlayerId,
+                PlayerName = player.PlayerName,
+                FullName  = player.FullName,
+                Country = player.Country
+                
+            };
+                
+            _genericTeamPlayerRepository.Insert(newPlayer, "TeamPlayers");
         }
         public void Deleteplayer(string playerid)
         {
