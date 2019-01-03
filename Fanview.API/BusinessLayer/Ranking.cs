@@ -258,30 +258,31 @@ namespace Fanview.API.BusinessLayer
         {      
                 await _matchSummaryRepository.PollMatchRoundRankingData(matchId);
 
-                await Task.Delay(5000);
+            await Task.Delay(4000);
 
-                Task<IEnumerable<MatchRanking>> matchRankings = Task<IEnumerable<MatchRanking>>.Factory.StartNew(() =>
+            Task<IEnumerable<MatchRanking>> matchRankings = Task<IEnumerable<MatchRanking>>.Factory.StartNew(() =>
+            {
+                var teamsScroingPoints = CalculateMatchRanking(matchId).Result.ToList();
+
+                var teamStats = CalculateTeamStats(matchId, teamsScroingPoints).Result;
+
+                var matchRankingCollection = _genericMatchRankingRepository.GetMongoDbCollection("MatchRanking");
+
+                var matchRankingScore = matchRankingCollection.FindAsync(Builders<MatchRanking>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result;
+
+                if (matchRankingScore == null)
                 {
-                    var teamsScroingPoints = CalculateMatchRanking(matchId).Result.ToList();
-
-                    var teamStats = CalculateTeamStats(matchId, teamsScroingPoints).Result;
-
-                    var matchRankingCollection = _genericMatchRankingRepository.GetMongoDbCollection("MatchRanking");
-                                       
-                    var matchRankingScore = matchRankingCollection.FindAsync(Builders<MatchRanking>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result;                                 
-
-                    if (matchRankingScore == null)
-                    {
                     _genericMatchRankingRepository.Insert(teamsScroingPoints, "MatchRanking");
 
-                        _genericTeamRankingRepository.Insert(teamStats, "TeamRanking");
-                    }
+                    _genericTeamRankingRepository.Insert(teamStats, "TeamRanking");
+                }
 
-                    return teamsScroingPoints;
-                });
+                return teamsScroingPoints;
+            });
 
-                return await await Task.FromResult(matchRankings);
+            return await await Task.FromResult(matchRankings);           
         }
+
         #region Unused code for the removal 
         //public async Task<IEnumerable<DailyMatchRankingScore>> GetSummaryRanking(string matchId1, string matchId2, string matchId3, string matchId4)
         //{
