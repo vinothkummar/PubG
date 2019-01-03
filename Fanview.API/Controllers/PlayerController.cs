@@ -85,10 +85,10 @@ namespace Fanview.API.Controllers
             return _teamPlayerRepository.GetTeamPlayersStatsMatchUp(playerId1, playerId2, matchId);
         }
    
-        [HttpPost("PostPlayer", Name = "PostNewPlayer")]
-        public void PostNewPlayer(TeamPlayer player)
+        [HttpPost("CreatePlayer", Name = "PostNewPlayer")]
+        public void PostNewPlayer(TeamPlayerViewModel player)
         {
-            _teamPlayerRepository.PostNewPlayer(player);
+            _teamPlayerRepository.CreateNewPlayer(player);
         }
         [HttpDelete("Deleteplayer/{PlayerId}", Name = "Deleteplayer")]
 

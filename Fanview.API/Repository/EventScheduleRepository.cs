@@ -33,19 +33,19 @@ namespace Fanview.API.Repository
             return await Task.FromResult(dailySchedule);
         }
 
-        public async Task<Object> GetScheduledEvents()
-        {
-           var scheduleEvents = GetTournamentEventSchedule().Select(s => new
-            {
-                ScheduledDate = s.ScheduleTimeAndStatus.Select(t => t.ScheduleTime).First().ToString("yyyy-MM-dd"),
-                GamePerspective = s.GamePerspective,
-                DayCount = s.DayCount,
-                Rounds = s.DayCount == "3"? "Event Matches" : "Day " +s.DayCount + " - 4 Rounds" 
-            });
-            var ScheduleEventsNameIncluded = new { EventName = "PUBG Global Invitational Berlin 2018", EventSchedule = scheduleEvents };
-            return await Task.FromResult(ScheduleEventsNameIncluded);
+        //public async Task<Object> GetScheduledEvents()
+        //{
+        //   var scheduleEvents = GetTournamentEventSchedule().Select(s => new
+        //    {
+        //        ScheduledDate = s.ScheduleTimeAndStatus.Select(t => t.ScheduleTime).First().ToString("yyyy-MM-dd"),
+        //        GamePerspective = s.GamePerspective,
+        //        DayCount = s.DayCount,
+        //        Rounds = s.DayCount == "3"? "Event Matches" : "Day " +s.DayCount + " - 4 Rounds" 
+        //    });
+        //    var ScheduleEventsNameIncluded = new { EventName = "PUBG Global Invitational Berlin 2018", EventSchedule = scheduleEvents };
+        //    return await Task.FromResult(ScheduleEventsNameIncluded);
 
-        }
+        //}
         
         private IEnumerable<EventInfo> GetTournamentEventSchedule()
         {

@@ -30,6 +30,7 @@ namespace Fanview.API.Repository
 
         public void CreateAnEvent(Event newMatch)
         {
+           
             _tournamentRepository.Insert(newMatch, "TournamentMatchId");
         }
 
@@ -103,7 +104,7 @@ namespace Fanview.API.Repository
             return Task.FromResult(tournamentsDb.FindAsync(new BsonDocument()).Result.ToListAsync().Result.Count());
         }
 
-        public async Task<string> GetTournamentMatchId(int matchId)
+        public async Task<string> GetTournamentLiveMatch()
         {
             var cacheKey = "TournamentMatchIdCache";
 
@@ -125,19 +126,19 @@ namespace Fanview.API.Repository
             
             _logger.LogInformation("GetTournamentMatchIdEvent Repository call started" + Environment.NewLine);
 
-            var tournamentMatchId = tournamentsDb.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
+            _cacheService.RemoveFromCache();
+
+            _cacheService.RefreshFromCache();
+
+            var tournamentMatchId = tournamentsDb.FindAsync(Builders<Event>.Filter.Empty).Result.ToListAsync().Result.LastOrDefault().Id;
 
             _logger.LogInformation("tournament MatchId Results stored to the " + cacheKey + Environment.NewLine);
+                       
+            await _cacheService.SaveToCache<string>(cacheKey, tournamentMatchId, 30, 5);           
 
-           
-            await _cacheService.SaveToCache<string>(cacheKey, tournamentMatchId, 45, 7);
-          
-            
             _logger.LogInformation("GetTournamentMatchIdEvent Repository call Ended" + Environment.NewLine);
 
             return await Task.FromResult(tournamentMatchId);
-                   
-            
         }
 
         public async Task<string> GetTournamentMatchIdNotCached(int matchId)

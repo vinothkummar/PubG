@@ -235,18 +235,14 @@ namespace Fanview.API.Repository
 
             var teamPlayers = _teamPlayerRepository.GetTeamPlayers();
 
-            var teamParticipants = new List<MatchPlayerStats>();
-
-            var rosterTeamId = 0;
+            var teamParticipants = new List<MatchPlayerStats>();            
 
             foreach (var item in matchRoster)
-            {
-                rosterTeamId = item.RosterAttributes.Stats.TeamId;
-
+            {              
                 foreach (var item1 in item.RosterRelationShips.Participant )
                 {
                     foreach (var item2 in matchParticipant)
-                    {                        
+                    {
                             var teamParticipant = new MatchPlayerStats();
 
                             if (item1.Id == item2.Id)
@@ -255,11 +251,10 @@ namespace Fanview.API.Repository
                                 teamParticipant.RosterId = item.Id;
                                 teamParticipant.ParticipantId = item2.Id;                              
                                 teamParticipant.stats = item2.ParticipantAttributes.stats;
-                                teamParticipant.TeamId = teamPlayers.Result.Where(cn => cn.TeamIdShort == rosterTeamId).FirstOrDefault().TeamId;
+                                teamParticipant.TeamId = teamPlayers.Result.Where(cn => cn.PlayerName.ToLower().Trim() == item2.ParticipantAttributes.stats.Name.ToLower().Trim() ).FirstOrDefault().TeamId;
                                 teamParticipant.Rank = item.RosterAttributes.Stats.Rank;
                                 teamParticipant.ShortTeamId = item.RosterAttributes.Stats.TeamId;
                                 teamParticipants.Add(teamParticipant);
-                                
                             }
                     }
                 }
@@ -338,7 +333,7 @@ namespace Fanview.API.Repository
         {
             try
             {
-                _logger.LogInformation("Match Round Ranking Data Request Started" + Environment.NewLine);               
+                _logger.LogInformation("Match Round Ranking Data Request Started" + Environment.NewLine);
 
                 await Task.Run(async () => PollMatchParticipantStats(matchId));
 
@@ -600,9 +595,9 @@ namespace Fanview.API.Repository
             
         }
 
-        public async Task<IEnumerable<LiveMatchStatus>> GetLiveMatchStatus(int matchId)
+        public async Task<IEnumerable<LiveMatchStatus>> GetLiveMatchStatus()
         {           
-            var tournamentMatchId = _eventRepository.GetTournamentMatchId(matchId).Result;
+            var tournamentMatchId = _eventRepository.GetTournamentLiveMatch().Result;
 
             var matchStatus = _genericLiveMatchStatusRepository.GetMongoDbCollection("TeamLiveStatus");
 

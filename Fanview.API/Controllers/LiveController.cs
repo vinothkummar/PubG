@@ -45,23 +45,21 @@ namespace Fanview.API.Controllers
         /// </summary>
         /// <remarks>
         /// Sample request: Killiprinter/{matchId}/All
-        /// </remarks>
-        /// <param name='matchId'>1</param>
-        [HttpGet("Killiprinter/{matchId}/All", Name = "GetAllKilliprinterForGraphics")]
-        public async Task<IEnumerable<KilliPrinter>> GetAllKilliprinterForGraphics(int matchId)
+        /// </remarks>       
+        [HttpGet("Killiprinter", Name = "GetAllKilliprinterForGraphics")]
+        public async Task<IEnumerable<KilliPrinter>> GetAllKilliprinterForGraphics()
         { 
-            return await _playerKilled.GetLivePlayerKilled(matchId);
+            return await _playerKilled.GetLivePlayerKilled();
         }
 
         
         /// <summary>
         /// Returns Live Team Status
-        /// </summary>       
-        /// <param name='matchId'>1</param>
-        [HttpGet("Status/{matchId}", Name = "GetLiveStatus")]
-        public Task<IEnumerable<LiveMatchStatus>> GetLiveStatus(int matchId)
+        /// </summary>               
+        [HttpGet("Status", Name = "GetLiveStatus")]
+        public Task<IEnumerable<LiveMatchStatus>> GetLiveStatus()
         {
-            return _liveStatus.GetLiveStatus(matchId);
+            return _liveStatus.GetLiveStatus();
         }
 
 
@@ -85,12 +83,11 @@ namespace Fanview.API.Controllers
         /// </summary>
         /// <remarks>     
         /// Sample request: api/live/KillList/{matchId}
-        /// </remarks>
-        /// <param name='matchId'>1</param>
-        [HttpGet("KillList/{matchId}", Name = "GetLiveKillList")]
-        public Task<KillLeader> GetLiveKillList(int matchId)
+        /// </remarks>       
+        [HttpGet("KillList", Name = "GetLiveKillList")]
+        public Task<KillLeader> GetLiveKillList()
         {
-            return _playerKillRepository.GetLiveKillList(matchId,0);
+            return _playerKillRepository.GetLiveKillList(0);
         }
 
         /// <summary>
@@ -98,13 +95,12 @@ namespace Fanview.API.Controllers
         /// </summary>
         /// <remarks>        
         /// Sample request: api/live/KillList/{matchId} 
-        /// </remarks>
-        /// <param name='matchId'>1</param>
+        /// </remarks>       
         /// <param name='topN'>top 6 rows</param>
-        [HttpGet("KillList/{matchId}/{topN}")]
-        public Task<KillLeader> GetLiveKillList(int matchId, int topN)
+        [HttpGet("KillList/{topN}")]
+        public Task<KillLeader> GetLiveKillList(int topN)
         {
-            return _playerKillRepository.GetLiveKillList(matchId,topN);
+            return _playerKillRepository.GetLiveKillList(topN);
         }
 
         /// <summary>
@@ -112,8 +108,7 @@ namespace Fanview.API.Controllers
         /// </summary>
         /// <remarks>              
         /// Sample request: api/Live/PlayerStats/{matchId}
-        /// </remarks>
-        /// <param name='matchId'>1</param>
+        /// </remarks>        
         //[HttpGet("LivePlayerStats/{matchId}", Name = "GetLivePlayerStats")]
         //public Task<IEnumerable<PlayerProfileTournament>> GetLivePlayerStats(int matchId)
         //{
@@ -132,10 +127,10 @@ namespace Fanview.API.Controllers
         //    // return _liveStatus.GetLiveStatsRanking(matchId);
         //}
 
-        [HttpGet("MatchStatus/{matchId}", Name = "GetMatchStatus")]
-        public Task<Object> GetMatchStatus(int matchId)
+        [HttpGet("MatchStatus", Name = "GetMatchStatus")]
+        public Task<Object> GetMatchStatus()
         {
-            return _liveStatus.GetLiveMatchStatus(matchId);
+            return _liveStatus.GetLiveMatchStatus();
         }
     }
 }

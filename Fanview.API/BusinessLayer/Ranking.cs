@@ -54,7 +54,7 @@ namespace Fanview.API.BusinessLayer
 
             var rankScorePoints =  _genericRankPointsRepository.GetAll("RankPoints").Result;
 
-            var playerKillPointsWithTeam = matchPlayerStats.Select(m => new { m.MatchId, TeamId = m.TeamId, ShortTeamId = m.ShortTeamId, PlayerAccountId = m.stats.PlayerId, KillPoints = m.stats.Kills * 15 })
+            var playerKillPointsWithTeam = matchPlayerStats.Select(m => new { m.MatchId, TeamId = m.TeamId, ShortTeamId = m.ShortTeamId, PlayerAccountId = m.stats.PlayerId, KillPoints = m.stats.Kills * 16 })
                                                            .GroupBy(g => new { g.TeamId, g.ShortTeamId,  g.MatchId })
                                                            .Select(s => new
                                                             { 
@@ -66,21 +66,21 @@ namespace Fanview.API.BusinessLayer
                                                                 PlayerAccountId = s.Select(g => g.PlayerAccountId)
                                                             });
 
-            
 
-            var teamMatchRankingScoreCalculation = playerKillPointsWithTeam.Join(teams, pkp => pkp.TeamId, t => t.TeamId, (pk, t) => new { pk, t })                                                               
+            
+            var teamMatchRankingScoreCalculation = playerKillPointsWithTeam.Join(teams, pkp => pkp.TeamId, t => t.TeamId, (pk, t) => new { pk, t })
                                                                  .Join(matchPlayerStats, tpkp => tpkp.pk.ShortTeamId, tep => tep.ShortTeamId, (tpkp, tep) => new { tpkp, tep })
                                                                  .Join(rankScorePoints, tpktep => tpktep.tep.Rank, rsp => rsp.RankPosition, (tpktep, rsp) => new { tpktep, rsp })
                                                                  .OrderByDescending(o => o.tpktep.tpkp.pk.TeamKillTotalPoints + o.rsp.ScoringPoints)
                                                                  .Select(s => new MatchRanking()
                                                                  {
-                                                                     
+
                                                                      MatchId = s.tpktep.tpkp.pk.MatchId,
-                                                                     TeamId = s.tpktep.tpkp.pk.TeamId,                                                                     
+                                                                     TeamId = s.tpktep.tpkp.pk.TeamId,
                                                                      TeamName = s.tpktep.tpkp.t.TeamName,
                                                                      KillPoints = s.tpktep.tpkp.pk.TeamKillTotalPoints,
                                                                      RankPoints = s.rsp.ScoringPoints,
-                                                                     TotalPoints = s.tpktep.tpkp.pk.TeamKillTotalPoints + s.rsp.ScoringPoints,                                                                     
+                                                                     TotalPoints = s.tpktep.tpkp.pk.TeamKillTotalPoints + s.rsp.ScoringPoints,
                                                                      ShortTeamID = s.tpktep.tep.ShortTeamId
                                                                  }).GroupBy(g => g.ShortTeamID);
 
@@ -90,16 +90,15 @@ namespace Fanview.API.BusinessLayer
                 MatchId = s.Select(a => a.MatchId).ElementAtOrDefault(0),
                 TeamId = s.Select(a => a.TeamId).ElementAtOrDefault(0),
                 TeamName = s.Select(a => a.TeamName).ElementAtOrDefault(0),
-                KillPoints = s.Select( a => a.KillPoints).ElementAtOrDefault(0),
+                KillPoints = s.Select(a => a.KillPoints).ElementAtOrDefault(0),
                 RankPoints = s.Select(a => a.RankPoints).ElementAtOrDefault(0),
                 TotalPoints = s.Select(a => a.TotalPoints).ElementAtOrDefault(0),
-                ShortTeamID = s.Select(a => a.ShortTeamID).ElementAtOrDefault(0) 
+                ShortTeamID = s.Select(a => a.ShortTeamID).ElementAtOrDefault(0)
             });
-            
-
-
-            return await Task.FromResult(teamMatchRankingScore);           
+                       
+            return await Task.FromResult(teamMatchRankingScore);
         }
+
         public async Task<IEnumerable<TeamRanking>> CalculateTeamStats(string matchId, IEnumerable<MatchRanking> matchRankings)
         {
             var matchPlayerStats = _matchSummaryRepository.GetPlayerMatchStats(matchId).Result;
@@ -259,30 +258,31 @@ namespace Fanview.API.BusinessLayer
         {      
                 await _matchSummaryRepository.PollMatchRoundRankingData(matchId);
 
-                await Task.Delay(3000);
+            await Task.Delay(4000);
 
-                Task<IEnumerable<MatchRanking>> matchRankings = Task<IEnumerable<MatchRanking>>.Factory.StartNew(() =>
+            Task<IEnumerable<MatchRanking>> matchRankings = Task<IEnumerable<MatchRanking>>.Factory.StartNew(() =>
+            {
+                var teamsScroingPoints = CalculateMatchRanking(matchId).Result.ToList();
+
+                var teamStats = CalculateTeamStats(matchId, teamsScroingPoints).Result;
+
+                var matchRankingCollection = _genericMatchRankingRepository.GetMongoDbCollection("MatchRanking");
+
+                var matchRankingScore = matchRankingCollection.FindAsync(Builders<MatchRanking>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result;
+
+                if (matchRankingScore == null)
                 {
-                    var teamsScroingPoints = CalculateMatchRanking(matchId).Result;
-
-                    var teamStats = CalculateTeamStats(matchId, teamsScroingPoints).Result;
-
-                    var matchRankingCollection = _genericMatchRankingRepository.GetMongoDbCollection("MatchRanking");
-                                       
-                    var matchRankingScore = matchRankingCollection.FindAsync(Builders<MatchRanking>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result;                                 
-
-                    if (matchRankingScore == null)
-                    {
                     _genericMatchRankingRepository.Insert(teamsScroingPoints, "MatchRanking");
 
-                        _genericTeamRankingRepository.Insert(teamStats, "TeamRanking");
-                    }
+                    _genericTeamRankingRepository.Insert(teamStats, "TeamRanking");
+                }
 
-                    return teamsScroingPoints;
-                });
+                return teamsScroingPoints;
+            });
 
-                return await await Task.FromResult(matchRankings);
+            return await await Task.FromResult(matchRankings);           
         }
+
         #region Unused code for the removal 
         //public async Task<IEnumerable<DailyMatchRankingScore>> GetSummaryRanking(string matchId1, string matchId2, string matchId3, string matchId4)
         //{
