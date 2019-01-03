@@ -139,6 +139,12 @@ namespace Fanview.API.BusinessLayer
             return await Task.FromResult(matchStatusObject);            
         }
 
+
+
+
+        /**
+         * NOT USED: consider them a stub of what have to be implemented
+         * */
         private IEnumerable<TeamRankPoints> GetTeamEliminatedPosition(IEnumerable<LiveEventKill> kills, string matchId, int totalTeamCount)
         {
             var teamPlayers = new List<PlayerAll>();
