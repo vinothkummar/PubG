@@ -52,6 +52,7 @@ namespace Fanview.API.MiddlewareExtensions
                 Configuration = "127.0.0.1:6379,abortConnect=false,connectTimeout=3000,responseTimeout=3000,syncTimeout=3000",
                 InstanceName =  "FanviewCaching"
             }));
+            services.AddSingleton<ITeamRankingService, TeamRankingService>();
         }
     }
 }
