@@ -19,24 +19,7 @@ namespace Fanview.API.Controllers
         }
 
 
-        // GET: api/EventInfo
-        /// <summary>
-        ///   Returns Event Stadium Information      
-        /// </summary>           
-        [HttpGet("Location")]
-        public EventLocation Get()
-        {
-            var location = new EventLocation();
-            location.EventName = "PUBG Global Invitational Berlin 2018";
-            location.EventPlace = "Mercedes-Benz Arena";
-            location.Address1 = "Mercedes-Platz 1";
-            location.PostCode = " 10243";
-            location.State = "Berlin";
-            location.City = "Berlin";
-            location.Country = "Germany";
-
-            return location;
-        }
+        
 
         /// <summary>
         /// Returns Match Daily Schedule and the Round Information     
@@ -58,13 +41,13 @@ namespace Fanview.API.Controllers
             return await _eventScheduleRepository.GetDailySchedule();
         }
 
-        /// <summary>
-        /// Returns Tournament Schedule and the Game Perspective   
-        /// </summary>       
-        [HttpGet("Schedule/Matches", Name = "GetScheduleEvents")]
-        public async Task<Object> GetScheduleEvents()
-        {
-            return await _eventScheduleRepository.GetScheduledEvents();
-        }
+        ///// <summary>
+        ///// Returns Tournament Schedule and the Game Perspective   
+        ///// </summary>       
+        //[HttpGet("Schedule/Matches", Name = "GetScheduleEvents")]
+        //public async Task<Object> GetScheduleEvents()
+        //{
+        //    return await _eventScheduleRepository.GetScheduledEvents();
+        //}
     }
 }

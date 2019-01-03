@@ -8,7 +8,7 @@ namespace Fanview.API.Repository.Interface
 {
     public interface IEventRepository
     {
-        Task<string> GetTournamentMatchId(int matchId);
+        Task<string> GetTournamentLiveMatch();
 
         Task<String> GetTournamentMatchIdNotCached(int matchId);
 

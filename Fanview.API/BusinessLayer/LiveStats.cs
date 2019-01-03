@@ -46,13 +46,13 @@ namespace Fanview.API.BusinessLayer
             _cacheService = cacheService;
         }
 
-        public async Task<object> GetLiveMatchStatus(int matchId)
+        public async Task<object> GetLiveMatchStatus()
         {
-            var liveMatchStatus = await  _teamLiveStatusRepository.GetEventLiveMatchStatus(await _eventRepository.GetTournamentMatchId(matchId));
+            var liveMatchStatus = await  _teamLiveStatusRepository.GetEventLiveMatchStatus(await _eventRepository.GetTournamentLiveMatch());
 
             var result = new
             {
-                MatchId = matchId,
+               // MatchId = matchId,
                 MatchState = liveMatchStatus.MatchState == "WaitingPostMatch" ? "Completed" : liveMatchStatus.MatchState,
                 ElapsedTime = liveMatchStatus.ElapsedTime,
                 BlueZonePhase = liveMatchStatus.BlueZonePhase,
@@ -72,12 +72,12 @@ namespace Fanview.API.BusinessLayer
             return result;
         }
 
-        public Task<object> GetLiveRanking(int matchId)
+        public Task<object> GetLiveRanking()
         {
             return null;
         }
 
-        public async Task<IEnumerable<LiveMatchStatus>> GetLiveStatus(int matchId)
+        public async Task<IEnumerable<LiveMatchStatus>> GetLiveStatus()
         {
             try
             {
@@ -108,10 +108,7 @@ namespace Fanview.API.BusinessLayer
 
             }
 
-
-
-
-            var matchStatus = _matchSummaryRepository.GetLiveMatchStatus(matchId).Result;
+            var matchStatus = _matchSummaryRepository.GetLiveMatchStatus().Result;
 
             var matchStatusObject = matchStatus.Where(cn => cn.TeamId != 0).Select(s => new LiveMatchStatus()
             {

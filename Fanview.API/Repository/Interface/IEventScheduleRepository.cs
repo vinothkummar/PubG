@@ -13,7 +13,7 @@ namespace Fanview.API.Repository.Interface
 
         Task<IEnumerable<EventInfo>> GetDailySchedule();
 
-        Task<object> GetScheduledEvents();
+        //Task<object> GetScheduledEvents();
         
     }
 }
