@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Fanview.API.Model;
 using Fanview.API.BusinessLayer.Contracts;
 using Fanview.API.Repository.Interface;
-using Fanview.API.Repository;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 using Fanview.API.Model.ViewModels;
@@ -193,11 +192,11 @@ namespace Fanview.API.BusinessLayer
             var matchRankingCollection = _genericMatchRankingRepository.GetAll("MatchRanking");
             var i = 1;
             var tournamentRankingStandings = matchRankingCollection.Result
-                                        .GroupBy(g => g.ShortTeamID)
+                                        .GroupBy(g => g.TeamName)
                                         .Select(s => new MatchRanking()
                                         {
-                                            PubGOpenApiTeamId = s.Key,                                            
-                                            TeamName = s.FirstOrDefault().TeamName,
+                                            PubGOpenApiTeamId = s.FirstOrDefault().PubGOpenApiTeamId,                                            
+                                            TeamName = s.Key,
                                             KillPoints = s.Sum(a => a.KillPoints),
                                             RankPoints = s.Sum(a => a.RankPoints),
                                             TotalPoints = s.Sum(a => a.TotalPoints)
@@ -234,6 +233,7 @@ namespace Fanview.API.BusinessLayer
                 }
 
                 matchRanking.PubGOpenApiTeamId = item.PubGOpenApiTeamId;
+                matchRanking.ShortTeamID = item.ShortTeamID;
 
                 matchStandings.Add(matchRanking);
 

@@ -118,14 +118,11 @@ namespace Fanview.API.Controllers
 
         //}
 
-
-
-        //[HttpGet("Ranking/{matchId}", Name = "GetLiveRanking")]
-        //public Task<IEnumerable<MatchRanking>> GetLiveRanking(int matchId)
-        //{
-        //    return null;
-        //    // return _liveStatus.GetLiveStatsRanking(matchId);
-        //}
+        [HttpGet("Ranking", Name = "GetLiveRanking")]
+        public Task<IEnumerable<LiveTeamRanking>> GetLiveRanking()
+        {
+            return _liveStatus.GetLiveRanking();
+        }
 
         [HttpGet("MatchStatus", Name = "GetMatchStatus")]
         public Task<Object> GetMatchStatus()
