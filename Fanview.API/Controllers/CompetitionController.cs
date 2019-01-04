@@ -30,24 +30,15 @@ namespace Fanview.API.Controllers
         /// </remarks>
         /// <param name='dayCount'>1</param>
         [HttpGet("Schedule/{dayCount}", Name = "GetDailySchedule")]
-        public async Task<EventInfo> GetDailySchedule(string dayCount)
+        public async Task<Competition> GetDailySchedule(string dayCount)
         {
             return await _eventScheduleRepository.GetDailySchedule(dayCount);
         }
 
         [HttpGet("Schedule", Name = "GetDailySchedules")]
-        public async Task<IEnumerable<EventInfo>> GetDailySchedules()
+        public async Task<IEnumerable<Competition>> GetDailySchedules()
         {
-            return await _eventScheduleRepository.GetDailySchedule();
+            return await _eventScheduleRepository.GetCompetitionSchedule();
         }
-
-        ///// <summary>
-        ///// Returns Tournament Schedule and the Game Perspective   
-        ///// </summary>       
-        //[HttpGet("Schedule/Matches", Name = "GetScheduleEvents")]
-        //public async Task<Object> GetScheduleEvents()
-        //{
-        //    return await _eventScheduleRepository.GetScheduledEvents();
-        //}
     }
 }
