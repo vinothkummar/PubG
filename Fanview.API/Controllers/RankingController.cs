@@ -71,5 +71,11 @@ namespace Fanview.API.Controllers
         {
             return await _ranking.GetTournamentRankings();
         }
+      
+        [HttpGet("TournamentRankingsByDay/{day}", Name = "GetTournamentRankingByDay")]
+        public Task<IEnumerable<RankingResults>> GetTournamentRankingByDay(int day)
+        {
+            return _ranking.GetTournamentRankingByDay(day);
+        }
     }
 }
