@@ -14,6 +14,7 @@ namespace Fanview.API.Repository.Interface
         void InsertTeamPlayer(TeamPlayer teamPlayer);        
         Task<IEnumerable<TeamPlayer>> GetTeamPlayers(string matchId1, string matchId2, string matchId3, string matchId4);
         Task<IEnumerable<TeamPlayer>> GetTeamPlayers();
+        Task<IEnumerable<TeamPlayer>> GetTeamPlayersNonCached();
         Task<TeamLineUp> GetTeamandPlayers();
         Task<IEnumerable<CreatePlayer>> GetPlayersCreated(string matchId);
         Task<Object> GetPlayerTournamentStats();
