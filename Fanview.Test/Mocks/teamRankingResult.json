@@ -1,0 +1,130 @@
+﻿[
+	{
+    "TeamId": 0,
+    "TeamRank": 13,
+		"TeamName": "Team 0",
+		"KillPoints": 256,
+    "RankPoints": 150,
+    "TotalPoints": 406
+	},
+  {
+    "TeamId": 1,
+    "TeamRank": 11,
+    "TeamName": "Team 1",
+    "KillPoints": 544,
+    "RankPoints": 60,
+    "TotalPoints": 604
+  },
+  {
+    "TeamId": 2,
+    "TeamRank": 5,
+    "TeamName": "Team 2",
+    "KillPoints": 576,
+    "RankPoints": 180,
+    "TotalPoints": 756
+  },
+  {
+    "TeamId": 3,
+    "TeamRank": 1,
+    "TeamName": "Team 3",
+    "KillPoints": 944,
+    "RankPoints": 210,
+    "TotalPoints": 1154
+  },
+  {
+    "TeamId": 4,
+    "TeamRank": 6,
+    "TeamName": "Team 4",
+    "KillPoints": 544,
+    "RankPoints": 210,
+    "TotalPoints": 754
+  },
+  {
+    "TeamId": 5,
+    "TeamRank": 9,
+    "TeamName": "Team 5",
+    "KillPoints": 656,
+    "RankPoints": 10,
+    "TotalPoints": 666
+  },
+  {
+    "TeamId": 6,
+    "TeamRank": 7,
+    "TeamName": "Team 6",
+    "KillPoints": 464,
+    "RankPoints": 210,
+    "TotalPoints": 674
+  },
+  {
+    "TeamId": 7,
+    "TeamRank": 14,
+    "TeamName": "Team 7",
+    "KillPoints": 256,
+    "RankPoints": 120,
+    "TotalPoints": 376
+  },
+  {
+    "TeamId": 8,
+    "TeamRank": 16,
+    "TeamName": "Team 8",
+    "KillPoints": 240,
+    "RankPoints": 40,
+    "TotalPoints": 280
+  },
+  {
+    "TeamId": 9,
+    "TeamRank": 10,
+    "TeamName": "Team 9",
+    "KillPoints": 592,
+    "RankPoints": 30,
+    "TotalPoints": 622
+  },
+  {
+    "TeamId": 10,
+    "TeamRank": 8,
+    "TeamName": "Team 10",
+    "KillPoints": 672,
+    "RankPoints": 0,
+    "TotalPoints": 672
+  },
+  {
+    "TeamId": 11,
+    "TeamRank": 12,
+    "TeamName": "Team 11",
+    "KillPoints": 288,
+    "RankPoints": 210,
+    "TotalPoints": 498
+  },
+  {
+    "TeamId": 12,
+    "TeamRank": 15,
+    "TeamName": "Team 12",
+    "KillPoints": 304,
+    "RankPoints": 20,
+    "TotalPoints": 324
+  },
+  {
+    "TeamId": 13,
+    "TeamRank": 4,
+    "TeamName": "Team 13",
+    "KillPoints": 720,
+    "RankPoints": 100,
+    "TotalPoints": 820
+  },
+  {
+    "TeamId": 14,
+    "TeamRank": 3,
+    "TeamName": "Team 14",
+    "KillPoints": 816,
+    "RankPoints": 80,
+    "TotalPoints": 896
+  },
+  {
+    "TeamId": 15,
+    "TeamRank": 2,
+    "TeamName": "Team 15",
+    "KillPoints": 928,
+    "RankPoints": 210,
+    "TotalPoints": 1138
+  }
+]
