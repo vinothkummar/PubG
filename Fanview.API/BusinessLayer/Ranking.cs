@@ -187,6 +187,7 @@ namespace Fanview.API.BusinessLayer
             return await Task.FromResult(rankingResult);
 
         }
+
         public Task<Object> GetTournamentRankings()
         {
             var matchRankingCollection = _genericMatchRankingRepository.GetAll("MatchRanking");
@@ -254,6 +255,48 @@ namespace Fanview.API.BusinessLayer
             return Task.FromResult(rankingResult);
           
         }        
+
+        public async Task<IEnumerable<RankingResults>> GetTournamentRankingByDay(int day)
+        {
+            // Run tasks to fetch matches from this day
+            var dailyRankingsTasks = Enumerable.Range(1, 4)
+                .Select(i => GetMatchRankings(i + (4 * (day - 1))));
+            var dailyRankings = await Task.WhenAll(dailyRankingsTasks);
+
+            // Create a dictionary from team name to ranking result.
+            // The ranking result is calculated by combining the stats of all matches in
+            // that day.
+            var teamRankingDict = new Dictionary<string, RankingResults>();
+            foreach (var dailyRanking in dailyRankings)
+            foreach (var matchRanking in dailyRanking)
+            {
+                if (!teamRankingDict.ContainsKey(matchRanking.TeamName))
+                {
+                    teamRankingDict.Add(matchRanking.TeamName, new RankingResults
+                    {
+                        TeamName = matchRanking.TeamName
+                    });
+                }
+                teamRankingDict[matchRanking.TeamName].KillPoints += matchRanking.KillPoints;
+                teamRankingDict[matchRanking.TeamName].RankPoints += matchRanking.RankPoints;
+                teamRankingDict[matchRanking.TeamName].TotalPoints += matchRanking.TotalPoints;
+            }
+
+            // Create a list holding the combined rankings for that day and sort it by total points
+            var teamRanking = teamRankingDict.Values.ToList();
+            teamRanking.Sort((a, b) => b.TotalPoints.CompareTo(a.TotalPoints));
+
+            // Set the team ranking according to the order in which they appear in the sorted list
+            var j = 1;
+            foreach (var team in teamRanking)
+            {
+                team.TeamRank = j.ToString();
+                j++;
+            }
+
+            return teamRanking;
+        }
+
         public async Task<IEnumerable<MatchRanking>> PollAndGetMatchRanking(string matchId)
         {      
                 await _matchSummaryRepository.PollMatchRoundRankingData(matchId);
