@@ -9,8 +9,6 @@ using Fanview.API.Model.LiveModels;
 using Fanview.API.Model;
 using MongoDB.Driver;
 using Fanview.API.Model.ViewModels;
-using System.Globalization;
-using Fanview.API.Utility;
 using Fanview.API.Services.Interface;
 
 namespace Fanview.API.BusinessLayer
@@ -21,11 +19,12 @@ namespace Fanview.API.BusinessLayer
         private ITeamPlayerRepository _teamPlayerRepository;
         private IMatchSummaryRepository _matchSummaryRepository;
         private ITeamLiveStatusRepository _teamLiveStatusRepository;
+        private readonly IPlayerKillRepository _playerKillRepository;
+        private readonly ITeamRankingService _teamRankingService;
         private ICacheService _cacheService;
         private ITeamRepository _teamRepository;
         private IRanking _ranking;      
         private IEventRepository _eventRepository;
-
 
         public LiveStats(ITeamPlayerRepository teamPlayerRepository,
                               ITeamRepository teamRepository,
@@ -34,6 +33,8 @@ namespace Fanview.API.BusinessLayer
                               IEventRepository eventRepository,
                               ICacheService cacheService,
                               ITeamLiveStatusRepository teamLiveStatusRepository,
+                              IPlayerKillRepository playerKillRepository,
+                              ITeamRankingService teamRankingService,
                               ILogger<LiveStats> logger)
         {
             _logger = logger;            
@@ -43,6 +44,8 @@ namespace Fanview.API.BusinessLayer
             _ranking = ranking;                     
             _matchSummaryRepository = matchSummaryRepository;
             _teamLiveStatusRepository = teamLiveStatusRepository;
+            _playerKillRepository = playerKillRepository;
+            _teamRankingService = teamRankingService;
             _cacheService = cacheService;
         }
 
@@ -72,9 +75,23 @@ namespace Fanview.API.BusinessLayer
             return result;
         }
 
-        public Task<object> GetLiveRanking()
+        public async Task<IEnumerable<LiveTeamRanking>> GetLiveRanking()
         {
-            return null;
+            const string cacheKey = "LiveTeamRanking";
+
+            var cached = _cacheService.RetrieveFromCache<IEnumerable<LiveTeamRanking>>(cacheKey);
+            if (cached != null)
+            {
+                return cached;
+            }
+
+            var killList = _playerKillRepository.GetLiveKillList(0);
+            var liveStatus = GetLiveStatus();
+            await Task.WhenAll(killList, liveStatus);
+            
+            var teamRankings = await _teamRankingService.GetTeamRankings(killList.Result, liveStatus.Result);
+            await _cacheService.SaveToCache(cacheKey, teamRankings, 5, 2);
+            return teamRankings;
         }
 
         public async Task<IEnumerable<LiveMatchStatus>> GetLiveStatus()
@@ -136,6 +153,12 @@ namespace Fanview.API.BusinessLayer
             return await Task.FromResult(matchStatusObject);            
         }
 
+
+
+
+        /**
+         * NOT USED: consider them a stub of what have to be implemented
+         * */
         private IEnumerable<TeamRankPoints> GetTeamEliminatedPosition(IEnumerable<LiveEventKill> kills, string matchId, int totalTeamCount)
         {
             var teamPlayers = new List<PlayerAll>();

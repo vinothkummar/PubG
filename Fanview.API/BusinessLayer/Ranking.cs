@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Fanview.API.Model;
 using Fanview.API.BusinessLayer.Contracts;
 using Fanview.API.Repository.Interface;
-using Fanview.API.Repository;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 using Fanview.API.Model.ViewModels;

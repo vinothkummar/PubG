@@ -1,0 +1,178 @@
+﻿[
+  {
+    "Id": "f9b066e3-f077-41c6-b185-d3bc44e6bbc3",
+    "TeamId": 0,
+    "TeamName": "Team 0",
+    "MatchId": "0",
+    "TeamPlayers": [],
+    "AliveCount": 0,
+    "DeadCount": 3,
+    "IsEliminated": true,
+    "EliminatedAt": 1546593548.0
+  },
+  {
+    "Id": "e3389a23-302f-439e-b407-7f034da6a6eb",
+    "TeamId": 1,
+    "TeamName": "Team 1",
+    "MatchId": "0",
+    "TeamPlayers": [],
+    "AliveCount": 2,
+    "DeadCount": 2,
+    "IsEliminated": true,
+    "EliminatedAt": 1546594989.0
+  },
+  {
+    "Id": "46e22dc6-b40c-4358-b41d-c260dcae1d3c",
+    "TeamId": 2,
+    "TeamName": "Team 2",
+    "MatchId": "0",
+    "TeamPlayers": [],
+    "AliveCount": 2,
+    "DeadCount": 1,
+    "IsEliminated": true,
+    "EliminatedAt": 1546593423.0
+  },
+  {
+    "Id": "e38931a8-4819-4e5e-af6f-d9f80250f30c",
+    "TeamId": 3,
+    "TeamName": "Team 3",
+    "MatchId": "0",
+    "TeamPlayers": [],
+    "AliveCount": 3,
+    "DeadCount": 3,
+    "IsEliminated": false,
+    "EliminatedAt": 0.0
+  },
+  {
+    "Id": "072a1fea-cc09-4a88-9677-bfe22ba47f29",
+    "TeamId": 4,
+    "TeamName": "Team 4",
+    "MatchId": "0",
+    "TeamPlayers": [],
+    "AliveCount": 1,
+    "DeadCount": 1,
+    "IsEliminated": false,
+    "EliminatedAt": 0.0
+  },
+  {
+    "Id": "b48e56d3-8ab2-4b2b-9f91-a371feeff703",
+    "TeamId": 5,
+    "TeamName": "Team 5",
+    "MatchId": "0",
+    "TeamPlayers": [],
+    "AliveCount": 1,
+    "DeadCount": 4,
+    "IsEliminated": true,
+    "EliminatedAt": 1546595815.0
+  },
+  {
+    "Id": "44fd01e6-6c0b-478b-b2a8-41a6c4f1722d",
+    "TeamId": 6,
+    "TeamName": "Team 6",
+    "MatchId": "0",
+    "TeamPlayers": [],
+    "AliveCount": 1,
+    "DeadCount": 4,
+    "IsEliminated": false,
+    "EliminatedAt": 0.0
+  },
+  {
+    "Id": "cadfaef3-d2f1-46a3-9288-bf030698c2ca",
+    "TeamId": 7,
+    "TeamName": "Team 7",
+    "MatchId": "0",
+    "TeamPlayers": [],
+    "AliveCount": 0,
+    "DeadCount": 2,
+    "IsEliminated": true,
+    "EliminatedAt": 1546593662.0
+  },
+  {
+    "Id": "23a1dce6-dbf9-4d69-bb86-9df18b2a0f7c",
+    "TeamId": 8,
+    "TeamName": "Team 8",
+    "MatchId": "0",
+    "TeamPlayers": [],
+    "AliveCount": 3,
+    "DeadCount": 4,
+    "IsEliminated": true,
+    "EliminatedAt": 1546595558.0
+  },
+  {
+    "Id": "69ecff42-d3ab-414e-8d75-c7f65b0949bd",
+    "TeamId": 9,
+    "TeamName": "Team 9",
+    "MatchId": "0",
+    "TeamPlayers": [],
+    "AliveCount": 1,
+    "DeadCount": 4,
+    "IsEliminated": true,
+    "EliminatedAt": 1546595710.0
+  },
+  {
+    "Id": "805e16bb-560a-4927-9e1c-41718c29ed23",
+    "TeamId": 10,
+    "TeamName": "Team 10",
+    "MatchId": "0",
+    "TeamPlayers": [],
+    "AliveCount": 1,
+    "DeadCount": 1,
+    "IsEliminated": true,
+    "EliminatedAt": 1546595988.0
+  },
+  {
+    "Id": "0302c5b0-c3f5-4fb2-99fa-2c79a4c1fd65",
+    "TeamId": 11,
+    "TeamName": "Team 11",
+    "MatchId": "0",
+    "TeamPlayers": [],
+    "AliveCount": 3,
+    "DeadCount": 1,
+    "IsEliminated": false,
+    "EliminatedAt": 0.0
+  },
+  {
+    "Id": "49fc1b83-9b1f-4f0e-9c79-72111f961742",
+    "TeamId": 12,
+    "TeamName": "Team 12",
+    "MatchId": "0",
+    "TeamPlayers": [],
+    "AliveCount": 2,
+    "DeadCount": 2,
+    "IsEliminated": true,
+    "EliminatedAt": 1546595813.0
+  },
+  {
+    "Id": "15e21f26-acbf-4e52-8d75-434304f52e5b",
+    "TeamId": 13,
+    "TeamName": "Team 13",
+    "MatchId": "0",
+    "TeamPlayers": [],
+    "AliveCount": 3,
+    "DeadCount": 3,
+    "IsEliminated": true,
+    "EliminatedAt": 1546594783.0
+  },
+  {
+    "Id": "949915ef-8b06-4cfe-8117-b8896bdce873",
+    "TeamId": 14,
+    "TeamName": "Team 14",
+    "MatchId": "0",
+    "TeamPlayers": [],
+    "AliveCount": 2,
+    "DeadCount": 3,
+    "IsEliminated": true,
+    "EliminatedAt": 1546594820.0
+  },
+  {
+    "Id": "15dea445-9a2b-448b-b76d-35db39085f1c",
+    "TeamId": 15,
+    "TeamName": "Team 15",
+    "MatchId": "0",
+    "TeamPlayers": [],
+    "AliveCount": 3,
+    "DeadCount": 1,
+    "IsEliminated": false,
+    "EliminatedAt": 0.0
+  }
+]
