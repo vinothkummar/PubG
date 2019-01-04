@@ -4,7 +4,6 @@ using Fanview.API.Model.LiveModels;
 using Fanview.API.Model.ViewModels;
 using Fanview.API.Repository.Interface;
 using Fanview.API.Services.Interface;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

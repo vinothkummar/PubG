@@ -77,10 +77,21 @@ namespace Fanview.API.BusinessLayer
 
         public async Task<IEnumerable<LiveTeamRanking>> GetLiveRanking()
         {
+            const string cacheKey = "LiveTeamRanking";
+
+            var cached = _cacheService.RetrieveFromCache<IEnumerable<LiveTeamRanking>>(cacheKey);
+            if (cached != null)
+            {
+                return cached;
+            }
+
             var killList = _playerKillRepository.GetLiveKillList(0);
             var liveStatus = GetLiveStatus();
             await Task.WhenAll(killList, liveStatus);
-            return await _teamRankingService.GetTeamRankings(killList.Result, liveStatus.Result);
+            
+            var teamRankings = await _teamRankingService.GetTeamRankings(killList.Result, liveStatus.Result);
+            await _cacheService.SaveToCache(cacheKey, teamRankings, 5, 2);
+            return teamRankings;
         }
 
         public async Task<IEnumerable<LiveMatchStatus>> GetLiveStatus()
