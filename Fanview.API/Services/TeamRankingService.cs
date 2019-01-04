@@ -49,13 +49,14 @@ namespace Fanview.API.Services
             var result = new Dictionary<int, int>();
             foreach (var kill in killLeader.killList)
             {
+                var points = MatchConstants.PointsPerKill * kill.kills;
                 if (result.ContainsKey(kill.teamId))
                 {
-                    result[kill.teamId] += MatchConstants.PointsPerKill;
+                    result[kill.teamId] += points;
                 }
                 else
                 {
-                    result.Add(kill.teamId, MatchConstants.PointsPerKill);
+                    result.Add(kill.teamId, points);
                 }
             }
             return result;

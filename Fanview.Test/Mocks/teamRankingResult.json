@@ -1,0 +1,98 @@
+﻿[
+	{
+		"TeamId": 0,
+		"TeamName": "Team 0",
+		"KillPoints": 256,
+		"PlacementPoints": 150
+	},
+  {
+    "TeamId": 1,
+    "TeamName": "Team 1",
+    "KillPoints": 544,
+    "PlacementPoints": 60
+  },
+	{
+		"TeamId": 2,
+		"TeamName": "Team 2",
+		"KillPoints": 576,
+		"PlacementPoints": 180
+	},
+	{
+		"TeamId": 3,
+		"TeamName": "Team 3",
+		"KillPoints": 944,
+		"PlacementPoints": 210
+	},
+	{
+		"TeamId": 4,
+		"TeamName": "Team 4",
+		"KillPoints": 544,
+		"PlacementPoints": 210
+	},
+	{
+		"TeamId": 5,
+		"TeamName": "Team 5",
+		"KillPoints": 656,
+		"PlacementPoints": 10
+	},
+	{
+		"TeamId": 6,
+		"TeamName": "Team 6",
+		"KillPoints": 464,
+		"PlacementPoints": 210
+	},
+	{
+		"TeamId": 7,
+		"TeamName": "Team 7",
+		"KillPoints": 256,
+		"PlacementPoints": 120
+	},
+	{
+		"TeamId": 8,
+		"TeamName": "Team 8",
+		"KillPoints": 240,
+		"PlacementPoints": 40
+	},
+	{
+		"TeamId": 9,
+		"TeamName": "Team 9",
+		"KillPoints": 592,
+		"PlacementPoints": 30
+	},
+	{
+		"TeamId": 10,
+		"TeamName": "Team 10",
+		"KillPoints": 672,
+		"PlacementPoints": 0
+	},
+	{
+		"TeamId": 11,
+		"TeamName": "Team 11",
+		"KillPoints": 288,
+		"PlacementPoints": 210
+	},
+	{
+		"TeamId": 12,
+		"TeamName": "Team 12",
+		"KillPoints": 304,
+		"PlacementPoints": 20
+	},
+	{
+		"TeamId": 13,
+		"TeamName": "Team 13",
+		"KillPoints": 720,
+		"PlacementPoints": 100
+	},
+	{
+		"TeamId": 14,
+		"TeamName": "Team 14",
+		"KillPoints": 816,
+		"PlacementPoints": 80
+	},
+	{
+		"TeamId": 15,
+		"TeamName": "Team 15",
+		"KillPoints": 928,
+		"PlacementPoints": 210
+	}
+]
