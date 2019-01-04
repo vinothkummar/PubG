@@ -233,6 +233,7 @@ namespace Fanview.API.BusinessLayer
                 }
 
                 matchRanking.PubGOpenApiTeamId = item.PubGOpenApiTeamId;
+                matchRanking.ShortTeamID = item.ShortTeamID;
 
                 matchStandings.Add(matchRanking);
 
@@ -243,7 +244,7 @@ namespace Fanview.API.BusinessLayer
             Object rankingResult = matchStandings.Select(s => new
             {
                 TeamRank = s.TeamRank,
-                TeamId = s.PubGOpenApiTeamId,
+                TeamId = s.ShortTeamID,
                 TeamName = s.TeamName,
                 KillPoints = s.KillPoints,
                 RankPoints = s.RankPoints,
