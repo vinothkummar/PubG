@@ -114,6 +114,8 @@ namespace Fanview.API.Repository
 
                 TeamName = t.Name,
 
+                ShortName = t.ShortName,
+
                 TeamPlayers = tp.Select(s => new { s.TeamIdShort, s.PlayerName, s.PlayerId }).Distinct()
 
             });
@@ -128,6 +130,8 @@ namespace Fanview.API.Repository
                 teamlineup.TeamId = obj.teamid;
 
                 teamlineup.TeamName = obj.TeamName;
+
+                teamlineup.ShortName = obj.ShortName;
 
                 var teamplayer = new List<Participants>();
 
