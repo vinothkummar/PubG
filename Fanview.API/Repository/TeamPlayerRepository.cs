@@ -491,5 +491,18 @@ namespace Fanview.API.Repository
             return liveKilledPlayers;          
             
         }
+
+        public async Task<IEnumerable<TeamPlayer>> GetTeamPlayersNonCached()
+        {
+            _logger.LogInformation("TeamPlayer Repository call started" + Environment.NewLine);
+
+            var players = _genericTeamPlayerRepository.GetAll("TeamPlayers").Result;           
+
+            var teamPlayers = players.OrderBy(o => o.TeamIdShort).ThenBy(t => t.FullName);            
+
+            _logger.LogInformation("TeamPlayer Repository call Ended" + Environment.NewLine);
+
+            return await Task.FromResult(teamPlayers);
+        }
     }
 }

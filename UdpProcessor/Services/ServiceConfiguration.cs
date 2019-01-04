@@ -45,7 +45,7 @@ namespace Fanview.UDPProcessor.Services
                                                          .AddTransient<IAssetsRepository, AssetsRepository>()
                                                          .AddSingleton<IDistributedCache>(cn => new RedisCache(new RedisCacheOptions
                                                          {
-                                                             Configuration = "127.0.0.1:6379,abortConnect=false,connectTimeout=3000,responseTimeout=3000,syncTimeout=3000",
+                                                             Configuration = "10.100.113.91:6379,abortConnect=false,connectTimeout=3000,responseTimeout=3000,syncTimeout=3000",
                                                              InstanceName = "FanviewCaching"
                                                          }))
                                                          //.AddDistributedRedisCache(options =>

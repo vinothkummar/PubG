@@ -31,7 +31,7 @@ namespace Fanview.API.Controllers
             try
             {
                 var result = new List<PlayerAll>();
-                foreach (var item in _teamPlayerRepository.GetTeamPlayers().Result)
+                foreach (var item in _teamPlayerRepository.GetTeamPlayersNonCached().Result)
                 {
                     result.Add(
                     new PlayerAll()
