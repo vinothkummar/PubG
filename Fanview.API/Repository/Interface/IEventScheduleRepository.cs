@@ -9,11 +9,8 @@ namespace Fanview.API.Repository.Interface
 {
     public interface IEventScheduleRepository
     {        
-        Task<EventInfo> GetDailySchedule(string daycount);
+        Task<Competition> GetDailySchedule(string daycount);
+        Task<IEnumerable<Competition>> GetCompetitionSchedule();
 
-        Task<IEnumerable<EventInfo>> GetDailySchedule();
-
-        //Task<object> GetScheduledEvents();
-        
     }
 }
