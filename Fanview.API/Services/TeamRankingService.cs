@@ -4,6 +4,7 @@ using Fanview.API.Model.LiveModels;
 using Fanview.API.Model.ViewModels;
 using Fanview.API.Repository.Interface;
 using Fanview.API.Services.Interface;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,26 +23,34 @@ namespace Fanview.API.Services
         public Task<IEnumerable<LiveTeamRanking>> GetTeamRankings(KillLeader killLeader, 
             IEnumerable<LiveMatchStatus> liveStatus)
         {
-            var result = new List<LiveTeamRanking>();
-            var teamKillPoints = GetTeamKillPoints(killLeader);
-            var teamPlacementPoints = GetTeamPlacementPoints(liveStatus);
-            var teamIdsToNames = GetTeamIdToNameMap(liveStatus);
-            foreach (var teamIdToName in teamIdsToNames)
+            var ranking = new List<LiveTeamRanking>();
+
+            // Set kill, rank and total points
+            var killPoints = GetTeamKillPoints(killLeader);
+            var rankPoints = GetTeamRankPoints(liveStatus);
+            foreach (var team in liveStatus)
             {
-                result.Add(new LiveTeamRanking
+                var rp = rankPoints[team.TeamId];
+                var kp = killPoints[team.TeamId];
+                ranking.Add(new LiveTeamRanking
                 {
-                    TeamId = teamIdToName.Key,
-                    TeamName = teamIdToName.Value,
-                    KillPoints = teamKillPoints[teamIdToName.Key],
-                    PlacementPoints = teamPlacementPoints[teamIdToName.Key]
+                    TeamId = team.TeamId,
+                    TeamName = team.TeamName,
+                    RankPoints = rp,
+                    KillPoints = kp,
+                    TotalPoints = rp + kp
                 });
             }
-            return Task.FromResult(result.AsEnumerable());
-        }
 
-        private IDictionary<int, string> GetTeamIdToNameMap(IEnumerable<LiveMatchStatus> liveStatus)
-        {
-            return liveStatus.ToDictionary(k => k.TeamId, v => v.TeamName);
+            // Sort by total points and set the rank accordingly
+            ranking.Sort((a, b) => b.TotalPoints.CompareTo(a.TotalPoints));
+            var i = 1;
+            foreach (var team in ranking)
+            {
+                team.TeamRank = i++;
+            }
+
+            return Task.FromResult(ranking.AsEnumerable());
         }
 
         private IDictionary<int, int> GetTeamKillPoints(KillLeader killLeader)
@@ -62,7 +71,7 @@ namespace Fanview.API.Services
             return result;
         }
 
-        private IDictionary<int, int> GetTeamPlacementPoints(IEnumerable<LiveMatchStatus> liveStatus)
+        private IDictionary<int, int> GetTeamRankPoints(IEnumerable<LiveMatchStatus> liveStatus)
         {
             var result = new Dictionary<int, int>();
 
