@@ -192,11 +192,11 @@ namespace Fanview.API.BusinessLayer
             var matchRankingCollection = _genericMatchRankingRepository.GetAll("MatchRanking");
             var i = 1;
             var tournamentRankingStandings = matchRankingCollection.Result
-                                        .GroupBy(g => g.ShortTeamID)
+                                        .GroupBy(g => g.TeamName)
                                         .Select(s => new MatchRanking()
                                         {
-                                            PubGOpenApiTeamId = s.Key,                                            
-                                            TeamName = s.FirstOrDefault().TeamName,
+                                            PubGOpenApiTeamId = s.FirstOrDefault().PubGOpenApiTeamId,                                            
+                                            TeamName = s.Key,
                                             KillPoints = s.Sum(a => a.KillPoints),
                                             RankPoints = s.Sum(a => a.RankPoints),
                                             TotalPoints = s.Sum(a => a.TotalPoints)
@@ -244,7 +244,7 @@ namespace Fanview.API.BusinessLayer
             Object rankingResult = matchStandings.Select(s => new
             {
                 TeamRank = s.TeamRank,
-                TeamId = s.ShortTeamID,
+                TeamId = s.PubGOpenApiTeamId,
                 TeamName = s.TeamName,
                 KillPoints = s.KillPoints,
                 RankPoints = s.RankPoints,
