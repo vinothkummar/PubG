@@ -1,0 +1,517 @@
+{
+	"matchId": 0,
+  "killList": [
+    {
+      "playerName": "Player 0",
+      "playerId": 0,
+      "kills": 4,
+      "timeSurvived": 164,
+      "teamId": 0,
+      "DamageDealt": 2948.0
+    },
+    {
+      "playerName": "Player 1",
+      "playerId": 1,
+      "kills": 7,
+      "timeSurvived": 15712,
+      "teamId": 0,
+      "DamageDealt": 585.0
+    },
+    {
+      "playerName": "Player 2",
+      "playerId": 2,
+      "kills": 5,
+      "timeSurvived": 18873,
+      "teamId": 0,
+      "DamageDealt": 3340.0
+    },
+    {
+      "playerName": "Player 3",
+      "playerId": 3,
+      "kills": 0,
+      "timeSurvived": 8291,
+      "teamId": 0,
+      "DamageDealt": 3743.0
+    },
+    {
+      "playerName": "Player 4",
+      "playerId": 4,
+      "kills": 7,
+      "timeSurvived": 1977,
+      "teamId": 1,
+      "DamageDealt": 3251.0
+    },
+    {
+      "playerName": "Player 5",
+      "playerId": 5,
+      "kills": 5,
+      "timeSurvived": 8093,
+      "teamId": 1,
+      "DamageDealt": 3387.0
+    },
+    {
+      "playerName": "Player 6",
+      "playerId": 6,
+      "kills": 10,
+      "timeSurvived": 6157,
+      "teamId": 1,
+      "DamageDealt": 2058.0
+    },
+    {
+      "playerName": "Player 7",
+      "playerId": 7,
+      "kills": 12,
+      "timeSurvived": 7937,
+      "teamId": 1,
+      "DamageDealt": 727.0
+    },
+    {
+      "playerName": "Player 8",
+      "playerId": 8,
+      "kills": 7,
+      "timeSurvived": 10670,
+      "teamId": 2,
+      "DamageDealt": 4682.0
+    },
+    {
+      "playerName": "Player 9",
+      "playerId": 9,
+      "kills": 3,
+      "timeSurvived": 2855,
+      "teamId": 2,
+      "DamageDealt": 1229.0
+    },
+    {
+      "playerName": "Player 10",
+      "playerId": 10,
+      "kills": 19,
+      "timeSurvived": 19510,
+      "teamId": 2,
+      "DamageDealt": 611.0
+    },
+    {
+      "playerName": "Player 11",
+      "playerId": 11,
+      "kills": 7,
+      "timeSurvived": 9931,
+      "teamId": 2,
+      "DamageDealt": 2549.0
+    },
+    {
+      "playerName": "Player 12",
+      "playerId": 12,
+      "kills": 18,
+      "timeSurvived": 9704,
+      "teamId": 3,
+      "DamageDealt": 3494.0
+    },
+    {
+      "playerName": "Player 13",
+      "playerId": 13,
+      "kills": 13,
+      "timeSurvived": 16337,
+      "teamId": 3,
+      "DamageDealt": 2957.0
+    },
+    {
+      "playerName": "Player 14",
+      "playerId": 14,
+      "kills": 18,
+      "timeSurvived": 3890,
+      "teamId": 3,
+      "DamageDealt": 4370.0
+    },
+    {
+      "playerName": "Player 15",
+      "playerId": 15,
+      "kills": 10,
+      "timeSurvived": 200,
+      "teamId": 3,
+      "DamageDealt": 2717.0
+    },
+    {
+      "playerName": "Player 16",
+      "playerId": 16,
+      "kills": 14,
+      "timeSurvived": 11666,
+      "teamId": 4,
+      "DamageDealt": 761.0
+    },
+    {
+      "playerName": "Player 17",
+      "playerId": 17,
+      "kills": 9,
+      "timeSurvived": 17597,
+      "teamId": 4,
+      "DamageDealt": 339.0
+    },
+    {
+      "playerName": "Player 18",
+      "playerId": 18,
+      "kills": 8,
+      "timeSurvived": 11577,
+      "teamId": 4,
+      "DamageDealt": 351.0
+    },
+    {
+      "playerName": "Player 19",
+      "playerId": 19,
+      "kills": 3,
+      "timeSurvived": 19676,
+      "teamId": 4,
+      "DamageDealt": 3056.0
+    },
+    {
+      "playerName": "Player 20",
+      "playerId": 20,
+      "kills": 8,
+      "timeSurvived": 1943,
+      "teamId": 5,
+      "DamageDealt": 1260.0
+    },
+    {
+      "playerName": "Player 21",
+      "playerId": 21,
+      "kills": 12,
+      "timeSurvived": 1588,
+      "teamId": 5,
+      "DamageDealt": 4004.0
+    },
+    {
+      "playerName": "Player 22",
+      "playerId": 22,
+      "kills": 2,
+      "timeSurvived": 19495,
+      "teamId": 5,
+      "DamageDealt": 2195.0
+    },
+    {
+      "playerName": "Player 23",
+      "playerId": 23,
+      "kills": 19,
+      "timeSurvived": 7503,
+      "teamId": 5,
+      "DamageDealt": 3011.0
+    },
+    {
+      "playerName": "Player 24",
+      "playerId": 24,
+      "kills": 16,
+      "timeSurvived": 17021,
+      "teamId": 6,
+      "DamageDealt": 4597.0
+    },
+    {
+      "playerName": "Player 25",
+      "playerId": 25,
+      "kills": 5,
+      "timeSurvived": 14771,
+      "teamId": 6,
+      "DamageDealt": 2455.0
+    },
+    {
+      "playerName": "Player 26",
+      "playerId": 26,
+      "kills": 7,
+      "timeSurvived": 17541,
+      "teamId": 6,
+      "DamageDealt": 1011.0
+    },
+    {
+      "playerName": "Player 27",
+      "playerId": 27,
+      "kills": 1,
+      "timeSurvived": 8866,
+      "teamId": 6,
+      "DamageDealt": 2617.0
+    },
+    {
+      "playerName": "Player 28",
+      "playerId": 28,
+      "kills": 1,
+      "timeSurvived": 9621,
+      "teamId": 7,
+      "DamageDealt": 2797.0
+    },
+    {
+      "playerName": "Player 29",
+      "playerId": 29,
+      "kills": 8,
+      "timeSurvived": 18678,
+      "teamId": 7,
+      "DamageDealt": 478.0
+    },
+    {
+      "playerName": "Player 30",
+      "playerId": 30,
+      "kills": 1,
+      "timeSurvived": 14490,
+      "teamId": 7,
+      "DamageDealt": 4588.0
+    },
+    {
+      "playerName": "Player 31",
+      "playerId": 31,
+      "kills": 6,
+      "timeSurvived": 4607,
+      "teamId": 7,
+      "DamageDealt": 2506.0
+    },
+    {
+      "playerName": "Player 32",
+      "playerId": 32,
+      "kills": 1,
+      "timeSurvived": 5667,
+      "teamId": 8,
+      "DamageDealt": 3598.0
+    },
+    {
+      "playerName": "Player 33",
+      "playerId": 33,
+      "kills": 2,
+      "timeSurvived": 7442,
+      "teamId": 8,
+      "DamageDealt": 575.0
+    },
+    {
+      "playerName": "Player 34",
+      "playerId": 34,
+      "kills": 10,
+      "timeSurvived": 15042,
+      "teamId": 8,
+      "DamageDealt": 176.0
+    },
+    {
+      "playerName": "Player 35",
+      "playerId": 35,
+      "kills": 2,
+      "timeSurvived": 13281,
+      "teamId": 8,
+      "DamageDealt": 1040.0
+    },
+    {
+      "playerName": "Player 36",
+      "playerId": 36,
+      "kills": 11,
+      "timeSurvived": 3456,
+      "teamId": 9,
+      "DamageDealt": 143.0
+    },
+    {
+      "playerName": "Player 37",
+      "playerId": 37,
+      "kills": 8,
+      "timeSurvived": 15751,
+      "teamId": 9,
+      "DamageDealt": 4201.0
+    },
+    {
+      "playerName": "Player 38",
+      "playerId": 38,
+      "kills": 14,
+      "timeSurvived": 6573,
+      "teamId": 9,
+      "DamageDealt": 533.0
+    },
+    {
+      "playerName": "Player 39",
+      "playerId": 39,
+      "kills": 4,
+      "timeSurvived": 11441,
+      "teamId": 9,
+      "DamageDealt": 3269.0
+    },
+    {
+      "playerName": "Player 40",
+      "playerId": 40,
+      "kills": 6,
+      "timeSurvived": 14020,
+      "teamId": 10,
+      "DamageDealt": 2991.0
+    },
+    {
+      "playerName": "Player 41",
+      "playerId": 41,
+      "kills": 13,
+      "timeSurvived": 17819,
+      "teamId": 10,
+      "DamageDealt": 204.0
+    },
+    {
+      "playerName": "Player 42",
+      "playerId": 42,
+      "kills": 8,
+      "timeSurvived": 9615,
+      "teamId": 10,
+      "DamageDealt": 3253.0
+    },
+    {
+      "playerName": "Player 43",
+      "playerId": 43,
+      "kills": 15,
+      "timeSurvived": 3961,
+      "teamId": 10,
+      "DamageDealt": 3103.0
+    },
+    {
+      "playerName": "Player 44",
+      "playerId": 44,
+      "kills": 1,
+      "timeSurvived": 5770,
+      "teamId": 11,
+      "DamageDealt": 2276.0
+    },
+    {
+      "playerName": "Player 45",
+      "playerId": 45,
+      "kills": 9,
+      "timeSurvived": 10872,
+      "teamId": 11,
+      "DamageDealt": 2524.0
+    },
+    {
+      "playerName": "Player 46",
+      "playerId": 46,
+      "kills": 7,
+      "timeSurvived": 18120,
+      "teamId": 11,
+      "DamageDealt": 3455.0
+    },
+    {
+      "playerName": "Player 47",
+      "playerId": 47,
+      "kills": 1,
+      "timeSurvived": 17205,
+      "teamId": 11,
+      "DamageDealt": 4085.0
+    },
+    {
+      "playerName": "Player 48",
+      "playerId": 48,
+      "kills": 1,
+      "timeSurvived": 13571,
+      "teamId": 12,
+      "DamageDealt": 3805.0
+    },
+    {
+      "playerName": "Player 49",
+      "playerId": 49,
+      "kills": 7,
+      "timeSurvived": 12216,
+      "teamId": 12,
+      "DamageDealt": 4684.0
+    },
+    {
+      "playerName": "Player 50",
+      "playerId": 50,
+      "kills": 1,
+      "timeSurvived": 16634,
+      "teamId": 12,
+      "DamageDealt": 4508.0
+    },
+    {
+      "playerName": "Player 51",
+      "playerId": 51,
+      "kills": 10,
+      "timeSurvived": 15221,
+      "teamId": 12,
+      "DamageDealt": 3556.0
+    },
+    {
+      "playerName": "Player 52",
+      "playerId": 52,
+      "kills": 19,
+      "timeSurvived": 17307,
+      "teamId": 13,
+      "DamageDealt": 3355.0
+    },
+    {
+      "playerName": "Player 53",
+      "playerId": 53,
+      "kills": 11,
+      "timeSurvived": 14606,
+      "teamId": 13,
+      "DamageDealt": 4305.0
+    },
+    {
+      "playerName": "Player 54",
+      "playerId": 54,
+      "kills": 8,
+      "timeSurvived": 16157,
+      "teamId": 13,
+      "DamageDealt": 916.0
+    },
+    {
+      "playerName": "Player 55",
+      "playerId": 55,
+      "kills": 7,
+      "timeSurvived": 6434,
+      "teamId": 13,
+      "DamageDealt": 4873.0
+    },
+    {
+      "playerName": "Player 56",
+      "playerId": 56,
+      "kills": 12,
+      "timeSurvived": 4804,
+      "teamId": 14,
+      "DamageDealt": 2495.0
+    },
+    {
+      "playerName": "Player 57",
+      "playerId": 57,
+      "kills": 19,
+      "timeSurvived": 17805,
+      "teamId": 14,
+      "DamageDealt": 3925.0
+    },
+    {
+      "playerName": "Player 58",
+      "playerId": 58,
+      "kills": 15,
+      "timeSurvived": 5530,
+      "teamId": 14,
+      "DamageDealt": 3330.0
+    },
+    {
+      "playerName": "Player 59",
+      "playerId": 59,
+      "kills": 5,
+      "timeSurvived": 12144,
+      "teamId": 14,
+      "DamageDealt": 4203.0
+    },
+    {
+      "playerName": "Player 60",
+      "playerId": 60,
+      "kills": 14,
+      "timeSurvived": 468,
+      "teamId": 15,
+      "DamageDealt": 1061.0
+    },
+    {
+      "playerName": "Player 61",
+      "playerId": 61,
+      "kills": 14,
+      "timeSurvived": 14110,
+      "teamId": 15,
+      "DamageDealt": 4349.0
+    },
+    {
+      "playerName": "Player 62",
+      "playerId": 62,
+      "kills": 14,
+      "timeSurvived": 11412,
+      "teamId": 15,
+      "DamageDealt": 1831.0
+    },
+    {
+      "playerName": "Player 63",
+      "playerId": 63,
+      "kills": 16,
+      "timeSurvived": 9879,
+      "teamId": 15,
+      "DamageDealt": 2637.0
+    }
+  ]
+}
