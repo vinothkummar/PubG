@@ -19,6 +19,7 @@ namespace Fanview.API.BusinessLayer
         private IGenericRepository<RankPoints> _genericRankPointsRepository;
         private IGenericRepository<MatchRanking> _genericMatchRankingRepository;
         private IGenericRepository<TeamRanking> _genericTeamRankingRepository;
+        private IGenericRepository<Team> _genericTeamRepository;
         private ITeamRepository _teamRepository;
         private ITeamPlayerRepository _teamPlayerRespository;
         private IGenericRepository<Event> _tournament;
@@ -28,6 +29,7 @@ namespace Fanview.API.BusinessLayer
                        IGenericRepository<RankPoints> genericRankPointsRepository,
                        IGenericRepository<MatchRanking> genericMatchRankingRepository,
                        IGenericRepository<TeamRanking> genericTeamRankingRepository,
+                       IGenericRepository<Team> genericTeamRepository,
                        ITeamRepository teamRepository,
                        ITeamPlayerRepository teamPlayerRepository, 
                        IGenericRepository<Event> tournament)
@@ -38,6 +40,7 @@ namespace Fanview.API.BusinessLayer
             _genericRankPointsRepository = genericRankPointsRepository;
             _genericMatchRankingRepository = genericMatchRankingRepository;
             _genericTeamRankingRepository = genericTeamRankingRepository;
+            _genericTeamRepository = genericTeamRepository;
             _teamRepository = teamRepository;
             _teamPlayerRespository = teamPlayerRepository;
             _tournament = tournament;
@@ -134,6 +137,9 @@ namespace Fanview.API.BusinessLayer
         }
         public async Task<IEnumerable<RankingResults>> GetMatchRankings(int matchId)
         {
+            var teamCollection = _genericTeamRepository.GetMongoDbCollection("Team");
+            var teams = await _genericTeamRepository.GetAll("Team");
+
             var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
 
             var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
@@ -147,6 +153,12 @@ namespace Fanview.API.BusinessLayer
             var matchStandings = new List<MatchRanking>();
             foreach (var item in matchRankingScore.Result)
             {
+                var team = teams.FirstOrDefault(t => t.Name == item.TeamName);
+                if (team == null)
+                {
+                    throw new Exception($"Couldn't find a team with name: {item.TeamName} in Team collection.");
+                }
+
                 var matchRanking = new MatchRanking();
                     matchRanking.MatchId = item.MatchId;
                     matchRanking.TeamId = item.TeamId;
@@ -154,7 +166,7 @@ namespace Fanview.API.BusinessLayer
                     matchRanking.KillPoints = item.KillPoints;
                     matchRanking.RankPoints = item.RankPoints;
                     matchRanking.TotalPoints = item.TotalPoints;
-                    matchRanking.ShortTeamID = item.ShortTeamID;
+                    matchRanking.ShortTeamID = team.TeamId;
 
                 if (matchStandings.Where(cn => cn.TotalPoints == item.TotalPoints).Count() > 0) {
                     i = i - 1;
@@ -173,6 +185,7 @@ namespace Fanview.API.BusinessLayer
                 matchStandings.Add(matchRanking);
             }
 
+
             var rankingResult = matchStandings.Select(s => new RankingResults()
             {
                 TeamRank = s.TeamRank,
@@ -184,11 +197,13 @@ namespace Fanview.API.BusinessLayer
             }).OrderByDescending(o => o.TotalPoints).ThenByDescending(t => t.KillPoints);
 
             return await Task.FromResult(rankingResult);
-
         }
 
-        public Task<Object> GetTournamentRankings()
+        public async Task<Object> GetTournamentRankings()
         {
+            var teamCollection = _genericTeamRepository.GetMongoDbCollection("Team");
+            var teams = await _genericTeamRepository.GetAll("Team");
+
             var matchRankingCollection = _genericMatchRankingRepository.GetAll("MatchRanking");
             var i = 1;
             var tournamentRankingStandings = matchRankingCollection.Result
@@ -210,9 +225,15 @@ namespace Fanview.API.BusinessLayer
 
           
 
-              var matchStandings = new List<MatchRanking>();
+            var matchStandings = new List<MatchRanking>();
             foreach (var item in tournamentRankingStandings)
             {
+                var team = teams.FirstOrDefault(t => t.Name == item.TeamName);
+                if (team == null)
+                {
+                    throw new Exception($"Couldn't find a team with name: {item.TeamName} in Team collection.");
+                }
+
                 var matchRanking = new MatchRanking();
                 matchRanking.MatchId = item.MatchId;
                 matchRanking.TeamId = item.TeamId;
@@ -233,7 +254,7 @@ namespace Fanview.API.BusinessLayer
                 }
 
                 matchRanking.PubGOpenApiTeamId = item.PubGOpenApiTeamId;
-                matchRanking.ShortTeamID = item.ShortTeamID;
+                matchRanking.ShortTeamID = team.TeamId;
 
                 matchStandings.Add(matchRanking);
 
@@ -244,7 +265,7 @@ namespace Fanview.API.BusinessLayer
             Object rankingResult = matchStandings.Select(s => new
             {
                 TeamRank = s.TeamRank,
-                TeamId = s.PubGOpenApiTeamId,
+                TeamId = s.ShortTeamID,
                 TeamName = s.TeamName,
                 KillPoints = s.KillPoints,
                 RankPoints = s.RankPoints,
