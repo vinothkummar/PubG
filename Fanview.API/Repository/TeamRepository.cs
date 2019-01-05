@@ -231,7 +231,7 @@ namespace Fanview.API.Repository
 
             var matchstat = await matchstats.FindAsync(Builders<MatchPlayerStats>.Filter.Where(cn => cn.MatchId == tournamentMatchId)).Result.ToListAsync();
 
-            var teamStats = matchstat.Join(teams, ms => ms.ShortTeamId, t => t.TeamId, (ms, t) => new { ms, t })
+            var teamStats = matchstat.Join(teams, ms => ms.TeamId, t => t.Id, (ms, t) => new { ms, t })
                                           .Select(s => new
                                           {
                                               MatchId = s.ms.MatchId,
