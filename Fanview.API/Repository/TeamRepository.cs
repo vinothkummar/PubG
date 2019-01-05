@@ -396,17 +396,19 @@ namespace Fanview.API.Repository
             return await Task.FromResult(teamStandings);
         }
 
-        public Task<TeamLanding> GetTeamLanding(int matchId)
+        public async Task<TeamLanding> GetTeamLanding(int matchId)
         {
             var teams = _team.GetMongoDbCollection("Team").AsQueryable();
 
-            var teamPlayers = _teamPlayers.GetMongoDbCollection("TeamPlayers").AsQueryable();
+            var teamPlayersCollection = _teamPlayers.GetMongoDbCollection("TeamPlayers");
 
             var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
 
             var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
 
-            var veichelLanding = _vehicleLeave.GetMongoDbCollection("VehicleLeave").AsQueryable().Where(c=>c.MatchId == tournamentMatchId && c.Vehicle.VehicleType== "Parachute" && c.RideDistance != 0).ToList();
+            var vehicleLandingCollection = _vehicleLeave.GetMongoDbCollection("VehicleLeave");
+            var vehicleLandingsQuery = await vehicleLandingCollection.FindAsync(Builders<VehicleLeave>.Filter.Where(c => c.MatchId == tournamentMatchId && c.Vehicle.VehicleType == "Parachute" && c.RideDistance != 0));
+            var vehicleLandings = await vehicleLandingsQuery.ToListAsync();
 
             var response = new TeamLanding();
 
@@ -416,36 +418,38 @@ namespace Fanview.API.Repository
 
             response.MapName = _matchRepository.GetMapName(tournamentMatchId).Result;
 
+
+
             foreach (var q in teams.OrderBy(o=>o.Name))
             {
-                var vl = veichelLanding.Where(o => o.Character.TeamId == q.TeamId && o.Vehicle.VehicleType == "Parachute").ToList();
-                if (vl.Any())
+                var playersQuery = await teamPlayersCollection.FindAsync(Builders<TeamPlayer>.Filter.Where(tp => tp.TeamId == q.Id));
+                var players = await playersQuery.ToListAsync();
+                var playerNames = players.Select(p => p.PlayerName);
+                var filteredLandings = vehicleLandings.Where(vl => playerNames.Contains(vl.Character.Name));
+
+                if (filteredLandings.Any())
                 {
-                    var tp = teamPlayers.Where(o=>o.TeamIdShort == q.TeamId);
                     landing.Add(new Landing()
                     {
                         TeamID = q.TeamId,
                         TeamName = q.Name,
-                        Players = vl.Select(s => new LiveVeichleTeamPlayers()
+                        Players = filteredLandings.Select(s => new LiveVeichleTeamPlayers()
                         {
                             PlayerName = s.Character.Name,
-                            PlayerId = tp.FirstOrDefault(o => o.PlayerName == s.Character.Name)?.PlayerId,
+                            PlayerId = players.FirstOrDefault(p => p.PlayerName == s.Character.Name)?.PlayerId,
                             location = new LiveLocation()
                             {
                                 X = s.Character.Location.x,
                                 Y = s.Character.Location.y,
                                 Z = s.Character.Location.z,
                             }
-
                         })
                     });
                 }
             }
             response.Landing = landing;
 
-
-
-            return Task.FromResult(response);
+            return response;
         }
         public async Task<IEnumerable<Team>> GetTeams()
         {
