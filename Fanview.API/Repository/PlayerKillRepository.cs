@@ -488,25 +488,32 @@ namespace Fanview.API.Repository
             return killLeaders;
         }
 
-        public Task<Object> GetKillZone(int matchId)
+        public async Task<Object> GetKillZone(int matchId)
         {
-            var playerKilledFromOpenApi = GetPlayerKilled(matchId).Result.Select(s => new KillZone() {
+            var playerKilled = await GetPlayerKilled(matchId);
+            var teams = await _teamRepository.GetAllTeam();
+            
+            var killZone = new List<KillZone>();
+            foreach (var kill in playerKilled)
+            {
+                var team = teams.FirstOrDefault(t => t.TeamPlayer.Any(p => p.PlayerName == kill.Victim.Name));
 
-                MatchId = s.MatchId,
-                PlayerId = _teamPlayerRepository.GetTeamPlayers().Result.FirstOrDefault(cn => cn.PlayerName == s.Victim.Name).PlayerId,
-                PlayerName = s.Victim.Name,
-                TeamId = s.Victim.TeamId,
-                Location = s.Victim.Location
-            });
+                killZone.Add(new KillZone()
+                {
+                    MatchId = kill.MatchId,
+                    PlayerId = team.TeamPlayer.FirstOrDefault(tp => tp.PlayerName == kill.Victim.Name).PlayerId,
+                    PlayerName = kill.Victim.Name,
+                    TeamId = team.TeamId,
+                    Location = kill.Victim.Location
+                });
+            }
 
-            Object killLocationData = new
+            var killLocationData = new
             {
                 MapName = _matchRepository.GetMapName(_eventRepository.GetTournamentMatchIdNotCached(matchId).Result).Result,
-                KillLocation = playerKilledFromOpenApi
-               
+                KillLocation = killZone
             };
-
-            return Task.FromResult(killLocationData);
+            return killLocationData;
         }
 
         public async void InsertLiveKillEventTelemetry(JObject[] jsonResult, string fileName, DateTime eventTime)
