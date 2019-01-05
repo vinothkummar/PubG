@@ -47,9 +47,10 @@ namespace Fanview.API.BusinessLayer
             _logger = logger;
         }
 
-        public Task<TeamRoute> GetTeamRoute(int matchId)
+        public async Task<TeamRoute> GetTeamRoute(int matchId)
         {
-            var teams = _team.GetMongoDbCollection("Team").AsQueryable();
+            var teamsCollection = _team.GetMongoDbCollection("Team");
+            var teams = await _team.GetAll("Team");
 
             var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
 
@@ -128,7 +129,6 @@ namespace Fanview.API.BusinessLayer
                                           TeamRoute = s.Select(a => a.pl.Location)
                                       });
 
-
             var teamRoute = new TeamRoute();
 
             teamRoute.MatchId = matchId;
@@ -153,9 +153,10 @@ namespace Fanview.API.BusinessLayer
                     });
                 }
 
+                var team = teams.FirstOrDefault(t => t.Name == item.TeamName);
                 var route = new Route();
 
-                route.TeamId = item.TeamId;
+                route.TeamId = team.TeamId;
                 route.TeamName = item.TeamName;
                 route.TeamRank = item.TeamRank;
                 route.PlayerName = item.PlayerName;
@@ -166,7 +167,7 @@ namespace Fanview.API.BusinessLayer
                 teamRoute.Route = routes.OrderBy(o => o.TeamRank).ToList();
             }
 
-            return Task.FromResult(teamRoute);
+            return teamRoute;
            
         }
     }
