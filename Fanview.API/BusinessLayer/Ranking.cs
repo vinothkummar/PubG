@@ -294,6 +294,7 @@ namespace Fanview.API.BusinessLayer
                 {
                     teamRankingDict.Add(matchRanking.TeamName, new RankingResults
                     {
+                        TeamId = matchRanking.TeamId,
                         TeamName = matchRanking.TeamName
                     });
                 }
