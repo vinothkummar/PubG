@@ -196,7 +196,7 @@ namespace Fanview.API.BusinessLayer
                 TotalPoints = s.TotalPoints,
             }).OrderByDescending(o => o.TotalPoints).ThenByDescending(t => t.KillPoints);
 
-            return await Task.FromResult(rankingResult);
+            return rankingResult;
         }
 
         public async Task<Object> GetTournamentRankings()
@@ -273,8 +273,7 @@ namespace Fanview.API.BusinessLayer
 
             });
 
-            return Task.FromResult(rankingResult);
-          
+            return rankingResult;
         }        
 
         public async Task<IEnumerable<RankingResults>> GetTournamentRankingByDay(int day)
