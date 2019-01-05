@@ -268,10 +268,12 @@ namespace Fanview.API.Repository
             {
                 _logger.LogInformation("GetLivePlayerKilled Repository call started" + Environment.NewLine);
 
-               
-                var tournamentMatchId = _eventRepository.GetTournamentLiveMatch().Result;
 
-                var response = _LiveEventKill.GetAll("LiveEventKill").Result.Where(cn => cn.MatchId == tournamentMatchId);
+                //var tournamentMatchId = _eventRepository.GetTournamentLiveMatch().Result;
+
+                //var response = _LiveEventKill.GetAll("LiveEventKill").Result.Where(cn => cn.MatchId == tournamentMatchId);
+
+                var response = _LiveEventKill.GetAll("LiveEventKill").Result.Where(cn => cn.IsGroggy == false);
 
                 await _cacheService.SaveToCache<IEnumerable<LiveEventKill>>("LiveEventKilledCache", response, 5, 2);
                 
@@ -589,7 +591,7 @@ namespace Fanview.API.Repository
 
         private void CreateMatch(DateTime dateTime)
         {
-            _matchId = _matchId.Split(".").ElementAtOrDefault(9);
+            _matchId = _matchId.Split(".").Last();
 
             var tournamentMatch = _eventRepository.FindEvent(_matchId).Result;
 
@@ -676,5 +678,6 @@ namespace Fanview.API.Repository
 
             return killMessage;
         }
+               
     }
 }

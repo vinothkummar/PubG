@@ -51,7 +51,7 @@ namespace Fanview.API.BusinessLayer
 
         public async Task<object> GetLiveMatchStatus()
         {
-            var liveMatchStatus = await  _teamLiveStatusRepository.GetEventLiveMatchStatus(await _eventRepository.GetTournamentLiveMatch());
+            var liveMatchStatus = await  _teamLiveStatusRepository.GetEventLiveMatchStatus();
 
             var result = new
             {

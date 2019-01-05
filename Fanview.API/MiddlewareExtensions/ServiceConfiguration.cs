@@ -45,11 +45,11 @@ namespace Fanview.API.MiddlewareExtensions
             services.AddTransient<ITeamStats, TeamStats>();
             services.AddSingleton(typeof(ILiveRepository), typeof(LiveRepository));
             services.AddTransient<ILiveStats, LiveStats>();
-            services.AddTransient<IMatchManagementRepository, MatchManagementRepository>();
+            services.AddSingleton<IMatchManagementRepository, MatchManagementRepository>();
             services.AddTransient<ITeamLiveStatusRepository, TeamLiveStatusRepository>();
             services.AddTransient<IAssetsRepository, AssetsRepository>();
             services.AddSingleton<IDistributedCache>(serviceProvider => new RedisCache(new RedisCacheOptions {
-                Configuration = "10.100.113.91:6379,abortConnect=false,connectTimeout=3000,responseTimeout=3000,syncTimeout=3000",
+                Configuration = "127.0.0.1:6379,abortConnect=false,connectTimeout=3000,responseTimeout=3000,syncTimeout=3000",
                 InstanceName =  "FanviewCaching"
             }));
             services.AddSingleton<ITeamRankingService, TeamRankingService>();

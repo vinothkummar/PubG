@@ -30,6 +30,7 @@ namespace Fanview.API.Repository
         private IGenericRepository<PlayerPoition> _playerPositionRepository;
         private readonly IGenericRepository<TeamRanking> _teamRankingRepository;
         private IGenericRepository<VehicleLeave> _vehicleLeaveRepository;
+        private IGenericRepository<EventLiveMatchStatus> _eventMatchStatusRepository;
         private ILogger<MatchManagementRepository> _logger;
 
         public MatchManagementRepository(IGenericRepository<Event> tournamentRepository, IClientBuilder httpClientBuilder,
@@ -39,6 +40,7 @@ namespace Fanview.API.Repository
                                     IGenericRepository<MatchPlayerStats> matchPlayerStatsRepository, IGenericRepository<MatchSafeZone> matchSafeZoneRepository,
                                     IGenericRepository<CreatePlayer> createPlayerRepository, IGenericRepository<PlayerPoition> playerPositionRepository,
                                     IGenericRepository<TeamRanking> teamRankingRepository, IGenericRepository<VehicleLeave> vehicleLeaveRepository,
+                                    IGenericRepository<EventLiveMatchStatus> eventMatchStatusRepository,
                                     ILogger<MatchManagementRepository> logger)
         {
             _tournamentRepository = tournamentRepository;
@@ -55,6 +57,7 @@ namespace Fanview.API.Repository
             _playerPositionRepository = playerPositionRepository;
             _teamRankingRepository = teamRankingRepository;
             _vehicleLeaveRepository = vehicleLeaveRepository;
+            _eventMatchStatusRepository = eventMatchStatusRepository;
             _logger = logger;
         }
 
@@ -169,6 +172,50 @@ namespace Fanview.API.Repository
                     "CollectionName".WithValue("MatchSummary"),
                     "DocumentDeleteCount".WithValue(matchSummaryResponse.Result.DeletedCount),
                     "CompletedSuccessfully".WithValue(matchSummaryResponse.IsCompletedSuccessfully))
+            };
+
+            mongoDeletedCollection.Result = deletedColletionInfo;
+
+            return mongoDeletedCollection;
+        }
+
+        public dynamic DeleteLiveDataDocument()
+        {
+            var liveEventMatchStatusFilter = Builders<EventLiveMatchStatus>.Filter.Empty;
+
+            var liveEventMatchStatusResponse = _eventMatchStatusRepository.DeleteMany(liveEventMatchStatusFilter, "EventMatchStatus");
+
+            var liveEventKillFilter = Builders<LiveEventKill>.Filter.Empty;
+
+            var liveEventKillResponse = _liveEventKillRepository.DeleteMany(liveEventKillFilter, "LiveEventKill");
+
+            var eventDamageFilter = Builders<EventDamage>.Filter.Empty;
+
+            var eventDamageResponse = _eventDamageRepository.DeleteMany(eventDamageFilter, "LiveEventDamage");
+
+            var liveMatchStatusFilter = Builders<LiveMatchStatus>.Filter.Empty;
+
+            var liveMatchStatusResponse = _liveMatchStatusRepository.DeleteMany(liveMatchStatusFilter, "TeamLiveStatus");
+            
+            dynamic mongoDeletedCollection = new ExpandoObject();
+
+            List<dynamic> deletedColletionInfo = new List<dynamic>() {
+                new ExpandoObject().Init(
+                    "CollectionName".WithValue("EventMatchStatus"),
+                    "DocumentDeleteCount".WithValue(liveEventMatchStatusResponse.Result.DeletedCount),
+                    "CompletedSuccessfully".WithValue(liveEventMatchStatusResponse.IsCompletedSuccessfully)),
+                new ExpandoObject().Init(
+                    "CollectionName".WithValue("LiveEventKill"),
+                    "DocumentDeleteCount".WithValue(liveEventKillResponse.Result.DeletedCount),
+                    "CompletedSuccessfully".WithValue(liveEventKillResponse.IsCompletedSuccessfully)),
+                new ExpandoObject().Init(
+                    "CollectionName".WithValue("LiveEventDamage"),
+                    "DocumentDeleteCount".WithValue(eventDamageResponse.Result.DeletedCount),
+                    "CompletedSuccessfully".WithValue(eventDamageResponse.IsCompletedSuccessfully)),
+                new ExpandoObject().Init(
+                    "CollectionName".WithValue("TeamLiveStatus"),
+                    "DocumentDeleteCount".WithValue(liveMatchStatusResponse.Result.DeletedCount),
+                    "CompletedSuccessfully".WithValue(liveMatchStatusResponse.IsCompletedSuccessfully))
             };
 
             mongoDeletedCollection.Result = deletedColletionInfo;

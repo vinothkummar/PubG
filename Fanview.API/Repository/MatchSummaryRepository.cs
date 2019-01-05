@@ -597,11 +597,16 @@ namespace Fanview.API.Repository
 
         public async Task<IEnumerable<LiveMatchStatus>> GetLiveMatchStatus()
         {           
-            var tournamentMatchId = _eventRepository.GetTournamentLiveMatch().Result;
+            //this line is commented due to we have issues on getting the match Id while on live
+            //so; its going to be always the current match
+           // var tournamentMatchId = _eventRepository.GetTournamentLiveMatch().Result;
 
+            
             var matchStatus = _genericLiveMatchStatusRepository.GetMongoDbCollection("TeamLiveStatus");
 
-            var teamStatus = matchStatus.FindAsync(Builders<LiveMatchStatus>.Filter.Where(cn => cn.MatchId == tournamentMatchId)).Result.ToListAsync();
+            // var teamStatus = matchStatus.FindAsync(Builders<LiveMatchStatus>.Filter.Where(cn => cn.MatchId == tournamentMatchId)).Result.ToListAsync();
+
+            var teamStatus = matchStatus.FindAsync(Builders<LiveMatchStatus>.Filter.Empty).Result.ToListAsync();
 
             return await teamStatus;
         }

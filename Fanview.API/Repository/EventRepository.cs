@@ -17,20 +17,23 @@ namespace Fanview.API.Repository
        
         private ICacheService _cacheService;
         private IGenericRepository<Event> _tournamentRepository;
+        private readonly IMatchManagementRepository _matchManagementRepository;
         private ILogger<EventRepository> _logger;
         private IMongoCollection<Event> tournamentsDb;
 
-        public EventRepository( ICacheService cacheService, IGenericRepository<Event> tournamentRepository, ILogger<EventRepository> logger)
+        public EventRepository( ICacheService cacheService, IGenericRepository<Event> tournamentRepository,
+            IMatchManagementRepository matchManagementRepository, ILogger<EventRepository> logger)
         {   
             _cacheService = cacheService;
             _tournamentRepository = tournamentRepository;
+            _matchManagementRepository = matchManagementRepository;
             _logger = logger;
             tournamentsDb = _tournamentRepository.GetMongoDbCollection("TournamentMatchId");
         }
 
         public void CreateAnEvent(Event newMatch)
         {
-           
+            _matchManagementRepository.DeleteLiveDataDocument();
             _tournamentRepository.Insert(newMatch, "TournamentMatchId");
         }
 

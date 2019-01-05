@@ -17,7 +17,7 @@ namespace Fanview.API.Repository.Interface
 
         void CreateEventLiveMatchStatus(IEnumerable<EventLiveMatchStatus> eventLiveMatchStatus);
 
-        Task<EventLiveMatchStatus> GetEventLiveMatchStatus(string matchId);
+        Task<EventLiveMatchStatus> GetEventLiveMatchStatus();
 
     }
 }
