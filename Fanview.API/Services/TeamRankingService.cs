@@ -30,7 +30,12 @@ namespace Fanview.API.Services
             foreach (var team in liveStatus)
             {
                 var rp = rankPoints[team.TeamId];
-                var kp = killPoints[team.TeamId];
+                var kp = 0;
+                if (killPoints.ContainsKey(team.TeamId))
+                {
+                    kp = killPoints[team.TeamId];
+                }
+
                 ranking.Add(new LiveTeamRanking
                 {
                     TeamId = team.TeamId,
