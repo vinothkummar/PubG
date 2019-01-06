@@ -23,6 +23,8 @@ namespace Fanview.API.Repository
         private IGenericRepository<TeamPlayer> _genericTeamPlayerRepository;
         private IGenericRepository<MatchRanking> _genericMatchRankingRepository;
         private IGenericRepository<LiveMatchStatus> _genericLiveMatchStatusRepository;
+        private IMatchManagementRepository _matchManagementRepository;
+        private IMatchManagementRepository matchManagementRepository;
         private ITeamRepository _teamRepository;
         private IGenericRepository<Event> _tournament;
         private ITeamPlayerRepository _teamPlayerRepository;
@@ -45,6 +47,7 @@ namespace Fanview.API.Repository
                                       IGenericRepository<MatchRanking> genericMatchRankingRepository,
                                       IGenericRepository<LiveMatchStatus> genericLiveMatchStatusRepository,
                                       IGenericRepository<Event> tournament,
+                                      IMatchManagementRepository matchManagementRepository,
                                       ITeamRepository teamRepository,
                                       ITeamPlayerRepository teamPlayerRepository,
                                       IPlayerKillRepository playerKillRepository,
@@ -60,6 +63,7 @@ namespace Fanview.API.Repository
             _genericTeamPlayerRepository = genericTeamPlayerRepository;
             _genericMatchRankingRepository = genericMatchRankingRepository;
             _genericLiveMatchStatusRepository = genericLiveMatchStatusRepository;
+            _matchManagementRepository = matchManagementRepository;
             _teamRepository = teamRepository;
             _tournament = tournament;
             _teamPlayerRepository = teamPlayerRepository;
@@ -354,7 +358,7 @@ namespace Fanview.API.Repository
             {
 
                 IsDetailStatus = (bool)s["isDetailStatus"],
-                MatchId = s["matchId"].ToString().Split('.').Last(),
+                MatchId = "FanviewdummyMatchId",                                       //s["matchId"].ToString().Split('.').Last(), this piece of code changed to avoid creating a new set of team if the match join changed in the middle
                 TeamMode = (string)s["teamMode"],
                 CameraMode = (string)s["camerMode"],
                 MatchState = (string)s["matchState"],
@@ -444,11 +448,9 @@ namespace Fanview.API.Repository
                                 {
                                     var teamCurrentStatus = _genericLiveMatchStatusRepository.GetMongoDbCollection("TeamLiveStatus");
 
-                                    teamLiveStatus = await teamCurrentStatus.FindAsync(Builders<LiveMatchStatus>.Filter.Where(cn => cn.MatchId == tournamentMatchId)).Result.ToListAsync();
+                                    teamLiveStatus = await teamCurrentStatus.FindAsync(Builders<LiveMatchStatus>.Filter.Empty).Result.ToListAsync();
 
                                     //isTeamElimnated = false;
-
-
                                 }
 
                                
@@ -468,14 +470,13 @@ namespace Fanview.API.Repository
         }
        
         private async Task<IEnumerable<LiveMatchStatus>> CreateMatchLiveStatus(IEnumerable<EventLiveMatchStatus> matchStatus, string matchId)
-        {
+        {                      
+
             var teamPlayers = await _teamPlayerRepository.GetTeamPlayers();
 
-            var liveMatchStatus = _genericLiveMatchStatusRepository.GetMongoDbCollection("TeamLiveStatus");
-          
+            var liveMatchStatus = _genericLiveMatchStatusRepository.GetMongoDbCollection("TeamLiveStatus");          
 
              var isTeamLiveStatusCount = _teamLiveStatusRepository.GetTeamLiveStatusCount(matchId).Result;
-
           
                     var matchPlayerStatus = matchStatus.Select(a => a.PlayerInfos.GroupBy(g => g.TeamId).OrderBy(o => o.Key));
 

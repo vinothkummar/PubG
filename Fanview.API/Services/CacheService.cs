@@ -22,7 +22,8 @@ namespace Fanview.API.Services
             _cache = distributedCache;
              _cacheKeys = new string[]{ "TeamCountCache", "TeamPlayerCache", "TeamLiveStatusCountCach", "LiveEventKilledCache",
                                            "LiveKilledCache", "TeamLiveStatusCache", "TournamentMatchIdCache", "MatchRankPointsCache",
-                                           "TournamentMatchCache", "TournamentMatchCreatedAtCache", "LiveKilledCache", "DamageCauserCache"
+                                           "TournamentMatchCache", "TournamentMatchCreatedAtCache", "LiveKilledCache", "DamageCauserCache",
+                                           "LiveTeamRanking"
                                          };
         }
 

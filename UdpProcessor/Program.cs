@@ -11,7 +11,7 @@ namespace Fanview.UDPProcessor
         static void Main(string[] args)
         {
             UDPSocket s = new UDPSocket();
-            s.Server("0.0.0.0", 6011);
+            s.Server("127.0.0.1", 9011);
             //s.Server("192.168.0.64", 6011);
             Console.ReadKey();
         }
