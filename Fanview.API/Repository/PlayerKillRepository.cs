@@ -464,12 +464,11 @@ namespace Fanview.API.Repository
         public async Task<KillLeader> GetLiveKillList(int topCount)
         {
             var teams = _team.GetAll("Team");
-            var teamPlayers = _teamPlayerRepository.GetTeamPlayers();
-            var tournamentMatchId = _eventRepository.GetTournamentLiveMatch();
+            var teamPlayers = _teamPlayerRepository.GetTeamPlayers();           
             var liveEventKillList = _LiveEventKill.GetAll("LiveEventKill");
-            await Task.WhenAll(teams, teamPlayers, tournamentMatchId, liveEventKillList);
+            await Task.WhenAll(teams, teamPlayers, liveEventKillList);
 
-            var result = liveEventKillList.Result.Where(ev => ev.MatchId == tournamentMatchId.Result && !ev.IsGroggy)
+            var result = liveEventKillList.Result.Where(ev => !ev.IsGroggy)
                 .Join(teamPlayers.Result, ev => new { KillerName = ev.KillerName }, tp => new { KillerName = tp.PlayerName }, (ev, tp) => new { ev, tp })
                 .Join(teams.Result, evTp => new { TeamId = evTp.tp.TeamId }, t => new { TeamId = t.Id }, (evTp, t) => new { evTp, t })
                 .GroupBy(g => g.evTp.ev.KillerName)
