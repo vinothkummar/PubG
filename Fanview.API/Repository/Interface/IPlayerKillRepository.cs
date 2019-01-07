@@ -37,6 +37,8 @@ namespace Fanview.API.Repository.Interface
 
         Task<KillLeader> GetLiveKillList(int topN);
 
+        Task<KillLeader> GetLiveKillListAsync(int topCount);
+
         Task<IEnumerable<LiveKillCount>> GetLiveKillCount(IEnumerable<LiveEventKill> liveEventKills);
     }
 }
