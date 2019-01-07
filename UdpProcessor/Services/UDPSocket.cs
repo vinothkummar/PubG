@@ -106,7 +106,7 @@ namespace Fanview.UDPProcessor.Services
 
                     _listOfTasks.Add(Task.Run(async () => _playerKillRepository.InsertLiveKillEventTelemetry(message, fileName, eventTime)));
                     _listOfTasks.Add(Task.Run(async () => _matchSummaryRepository.InsertLiveEventMatchStatusTelemetry(message, fileName, eventTime)));
-
+                
                     Task t = Task.WhenAll(_listOfTasks);
                     try
                     {

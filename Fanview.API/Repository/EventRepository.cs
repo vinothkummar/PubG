@@ -33,7 +33,7 @@ namespace Fanview.API.Repository
 
         public void CreateAnEvent(Event newMatch)
         {
-            _matchManagementRepository.DeleteLiveDataDocument();
+            //_matchManagementRepository.DeleteLiveDataDocument();
             _tournamentRepository.Insert(newMatch, "TournamentMatchId");
         }
 
@@ -57,7 +57,7 @@ namespace Fanview.API.Repository
 
                 _logger.LogInformation("tournament Match Results stored to the " + cacheKey + Environment.NewLine);
 
-                await _cacheService.SaveToCache<Event>(cacheKey, tournamentMatch, 45, 7);
+                await _cacheService.SaveToCache<Event>(cacheKey, tournamentMatch, 1800000, 7);
 
                 _logger.LogInformation("FindEvent Event Repository call Ended" + Environment.NewLine);
 
@@ -94,7 +94,7 @@ namespace Fanview.API.Repository
 
             _logger.LogInformation("tournament MatchcreatedAt Results stored to the " + cacheKey + Environment.NewLine);
 
-            await _cacheService.SaveToCache<string>(cacheKey, tournamentMatchCreateAt, 45, 7);
+            await _cacheService.SaveToCache<string>(cacheKey, tournamentMatchCreateAt, 1800000, 7);
 
             _logger.LogInformation("GetEventCreatedAT Event Repository call Ended" + Environment.NewLine);
 
@@ -137,7 +137,7 @@ namespace Fanview.API.Repository
 
             _logger.LogInformation("tournament MatchId Results stored to the " + cacheKey + Environment.NewLine);
                        
-            await _cacheService.SaveToCache<string>(cacheKey, tournamentMatchId, 30, 5);           
+            await _cacheService.SaveToCache<string>(cacheKey, tournamentMatchId, 1800000, 5);           
 
             _logger.LogInformation("GetTournamentMatchIdEvent Repository call Ended" + Environment.NewLine);
 

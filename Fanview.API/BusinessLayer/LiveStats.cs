@@ -75,24 +75,24 @@ namespace Fanview.API.BusinessLayer
             return result;
         }
 
-        public async Task<IEnumerable<LiveTeamRanking>> GetLiveRanking()
-        {
-            const string cacheKey = "LiveTeamRanking";
+        //public async Task<IEnumerable<LiveTeamRanking>> GetLiveRanking()
+        //{
+        //    const string cacheKey = "LiveTeamRanking";
 
-            var cached = _cacheService.RetrieveFromCache<IEnumerable<LiveTeamRanking>>(cacheKey);
-            if (cached != null)
-            {
-                return cached;
-            }
+        //    var cached = _cacheService.RetrieveFromCache<IEnumerable<LiveTeamRanking>>(cacheKey);
+        //    if (cached != null)
+        //    {
+        //        return cached;
+        //    }
 
-            var killList = _playerKillRepository.GetLiveKillList(0);
-            var liveStatus = GetLiveStatus();
-            await Task.WhenAll(killList, liveStatus);
+        //    var killList = _playerKillRepository.GetLiveKillList(0);
+        //    var liveStatus = GetLiveStatus();
+        //    await Task.WhenAll(killList, liveStatus);
             
-            var teamRankings = await _teamRankingService.GetTeamRankings(killList.Result, liveStatus.Result);
-            await _cacheService.SaveToCache(cacheKey, teamRankings, 5, 2);
-            return teamRankings;
-        }
+        //    var teamRankings = await _teamRankingService.GetTeamRankings(killList.Result, liveStatus.Result);
+        //    await _cacheService.SaveToCache(cacheKey, teamRankings, 5, 2);
+        //    return teamRankings;
+        //}
 
         public async Task<IEnumerable<LiveMatchStatus>> GetLiveStatus()
         {
@@ -140,7 +140,7 @@ namespace Fanview.API.BusinessLayer
                                         IsEliminated = s.IsEliminated
                                     });
 
-            await _cacheService.SaveToCache<IEnumerable<LiveMatchStatus>>("TeamLiveStatusCache", matchStatusObject, 5, 2);
+            await _cacheService.SaveToCache<IEnumerable<LiveMatchStatus>>("TeamLiveStatusCache", matchStatusObject, 1000, 1);
 
 
             if (matchStatusObject == null)
@@ -159,84 +159,84 @@ namespace Fanview.API.BusinessLayer
         /**
          * NOT USED: consider them a stub of what have to be implemented
          * */
-        private IEnumerable<TeamRankPoints> GetTeamEliminatedPosition(IEnumerable<LiveEventKill> kills, string matchId, int totalTeamCount)
-        {
-            var teamPlayers = new List<PlayerAll>();
-            foreach (var item in _teamPlayerRepository.GetTeamPlayers().Result)
-            {
-                teamPlayers.Add(
-                new PlayerAll()
-                {
-                    longTeamId = item.TeamId,
-                    PlayerId = item.PlayerId,
-                    PlayerName = item.PlayerName,
-                    FullName = item.FullName,
-                    Country = item.Country,
-                    TeamId = item.TeamIdShort,
+        //private IEnumerable<TeamRankPoints> GetTeamEliminatedPosition(IEnumerable<LiveEventKill> kills, string matchId, int totalTeamCount)
+        //{
+        //    var teamPlayers = new List<PlayerAll>();
+        //    foreach (var item in _teamPlayerRepository.GetTeamPlayers().Result)
+        //    {
+        //        teamPlayers.Add(
+        //        new PlayerAll()
+        //        {
+        //            longTeamId = item.TeamId,
+        //            PlayerId = item.PlayerId,
+        //            PlayerName = item.PlayerName,
+        //            FullName = item.FullName,
+        //            Country = item.Country,
+        //            TeamId = item.TeamIdShort,
                     
-                });
-            }
+        //        });
+        //    }
 
-            var playersKilled = kills.Select(s => new
-            {
-                PlayerAccountId = teamPlayers.Where(cn => cn.PlayerName.Trim().ToLower().Contains(s.VictimName.Trim().ToLower())).FirstOrDefault().PlayerId,
-                VictimTeamId = s.VictimTeamId,
-                PlayerName = s.VictimName,
-                fanviewTeamId = teamPlayers.Where(cn => cn.TeamId == s.VictimTeamId).FirstOrDefault().longTeamId,
-                OpenApiVictimTeamId = s.VictimTeamId
+        //    var playersKilled = kills.Select(s => new
+        //    {
+        //        PlayerAccountId = teamPlayers.Where(cn => cn.PlayerName.Trim().ToLower().Contains(s.VictimName.Trim().ToLower())).FirstOrDefault().PlayerId,
+        //        VictimTeamId = s.VictimTeamId,
+        //        PlayerName = s.VictimName,
+        //        fanviewTeamId = teamPlayers.Where(cn => cn.TeamId == s.VictimTeamId).FirstOrDefault().longTeamId,
+        //        OpenApiVictimTeamId = s.VictimTeamId
 
-            });
+        //    });
 
-            var teamsRankPoints = new List<TeamRankPoints>();
+        //    var teamsRankPoints = new List<TeamRankPoints>();
 
-            var teamCount = new List<int>();
-            var i = 0;
-            foreach (var item in playersKilled)
-            {
-                teamCount.Add(item.VictimTeamId);
+        //    var teamCount = new List<int>();
+        //    var i = 0;
+        //    foreach (var item in playersKilled)
+        //    {
+        //        teamCount.Add(item.VictimTeamId);
 
-                var teamPlayerCount = teamPlayers.Where(cn => cn.TeamId == item.VictimTeamId).Count();
+        //        var teamPlayerCount = teamPlayers.Where(cn => cn.TeamId == item.VictimTeamId).Count();
 
-                if (teamCount.Where(cn => cn == item.VictimTeamId).Count() == teamPlayerCount)
-                {
-                    var teamRankFinishing = new TeamRankPoints() { TeamId = item.fanviewTeamId, Positions = GetTeamFinishingPositions(i), OpenApiVictimTeamId = item.VictimTeamId };
-                    teamsRankPoints.Add(teamRankFinishing);
-                    i++;
-                }
-            }
-
-
-
-            if (teamsRankPoints.Count() < 20 && totalTeamCount < 20)
-            {
-                var noOfteamEliminated = teamsRankPoints.Count();
-                var teamDifference = 20 - noOfteamEliminated;
-
-                teamsRankPoints = teamsRankPoints.Select(c => new TeamRankPoints()
-                {
-                    MatchId = c.MatchId,
-                    TeamId = c.TeamId,
-                    Name = c.Name,
-                    OpenApiVictimTeamId = c.OpenApiVictimTeamId,
-                    PlayerAccountId = c.PlayerAccountId,
-                    Positions = c.Positions - teamDifference
-                }).ToList();
-            }
+        //        if (teamCount.Where(cn => cn == item.VictimTeamId).Count() == teamPlayerCount)
+        //        {
+        //            var teamRankFinishing = new TeamRankPoints() { TeamId = item.fanviewTeamId, Positions = GetTeamFinishingPositions(i), OpenApiVictimTeamId = item.VictimTeamId };
+        //            teamsRankPoints.Add(teamRankFinishing);
+        //            i++;
+        //        }
+        //    }
 
 
-            if (teamsRankPoints.Count() < 20 && teamsRankPoints.Count() != teamPlayers.Select(s => s.TeamId).Distinct().Count())
-            {
-                var lastTeamStands = kills.Join(teamPlayers, pk => pk.KillerTeamId, tp => tp.TeamId,
-                                                   (pk, tp) => new { pk, tp }).Where(cn => !teamsRankPoints.Select(t => t.OpenApiVictimTeamId).Contains(cn.pk.KillerTeamId))
-                                                   .Select(r => new TeamRankPoints() { TeamId = r.tp.longTeamId, Positions = 1, OpenApiVictimTeamId = r.pk.KillerTeamId}).GroupBy(g => g.PlayerAccountId).FirstOrDefault().ElementAtOrDefault(0);
 
-                teamsRankPoints.Add(lastTeamStands);
+        //    if (teamsRankPoints.Count() < 20 && totalTeamCount < 20)
+        //    {
+        //        var noOfteamEliminated = teamsRankPoints.Count();
+        //        var teamDifference = 20 - noOfteamEliminated;
 
-            }
+        //        teamsRankPoints = teamsRankPoints.Select(c => new TeamRankPoints()
+        //        {
+        //            MatchId = c.MatchId,
+        //            TeamId = c.TeamId,
+        //            Name = c.Name,
+        //            OpenApiVictimTeamId = c.OpenApiVictimTeamId,
+        //            PlayerAccountId = c.PlayerAccountId,
+        //            Positions = c.Positions - teamDifference
+        //        }).ToList();
+        //    }
 
 
-            return teamsRankPoints;
-        }
+        //    if (teamsRankPoints.Count() < 20 && teamsRankPoints.Count() != teamPlayers.Select(s => s.TeamId).Distinct().Count())
+        //    {
+        //        var lastTeamStands = kills.Join(teamPlayers, pk => pk.KillerTeamId, tp => tp.TeamId,
+        //                                           (pk, tp) => new { pk, tp }).Where(cn => !teamsRankPoints.Select(t => t.OpenApiVictimTeamId).Contains(cn.pk.KillerTeamId))
+        //                                           .Select(r => new TeamRankPoints() { TeamId = r.tp.longTeamId, Positions = 1, OpenApiVictimTeamId = r.pk.KillerTeamId}).GroupBy(g => g.PlayerAccountId).FirstOrDefault().ElementAtOrDefault(0);
+
+        //        teamsRankPoints.Add(lastTeamStands);
+
+        //    }
+
+
+        //    return teamsRankPoints;
+        //}
 
         private int GetTeamFinishingPositions(int i)
         {

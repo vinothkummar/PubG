@@ -304,7 +304,7 @@ namespace Fanview.API.Repository
             {
                 var rankPoints = _rankPointsRepository.GetAll("RankPoints").Result.OrderByDescending(o => o.RankPosition);
 
-                await _cacheService.SaveToCache<IEnumerable<RankPoints>>(cacheKey, rankPoints, 45, 7);
+                await _cacheService.SaveToCache<IEnumerable<RankPoints>>(cacheKey, rankPoints, 1800000, 7);
 
                 return await Task.FromResult(rankPoints);
             }

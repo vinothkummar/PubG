@@ -22,8 +22,7 @@ namespace Fanview.API.Services
             _cache = distributedCache;
              _cacheKeys = new string[]{ "TeamCountCache", "TeamPlayerCache", "TeamLiveStatusCountCach", "LiveEventKilledCache",
                                            "LiveKilledCache", "TeamLiveStatusCache", "TournamentMatchIdCache", "MatchRankPointsCache",
-                                           "TournamentMatchCache", "TournamentMatchCreatedAtCache", "LiveKilledCache", "DamageCauserCache",
-                                           "LiveTeamRanking"
+                                           "TournamentMatchCache", "TournamentMatchCreatedAtCache", "LiveKilledCache", "DamageCauserCache" //,"LiveTeamRanking"
                                          };
         }
 
@@ -90,7 +89,7 @@ namespace Fanview.API.Services
 
             await _cache.SetStringAsync(key, json, new DistributedCacheEntryOptions
             {
-                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(absoluteExpirationRelativeToNow),
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromMilliseconds(absoluteExpirationRelativeToNow),
                 SlidingExpiration = TimeSpan.FromMinutes(slidingExpiration)
             });
         }

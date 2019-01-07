@@ -74,7 +74,7 @@ namespace Fanview.API.Repository
 
                 _logger.LogInformation("TeamPlayer Results stored to the " + cacheKey + Environment.NewLine);
 
-                await _cacheService.SaveToCache<IEnumerable<TeamPlayer>>(cacheKey, teamPlayers, 45, 7);
+                await _cacheService.SaveToCache<IEnumerable<TeamPlayer>>(cacheKey, teamPlayers, 1800000, 7);
 
                 _logger.LogInformation("TeamPlayer Repository call Ended" + Environment.NewLine);
 
