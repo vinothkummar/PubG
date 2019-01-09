@@ -13,5 +13,6 @@ namespace Fanview.API.Model.ViewModels
         public int RankPoints { get; set; }
         public int TotalPoints { get; set; }
         public int TeamId { get; set; }
+        public int GameTeamId { get; set; }
     }
 }
