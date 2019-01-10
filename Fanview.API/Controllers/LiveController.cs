@@ -52,20 +52,26 @@ namespace Fanview.API.Controllers
             return await _playerKilled.GetLivePlayerKilled();
         }
 
-        
-        /// <summary>
-        /// Returns Live Team Status
-        /// </summary>               
-        [HttpGet("Status", Name = "GetLiveStatus")]
-        public Task<IEnumerable<LiveMatchStatus>> GetLiveStatus()
+        [HttpGet("Killiprinter2", Name = "GetAllKilliprinterForGraphics2")]
+        public Task<IEnumerable<KilliPrinter>> GetAllKilliprinterForGraphics2()
         {
-            return _liveStatus.GetLiveStatus();
+            return  _playerKilled.GetLivePlayerKilledMongo();
         }
+
 
         /// <summary>
         /// Returns Live Team Status
         /// </summary>               
-        [HttpGet("Status2", Name = "GetLiveStatus2")]
+        //[HttpGet("StatusDeprecated", Name = "GetLiveStatus")]
+        //public Task<IEnumerable<LiveMatchStatus>> GetLiveStatus()
+        //{
+        //    return _liveStatus.GetLiveStatus();
+        //}
+
+        /// <summary>
+        /// Returns Live Team Status
+        /// </summary>               
+        [HttpGet("Status", Name = "GetLiveStatus")]
         public Task<IEnumerable<LiveMatchStatus>> GetLiveStatus2()
         {
             return _liveStatus.GetLiveStatusMongo();

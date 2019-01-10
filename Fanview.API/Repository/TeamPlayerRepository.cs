@@ -442,7 +442,7 @@ namespace Fanview.API.Repository
 
         public IEnumerable<PlayerKilledGraphics> GetPlayersId(IEnumerable<LiveEventKill> liveEventKills)
         {
-            var teamPlayers = GetTeamPlayers().Result;
+            var teamPlayers = await GetTeamPlayers();
 
             var liveKilledPlayersVictim = liveEventKills.Join(teamPlayers, pk => pk.VictimName.ToLower().Trim(), tp => tp.PlayerName.ToLower().Trim(), (pk, tp) => new { pk, tp });
 

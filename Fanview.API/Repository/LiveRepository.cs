@@ -23,10 +23,10 @@ namespace Fanview.API.Repository
 
         public async Task<LiveDamageList> GetLiveDamageList(string matchId)
         {
-            var teams = _team.GetAll("Team").Result;
+            var teams =  await _team.GetAll("Team");
 
-            var teamPlayers = _teamPlayers.GetAll("TeamPlayers").Result;
-            var eventDamage = _genericDamageRepository.GetAll("TeamPlayers").Result;
+            var teamPlayers = await _teamPlayers.GetAll("TeamPlayers");
+            var eventDamage = await _genericDamageRepository.GetAll("TeamPlayers");
 
 
             var response = eventDamage.GroupBy(o => o.VictimName)

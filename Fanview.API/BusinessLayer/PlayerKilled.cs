@@ -145,6 +145,26 @@ namespace Fanview.API.BusinessLayer
 
             return await Task.FromResult(playerKilledOrTeamEliminatedMessages);
         }
-      
+
+
+
+        public async Task<IEnumerable<KilliPrinter>> GetLivePlayerKilledMongo()
+        {
+            var playerKilledOrTeamEliminatedMessages = new List<KilliPrinter>();
+
+            var kills = await _playerKillRepository.GetLiveKilled();
+
+            foreach (var rule in _rules)
+            {
+                var output = rule.LiveKilledOrTeamEliminiated(kills);
+
+                if (output != null)
+                {
+                    playerKilledOrTeamEliminatedMessages = output.ToList();
+                }
+            }
+            
+            return playerKilledOrTeamEliminatedMessages;
+        }
     }
 }
