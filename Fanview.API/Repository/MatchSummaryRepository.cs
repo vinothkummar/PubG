@@ -76,6 +76,8 @@ namespace Fanview.API.Repository
             postMatchWaitingCount = 0;
         }
 
+
+
         private MatchSummary GetMatchSummaryData(JObject jsonToJObject)
         {
             var result = jsonToJObject.SelectToken("data").ToObject<MatchSummary>();
@@ -616,24 +618,24 @@ namespace Fanview.API.Repository
             return await teamStatus;
         }
 
-        private int GetGameTeamId(int fanviewTeamId)
+
+        private IMongoCollection<LiveMatchStatus> _matchStatus;
+        private IMongoCollection<LiveMatchStatus> getMatchStatusCollection()
         {
-            Dictionary<int, int> dictionary = new Dictionary<int, int>();
-            dictionary.Add(17, 13);
-            dictionary.Add(18, 5);
-            dictionary.Add(19, 1);
-            dictionary.Add(20, 14);
-            dictionary.Add(21, 15);
-            dictionary.Add(22, 11);
-            dictionary.Add(23, 7);
-            dictionary.Add(24, 12);
-            dictionary.Add(25, 3);
-            dictionary.Add(26, 8);
-            dictionary.Add(27, 4);
-            dictionary.Add(28, 16);
-            dictionary.Add(29, 9);
-            dictionary.Add(30, 02);
-            dictionary.Add(31, 06);
+            if(_matchStatus== null)
+            {
+                _matchStatus = _genericLiveMatchStatusRepository.GetMongoDbCollection("TeamLiveStatus");
+            }
+            return _matchStatus;
+        }
+
+        public async Task<IEnumerable<LiveMatchStatus>> GetLiveMatchStatus2()
+        {
+            var matchStatus = getMatchStatusCollection();
+            var teamStatus = await matchStatus.FindAsync(Builders<LiveMatchStatus>.Filter.Empty);
+
+            return teamStatus.ToList<LiveMatchStatus>();
+            
             dictionary.Add(32, 10);
 
             return dictionary[fanviewTeamId];

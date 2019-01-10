@@ -28,26 +28,26 @@ namespace Fanview.API.MiddlewareExtensions
             services.AddSingleton<IEventRepository, EventRepository>();
             services.AddSingleton(typeof(IAPIRequestBuilder), typeof(APIRequestBuilder));
             services.AddSingleton(typeof(IServiceRequest), typeof(ServiceRequest));
-            services.AddTransient<ICacheService, CacheService>();
-            services.AddTransient(typeof(IMatchRepository), typeof(MatchRepository));
-            services.AddTransient(typeof(ITelemetryRepository), typeof(TelemetryRepository));
-            services.AddTransient(typeof(IPlayerKillRepository), typeof(PlayerKillRepository));
-            services.AddTransient(typeof(IPlayerRepository), typeof(PlayerRepository));
-            services.AddTransient(typeof(ITakeDamageRepository), typeof(TakeDamageRepository));
-            services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-            services.AddTransient(typeof(IPlayerKilled), typeof(PlayerKilled));
-            services.AddTransient(typeof(IMatchSummaryRepository), typeof(MatchSummaryRepository));
-            services.AddTransient(typeof(ITeamRepository), typeof(TeamRepository));
-            services.AddTransient(typeof(ITeamPlayerRepository), typeof(TeamPlayerRepository));
-            services.AddSingleton(typeof(IEventScheduleRepository), typeof(EventScheduleRepository));
-            services.AddTransient(typeof(IRanking), typeof(Ranking));
+            services.AddScoped<ICacheService, CacheService>();
+            services.AddScoped(typeof(IMatchRepository), typeof(MatchRepository));
+            services.AddScoped(typeof(ITelemetryRepository), typeof(TelemetryRepository));
+            services.AddScoped(typeof(IPlayerKillRepository), typeof(PlayerKillRepository));
+            services.AddScoped(typeof(IPlayerRepository), typeof(PlayerRepository));
+            services.AddScoped(typeof(ITakeDamageRepository), typeof(TakeDamageRepository));
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped(typeof(IPlayerKilled), typeof(PlayerKilled));
+            services.AddScoped(typeof(IMatchSummaryRepository), typeof(MatchSummaryRepository));
+            services.AddScoped(typeof(ITeamRepository), typeof(TeamRepository));
+            services.AddScoped(typeof(ITeamPlayerRepository), typeof(TeamPlayerRepository));
+            services.AddScoped(typeof(IEventScheduleRepository), typeof(EventScheduleRepository));
+            services.AddScoped(typeof(IRanking), typeof(Ranking));
             services.AddSingleton<IReadAssets, ReadAssets>();
-            services.AddTransient<ITeamStats, TeamStats>();
+            services.AddScoped<ITeamStats, TeamStats>();
             services.AddSingleton(typeof(ILiveRepository), typeof(LiveRepository));
-            services.AddTransient<ILiveStats, LiveStats>();
+            services.AddScoped<ILiveStats, LiveStats>();
             services.AddSingleton<IMatchManagementRepository, MatchManagementRepository>();
-            services.AddTransient<ITeamLiveStatusRepository, TeamLiveStatusRepository>();
-            services.AddTransient<IAssetsRepository, AssetsRepository>();
+            services.AddScoped<ITeamLiveStatusRepository, TeamLiveStatusRepository>();
+            services.AddScoped<IAssetsRepository, AssetsRepository>();
             services.AddSingleton<IDistributedCache>(serviceProvider => new RedisCache(new RedisCacheOptions {
                 Configuration = "127.0.0.1:6379,abortConnect=false,connectTimeout=3000,responseTimeout=3000,syncTimeout=3000",
                 InstanceName =  "FanviewCaching"

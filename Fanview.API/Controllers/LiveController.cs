@@ -62,6 +62,15 @@ namespace Fanview.API.Controllers
             return _liveStatus.GetLiveStatus();
         }
 
+        /// <summary>
+        /// Returns Live Team Status
+        /// </summary>               
+        [HttpGet("Status2", Name = "GetLiveStatus2")]
+        public Task<IEnumerable<LiveMatchStatus>> GetLiveStatus2()
+        {
+            return _liveStatus.GetLiveStatusMongo();
+        }
+
 
         ///// <summary>
         ///// Returns Live Damage List
