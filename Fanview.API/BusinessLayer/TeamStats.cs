@@ -178,8 +178,8 @@ namespace Fanview.API.BusinessLayer
                
                 var route = new Route();
 
-                route.TeamId = item.TeamId;
-                route.GameTeamId = item.GameTeamId;
+                route.TeamId = item.GameTeamId;
+                route.GameTeamId = item.TeamId;
                 route.TeamName = item.TeamName;
                 route.TeamRank = item.TeamRank;
                 route.PlayerName = item.PlayerName;
@@ -198,22 +198,22 @@ namespace Fanview.API.BusinessLayer
         private Dictionary<int, int>  GetGameTeamId()
         {
             Dictionary<int, int> dictionary = new Dictionary<int, int>();
-            dictionary.Add(17, 13);
-            dictionary.Add(18, 5);
-            dictionary.Add(19, 1);
-            dictionary.Add(20, 14);
-            dictionary.Add(21, 15);
-            dictionary.Add(22, 11);
-            dictionary.Add(23, 7);
-            dictionary.Add(24, 12);
-            dictionary.Add(25, 3);
-            dictionary.Add(26, 8);
-            dictionary.Add(27, 4);
-            dictionary.Add(28, 16);
-            dictionary.Add(29, 9);
-            dictionary.Add(30, 02);
-            dictionary.Add(31, 06);
-            dictionary.Add(32, 10);
+            dictionary.Add(13, 17);
+            dictionary.Add(5, 18);
+            dictionary.Add(1, 19);
+            dictionary.Add(14, 20);
+            dictionary.Add(15, 21);
+            dictionary.Add(11, 22);
+            dictionary.Add(7, 23);
+            dictionary.Add(12, 24);
+            dictionary.Add(3, 25);
+            dictionary.Add(8, 26);
+            dictionary.Add(4, 27);
+            dictionary.Add(16, 28);
+            dictionary.Add(9, 29);
+            dictionary.Add(2, 30);
+            dictionary.Add(6, 31);
+            dictionary.Add(10, 32);
 
             return dictionary;
         }
