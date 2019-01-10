@@ -76,6 +76,8 @@ namespace Fanview.API.Repository
             postMatchWaitingCount = 0;
         }
 
+
+
         private MatchSummary GetMatchSummaryData(JObject jsonToJObject)
         {
             var result = jsonToJObject.SelectToken("data").ToObject<MatchSummary>();
@@ -606,6 +608,26 @@ namespace Fanview.API.Repository
             var teamStatus = matchStatus.FindAsync(Builders<LiveMatchStatus>.Filter.Empty).Result.ToListAsync();
 
             return await teamStatus;
+        }
+
+
+        private IMongoCollection<LiveMatchStatus> _matchStatus;
+        private IMongoCollection<LiveMatchStatus> getMatchStatusCollection()
+        {
+            if(_matchStatus== null)
+            {
+                _matchStatus = _genericLiveMatchStatusRepository.GetMongoDbCollection("TeamLiveStatus");
+            }
+            return _matchStatus;
+        }
+
+        public async Task<IEnumerable<LiveMatchStatus>> GetLiveMatchStatus2()
+        {
+            var matchStatus = getMatchStatusCollection();
+            var teamStatus = await matchStatus.FindAsync(Builders<LiveMatchStatus>.Filter.Empty);
+
+            return teamStatus.ToList<LiveMatchStatus>();
+            
         }
     }
 }

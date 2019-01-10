@@ -153,7 +153,25 @@ namespace Fanview.API.BusinessLayer
             return await Task.FromResult(matchStatusObject);            
         }
 
+        public async Task<IEnumerable<LiveMatchStatus>> GetLiveStatusMongo()
+        {
+            var matchStatus = await _matchSummaryRepository.GetLiveMatchStatus2();
+            var matchStatusObject = matchStatus.Where(cn => cn.TeamId != 0).Select(s => new LiveMatchStatus()
+            {
+                MatchId = s.MatchId,
+                TeamId = s.TeamId,
+                TeamName = s.TeamName,
+                TeamPlayers = s.TeamPlayers,
+                //Players = s.TeamPlayers,
+                AliveCount = s.AliveCount,
+                DeadCount = s.DeadCount,
+                EliminatedAt = s.EliminatedAt,
+                IsEliminated = s.IsEliminated
+            });
 
+            return matchStatusObject;
+            //return new List<LiveMatchStatus> ();
+        }
 
 
         /**
@@ -173,7 +191,7 @@ namespace Fanview.API.BusinessLayer
         //            FullName = item.FullName,
         //            Country = item.Country,
         //            TeamId = item.TeamIdShort,
-                    
+
         //        });
         //    }
 
