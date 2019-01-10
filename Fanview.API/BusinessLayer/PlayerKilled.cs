@@ -152,7 +152,7 @@ namespace Fanview.API.BusinessLayer
         {
             var playerKilledOrTeamEliminatedMessages = new List<KilliPrinter>();
 
-            var kills = await _playerKillRepository.GetLiveKilled();
+            var kills = await _playerKillRepository.GetLiveKilledMongo();
 
             foreach (var rule in _rules)
             {
