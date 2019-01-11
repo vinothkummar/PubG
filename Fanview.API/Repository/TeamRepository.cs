@@ -157,7 +157,7 @@ namespace Fanview.API.Repository
 
             var matchstats = _matchPlayerStats.GetAll("MatchPlayerStats").Result;
 
-            var teamStats = matchstats.Join(teams, ms => ms.ShortTeamId, t => t.TeamId, (ms, t) => new { ms, t })
+            var teamStats = matchstats.Join(teams, ms => ms.TeamId, t => t.Id, (ms, t) => new { ms, t })
                                           .Select(s => new
                                           {
                                               MatchId = s.ms.MatchId,
