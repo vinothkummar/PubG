@@ -292,6 +292,32 @@ namespace Fanview.API.Repository
           
         }
 
+        public async Task<IEnumerable<LiveEventKill>> GetLiveKilledMongo()
+        {
+           
+            try
+            {
+                _logger.LogInformation("GetLivePlayerKilled Repository call started" + Environment.NewLine);
+
+
+                var response = await _LiveEventKill.GetAll("LiveEventKill");
+                 
+               _logger.LogInformation("GetLivePlayerKilled Repository call completed" + Environment.NewLine);
+
+               return  response.Where(cn => cn.IsGroggy == false);
+               
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError(exception, "GetlivePlayerKilled");
+
+                throw;
+            }
+
+
+        }
+
+
         public async Task<IEnumerable<Kill>> GetLast4PlayerKilled(string matchId)
         { 
             var response = _Kill.GetAll("Kill").Result.Where(cn => cn.MatchId == matchId).TakeLast(4);
