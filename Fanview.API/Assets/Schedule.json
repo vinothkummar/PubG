@@ -6,26 +6,30 @@
       {
         "scheduleTime": "2019-01-07T16:00:00",
         "matchRoundStatus": "Scheduled",
-        "stageId": 1,
-        "matchId": 1
+        "stageId": "1",
+        "dayRound": "1",
+        "matchId": "1"
       },
       {
         "scheduleTime": "2019-01-07T17:00:00",
         "matchRoundStatus": "Scheduled",
-        "stageId": 1,
-        "matchId": 2
+        "stageId": "1",
+        "dayRound": "2",
+        "matchId": "2"
       },
       {
         "scheduleTime": "2019-01-07T18:00:00",
         "matchRoundStatus": "Scheduled",
-        "stageId": 1,
-        "matchId": 3
+        "stageId": "1",
+        "dayRound": "3",
+        "matchId": "3"
       },
       {
         "scheduleTime": "2019-01-07T19:00:00",
         "matchRoundStatus": "Scheduled",
-        "stageId": 1,
-        "matchId": 4
+        "stageId": "1",
+        "dayRound": "4",
+        "matchId": "4"
       }
     ]
   },
@@ -36,26 +40,30 @@
       {
         "scheduleTime": "2019-01-08T16:00:00",
         "matchRoundStatus": "Scheduled",
-        "stageId": 1,
-        "matchId": 5
+        "stageId": "1",
+        "dayRound": "1",
+        "matchId": "5"
       },
       {
         "scheduleTime": "2019-01-08T17:00:00",
         "matchRoundStatus": "Scheduled",
-        "stageId": 1,
-        "matchId": 6
+        "stageId": "1",
+        "dayRound": "2",
+        "matchId": "6"
       },
       {
         "scheduleTime": "2019-01-08T18:00:00",
         "matchRoundStatus": "Scheduled",
-        "stageId": 1,
-        "matchId": 7
+        "stageId": "1",
+        "dayRound": "3",
+        "matchId": "7"
       },
       {
         "scheduleTime": "2019-01-08T19:00:00",
         "matchRoundStatus": "Scheduled",
-        "stageId": 1,
-        "matchId": 8
+        "stageId": "1",
+        "dayRound": "4",
+        "matchId": "8"
       }
     ]
   },
@@ -66,26 +74,30 @@
       {
         "scheduleTime": "2019-01-09T16:00:00",
         "matchRoundStatus": "Scheduled",
-        "stageId": 1,
-        "matchId": 9
+        "stageId": "1",
+        "dayRound": "1",
+        "matchId": "9"
       },
       {
         "scheduleTime": "2019-01-09T17:00:00",
         "matchRoundStatus": "Scheduled",
-        "stageId": 1,
-        "matchId": 10
+        "stageId": "1",
+        "dayRound": "2",
+        "matchId": "10"
       },
       {
         "scheduleTime": "2019-01-09T18:00:00",
         "matchRoundStatus": "Scheduled",
-        "stageId": 1,
-        "matchId": 11
+        "stageId": "1",
+        "dayRound": "3",
+        "matchId": "11"
       },
       {
         "scheduleTime": "2019-01-09T19:00:00",
         "matchRoundStatus": "Scheduled",
-        "stageId": 1,
-        "matchId": 12
+        "stageId": "1",
+        "dayRound": "4",
+        "matchId": "12"
       }
     ]
   },
@@ -96,26 +108,30 @@
       {
         "scheduleTime": "2019-01-10T16:00:00",
         "matchRoundStatus": "Scheduled",
-        "stageId": 1,
-        "matchId": 13
+        "stageId": "1",
+        "dayRound": "1",
+        "matchId": "13"
       },
       {
         "scheduleTime": "2019-01-10T17:00:00",
         "matchRoundStatus": "Scheduled",
-        "stageId": 1,
-        "matchId": 14
+        "stageId": "1",
+        "dayRound": "2",
+        "matchId": "14"
       },
       {
         "scheduleTime": "2019-01-10T18:00:00",
         "matchRoundStatus": "Scheduled",
-        "stageId": 1,
-        "matchId": 15
+        "stageId": "1",
+        "dayRound": "3",
+        "matchId": "15"
       },
       {
         "scheduleTime": "2019-01-10T19:00:00",
         "matchRoundStatus": "Scheduled",
-        "stageId": 1,
-        "matchId": 16
+        "stageId": "1",
+        "dayRound": "4",
+        "matchId": "16"
       }
     ]
   },
@@ -126,26 +142,30 @@
       {
         "scheduleTime": "2019-01-11T16:00:00",
         "matchRoundStatus": "Scheduled",
-        "stageId": 1,
-        "matchId": 17
+        "stageId": "1",
+        "dayRound": "1",
+        "matchId": "17"
       },
       {
         "scheduleTime": "2019-01-11T17:00:00",
         "matchRoundStatus": "Scheduled",
-        "stageId": 1,
-        "matchId": 18
+        "stageId": "1",
+        "dayRound": "2",
+        "matchId": "18"
       },
       {
         "scheduleTime": "2019-01-11T18:00:00",
         "matchRoundStatus": "Scheduled",
-        "stageId": 1,
-        "matchId": 19
+        "stageId": "1",
+        "dayRound": "3",
+        "matchId": "19"
       },
       {
         "scheduleTime": "2019-01-11T19:00:00",
         "matchRoundStatus": "Scheduled",
-        "stageId": 1,
-        "matchId": 20
+        "stageId": "1",
+        "dayRound": "4",
+        "matchId": "20"
       }
     ]
   },
@@ -156,26 +176,30 @@
       {
         "scheduleTime": "2019-01-12T16:00:00",
         "matchRoundStatus": "Scheduled",
-        "stageId": 1,
-        "matchId": 21
+        "stageId": "1",
+        "dayRound": "1",
+        "matchId": "21"
       },
       {
         "scheduleTime": "2019-01-12T17:00:00",
         "matchRoundStatus": "Scheduled",
-        "stageId": 1,
-        "matchId": 22
+        "stageId": "1",
+        "dayRound": "2",
+        "matchId": "22"
       },
       {
         "scheduleTime": "2019-01-12T18:00:00",
         "matchRoundStatus": "Scheduled",
-        "stageId": 1,
-        "matchId": 23
+        "stageId": "1",
+        "dayRound": "3",
+        "matchId": "23"
       },
       {
         "scheduleTime": "2019-01-12T19:00:00",
         "matchRoundStatus": "Scheduled",
-        "stageId": 1,
-        "matchId": 24
+        "stageId": "1",
+        "dayRound": "4",
+        "matchId": "24"
       }
     ]
   },
@@ -186,26 +210,30 @@
       {
         "scheduleTime": "2019-01-13T16:00:00",
         "matchRoundStatus": "Scheduled",
-        "stageId": 2,
-        "matchId": 25
+        "stageId": "2",
+        "dayRound": "1",
+        "matchId": "25"
       },
       {
         "scheduleTime": "2019-01-13T17:00:00",
         "matchRoundStatus": "Scheduled",
-        "stageId": 2,
-        "matchId": 26
+        "stageId": "2",
+        "dayRound": "2",
+        "matchId": "26"
       },
       {
         "scheduleTime": "2019-01-13T18:00:00",
         "matchRoundStatus": "Scheduled",
-        "stageId": 2,
-        "matchId": 27
+        "stageId": "2",
+        "dayRound": "3",
+        "matchId": "27"
       },
       {
         "scheduleTime": "2019-01-13T19:00:00",
         "matchRoundStatus": "Scheduled",
-        "stageId": 2,
-        "matchId": 28
+        "stageId": "2",
+        "dayRound": "4",
+        "matchId": "28"
       }
     ]
   }

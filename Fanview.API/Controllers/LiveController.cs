@@ -46,13 +46,13 @@ namespace Fanview.API.Controllers
         /// <remarks>
         /// Sample request: Killiprinter/{matchId}/All
         /// </remarks>       
-        [HttpGet("Killiprinter", Name = "GetAllKilliprinterForGraphics")]
+        [HttpGet("Killiprinter_old", Name = "GetAllKilliprinterForGraphics")]
         public async Task<IEnumerable<KilliPrinter>> GetAllKilliprinterForGraphics()
         { 
             return await _playerKilled.GetLivePlayerKilled();
         }
 
-        [HttpGet("Killiprinter2", Name = "GetAllKilliprinterForGraphics2")]
+        [HttpGet("Killiprinter", Name = "GetAllKilliprinterForGraphics2")]
         public Task<IEnumerable<KilliPrinter>> GetAllKilliprinterForGraphics2()
         {
             return  _playerKilled.GetLivePlayerKilledMongo();

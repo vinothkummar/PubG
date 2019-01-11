@@ -23,11 +23,11 @@ namespace Fanview.API.MiddlewareExtensions
 
             var _configuration = new ConfigurationBuilder().SetBasePath(path).AddJsonFile("appsettings.json", true, true).Build();
 
-            services.AddSingleton<IHttpClientRequest, HttpClientRequest>();
-            services.AddSingleton<IClientBuilder, ClientBuilder>();
-            services.AddSingleton<IEventRepository, EventRepository>();
-            services.AddSingleton(typeof(IAPIRequestBuilder), typeof(APIRequestBuilder));
-            services.AddSingleton(typeof(IServiceRequest), typeof(ServiceRequest));
+            services.AddScoped<IHttpClientRequest, HttpClientRequest>();
+            services.AddScoped<IClientBuilder, ClientBuilder>();
+            services.AddScoped<IEventRepository, EventRepository>();
+            services.AddScoped(typeof(IAPIRequestBuilder), typeof(APIRequestBuilder));
+            services.AddScoped(typeof(IServiceRequest), typeof(ServiceRequest));
             services.AddScoped<ICacheService, CacheService>();
             services.AddScoped(typeof(IMatchRepository), typeof(MatchRepository));
             services.AddScoped(typeof(ITelemetryRepository), typeof(TelemetryRepository));
@@ -41,18 +41,18 @@ namespace Fanview.API.MiddlewareExtensions
             services.AddScoped(typeof(ITeamPlayerRepository), typeof(TeamPlayerRepository));
             services.AddScoped(typeof(IEventScheduleRepository), typeof(EventScheduleRepository));
             services.AddScoped(typeof(IRanking), typeof(Ranking));
-            services.AddSingleton<IReadAssets, ReadAssets>();
+            services.AddScoped<IReadAssets, ReadAssets>();
             services.AddScoped<ITeamStats, TeamStats>();
-            services.AddSingleton(typeof(ILiveRepository), typeof(LiveRepository));
+            services.AddScoped(typeof(ILiveRepository), typeof(LiveRepository));
             services.AddScoped<ILiveStats, LiveStats>();
-            services.AddSingleton<IMatchManagementRepository, MatchManagementRepository>();
+            services.AddScoped<IMatchManagementRepository, MatchManagementRepository>();
             services.AddScoped<ITeamLiveStatusRepository, TeamLiveStatusRepository>();
             services.AddScoped<IAssetsRepository, AssetsRepository>();
             services.AddSingleton<IDistributedCache>(serviceProvider => new RedisCache(new RedisCacheOptions {
                 Configuration = "127.0.0.1:6379,abortConnect=false,connectTimeout=3000,responseTimeout=3000,syncTimeout=3000",
                 InstanceName =  "FanviewCaching"
             }));
-            services.AddSingleton<ITeamRankingService, TeamRankingService>();
+            services.AddScoped<ITeamRankingService, TeamRankingService>();
         }
     }
 }

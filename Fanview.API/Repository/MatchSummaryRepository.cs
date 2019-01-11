@@ -495,12 +495,6 @@ namespace Fanview.API.Repository
 
                     var teamId = item1.Select(s => s.TeamId).ElementAtOrDefault(0);
 
-                    if (teamId > 16)
-                    {
-                        teamId = GetGameTeamId(teamId);
-                    }
-
-
                     //var teamId = teamPlayers.Where(cn => cn.PlayerName == item1.Select(s => s.PlayerName).ElementAtOrDefault(0)).FirstOrDefault().TeamIdShort;
 
                     teamLiveStatus.TeamId = teamId;
@@ -635,10 +629,6 @@ namespace Fanview.API.Repository
             var teamStatus = await matchStatus.FindAsync(Builders<LiveMatchStatus>.Filter.Empty);
 
             return teamStatus.ToList<LiveMatchStatus>();
-            
-            dictionary.Add(32, 10);
-
-            return dictionary[fanviewTeamId];
         }
     }
 }

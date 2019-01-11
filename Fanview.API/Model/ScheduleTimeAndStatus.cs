@@ -10,6 +10,7 @@ namespace Fanview.API.Model
         public DateTime ScheduleTime { get; set; }
         public string MatchRoundStatus { get; set; }
         public string stageId { get; set; }
+        public string dayRound { get; set; }
         public string matchId { get; set; }
     }
 }
