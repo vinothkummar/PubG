@@ -278,10 +278,22 @@ namespace Fanview.API.BusinessLayer
 
         public async Task<IEnumerable<RankingResults>> GetTournamentRankingByDay(int day)
         {
-            // Run tasks to fetch matches from this day
-            var dailyRankingsTasks = Enumerable.Range(1, 4)
-                .Select(i => GetMatchRankings(i + (4 * (day - 1))));
-            var dailyRankings = await Task.WhenAll(dailyRankingsTasks);
+            const int matchesPerDay = 4;
+
+            // Get daily rankings
+            var dailyRankings = new List<IEnumerable<RankingResults>>();
+            for (var i = 0; i < matchesPerDay; ++i)
+            {
+                try
+                {
+                    var matchRanking = await GetMatchRankings(i + (matchesPerDay * (day - 1)));
+                    dailyRankings.Add(matchRanking);
+                }
+                catch (Exception)
+                {
+                    // Ignore
+                }
+            }
 
             // Create a dictionary from team name to ranking result.
             // The ranking result is calculated by combining the stats of all matches in

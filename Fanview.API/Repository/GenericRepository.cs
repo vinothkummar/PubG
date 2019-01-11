@@ -15,7 +15,6 @@ namespace FanviewPollingService.Repository
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {   
         private IMongoDatabase database;
-        private IMongoCollection<T> _collection;
         private IConfiguration _configuration;
 
         public GenericRepository()

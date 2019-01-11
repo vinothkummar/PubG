@@ -630,5 +630,12 @@ namespace Fanview.API.Repository
 
             return teamStatus.ToList<LiveMatchStatus>();
         }
+
+        public async Task<IEnumerable<LiveMatchStatus>> GetLiveMatchStatusAsync()
+        {
+            var matchStatusCollection = _genericLiveMatchStatusRepository.GetMongoDbCollection("TeamLiveStatus");
+            var matchStatusQuery = await matchStatusCollection.FindAsync(Builders<LiveMatchStatus>.Filter.Empty);
+            return await matchStatusQuery.ToListAsync();
+        }
     }
 }

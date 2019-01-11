@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Fanview.API.Model;
 using Newtonsoft.Json.Linq;
@@ -18,5 +17,6 @@ namespace Fanview.API.Repository.Interface
         void InsertLiveEventMatchStatusTelemetry(JObject[] jsonResult, string fileName, DateTime eventTime);
         Task<IEnumerable<LiveMatchStatus>> GetLiveMatchStatus();
         Task<IEnumerable<LiveMatchStatus>> GetLiveMatchStatus2();
+        Task<IEnumerable<LiveMatchStatus>> GetLiveMatchStatusAsync();
     }
 }

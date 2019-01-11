@@ -15,8 +15,7 @@ namespace Fanview.API.Controllers
     public class TeamController : ControllerBase
     {
         private ITeamRepository _teamRepository;
-        private ITeamStats _teamStats;
-
+        
         public TeamController(ITeamRepository teamRepository)
         {
             _teamRepository = teamRepository;

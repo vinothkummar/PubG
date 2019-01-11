@@ -59,15 +59,7 @@ namespace Fanview.API.Controllers
         }
 
 
-        /// <summary>
-        /// Returns Live Team Status
-        /// </summary>               
-        //[HttpGet("StatusDeprecated", Name = "GetLiveStatus")]
-        //public Task<IEnumerable<LiveMatchStatus>> GetLiveStatus()
-        //{
-        //    return _liveStatus.GetLiveStatus();
-        //}
-
+        
         /// <summary>
         /// Returns Live Team Status
         /// </summary>               
