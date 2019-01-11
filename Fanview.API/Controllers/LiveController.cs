@@ -110,12 +110,12 @@ namespace Fanview.API.Controllers
             return _playerKillRepository.GetLiveKillList(topN);
         }
 
-        /// <summary>
-        /// Returns Live Player Stats
-        /// </summary>
-        /// <remarks>              
-        /// Sample request: api/Live/PlayerStats/{matchId}
-        /// </remarks>        
+        ///// <summary>
+        ///// Returns Live Player Stats
+        ///// </summary>
+        ///// <remarks>              
+        ///// Sample request: api/Live/PlayerStats/{matchId}
+        ///// </remarks>        
         //[HttpGet("LivePlayerStats/{matchId}", Name = "GetLivePlayerStats")]
         //public Task<IEnumerable<PlayerProfileTournament>> GetLivePlayerStats(int matchId)
         //{
@@ -125,11 +125,11 @@ namespace Fanview.API.Controllers
 
         //}
 
-        //[HttpGet("Ranking", Name = "GetLiveRanking")]
-        //public Task<IEnumerable<LiveTeamRanking>> GetLiveRanking()
-        //{
-        //    return _liveStatus.GetLiveRanking();
-        //}
+        [HttpGet("Ranking", Name = "GetLiveRanking")]
+        public Task<IEnumerable<LiveTeamRanking>> GetLiveRanking()
+        {
+            return _liveStatus.GetLiveRanking();
+        }
 
         [HttpGet("MatchStatus", Name = "GetMatchStatus")]
         public Task<Object> GetMatchStatus()
