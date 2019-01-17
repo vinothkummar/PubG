@@ -25,7 +25,6 @@ namespace Fanview.API.Repository
         private IPlayerRepository _playerVehicleLeaveRepository;
         private IMatchSummaryRepository _matchSummaryRepository;
         private ILogger<PlayerKillRepository> _logger;
-        private Task<HttpResponseMessage> _pubGClientResponse;
 
         // Used for random suffixes on processed files to avoid
         // files with duplicate names in the same second.
@@ -55,15 +54,15 @@ namespace Fanview.API.Repository
             {
                 _logger.LogInformation("Telemetery Request Started" + Environment.NewLine);
 
-                _pubGClientResponse = Task.Run(async () => await _httpClientRequest.GetAsync(await _httpClientBuilder.CreateRequestHeader(), query));
+                var pubGClientResponse = Task.Run(async () => await _httpClientRequest.GetAsync(await _httpClientBuilder.CreateRequestHeader(), query));
 
                 //_pubGClientResponse = _httpClientRequest.GetAsync(await _httpClientBuilder.CreateRequestHeader(), query);
 
-                if (_pubGClientResponse.Result.StatusCode == HttpStatusCode.OK && _pubGClientResponse != null)
+                if (pubGClientResponse.Result.StatusCode == HttpStatusCode.OK && pubGClientResponse != null)
                 {
                     _logger.LogInformation("Reading Telemetery Response Json" + Environment.NewLine);
 
-                    var jsonResult = _pubGClientResponse.Result.Content.ReadAsStringAsync().Result;
+                    var jsonResult = pubGClientResponse.Result.Content.ReadAsStringAsync().Result;
 
                     await Task.Run(async () =>  _playerKillRepository.InsertPlayerKillTelemetry(jsonResult, string.Empty));
 

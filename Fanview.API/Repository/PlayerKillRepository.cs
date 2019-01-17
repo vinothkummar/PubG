@@ -44,11 +44,7 @@ namespace Fanview.API.Repository
         private IGenericRepository<TeamPlayer> _teamPlayers;
         private ITeamPlayerRepository _teamPlayerRepository;
         private IMatchRepository _matchRepository;
-
-
-        private string _matchId;
        
-
         public PlayerKillRepository(IClientBuilder httpClientBuilder,
                                     IHttpClientRequest httpClientRequest,                                    
                                     IGenericRepository<Kill> genericRepository,
@@ -575,23 +571,24 @@ namespace Fanview.API.Repository
 
         public async void InsertLiveKillEventTelemetry(JObject[] jsonResult, string fileName, DateTime eventTime)
         {
+            string matchId = null;
             if (jsonResult.Where(cn => (string)cn["_T"] == "EventMatchJoin").Count() > 0)
             {
                 _cacheService.RemoveFromCache();
 
                 _cacheService.RefreshFromCache();                
                 
-               _matchId = jsonResult.Where(cn => (string)cn["_T"] == "EventMatchJoin").Select(s => s.Value<string>("matchId")).FirstOrDefault();
+               matchId = jsonResult.Where(cn => (string)cn["_T"] == "EventMatchJoin").Select(s => s.Value<string>("matchId")).FirstOrDefault();
                
-                if (_matchId != null)
+                if (matchId != null)
                 {
-                    CreateMatch(eventTime);
+                    CreateMatch(eventTime, matchId);
                 }
             }
 
             var kills = jsonResult.Where(cn => (string)cn["_T"] == "EventKill").Select(s => new LiveEventKill()
             {
-                MatchId = _matchId,
+                MatchId = matchId,
                 IsDetailStatus = s.Value<bool>("isDetailStatus"),
                 IsKillerMe = s.Value<bool>("isKillerMe"),
                 KillerName = s.Value<string>("killerName"),
@@ -651,11 +648,11 @@ namespace Fanview.API.Repository
 
         }
 
-        private void CreateMatch(DateTime dateTime)
+        private void CreateMatch(DateTime dateTime, string matchId)
         {
-            _matchId = _matchId.Split(".").Last();
+            matchId = matchId.Split(".").Last();
 
-            var tournamentMatch = _eventRepository.FindEvent(_matchId).Result;
+            var tournamentMatch = _eventRepository.FindEvent(matchId).Result;
 
             if (tournamentMatch == null)
             {
@@ -663,7 +660,7 @@ namespace Fanview.API.Repository
 
                 var tournamentMatchDetails = new Event()
                 {
-                    Id = _matchId,
+                    Id = matchId,
                     EventName = "",
                     MatchId = tournamentMatchIdCount + 1,
                     CreatedAT = dateTime.ToString()

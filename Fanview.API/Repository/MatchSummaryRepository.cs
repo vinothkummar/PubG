@@ -21,38 +21,28 @@ namespace Fanview.API.Repository
         private IGenericRepository<MatchSummary> _genericMatchSummaryRepository;
         private IGenericRepository<MatchPlayerStats> _genericMatchPlayerStatsRepository;
         private IGenericRepository<TeamPlayer> _genericTeamPlayerRepository;
-        private IGenericRepository<MatchRanking> _genericMatchRankingRepository;
         private IGenericRepository<LiveMatchStatus> _genericLiveMatchStatusRepository;
-        private IMatchManagementRepository _matchManagementRepository;
-        private IMatchManagementRepository matchManagementRepository;
         private ITeamRepository _teamRepository;
-        private IGenericRepository<Event> _tournament;
         private ITeamPlayerRepository _teamPlayerRepository;
         private IPlayerKillRepository _playerKillRepository;
         private ITeamLiveStatusRepository _teamLiveStatusRepository;
         private ILogger<PlayerKillRepository> _logger;
         private Task<HttpResponseMessage> _pubGClientResponse;
         private DateTime LastMatchCreatedTimeStamp = DateTime.MinValue;
-        private IEventRepository _eventRepository;
         private ICacheService _cacheService;
         private IEnumerable<LiveMatchStatus> teamLiveStatus;
         private int postMatchWaitingCount;
-        // private bool isTeamElimnated;
 
         public MatchSummaryRepository(IClientBuilder httpClientBuilder,
                                       IHttpClientRequest httpClientRequest,
                                       IGenericRepository<MatchSummary> genericMatchSummaryRepository,
                                       IGenericRepository<MatchPlayerStats> genericMatchPlayerStatsRepository,
                                       IGenericRepository<TeamPlayer> genericTeamPlayerRepository,
-                                      IGenericRepository<MatchRanking> genericMatchRankingRepository,
                                       IGenericRepository<LiveMatchStatus> genericLiveMatchStatusRepository,
-                                      IGenericRepository<Event> tournament,
-                                      IMatchManagementRepository matchManagementRepository,
                                       ITeamRepository teamRepository,
                                       ITeamPlayerRepository teamPlayerRepository,
                                       IPlayerKillRepository playerKillRepository,
                                       ITeamLiveStatusRepository teamLiveStatusRepository,
-                                      IEventRepository eventRepository,
                                       ILogger<PlayerKillRepository> logger,
                                       ICacheService cacheService)
         {
@@ -61,18 +51,13 @@ namespace Fanview.API.Repository
             _genericMatchSummaryRepository = genericMatchSummaryRepository;
             _genericMatchPlayerStatsRepository = genericMatchPlayerStatsRepository;
             _genericTeamPlayerRepository = genericTeamPlayerRepository;
-            _genericMatchRankingRepository = genericMatchRankingRepository;
             _genericLiveMatchStatusRepository = genericLiveMatchStatusRepository;
-            _matchManagementRepository = matchManagementRepository;
             _teamRepository = teamRepository;
-            _tournament = tournament;
             _teamPlayerRepository = teamPlayerRepository;
             _playerKillRepository = playerKillRepository;
             _teamLiveStatusRepository = teamLiveStatusRepository;
-            _eventRepository = eventRepository;
             _logger = logger;
             _cacheService = cacheService;
-
             postMatchWaitingCount = 0;
         }
 
@@ -623,19 +608,11 @@ namespace Fanview.API.Repository
             return _matchStatus;
         }
 
-        public async Task<IEnumerable<LiveMatchStatus>> GetLiveMatchStatus2()
-        {
-            var matchStatus = getMatchStatusCollection();
-            var teamStatus = await matchStatus.FindAsync(Builders<LiveMatchStatus>.Filter.Empty);
-
-            return teamStatus.ToList<LiveMatchStatus>();
-        }
-
         public async Task<IEnumerable<LiveMatchStatus>> GetLiveMatchStatusAsync()
         {
             var matchStatusCollection = _genericLiveMatchStatusRepository.GetMongoDbCollection("TeamLiveStatus");
-            var matchStatusQuery = await matchStatusCollection.FindAsync(Builders<LiveMatchStatus>.Filter.Empty);
-            return await matchStatusQuery.ToListAsync();
+            var matchStatusQuery = await matchStatusCollection.FindAsync(Builders<LiveMatchStatus>.Filter.Empty).ConfigureAwait(false);
+            return await matchStatusQuery.ToListAsync().ConfigureAwait(false);
         }
     }
 }

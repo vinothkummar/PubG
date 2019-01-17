@@ -1,78 +1,44 @@
 ﻿using Fanview.API.BusinessLayer.Contracts;
 using Fanview.API.Repository.Interface;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Fanview.API.Model.LiveModels;
 using Fanview.API.Model;
 using MongoDB.Driver;
-using Fanview.API.Model.ViewModels;
 using Fanview.API.Services.Interface;
 
 namespace Fanview.API.BusinessLayer
 {
     public class LiveStats : ILiveStats
     {
-        private ILogger<LiveStats> _logger;        
-        private ITeamPlayerRepository _teamPlayerRepository;
-        private IMatchSummaryRepository _matchSummaryRepository;
-        private ITeamLiveStatusRepository _teamLiveStatusRepository;
+        private readonly IMatchSummaryRepository _matchSummaryRepository;
+        private readonly ITeamLiveStatusRepository _teamLiveStatusRepository;
         private readonly IPlayerKillRepository _playerKillRepository;
         private readonly ITeamRankingService _teamRankingService;
-        private ICacheService _cacheService;
-        private ITeamRepository _teamRepository;
-        private IRanking _ranking;      
-        private IEventRepository _eventRepository;
+        private readonly IEventRepository _eventRepository;
 
-        public LiveStats(ITeamPlayerRepository teamPlayerRepository,
-                              ITeamRepository teamRepository,
-                              IRanking ranking,
-                              IMatchSummaryRepository matchSummaryRepository,
-                              IEventRepository eventRepository,
-                              ICacheService cacheService,
-                              ITeamLiveStatusRepository teamLiveStatusRepository,
-                              IPlayerKillRepository playerKillRepository,
-                              ITeamRankingService teamRankingService,
-                              ILogger<LiveStats> logger)
+        public LiveStats(ITeamRepository teamRepository,
+                        IMatchSummaryRepository matchSummaryRepository,
+                        IEventRepository eventRepository,
+                        ITeamLiveStatusRepository teamLiveStatusRepository,
+                        IPlayerKillRepository playerKillRepository,
+                        ITeamRankingService teamRankingService,
+                        ILogger<LiveStats> logger)
         {
-            _logger = logger;            
-            _teamPlayerRepository = teamPlayerRepository;           
-            _teamRepository = teamRepository;
             _eventRepository = eventRepository;           
-            _ranking = ranking;                     
             _matchSummaryRepository = matchSummaryRepository;
             _teamLiveStatusRepository = teamLiveStatusRepository;
             _playerKillRepository = playerKillRepository;
             _teamRankingService = teamRankingService;
-            _cacheService = cacheService;
         }
 
-        public async Task<object> GetLiveMatchStatus()
+        public async Task<EventLiveMatchStatus> GetLiveMatchStatus()
         {
-            var liveMatchStatus = await  _teamLiveStatusRepository.GetEventLiveMatchStatus();
-
-            var result = new
-            {
-               // MatchId = matchId,
-                MatchState = liveMatchStatus.MatchState == "WaitingPostMatch" ? "Completed" : liveMatchStatus.MatchState,
-                ElapsedTime = liveMatchStatus.ElapsedTime,
-                BlueZonePhase = liveMatchStatus.BlueZonePhase,
-                IsBlueZoneMoving = liveMatchStatus.IsBlueZoneMoving,
-                BlueZoneRadius = liveMatchStatus.BlueZoneRadius,
-                BlueZoneLocation = liveMatchStatus.BlueZoneLocation,
-                WhiteZoneRadius = liveMatchStatus.WhiteZoneRadius,
-                WhiteZoneLocation = liveMatchStatus.WhiteZoneLocation,
-                RedZoneRadius = liveMatchStatus.RedZoneRadius,
-                RedZoneLocation = liveMatchStatus.RedZoneLocation,
-                StartPlayerCount = liveMatchStatus.StartPlayerCount,
-                AlivePlayerCount = liveMatchStatus.AlivePlayerCount,
-                StartTeamCount = liveMatchStatus.StartTeamCount,
-                AliveTeamCount = liveMatchStatus.AliveTeamCount
-            };
-
-            return result;
+            var liveMatchStatus = await  _teamLiveStatusRepository.GetEventLiveMatchStatus().ConfigureAwait(false);
+            liveMatchStatus.MatchState = liveMatchStatus.MatchState.Replace("WaitingPostMatch", "Completed");
+            return liveMatchStatus;
         }
 
         public async Task<IEnumerable<LiveTeamRanking>> GetLiveRanking()
@@ -85,87 +51,14 @@ namespace Fanview.API.BusinessLayer
             var killList = await _playerKillRepository.GetLiveKillListAsync(0);
 
             return await _teamRankingService.GetTeamRankings(killList, matchStatus);
-        }
+        } 
 
         public async Task<IEnumerable<LiveMatchStatus>> GetLiveStatus()
         {
-            try
-            {
-                var teamLiveStatusCache = _cacheService.RetrieveFromCache<IEnumerable<LiveMatchStatus>>("TeamLiveStatusCache");
-                                             
-                
-
-                if (teamLiveStatusCache != null)
-                {
-                    return teamLiveStatusCache.Where(cn => cn.TeamId != 0).Select(s => new LiveMatchStatus()
-                    {
-                        MatchId = s.MatchId,
-                        TeamId = s.TeamId,
-                        TeamName = s.TeamName,
-                        TeamPlayers = s.TeamPlayers,
-                        //Players = s.TeamPlayers,
-                        AliveCount = s.AliveCount,
-                        DeadCount = s.DeadCount,
-                        EliminatedAt = s.EliminatedAt,
-                        IsEliminated = s.IsEliminated
-                    }); 
-                }
-
-            }
-            catch (Exception ex)
-            {
-                _logger.LogInformation("TeamLiveStatusCache exception " + ex + Environment.NewLine);
-
-            }
-
-            var matchStatus = _matchSummaryRepository.GetLiveMatchStatus().Result;
-
-            var matchStatusObject = matchStatus.Where(cn => cn.TeamId != 0).Select(s => new LiveMatchStatus()
-            {
-                                        MatchId = s.MatchId,
-                                        TeamId = s.TeamId,
-                                        TeamName = s.TeamName,
-                                        TeamPlayers = s.TeamPlayers,
-                                        //Players = s.TeamPlayers,
-                                        AliveCount = s.AliveCount,
-                                        DeadCount = s.DeadCount,
-                                        EliminatedAt = s.EliminatedAt,
-                                        IsEliminated = s.IsEliminated
-                                    });
-
-            await _cacheService.SaveToCache<IEnumerable<LiveMatchStatus>>("TeamLiveStatusCache", matchStatusObject, 1000, 1);
-
-
-            if (matchStatusObject == null)
-            {
-                return null;
-            }
-
-            
-
-            return await Task.FromResult(matchStatusObject);            
+            var matchStatus = await _matchSummaryRepository.GetLiveMatchStatusAsync().ConfigureAwait(false);
+            matchStatus.ToList().RemoveAll(m => m.TeamId == 0);
+            return matchStatus;
         }
-
-        public async Task<IEnumerable<LiveMatchStatus>> GetLiveStatusMongo()
-        {
-            var matchStatus = await _matchSummaryRepository.GetLiveMatchStatus2();
-            var matchStatusObject = matchStatus.Where(cn => cn.TeamId != 0).Select(s => new LiveMatchStatus()
-            {
-                MatchId = s.MatchId,
-                TeamId = s.TeamId,
-                TeamName = s.TeamName,
-                TeamPlayers = s.TeamPlayers,
-                //Players = s.TeamPlayers,
-                AliveCount = s.AliveCount,
-                DeadCount = s.DeadCount,
-                EliminatedAt = s.EliminatedAt,
-                IsEliminated = s.IsEliminated
-            });
-
-            return matchStatusObject;
-            //return new List<LiveMatchStatus> ();
-        }
-
 
         /**
          * NOT USED: consider them a stub of what have to be implemented

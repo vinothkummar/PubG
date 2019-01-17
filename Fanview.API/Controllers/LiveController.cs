@@ -18,7 +18,6 @@ namespace Fanview.API.Controllers
     [ApiController]
     public class LiveController : ControllerBase
     {
-        private ILiveRepository _liveRepository;
         private ILiveStats _liveStatus;
         private IRanking _ranking;
         private ITeamPlayerRepository _teamPlayerRepository;
@@ -26,11 +25,10 @@ namespace Fanview.API.Controllers
         private IPlayerKillRepository _playerKillRepository;
         private IPlayerKilled _playerKilled;
 
-        public LiveController(ILiveRepository liveRepository, ILiveStats liveStatus, IRanking ranking, IPlayerKilled playerKilled,
+        public LiveController(ILiveStats liveStatus, IRanking ranking, IPlayerKilled playerKilled,
                               ITeamPlayerRepository teamPlayerRepository, ITeamRepository teamRepository, IPlayerKillRepository playerKillRepository)
         {
 
-            _liveRepository = liveRepository;
             _liveStatus = liveStatus;
             _ranking = ranking;
             _teamPlayerRepository = teamPlayerRepository;
@@ -58,17 +56,14 @@ namespace Fanview.API.Controllers
             return  _playerKilled.GetLivePlayerKilledMongo();
         }
 
-
-        
         /// <summary>
         /// Returns Live Team Status
         /// </summary>               
         [HttpGet("Status", Name = "GetLiveStatus")]
         public Task<IEnumerable<LiveMatchStatus>> GetLiveStatus2()
         {
-            return _liveStatus.GetLiveStatusMongo();
+            return _liveStatus.GetLiveStatus();
         }
-
 
         ///// <summary>
         ///// Returns Live Damage List
@@ -125,14 +120,14 @@ namespace Fanview.API.Controllers
 
         //}
 
-        //[HttpGet("Ranking", Name = "GetLiveRanking")]
-        //public Task<IEnumerable<LiveTeamRanking>> GetLiveRanking()
-        //{
-        //    return _liveStatus.GetLiveRanking();
-        //}
+        [HttpGet("Ranking", Name = "GetLiveRanking")]
+        public Task<IEnumerable<LiveTeamRanking>> GetLiveRanking()
+        {
+            return _liveStatus.GetLiveRanking();
+        }
 
         [HttpGet("MatchStatus", Name = "GetMatchStatus")]
-        public Task<Object> GetMatchStatus()
+        public Task<EventLiveMatchStatus> GetMatchStatus()
         {
             return _liveStatus.GetLiveMatchStatus();
         }

@@ -38,15 +38,15 @@ namespace Fanview.API.Repository
 
         public async Task<EventLiveMatchStatus> GetEventLiveMatchStatus()
         {
-            var eventLiveMatchStatus = _eventLiveMatchStatus.GetMongoDbCollection("EventMatchStatus");
-
-            //this feature is commented ; due to matchId issue on the OGN Test
-
-            //var lastLiveMatchStatus = eventLiveMatchStatus.FindAsync(Builders<EventLiveMatchStatus>.Filter.Where(cn => cn.MatchId == matchId)).Result.ToListAsync().Result.OrderByDescending(o => o.Id).FirstOrDefault();
-            var lastLiveMatchStatus = eventLiveMatchStatus.FindAsync(Builders<EventLiveMatchStatus>.Filter.Empty).Result.ToListAsync().Result.OrderByDescending(o => o.Id).FirstOrDefault();
-
-            return await Task.FromResult(lastLiveMatchStatus);
-
+            var eventMatchStatus = _eventLiveMatchStatus.GetMongoDbCollection("EventMatchStatus");
+            var filter = Builders<EventLiveMatchStatus>.Filter.Empty;
+            var options = new FindOptions<EventLiveMatchStatus>()
+            {
+                Sort = Builders<EventLiveMatchStatus>.Sort.Descending("_id"),
+                Limit = 1
+            };
+            var res = await eventMatchStatus.FindAsync(filter, options).ConfigureAwait(false);
+            return await res.FirstOrDefaultAsync().ConfigureAwait(false);
         }
 
         public async Task<int> GetTeamLiveStatusCount(string matchId)
