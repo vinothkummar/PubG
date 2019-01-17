@@ -28,21 +28,19 @@ namespace Fanview.API.Repository
 
         public string GetDamageCauserName(string damageCauserKey)
         {
-            var cached = _memoryCache.Get<string>(_damageCausersCacheKey);
-            if (cached != null)
-            {
-                return cached;
-            }
             try
             {
-                var damageCausersJson = EmbeddedResourcesUtility.ReadEmbeddedResource(_damageCausersResourcePath);
-                var damageCausersDict = JsonConvert.DeserializeObject<Dictionary<string, string>>(damageCausersJson);
-                var res = damageCausersDict[damageCauserKey];
-                _memoryCache.Set(_damageCausersCacheKey, res, new MemoryCacheEntryOptions
+                var damageCausersDict = _memoryCache.Get<Dictionary<string, string>>(_damageCausersCacheKey);
+                if (damageCausersDict == null)
                 {
-                    AbsoluteExpiration = DateTimeOffset.UtcNow.Add(_damageCausersCacheExpiration)
-                });
-                return res;
+                    var damageCausersJson = EmbeddedResourcesUtility.ReadEmbeddedResource(_damageCausersResourcePath);
+                    damageCausersDict = JsonConvert.DeserializeObject<Dictionary<string, string>>(damageCausersJson);
+                    _memoryCache.Set(_damageCausersCacheKey, damageCausersDict, new MemoryCacheEntryOptions
+                    {
+                        AbsoluteExpiration = DateTimeOffset.UtcNow.Add(_damageCausersCacheExpiration)
+                    });
+                }
+                return damageCausersDict[damageCauserKey];
             }
             catch (FileNotFoundException)
             {

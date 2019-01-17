@@ -32,12 +32,14 @@
 
   <ItemGroup>
     <Content Remove="Assets\DamageCauserName.json" />
+    <Content Remove="Assets\Schedule.json" />
     <Content Remove="project.json" />
     <Content Remove="web.config" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Assets\DamageCauserName.json" />
+    <EmbeddedResource Include="Assets\Schedule.json" />
   </ItemGroup>
 
   <ItemGroup>

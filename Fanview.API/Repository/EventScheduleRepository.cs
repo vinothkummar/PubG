@@ -1,46 +1,67 @@
 ﻿using Fanview.API.Model;
 using Fanview.API.Repository.Interface;
-using Microsoft.AspNetCore.Hosting;
+using Fanview.API.Utility;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
-
 
 namespace Fanview.API.Repository
 {
     public class EventScheduleRepository : IEventScheduleRepository
     {
-        private IHostingEnvironment _hostingEnvironment;
-        private IGenericRepository<EventInfo> _eventInfoRepository;
         private ILogger<EventScheduleRepository> _logger;
+        private readonly IMemoryCache _memoryCache;
 
-        public EventScheduleRepository(IGenericRepository<EventInfo> eventInfoRepository,
-                               ILogger<EventScheduleRepository> logger,
-                               IHostingEnvironment hostingEnvironment
-                               )
+        private readonly string _eventScheduleResourcePath;
+        private readonly string _eventScheduleCacheKey;
+        private readonly TimeSpan _eventScheduleCacheExpiration;
+
+        public EventScheduleRepository(ILogger<EventScheduleRepository> logger, IMemoryCache memoryCache)
         {
-            _hostingEnvironment = hostingEnvironment;
-            _eventInfoRepository = eventInfoRepository;
             _logger = logger;
+            _memoryCache = memoryCache;
+            _eventScheduleResourcePath = "Fanview.API.Assets.Schedule.json";
+            _eventScheduleCacheKey = "EventSchedule";
+            _eventScheduleCacheExpiration = TimeSpan.FromHours(2);
         }
 
-        public async Task<IEnumerable<Competition>> GetCompetitionSchedule()
+        public IEnumerable<Competition> GetCompetitionSchedule()
         {
-            var fileName = _hostingEnvironment.ContentRootPath + "\\Assets\\Schedule.json";
-
-            var competion = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Competition>>(File.ReadAllText(fileName));
-
-            return await Task.FromResult(competion);
-
-           
+            var schedule = _memoryCache.Get<IEnumerable<Competition>>(_eventScheduleCacheKey);
+            if (schedule != null)
+            {
+                return schedule;
+            }
+            try
+            {
+                var scheduleJson = EmbeddedResourcesUtility.ReadEmbeddedResource(_eventScheduleResourcePath);
+                var res = JsonConvert.DeserializeObject<IEnumerable<Competition>>(scheduleJson);
+                _memoryCache.Set(_eventScheduleCacheKey, res, new MemoryCacheEntryOptions
+                {
+                    AbsoluteExpiration = DateTimeOffset.UtcNow.Add(_eventScheduleCacheExpiration)
+                });
+                return res;
+            }
+            catch (FileNotFoundException)
+            {
+                _logger.LogError($"Resource path: {_eventScheduleResourcePath} not found");
+            }
+            catch (JsonReaderException)
+            {
+                _logger.LogError($"Failed to deserialize Event Schedule json into a dictionary.");
+            }
+            return null;
         }
-        public async Task<Competition> GetDailySchedule(string daycount)
-        {
-            var dailySchedule = GetCompetitionSchedule().Result.SingleOrDefault(cn => cn.DayCount.ToLower() == daycount.ToLower());
 
-            return await Task.FromResult(dailySchedule);
+        public Competition GetDailySchedule(string dayCount)
+        {
+            return GetCompetitionSchedule()
+                .FirstOrDefault(cs => string.Equals(cs.DayCount, dayCount, 
+                StringComparison.InvariantCultureIgnoreCase));
         }
     }
 }
