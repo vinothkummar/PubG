@@ -16,6 +16,7 @@ namespace FanviewPollingService.Services
         public static IServiceProvider BuildDI()
         {
             var serviceProvider = new ServiceCollection().AddLogging(configure => configure.AddSerilog())
+                                                         .AddMemoryCache()
                                                          .AddSingleton<IHttpClientRequest, HttpClientRequest>()
                                                          .AddSingleton<IClientBuilder, ClientBuilder>()
                                                          .AddSingleton<IEventRepository, EventRepository>()

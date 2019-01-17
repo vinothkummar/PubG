@@ -1,12 +1,9 @@
 ﻿using Fanview.API.Repository;
 using Fanview.API.Repository.Interface;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Fanview.Test.Repositories
 {
@@ -18,9 +15,9 @@ namespace Fanview.Test.Repositories
         [SetUp]
         public void Setup()
         {
-            
             var logger = Substitute.For<ILogger<AssetsRepository>>();
-            _sut = new AssetsRepository(logger);
+            var memoryCache = new MemoryCache(new MemoryCacheOptions());
+            _sut = new AssetsRepository(logger, memoryCache);
         }
 
         [TestCase("AquaRail_A_01_C", "Aquarail")]
