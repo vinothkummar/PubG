@@ -494,7 +494,7 @@ namespace Fanview.API.Repository
             var liveEventKillList = _LiveEventKill.GetAll("LiveEventKill");
             await Task.WhenAll(teams, teamPlayers, liveEventKillList);
 
-            var result = liveEventKillList.Result.Where(ev => !ev.IsGroggy)
+            var result = liveEventKillList.Result.Where(ev => !ev.IsGroggy && ev.KillerTeamId != ev.VictimTeamId)
                 .Join(teamPlayers.Result, ev => new { KillerName = ev.KillerName }, tp => new { KillerName = tp.PlayerName }, (ev, tp) => new { ev, tp })
                 .Join(teams.Result, evTp => new { TeamId = evTp.tp.TeamId }, t => new { TeamId = t.Id }, (evTp, t) => new { evTp, t })
                 .GroupBy(g => g.evTp.ev.KillerName)
@@ -507,36 +507,7 @@ namespace Fanview.API.Repository
                 })
                 .OrderByDescending(o => o.kills)
                 .Take(topCount > 0 ? topCount : 10);
-
-            var killLeaders = new KillLeader()
-            {
-                //matchId = matchId,
-                killList = result
-            };
-            return killLeaders;
-        }
-
-        public async Task<KillLeader> GetLiveKillListAsync(int topCount)
-        {
-            var teams = _team.GetAll("Team");
-            var teamPlayers = _genericTeamPlayerRepository.GetAll("TeamPlayers");
-            var liveEventKillList = _LiveEventKill.GetAll("LiveEventKill");
-            await Task.WhenAll(teams, teamPlayers, liveEventKillList);
-
-            var result = liveEventKillList.Result.Where(ev => !ev.IsGroggy)
-                .Join(teamPlayers.Result, ev => new { KillerName = ev.KillerName }, tp => new { KillerName = tp.PlayerName }, (ev, tp) => new { ev, tp })
-                .Join(teams.Result, evTp => new { TeamId = evTp.tp.TeamId }, t => new { TeamId = t.Id }, (evTp, t) => new { evTp, t })
-                .GroupBy(g => g.evTp.ev.KillerName)
-                .Select(s => new Kills()
-                {
-                    kills = s.Count(),
-                    playerName = s.Key,
-                    playerId = s.FirstOrDefault().evTp.tp.PlayerId,
-                    teamId = s.FirstOrDefault().t.TeamId,
-                })
-                .OrderByDescending(o => o.kills)
-                .Take(topCount > 0 ? topCount : 10);
-
+          
             var killLeaders = new KillLeader()
             {
                 //matchId = matchId,

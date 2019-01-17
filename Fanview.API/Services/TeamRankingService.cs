@@ -82,7 +82,7 @@ namespace Fanview.API.Services
             // These are the teams that were eliminated, ordered by the first ones to go out
             var eliminatedTeams = liveStatus
                 .Where(t => t.IsEliminated)
-                .OrderByDescending(t => t.EliminatedAt);
+                .OrderBy(t => t.EliminatedAt);
 
             // Teams that are still playing
             var liveTeams = liveStatus.Where(t => !t.IsEliminated);

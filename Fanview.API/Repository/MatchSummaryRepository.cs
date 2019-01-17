@@ -492,13 +492,7 @@ namespace Fanview.API.Repository
                 foreach (var item1 in item)
                 {
                     var teamLiveStatus = new LiveMatchStatus();
-
-                    var teamId = item1.Select(s => s.TeamId).ElementAtOrDefault(0);
-
-                    //var teamId = teamPlayers.Where(cn => cn.PlayerName == item1.Select(s => s.PlayerName).ElementAtOrDefault(0)).FirstOrDefault().TeamIdShort;
-
-                    teamLiveStatus.TeamId = teamId;
-                    teamLiveStatus.TeamName = _teamRepository.GetTeam().Result.Where(cn => cn.TeamId == teamId).Select(s => s.ShortName).ElementAtOrDefault(0);
+                    
                     var teamPlayerLiveStatusCollection = new List<LiveMatchPlayerStatus>();
 
                     int aliveCountIncremental = 0;
@@ -510,7 +504,8 @@ namespace Fanview.API.Repository
                     foreach (var item2 in item1)
                     {
                         var teamPlayerStatus = new LiveMatchPlayerStatus();
-
+                        teamLiveStatus.TeamId = teamPlayers.Where(cn => cn.PlayerName == item2.PlayerName).Select(a => a.TeamIdShort).FirstOrDefault();
+                        teamLiveStatus.TeamName = _teamRepository.GetTeam().Result.Where(cn => cn.TeamId == teamLiveStatus.TeamId).Select(s => s.ShortName).ElementAtOrDefault(0);
                         teamPlayerStatus.PlayerId = teamPlayers.Where(cn => cn.PlayerName == item2.PlayerName).Select(a => a.PlayerId).FirstOrDefault();
                         teamPlayerStatus.PlayerName = item2.PlayerName;
                         teamPlayerStatus.Location = item2.Location;
