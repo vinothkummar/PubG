@@ -583,36 +583,10 @@ namespace Fanview.API.Repository
 
         public async Task<IEnumerable<LiveMatchStatus>> GetLiveMatchStatus()
         {
-            //this line is commented due to we have issues on getting the match Id while on live
-            //so; its going to be always the current match
-            // var tournamentMatchId = _eventRepository.GetTournamentLiveMatch().Result;
-
-
-            var matchStatus = _genericLiveMatchStatusRepository.GetMongoDbCollection("TeamLiveStatus");
-
-            //var teamStatus = matchStatus.FindAsync(Builders<LiveMatchStatus>.Filter.Where(cn => cn.MatchId == "tournamentMatchId")).Result.ToListAsync();
-
-            var teamStatus = matchStatus.FindAsync(Builders<LiveMatchStatus>.Filter.Empty).Result.ToListAsync();
-
-            return await teamStatus;
-        }
-
-
-        private IMongoCollection<LiveMatchStatus> _matchStatus;
-        private IMongoCollection<LiveMatchStatus> getMatchStatusCollection()
-        {
-            if(_matchStatus== null)
-            {
-                _matchStatus = _genericLiveMatchStatusRepository.GetMongoDbCollection("TeamLiveStatus");
-            }
-            return _matchStatus;
-        }
-
-        public async Task<IEnumerable<LiveMatchStatus>> GetLiveMatchStatusAsync()
-        {
-            var matchStatusCollection = _genericLiveMatchStatusRepository.GetMongoDbCollection("TeamLiveStatus");
-            var matchStatusQuery = await matchStatusCollection.FindAsync(Builders<LiveMatchStatus>.Filter.Empty).ConfigureAwait(false);
-            return await matchStatusQuery.ToListAsync().ConfigureAwait(false);
+            var collection = _genericLiveMatchStatusRepository.GetMongoDbCollection("TeamLiveStatus");
+            var filter = Builders<LiveMatchStatus>.Filter.Where(ms => ms.TeamId != 0);
+            var query = await collection.FindAsync(filter).ConfigureAwait(false);
+            return await query.ToListAsync().ConfigureAwait(false);
         }
     }
 }

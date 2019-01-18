@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Fanview.API.BusinessLayer.Contracts;
 using Fanview.API.Model;
 using Fanview.API.Utility;
-using Microsoft.Extensions.Logging;
 using Fanview.API.Repository.Interface;
-using System.Globalization;
 
 namespace Fanview.API.BusinessLayer
 {
@@ -106,10 +103,10 @@ namespace Fanview.API.BusinessLayer
 
        
 
-        public IEnumerable<KilliPrinter> LiveKilledOrTeamEliminiated(IEnumerable<LiveEventKill> playerKilled)
+        public async Task<IEnumerable<KilliPrinter>> LiveKilledOrTeamEliminiated(IEnumerable<LiveEventKill> playerKilled)
         { 
 
-            var result = _teamPlayerRepository.GetPlayersId(playerKilled);
+            var result = await _teamPlayerRepository.GetPlayersId(playerKilled).ConfigureAwait(false);
 
             var killiPrinter = new List<KilliPrinter>();
 

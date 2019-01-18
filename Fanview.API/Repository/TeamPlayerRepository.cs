@@ -21,14 +21,12 @@ namespace Fanview.API.Repository
         private IGenericRepository<CreatePlayer> _genericPlayerRepository;
         private IGenericRepository<MatchPlayerStats> _genericMatchPlayerStatsRepository;
         private IGenericRepository<Event> _tournament;
-        private ICacheService _cacheService;
 
         public TeamPlayerRepository(IGenericRepository<TeamPlayer> genericRepository, ILogger<TeamRepository> logger,
             IGenericRepository<Team> teamgenericRepository,
             IGenericRepository<CreatePlayer> genericPlayerRepository,
             IGenericRepository<MatchPlayerStats> genericMatchPlayerStatsRepository,
-            IGenericRepository<Event> tournament,
-            ICacheService cacheService)
+            IGenericRepository<Event> tournament)
         {
             _genericTeamPlayerRepository = genericRepository;
 
@@ -37,7 +35,6 @@ namespace Fanview.API.Repository
             _genericPlayerRepository = genericPlayerRepository;
             _genericMatchPlayerStatsRepository = genericMatchPlayerStatsRepository;
             _tournament = tournament;
-            _cacheService = cacheService;
         }
 
         public async Task<TeamPlayer> GetPlayerProfile(string playerId1)
@@ -51,39 +48,15 @@ namespace Fanview.API.Repository
         
         public async Task<IEnumerable<TeamPlayer>> GetTeamPlayers()
         {
-            var cacheKey = "TeamPlayerCache";
-
-            var teamPlayerFromCache = _cacheService.RetrieveFromCache<IEnumerable<TeamPlayer>>(cacheKey);
-
-            if (teamPlayerFromCache != null)
+            var collection = _genericTeamPlayerRepository.GetMongoDbCollection("TeamPlayers");
+            var filter = Builders<TeamPlayer>.Filter.Empty;
+            var options = new FindOptions<TeamPlayer>()
             {
-                _logger.LogInformation("TeamPlayer returned from " + cacheKey + Environment.NewLine);
-
-                return teamPlayerFromCache;
-            }
-            else
-            {
-
-                _logger.LogInformation("TeamPlayer Repository call started" + Environment.NewLine);
-
-                var players = _genericTeamPlayerRepository.GetAll("TeamPlayers").Result;
-
-                //var distinctTeamPlayers = players.GroupBy(o => new { o.PlayerName, o.PubgAccountId }).Select(o => o.FirstOrDefault());
-
-                var teamPlayers = players.OrderBy(o => o.TeamIdShort).ThenBy(t => t.FullName);
-
-                _logger.LogInformation("TeamPlayer Results stored to the " + cacheKey + Environment.NewLine);
-
-                await _cacheService.SaveToCache<IEnumerable<TeamPlayer>>(cacheKey, teamPlayers, 1800000, 7);
-
-                _logger.LogInformation("TeamPlayer Repository call Ended" + Environment.NewLine);
-
-                return await Task.FromResult(teamPlayers);
-            }
-          
-           
+                Sort = Builders<TeamPlayer>.Sort.Descending("teamIdShort").Descending("fullName")
+            };
+            var query = await collection.FindAsync(filter, options).ConfigureAwait(false);
+            return await query.ToListAsync().ConfigureAwait(false);
         }
-        
 
         public async Task<TeamLineUp> GetTeamandPlayers()
         {
@@ -440,9 +413,9 @@ namespace Fanview.API.Repository
             _genericTeamPlayerRepository.DeleteMany(filter, "TeamPlayers");
         }
 
-        public IEnumerable<PlayerKilledGraphics> GetPlayersId(IEnumerable<LiveEventKill> liveEventKills)
+        public async Task<IEnumerable<PlayerKilledGraphics>> GetPlayersId(IEnumerable<LiveEventKill> liveEventKills)
         {
-            var teamPlayers =  GetTeamPlayers().Result;
+            var teamPlayers =  await GetTeamPlayers().ConfigureAwait(false);
 
             var liveKilledPlayersVictim = liveEventKills.Join(teamPlayers, pk => pk.VictimName.ToLower().Trim(), tp => tp.PlayerName.ToLower().Trim(), (pk, tp) => new { pk, tp });
 

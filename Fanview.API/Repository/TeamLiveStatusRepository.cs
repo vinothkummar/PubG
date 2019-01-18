@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -49,31 +49,11 @@ namespace Fanview.API.Repository
             return await res.FirstOrDefaultAsync().ConfigureAwait(false);
         }
 
-        public async Task<int> GetTeamLiveStatusCount(string matchId)
+        public Task<long> GetTeamLiveStatusCount(string matchId)
         {
-            var cacheKey = "TeamLiveStatusCountCach";
-
-            try
-            {
-                var TeamLiveStatusCountCache = _cacheService.RetrieveFromCache<int>(cacheKey);
-
-                if (TeamLiveStatusCountCache != 0)
-                {
-                    return TeamLiveStatusCountCache;
-                }
-
-            }
-            catch (Exception ex)
-            {
-                _logger.LogInformation("TeamLiveStatusCountCache exception " + ex + Environment.NewLine);
-            }
-
-            var liveMatchStatus = _liveMatchStatusRepository.GetMongoDbCollection("TeamLiveStatus");
-
-            var TeamLiveStatusCount = liveMatchStatus.FindAsync(Builders<LiveMatchStatus>.Filter.Where(cn => cn.MatchId == matchId)).Result.ToListAsync().Result.Count;
-
-            return await Task.FromResult(TeamLiveStatusCount);
-
+            var collection = _liveMatchStatusRepository.GetMongoDbCollection("TeamLiveStatus");
+            var filter = Builders<LiveMatchStatus>.Filter.Where(ms => ms.MatchId == matchId);
+            return collection.CountDocumentsAsync(filter);
         }
 
         public void ReplaceTeamLiveStatus(LiveMatchStatus liveMatchStatus, FilterDefinition<LiveMatchStatus> filter)

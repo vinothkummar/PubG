@@ -19,20 +19,16 @@ namespace Fanview.API.Controllers
     public class LiveController : ControllerBase
     {
         private ILiveStats _liveStatus;
-        private IRanking _ranking;
-        private ITeamPlayerRepository _teamPlayerRepository;
-        private ITeamRepository _teamRespository;
         private IPlayerKillRepository _playerKillRepository;
         private IPlayerKilled _playerKilled;
 
-        public LiveController(ILiveStats liveStatus, IRanking ranking, IPlayerKilled playerKilled,
-                              ITeamPlayerRepository teamPlayerRepository, ITeamRepository teamRepository, IPlayerKillRepository playerKillRepository)
+        public LiveController(
+            ILiveStats liveStatus,
+            IPlayerKilled playerKilled,
+            IPlayerKillRepository playerKillRepository)
         {
 
             _liveStatus = liveStatus;
-            _ranking = ranking;
-            _teamPlayerRepository = teamPlayerRepository;
-            _teamRespository = teamRepository;
             _playerKillRepository = playerKillRepository;
             _playerKilled = playerKilled;
         }
@@ -44,41 +40,35 @@ namespace Fanview.API.Controllers
         /// <remarks>
         /// Sample request: Killiprinter/{matchId}/All
         /// </remarks>       
-        [HttpGet("Killiprinter_old", Name = "GetAllKilliprinterForGraphics")]
-        public async Task<IEnumerable<KilliPrinter>> GetAllKilliprinterForGraphics()
+        [HttpGet("Killiprinter", Name = "GetAllKilliprinterForGraphics")]
+        public Task<IEnumerable<KilliPrinter>> GetAllKilliprinterForGraphics()
         { 
-            return await _playerKilled.GetLivePlayerKilled();
-        }
-
-        [HttpGet("Killiprinter", Name = "GetAllKilliprinterForGraphics2")]
-        public Task<IEnumerable<KilliPrinter>> GetAllKilliprinterForGraphics2()
-        {
-            return  _playerKilled.GetLivePlayerKilledMongo();
+            return _playerKilled.GetLivePlayerKilled();
         }
 
         /// <summary>
         /// Returns Live Team Status
         /// </summary>               
         [HttpGet("Status", Name = "GetLiveStatus")]
-        public Task<IEnumerable<LiveMatchStatus>> GetLiveStatus2()
+        public Task<IEnumerable<LiveMatchStatus>> GetLiveStatus()
         {
             return _liveStatus.GetLiveStatus();
         }
 
-        ///// <summary>
-        ///// Returns Live Damage List
-        ///// </summary>
-        ///// <remarks>
-        ///// This Api Currently Serving the Static Information
-        ///// Sample request: api/Live/DamageList/{matchId}          
-        ///// Input Parameter: f84d39a1-8218-4438-9bf5-7150f9e0f093
-        ///// </remarks>
-        ///// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
-        //[HttpGet("DamageList/{matchId}", Name = "GetLiveDamageList")]
-        //public Task<LiveDamageList> GetLiveDamageList(string matchId)
-        //{
-        //    return _liveRepository.GetLiveDamageList(matchId);
-        //}
+        /// <summary>
+        /// Returns Live Damage List
+        /// </summary>
+        /// <remarks>
+        /// This Api Currently Serving the Static Information
+        /// Sample request: api/Live/DamageList/{matchId}          
+        /// Input Parameter: f84d39a1-8218-4438-9bf5-7150f9e0f093
+        /// </remarks>
+        /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
+        [HttpGet("DamageList/{matchId}", Name = "GetLiveDamageList")]
+        public Task<LiveDamageList> GetLiveDamageList(string matchId)
+        {
+            return _liveRepository.GetLiveDamageList(matchId);
+        }
 
         /// <summary>
         /// Returns Live Kill List
