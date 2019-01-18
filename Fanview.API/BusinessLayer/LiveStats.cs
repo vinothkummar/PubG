@@ -82,7 +82,7 @@ namespace Fanview.API.BusinessLayer
             matchStatus = matchStatus.Where(ms => ms.TeamId != 0);
 
             // Get the live kill list
-            var killList = await _playerKillRepository.GetLiveKillListAsync(0);
+            var killList = await _playerKillRepository.GetLiveKillList(64);
 
             return await _teamRankingService.GetTeamRankings(killList, matchStatus);
         }

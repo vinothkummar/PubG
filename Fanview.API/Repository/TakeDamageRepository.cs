@@ -37,7 +37,7 @@ namespace Fanview.API.Repository
 
             return await result;
         }
-        public async void InsertEventDamageTelemetry(JObject[] jsonResult, string fileName)
+        public async void InsertEventDamageTelemetry(JObject[] jsonResult, string fileName, DateTime eventTime)
         {
             System.DateTime dateTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
 
@@ -64,7 +64,7 @@ namespace Fanview.API.Repository
                     z = (float)s["victimLocation"]["z"],
                 },
                 VictimTeamId = (int)s["victimTeamId"],
-                EventTimeStamp = (string)s["_D"],
+                EventTimeStamp = Util.DateTimeToUnixTimestamp(eventTime),
                 EventType = (string)s["_T"]
             });
 

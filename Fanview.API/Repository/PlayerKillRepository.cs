@@ -100,7 +100,7 @@ namespace Fanview.API.Repository
                 Killer = new Killer()
                 {
                     Name = (string)s["killer"]["name"],
-                    TeamId = (int)s["killer"]["teamId"],
+                    TeamId = _teamPlayerRepository.GetTeamPlayers().Result.Where(cn => cn.PlayerName == (string)s["killer"]["name"]).FirstOrDefault().TeamIdShort,  //(int)s["killer"]["teamId"],
                     Health = (float)s["killer"]["health"],
                     Location = new Location()
                     {
@@ -114,7 +114,7 @@ namespace Fanview.API.Repository
                 Victim = new Victim()
                 {
                     Name = (string)s["victim"]["name"],
-                    TeamId = (int)s["victim"]["teamId"],
+                    TeamId = _teamPlayerRepository.GetTeamPlayers().Result.Where(cn => cn.PlayerName == (string)s["victim"]["name"]).FirstOrDefault().TeamIdShort,  //(int)s["victim"]["teamId"],
                     Health = (float)s["victim"]["health"],
                     Location = new Location()
                     {
@@ -184,7 +184,7 @@ namespace Fanview.API.Repository
             {
                 MatchId = matchId,                
                 Name = (string)s["character"]["name"],
-                TeamId = (string)s["character"]["teamId"],
+                TeamId = _teamPlayerRepository.GetTeamPlayers().Result.Where(cn => cn.PlayerName == (string)s["character"]["name"]).FirstOrDefault().TeamIdShort .ToString(), // (string)s["character"]["teamId"],
                 Health = (float)s["character"]["health"],
                 Location = new Location()
                 {
@@ -494,7 +494,7 @@ namespace Fanview.API.Repository
             var liveEventKillList = _LiveEventKill.GetAll("LiveEventKill");
             await Task.WhenAll(teams, teamPlayers, liveEventKillList);
 
-            var result = liveEventKillList.Result.Where(ev => !ev.IsGroggy)
+            var result = liveEventKillList.Result.Where(ev => !ev.IsGroggy && ev.KillerTeamId != ev.VictimTeamId)
                 .Join(teamPlayers.Result, ev => new { KillerName = ev.KillerName }, tp => new { KillerName = tp.PlayerName }, (ev, tp) => new { ev, tp })
                 .Join(teams.Result, evTp => new { TeamId = evTp.tp.TeamId }, t => new { TeamId = t.Id }, (evTp, t) => new { evTp, t })
                 .GroupBy(g => g.evTp.ev.KillerName)
@@ -507,36 +507,7 @@ namespace Fanview.API.Repository
                 })
                 .OrderByDescending(o => o.kills)
                 .Take(topCount > 0 ? topCount : 10);
-
-            var killLeaders = new KillLeader()
-            {
-                //matchId = matchId,
-                killList = result
-            };
-            return killLeaders;
-        }
-
-        public async Task<KillLeader> GetLiveKillListAsync(int topCount)
-        {
-            var teams = _team.GetAll("Team");
-            var teamPlayers = _genericTeamPlayerRepository.GetAll("TeamPlayers");
-            var liveEventKillList = _LiveEventKill.GetAll("LiveEventKill");
-            await Task.WhenAll(teams, teamPlayers, liveEventKillList);
-
-            var result = liveEventKillList.Result.Where(ev => !ev.IsGroggy)
-                .Join(teamPlayers.Result, ev => new { KillerName = ev.KillerName }, tp => new { KillerName = tp.PlayerName }, (ev, tp) => new { ev, tp })
-                .Join(teams.Result, evTp => new { TeamId = evTp.tp.TeamId }, t => new { TeamId = t.Id }, (evTp, t) => new { evTp, t })
-                .GroupBy(g => g.evTp.ev.KillerName)
-                .Select(s => new Kills()
-                {
-                    kills = s.Count(),
-                    playerName = s.Key,
-                    playerId = s.FirstOrDefault().evTp.tp.PlayerId,
-                    teamId = s.FirstOrDefault().t.TeamId,
-                })
-                .OrderByDescending(o => o.kills)
-                .Take(topCount > 0 ? topCount : 10);
-
+          
             var killLeaders = new KillLeader()
             {
                 //matchId = matchId,

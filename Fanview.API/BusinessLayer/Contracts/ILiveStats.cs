@@ -13,7 +13,7 @@ namespace Fanview.API.BusinessLayer.Contracts
         Task<IEnumerable<LiveMatchStatus>> GetLiveStatusMongo();
 
 
-        //Task<IEnumerable<LiveTeamRanking>> GetLiveRanking();
+        Task<IEnumerable<LiveTeamRanking>> GetLiveRanking();
 
         Task<Object> GetLiveMatchStatus();
 
