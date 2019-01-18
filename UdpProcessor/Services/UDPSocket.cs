@@ -24,6 +24,7 @@ namespace Fanview.UDPProcessor.Services
         private AsyncCallback recv = null;
         private IMatchSummaryRepository _matchSummaryRepository;
         private IPlayerKillRepository _playerKillRepository;
+        private ITakeDamageRepository _takeDamageRepository;
         private Queue<JObject[]> _eventMessages;
         
 
@@ -34,6 +35,8 @@ namespace Fanview.UDPProcessor.Services
             _matchSummaryRepository = servicesProvider.GetService<IMatchSummaryRepository>();
 
             _playerKillRepository = servicesProvider.GetService<IPlayerKillRepository>();
+
+            _takeDamageRepository = servicesProvider.GetService<ITakeDamageRepository>();
 
             _eventMessages = new Queue<JObject[]>();
 
@@ -105,7 +108,10 @@ namespace Fanview.UDPProcessor.Services
                     var _listOfTasks = new List<Task>();
 
                     _listOfTasks.Add(Task.Run(async () => _playerKillRepository.InsertLiveKillEventTelemetry(message, fileName, eventTime)));
+
                     _listOfTasks.Add(Task.Run(async () => _matchSummaryRepository.InsertLiveEventMatchStatusTelemetry(message, fileName, eventTime)));
+
+                    _listOfTasks.Add(Task.Run(async () => _takeDamageRepository.InsertEventDamageTelemetry(message, fileName, eventTime)));
                 
                     Task t = Task.WhenAll(_listOfTasks);
                     try

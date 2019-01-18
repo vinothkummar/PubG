@@ -57,7 +57,7 @@ namespace Fanview.API.Model
 
             [BsonElement("eventTimeStamp")]
 
-            public string EventTimeStamp { get; set; }
+            public double EventTimeStamp { get; set; }
 
             [BsonElement("eventType")]
 
