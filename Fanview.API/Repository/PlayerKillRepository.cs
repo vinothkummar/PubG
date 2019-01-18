@@ -100,7 +100,7 @@ namespace Fanview.API.Repository
                 Killer = new Killer()
                 {
                     Name = (string)s["killer"]["name"],
-                    TeamId = (int)s["killer"]["teamId"],
+                    TeamId = _teamPlayerRepository.GetTeamPlayers().Result.Where(cn => cn.PlayerName == (string)s["killer"]["name"]).FirstOrDefault().TeamIdShort,  //(int)s["killer"]["teamId"],
                     Health = (float)s["killer"]["health"],
                     Location = new Location()
                     {
@@ -114,7 +114,7 @@ namespace Fanview.API.Repository
                 Victim = new Victim()
                 {
                     Name = (string)s["victim"]["name"],
-                    TeamId = (int)s["victim"]["teamId"],
+                    TeamId = _teamPlayerRepository.GetTeamPlayers().Result.Where(cn => cn.PlayerName == (string)s["victim"]["name"]).FirstOrDefault().TeamIdShort,  //(int)s["victim"]["teamId"],
                     Health = (float)s["victim"]["health"],
                     Location = new Location()
                     {
@@ -184,7 +184,7 @@ namespace Fanview.API.Repository
             {
                 MatchId = matchId,                
                 Name = (string)s["character"]["name"],
-                TeamId = (string)s["character"]["teamId"],
+                TeamId = _teamPlayerRepository.GetTeamPlayers().Result.Where(cn => cn.PlayerName == (string)s["character"]["name"]).FirstOrDefault().TeamIdShort .ToString(), // (string)s["character"]["teamId"],
                 Health = (float)s["character"]["health"],
                 Location = new Location()
                 {

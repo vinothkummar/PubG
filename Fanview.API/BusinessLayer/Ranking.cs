@@ -107,8 +107,6 @@ namespace Fanview.API.BusinessLayer
 
             var teams = _teamRepository.GetTeam().Result.Select(s => new { TeamId = s.Id, TeamName = s.Name, TeamShortID = s.TeamId });
 
-            
-
             var teamPoints = matchPlayerStats.Join(teams, mp => mp.TeamId, t => t.TeamId, (mp,t) => new { mp, t })                                          
                                            .Select(s => new {MatchId = s.mp.MatchId, TeamId = s.t.TeamId, TeamShortId = s.t.TeamShortID, TeamName = s.t.TeamName, Kills = s.mp.stats.Kills, Damage = s.mp.stats.DamageDealt })
                                            .GroupBy(g => new { g.TeamId, g.MatchId, g.TeamShortId, g.TeamName  })

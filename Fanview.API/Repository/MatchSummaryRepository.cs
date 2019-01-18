@@ -259,7 +259,7 @@ namespace Fanview.API.Repository
                             teamParticipant.stats = item2.ParticipantAttributes.stats;
                             teamParticipant.TeamId = teamPlayers.Result.Where(cn => cn.PlayerName.ToLower().Trim() == item2.ParticipantAttributes.stats.Name.ToLower().Trim()).FirstOrDefault().TeamId;
                             teamParticipant.Rank = item.RosterAttributes.Stats.Rank;
-                            teamParticipant.ShortTeamId = item.RosterAttributes.Stats.TeamId;
+                            teamParticipant.ShortTeamId = teamPlayers.Result.Where(cn => cn.PlayerName.ToLower().Trim() == item2.ParticipantAttributes.stats.Name.ToLower().Trim()).FirstOrDefault().TeamIdShort; 
                             teamParticipants.Add(teamParticipant);
                         }
                     }

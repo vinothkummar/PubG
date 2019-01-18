@@ -20,13 +20,14 @@ namespace Fanview.API.Repository
         private IGenericRepository<VehicleLeave> _genericRepository;
         private ILogger<PlayerRepository> _logger;        
         private IGenericRepository<PlayerPoition> _PlayerPositionRepository;
+        private ITeamPlayerRepository _teamPlayers;
         private DateTime LastVehicleLeaveTimeStamp = DateTime.MinValue;
-        private IGenericRepository<TeamPlayer> _teamPlayers;
+      
         private IGenericRepository<Event> _tournament;
 
         public PlayerRepository(IMatchRepository matchRepository, IGenericRepository<VehicleLeave> genericRepository, 
              IGenericRepository<PlayerPoition> playerPositionRepository,
-             IGenericRepository<TeamPlayer> teamPlayers, ILogger<PlayerRepository> logger, IGenericRepository<Event> tournament)
+             ILogger<PlayerRepository> logger, IGenericRepository<Event> tournament, ITeamPlayerRepository teamPlayers)
         {
             _matchRepository = matchRepository;
             _genericRepository = genericRepository;
@@ -64,7 +65,7 @@ namespace Fanview.API.Repository
             {
                 MatchId = matchId,
                 Name = (string)s["character"]["name"],
-                TeamId = (int)s["character"]["teamId"],
+                TeamId =  _teamPlayers.GetTeamPlayers().Result.Where( cn => cn.PlayerName == (string)s["character"]["name"]).FirstOrDefault().TeamIdShort,  //(int)s["character"]["teamId"],
                 Health = (float)s["character"]["health"],
                 Location = new Location()
                 {
@@ -110,7 +111,7 @@ namespace Fanview.API.Repository
                 MatchId = matchId,
                 Character = new Character() {
                     Name = (string)s["character"]["name"],
-                    TeamId = (int)s["character"]["teamId"],
+                    TeamId = _teamPlayers.GetTeamPlayers().Result.Where(cn => cn.PlayerName == (string)s["character"]["name"]).FirstOrDefault().TeamIdShort, //(int)s["character"]["teamId"],
                     Health = (float)s["character"]["health"],
                     Location = new Location()
                     {
