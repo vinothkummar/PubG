@@ -56,7 +56,7 @@ namespace Fanview.API.BusinessLayer
 
             var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
 
-            var teamStatsRanking = _ranking.GetMatchRankings(matchId).Result.Take(3);           
+            var teamStatsRanking = _ranking.GetMatchRankings(matchId).Result.Take(4);           
 
             var logPlayersPosition = _teamPlayersPosition.GetMongoDbCollection("PlayerPosition");
             
@@ -167,32 +167,7 @@ namespace Fanview.API.BusinessLayer
                 teamRoute.Route = routes.OrderBy(o => o.TeamRank).ToList();
             }
 
-            return teamRoute;
-           
-        }
-
-       
-        private Dictionary<int, int>  GetGameTeamId()
-        {
-            Dictionary<int, int> dictionary = new Dictionary<int, int>();
-            dictionary.Add(19, 1);
-            dictionary.Add(30, 2);
-            dictionary.Add(3, 3);
-            dictionary.Add(4, 4);
-            dictionary.Add(18, 5);
-            dictionary.Add(31, 6);
-            dictionary.Add(7, 7);
-            dictionary.Add(8, 8);
-            dictionary.Add(29, 9);
-            dictionary.Add(32, 10);
-            dictionary.Add(11, 11);
-            dictionary.Add(12, 12);
-            dictionary.Add(17, 13);
-            dictionary.Add(20, 14);
-            dictionary.Add(15, 15);
-            dictionary.Add(16, 16);
-
-            return dictionary;
-        }
+            return teamRoute;           
+        }       
     }
 }
