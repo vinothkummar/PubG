@@ -10,6 +10,8 @@ namespace Fanview.API.Services.Interface
     {
         Task<HttpClient> CreateRequestHeader();
 
+        Task<HttpClient> CreateLiveRequestHeader();
+
         Task<HttpClient> CreateRequestHeader(string BaseUrl);
     }
 }

@@ -19,6 +19,17 @@ namespace Fanview.API.Services
             _configuration = new ConfigurationBuilder().SetBasePath(path).AddJsonFile("appsettings.json", true, true).Build();
             
         }
+
+        public async Task<HttpClient> CreateLiveRequestHeader()
+        {
+            var client = new HttpClient();
+            client.BaseAddress = new Uri(this._configuration["Logging:AppSettings:LiveUrl"]);
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + this._configuration["Logging:AppSettings:ApplicationKey"]);
+
+            return await Task.FromResult(client);
+        }
+
         public async Task<HttpClient> CreateRequestHeader()
         {
             HttpClientHandler handler = new HttpClientHandler()
@@ -28,10 +39,8 @@ namespace Fanview.API.Services
 
             var client = new HttpClient(handler);            
             client.BaseAddress = new Uri(this._configuration["Logging:AppSettings:OrganizationUrl"]);
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            //client.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
-            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + this._configuration["Logging:AppSettings:ApplicationKey"]);
-            //client.Timeout = TimeSpan.FromMilliseconds(500);
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));           
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + this._configuration["Logging:AppSettings:ApplicationKey"]);           
 
             return await Task.FromResult(client);
         }
@@ -44,11 +53,9 @@ namespace Fanview.API.Services
             };
 
             var client = new HttpClient(handler);
-            client.BaseAddress = new Uri(baseUrl);
-            //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.BaseAddress = new Uri(baseUrl);          
             client.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
-            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + this._configuration["Logging:AppSettings:ApplicationKey"]);
-            //client.Timeout = TimeSpan.FromMilliseconds(500);
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + this._configuration["Logging:AppSettings:ApplicationKey"]);            
 
             return await Task.FromResult(client);
         }

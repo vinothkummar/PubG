@@ -359,7 +359,7 @@ namespace Fanview.API.Repository
             var matchStatus = jsonResult.Where(x => x.Value<string>("_T") == "EventMatchStatus").Select(s => new EventLiveMatchStatus()
             {
                 IsDetailStatus = (bool)s["isDetailStatus"],
-                MatchId = "FanviewdummyMatchId", // s["matchId"].ToString().Split('.').Last(), //"FanviewdummyMatchId" this piece of code changed to avoid creating a new set of team if the match join changed in the middle
+                MatchId = "FanviewdummyMatchId",
                 TeamMode = (string)s["teamMode"],
                 CameraMode = (string)s["camerMode"],
                 MatchState = (string)s["matchState"],
