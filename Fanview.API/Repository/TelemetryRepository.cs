@@ -113,7 +113,7 @@ namespace Fanview.API.Repository
 
                     //await Task.Run(async () => _playerKillRepository.InsertLiveKillEventTelemetry(array, fileName));
 
-                    await Task.Run(async () => _takeDamageRepository.InsertEventDamageTelemetry(array, fileName));
+                    //await Task.Run(async () => _takeDamageRepository.InsertEventDamageTelemetry(array, fileName));
 
 
 

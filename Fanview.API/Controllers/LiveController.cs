@@ -18,19 +18,22 @@ namespace Fanview.API.Controllers
     [ApiController]
     public class LiveController : ControllerBase
     {
-        private ILiveStats _liveStatus;
-        private IPlayerKillRepository _playerKillRepository;
-        private IPlayerKilled _playerKilled;
+        private readonly ILiveStats _liveStats;
+        private readonly IPlayerKillRepository _playerKillRepository;
+        private readonly IPlayerKilled _playerKilled;
+        private readonly ILiveRepository _liveRepository;
 
         public LiveController(
-            ILiveStats liveStatus,
+            ILiveStats liveStats,
             IPlayerKilled playerKilled,
-            IPlayerKillRepository playerKillRepository)
+            IPlayerKillRepository playerKillRepository,
+            ILiveRepository liveRepository)
         {
 
-            _liveStatus = liveStatus;
+            _liveStats = liveStats;
             _playerKillRepository = playerKillRepository;
             _playerKilled = playerKilled;
+            _liveRepository = liveRepository;
         }
 
         // GET: api/Telemetry
@@ -52,7 +55,7 @@ namespace Fanview.API.Controllers
         [HttpGet("Status", Name = "GetLiveStatus")]
         public Task<IEnumerable<LiveMatchStatus>> GetLiveStatus()
         {
-            return _liveStatus.GetLiveStatus();
+            return _liveStats.GetLiveStatus();
         }
 
         /// <summary>
@@ -113,13 +116,13 @@ namespace Fanview.API.Controllers
         [HttpGet("Ranking", Name = "GetLiveRanking")]
         public Task<IEnumerable<LiveTeamRanking>> GetLiveRanking()
         {
-            return _liveStatus.GetLiveRanking();
+            return _liveStats.GetLiveRanking();
         }
 
         [HttpGet("MatchStatus", Name = "GetMatchStatus")]
         public Task<EventLiveMatchStatus> GetMatchStatus()
         {
-            return _liveStatus.GetLiveMatchStatus();
+            return _liveStats.GetLiveMatchStatus();
         }
     }
 }

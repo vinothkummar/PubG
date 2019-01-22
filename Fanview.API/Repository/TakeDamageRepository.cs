@@ -37,13 +37,12 @@ namespace Fanview.API.Repository
 
             return await result;
         }
-        public async void InsertEventDamageTelemetry(JObject[] jsonResult, string fileName)
-        {
-            System.DateTime dateTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
 
+        public async void InsertEventDamageTelemetry(JObject[] jsonResult, string fileName, DateTime eventTime)
+        {
             var damage = jsonResult.Where(x => x.Value<string>("_T") == "EventDamage").Select(s => new EventDamage()
             {
-
+                MatchId = "FanviewdummyMatchId",
                 IsDetailStatus = (bool)s["isDetailStatus"],
                 IsVictimMe = (bool)s["isVictimMe"],
                 Damage = (float)s["damage"],
@@ -64,8 +63,9 @@ namespace Fanview.API.Repository
                     z = (float)s["victimLocation"]["z"],
                 },
                 VictimTeamId = (int)s["victimTeamId"],
-                EventTimeStamp = (string)s["_D"],
-                EventType = (string)s["_T"]
+                EventTimeStamp = Util.DateTimeToUnixTimestamp(eventTime),
+                EventType = (string)s["_T"],
+                EventSourceFileName = fileName
             });
 
             if (damage.Count() > 0)
