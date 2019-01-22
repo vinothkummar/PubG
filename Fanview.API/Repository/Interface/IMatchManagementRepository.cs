@@ -17,6 +17,8 @@ namespace Fanview.API.Repository.Interface
 
         Task<Object> GetTournamentsMatches(string tournamentName);
 
+        Task<Object> GetLiveLatestMatch(string tournamentName);
+
         dynamic DeleteDocumentCollections(string matchId);
 
         dynamic DeleteLiveDataDocument();

@@ -249,7 +249,7 @@ namespace Fanview.API.Repository
                     var tournaments = o.SelectToken("data").Select(m =>
                                                     new { Name =  (string)m.SelectToken("id"),
                                                          CreatedDate = (string)m.SelectToken("attributes.createdAt") }
-                                                    ).OrderByDescending(a => a.CreatedDate).ToList();
+                                                    ).ToList();
 
                     return tournaments;
                 }
@@ -309,6 +309,39 @@ namespace Fanview.API.Repository
         {
             _tournamentRepository.Insert(matchDetails, "TournamentMatchId");
            
+        }
+
+        public async Task<object> GetLiveLatestMatch(string tournamentName)
+        {
+            try
+            {
+                _logger.LogInformation("Live API Request Started" + Environment.NewLine);
+
+                var tournamentsResponse = _httpClientRequest.GetAsync(await _httpClientBuilder.CreateLiveRequestHeader(), "tournaments/" + tournamentName + "/matches/most_recent");
+
+                if (tournamentsResponse.Result.StatusCode == HttpStatusCode.OK && tournamentsResponse != null)
+                {
+                    _logger.LogInformation("Live API Response Json" + Environment.NewLine);
+
+                    var response = tournamentsResponse.Result.Content.ReadAsStringAsync().Result;
+
+                    var o = JObject.Parse(response);
+
+                    var liveMatchId = (string)o.SelectToken("data.id");
+
+                    return liveMatchId.Split(".").Last(); ;
+                }
+                else
+                {
+                    return tournamentsResponse.Result;
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

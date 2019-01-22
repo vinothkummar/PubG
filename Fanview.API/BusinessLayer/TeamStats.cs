@@ -56,26 +56,7 @@ namespace Fanview.API.BusinessLayer
 
             var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
 
-            var teamStatsRanking = _ranking.GetMatchRankings(matchId).Result.Take(3);
-
-            var isStage2Matches = teamStatsRanking.Where(cn => cn.TeamId > 16);
-
-            
-            if (isStage2Matches.Count() >= 1) {
-
-                teamStatsRanking = teamStatsRanking.Join(GetGameTeamId(), tsr => new { TeamId = tsr.TeamId }, ggt => new { TeamId = ggt.Key }, (tsr, ggt) => new { ggt, tsr })
-                                   .Select(s => new RankingResults()
-                                   {
-                                       TeamId = s.ggt.Value,
-                                       TeamRank = s.tsr.TeamRank,
-                                       TeamName = s.tsr.TeamName,
-                                       KillPoints = s.tsr.KillPoints,
-                                       RankPoints = s.tsr.RankPoints,
-                                       TotalPoints = s.tsr.TotalPoints,
-                                       GameTeamId = s.tsr.TeamId
-                                   });
-
-            }
+            var teamStatsRanking = _ranking.GetMatchRankings(matchId).Result.Take(4);           
 
             var logPlayersPosition = _teamPlayersPosition.GetMongoDbCollection("PlayerPosition");
             
@@ -83,7 +64,7 @@ namespace Fanview.API.BusinessLayer
                                         .ToListAsync().Result.OrderBy(o => o.EventTimeStamp);
 
             var playerLocation = matchPlayerPosition.Join(teamStatsRanking, mpp => mpp.TeamId, t => t.TeamId, (mpp, t) => new { mpp, t })
-                                                    .OrderBy(o => o.t.TeamId).ThenBy(o1 => o1.mpp.Name)
+                                                    .OrderBy(o => o.mpp.TeamId).ThenBy(o1 => o1.mpp.Name)
                                                     .Select(s => new
                                                     {
                                                         TeamName = s.t.TeamName,
@@ -94,8 +75,7 @@ namespace Fanview.API.BusinessLayer
                                                         s.mpp.Location,
                                                         EventTimeStamp = s.mpp.EventTimeStamp.ToDateTimeFormat(),
                                                         Ranking = s.mpp.Ranking,
-                                                        TeamId = s.mpp.TeamId,
-                                                        GameTeamId = s.t.GameTeamId,
+                                                        TeamId = s.mpp.TeamId,                                                      
                                                         FanviewTeamId = s.t.TeamId.ToString()
                                                     });
 
@@ -129,8 +109,7 @@ namespace Fanview.API.BusinessLayer
                                                             .OrderByDescending(t => t.pl.EventTimeStamp)
                                                             .GroupBy(g => new { TeamId = g.pl.TeamId })
                                                             .Select(s => new{
-                                                                TeamID = s.Select(a => a.pl.TeamId).ElementAtOrDefault(0),
-                                                                GameTeamId = s.Select(a => a.pl.GameTeamId).ElementAtOrDefault(0),
+                                                                TeamID = s.Select(a => a.pl.TeamId).ElementAtOrDefault(0),                                                              
                                                                 TeamName = s.Select(a => a.pl.TeamName).ElementAtOrDefault(0),
                                                                 TeamRank = s.Select(a => a.pl.TeamRank).ElementAtOrDefault(0),
                                                                 PlayerName = s.Select(a => a.pl.PlayerName).ElementAtOrDefault(0),
@@ -143,8 +122,7 @@ namespace Fanview.API.BusinessLayer
                                       .OrderBy(o => o.pl.EventTimeStamp).GroupBy(g => g.pl.TeamId)
                                       .Select(s => new Route()
                                       {
-                                          TeamId = s.Select(a => a.pl.TeamId).ElementAtOrDefault(0),
-                                          GameTeamId = s.Select(a => a.pl.GameTeamId).ElementAtOrDefault(0),
+                                          TeamId = s.Select(a => a.pl.TeamId).ElementAtOrDefault(0),                                         
                                           TeamName = s.Select(a => a.pl.TeamName).ElementAtOrDefault(0),
                                           TeamRank = s.Select(a => a.pl.TeamRank).ElementAtOrDefault(0),
                                           PlayerName = s.Select(a => a.pl.PlayerName).ElementAtOrDefault(0),
@@ -178,8 +156,7 @@ namespace Fanview.API.BusinessLayer
                
                 var route = new Route();
 
-                route.TeamId = item.TeamId;
-                route.GameTeamId = item.GameTeamId;
+                route.TeamId = item.TeamId;             
                 route.TeamName = item.TeamName;
                 route.TeamRank = item.TeamRank;
                 route.PlayerName = item.PlayerName;
@@ -190,32 +167,7 @@ namespace Fanview.API.BusinessLayer
                 teamRoute.Route = routes.OrderBy(o => o.TeamRank).ToList();
             }
 
-            return teamRoute;
-           
-        }
-
-       
-        private Dictionary<int, int>  GetGameTeamId()
-        {
-            Dictionary<int, int> dictionary = new Dictionary<int, int>();
-            dictionary.Add(19, 1);
-            dictionary.Add(30, 2);
-            dictionary.Add(3, 3);
-            dictionary.Add(4, 4);
-            dictionary.Add(18, 5);
-            dictionary.Add(31, 6);
-            dictionary.Add(7, 7);
-            dictionary.Add(8, 8);
-            dictionary.Add(29, 9);
-            dictionary.Add(32, 10);
-            dictionary.Add(11, 11);
-            dictionary.Add(12, 12);
-            dictionary.Add(17, 13);
-            dictionary.Add(20, 14);
-            dictionary.Add(15, 15);
-            dictionary.Add(16, 16);
-
-            return dictionary;
-        }
+            return teamRoute;           
+        }       
     }
 }

@@ -45,6 +45,12 @@ namespace Fanview.API.Controllers
             return _matchmanagementrepository.GetTournamentsMatches(tournamentName);
         }
 
+        [HttpGet("GetLiveLatestMatchId", Name = "GetLiveLatestMatchId")]
+        public Task<Object> GetLiveLatestMatch(string tournamentName)
+        {
+            return _matchmanagementrepository.GetLiveLatestMatch(tournamentName);
+        }
+
         [HttpDelete("DeleteMatch/{matchId}", Name = "DeleteMatch")]
         public dynamic DeleteMatch(string matchId)
         {

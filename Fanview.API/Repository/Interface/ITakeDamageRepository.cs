@@ -12,6 +12,8 @@ namespace Fanview.API.Repository.Interface
         void InsertTakeDamageTelemetry(string jsonResult);
         void InsertEventDamageTelemetry(JObject[] jsonResult, string fileName, DateTime eventTime);
 
+        void InsertEventDamageTelemetry(JObject[] jsonResult, string fileName, DateTime eventTime);
+
         Task<IEnumerable<TakeDamage>> GetPlayerTakeDamage();
     }
 }

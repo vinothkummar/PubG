@@ -180,7 +180,7 @@ namespace Fanview.API.Repository
             {
                 MatchId = matchId,                
                 Name = (string)s["character"]["name"],
-                TeamId = (string)s["character"]["teamId"],
+                TeamId = _teamPlayerRepository.GetTeamPlayers().Result.Where(cn => cn.PlayerName == (string)s["character"]["name"]).FirstOrDefault().TeamIdShort .ToString(), // (string)s["character"]["teamId"],
                 Health = (float)s["character"]["health"],
                 Location = new Location()
                 {
@@ -425,7 +425,7 @@ namespace Fanview.API.Repository
             var liveEventKillList = _LiveEventKill.GetAll("LiveEventKill");
             await Task.WhenAll(teams, teamPlayers, liveEventKillList);
 
-            var result = liveEventKillList.Result.Where(ev => !ev.IsGroggy)
+            var result = liveEventKillList.Result.Where(ev => !ev.IsGroggy && ev.KillerTeamId != ev.VictimTeamId)
                 .Join(teamPlayers.Result, ev => new { KillerName = ev.KillerName }, tp => new { KillerName = tp.PlayerName }, (ev, tp) => new { ev, tp })
                 .Join(teams.Result, evTp => new { TeamId = evTp.tp.TeamId }, t => new { TeamId = t.Id }, (evTp, t) => new { evTp, t })
                 .GroupBy(g => g.evTp.ev.KillerName)
@@ -438,7 +438,7 @@ namespace Fanview.API.Repository
                 })
                 .OrderByDescending(o => o.kills)
                 .Take(topCount > 0 ? topCount : 10);
-
+          
             var killLeaders = new KillLeader()
             {
                 //matchId = matchId,
@@ -463,7 +463,8 @@ namespace Fanview.API.Repository
                     PlayerId = team.TeamPlayer.FirstOrDefault(tp => tp.PlayerName == kill.Victim.Name).PlayerId,
                     PlayerName = kill.Victim.Name,
                     TeamId = team.TeamId,
-                    Location = kill.Victim.Location
+                    Location = kill.Victim.Location,
+                    EventTimeStamp = kill.EventTimeStamp,
                 });
             }
 
@@ -476,25 +477,10 @@ namespace Fanview.API.Repository
         }
 
         public async void InsertLiveKillEventTelemetry(JObject[] jsonResult, string fileName, DateTime eventTime)
-        {
-            string matchId = null;
-            if (jsonResult.Where(cn => (string)cn["_T"] == "EventMatchJoin").Count() > 0)
-            {
-                _cacheService.RemoveFromCache();
-
-                _cacheService.RefreshFromCache();                
-                
-               matchId = jsonResult.Where(cn => (string)cn["_T"] == "EventMatchJoin").Select(s => s.Value<string>("matchId")).FirstOrDefault();
-               
-                if (matchId != null)
-                {
-                    CreateMatch(eventTime, matchId);
-                }
-            }
-
+        {  
             var kills = jsonResult.Where(cn => (string)cn["_T"] == "EventKill").Select(s => new LiveEventKill()
             {
-                MatchId = matchId,
+                MatchId = "FanviewdummyMatchId",
                 IsDetailStatus = s.Value<bool>("isDetailStatus"),
                 IsKillerMe = s.Value<bool>("isKillerMe"),
                 KillerName = s.Value<string>("killerName"),
@@ -552,31 +538,7 @@ namespace Fanview.API.Repository
                 _LiveEventKill.Insert(kills.ToList(), "LiveEventKill");
             }
 
-        }
-
-        private void CreateMatch(DateTime dateTime, string matchId)
-        {
-            matchId = matchId.Split(".").Last();
-
-            var tournamentMatch = _eventRepository.FindEvent(matchId).Result;
-
-            if (tournamentMatch == null)
-            {
-                var tournamentMatchIdCount = _eventRepository.GetTournamentMatchCount().Result;
-
-                var tournamentMatchDetails = new Event()
-                {
-                    Id = matchId,
-                    EventName = "",
-                    MatchId = tournamentMatchIdCount + 1,
-                    CreatedAT = dateTime.ToString()
-                };
-
-                _eventRepository.CreateAnEvent(tournamentMatchDetails);
-
-                _logger.LogInformation("Live Killing Match Id Is created in the Tournament Match Id" + Environment.NewLine);
-            }
-        }
+        }      
 
         public async Task<IEnumerable<LiveKillCount>> GetLiveKillCount(IEnumerable<LiveEventKill> liveEventKills)
         {

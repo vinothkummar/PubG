@@ -13,5 +13,6 @@ namespace Fanview.API.Model.LiveModels
         public int PlayerId { get; set; }
         public int TeamId { get; set; }
         public Location Location { get; set; }
+        public string EventTimeStamp { get; set; }
     }
 }
