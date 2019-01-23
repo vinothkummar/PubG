@@ -1,23 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Fanview.API.Model.LiveModels;
 using Fanview.API.Model;
+using Fanview.API.Model.LiveModels;
 
 namespace Fanview.API.BusinessLayer.Contracts
 {
     public interface ILiveStats
     {
         Task<IEnumerable<LiveMatchStatus>> GetLiveStatus();
-
-        Task<IEnumerable<LiveMatchStatus>> GetLiveStatusMongo();
-
-
         Task<IEnumerable<LiveTeamRanking>> GetLiveRanking();
-
-        Task<Object> GetLiveMatchStatus();
-
-        
-
+        Task<EventLiveMatchStatus> GetLiveMatchStatus();
     }
 }

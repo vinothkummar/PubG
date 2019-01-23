@@ -1,4 +1,5 @@
-﻿using Fanview.API.Repository;
+﻿using Fanview.API.Clients;
+using Fanview.API.Repository;
 using Fanview.API.Repository.Interface;
 using Fanview.API.Services;
 using Fanview.API.Services.Interface;
@@ -26,8 +27,10 @@ namespace Fanview.UDPProcessor.Services
             var _configuration = new ConfigurationBuilder().SetBasePath(path).AddJsonFile("appsettings.json", true, true).Build();
             
             var serviceProvider = new ServiceCollection().AddLogging(configure => configure.AddSerilog())
+                                                         .AddSingleton<IConfiguration>(_configuration)
                                                          .AddSingleton<IHttpClientRequest, HttpClientRequest>()
                                                          .AddSingleton<IClientBuilder, ClientBuilder>()
+                                                         .AddSingleton<IMongoDbClient, MongoDbClient>()
                                                          .AddSingleton<IEventRepository, EventRepository>()
                                                          .AddSingleton<IHostingEnvironment, HostingEnvironment>()
                                                          .AddTransient<ICacheService, CacheService>()
@@ -44,6 +47,7 @@ namespace Fanview.UDPProcessor.Services
                                                          .AddTransient<IMatchRepository, MatchRepository>()
                                                          .AddTransient<ITeamLiveStatusRepository, TeamLiveStatusRepository>()
                                                          .AddTransient<IAssetsRepository, AssetsRepository>()
+                                                         .AddMemoryCache()
                                                          .AddSingleton<IDistributedCache>(cn => new RedisCache(new RedisCacheOptions
                                                          {
                                                              Configuration = "127.0.0.1:6379,abortConnect=false,connectTimeout=3000,responseTimeout=3000,syncTimeout=3000",

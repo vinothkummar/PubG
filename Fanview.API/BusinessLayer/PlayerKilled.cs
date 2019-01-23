@@ -101,69 +101,18 @@ namespace Fanview.API.BusinessLayer
            
         }
        
-
         public async Task<IEnumerable<KilliPrinter>> GetLivePlayerKilled()
         {
-            try
-            {
-
-                var liveKilledFromCache =  _cacheService.RetrieveFromCache<IEnumerable<KilliPrinter>>("LiveKilledCache");
-
-                if (liveKilledFromCache != null && liveKilledFromCache.Count() != 0)
-                {   
-
-                    return liveKilledFromCache;
-                }
-            }
-            catch (Exception ex)
-            {
-
-                _logger.LogInformation("LiveKilledCache exception " + ex  + Environment.NewLine);
-            }
-            
-            
-
             var playerKilledOrTeamEliminatedMessages = new List<KilliPrinter>();
-
-            var kills = await _playerKillRepository.GetLiveKilled();
-
-            // var tournamentMatchCreatedAt =  _eventRepository.GetEventCreatedAt(matchId).Result;
-
-            //, tournamentMatchCreatedAt
-
+            var kills = await _playerKillRepository.GetLiveKilled().ConfigureAwait(false);
             foreach (var rule in _rules)
             {
-                var output =  rule.LiveKilledOrTeamEliminiated(kills);
-
+                var output = await rule.LiveKilledOrTeamEliminiated(kills).ConfigureAwait(false);
                 if (output != null)
                 {
                     playerKilledOrTeamEliminatedMessages = output.ToList();
                 }
             }
-
-            await _cacheService.SaveToCache<IEnumerable<KilliPrinter>>("LiveKilledCache", playerKilledOrTeamEliminatedMessages, 1000, 1);
-
-            return await Task.FromResult(playerKilledOrTeamEliminatedMessages);
-        }
-
-
-
-        public async Task<IEnumerable<KilliPrinter>> GetLivePlayerKilledMongo()
-        {
-            var playerKilledOrTeamEliminatedMessages = new List<KilliPrinter>();
-
-            var kills = await _playerKillRepository.GetLiveKilledMongo();
-
-            foreach (var rule in _rules)
-            {
-                var output = rule.LiveKilledOrTeamEliminiated(kills);
-
-                if (output != null)
-                {
-                    playerKilledOrTeamEliminatedMessages = output.ToList();
-                }
-            }
-            
             return playerKilledOrTeamEliminatedMessages;
         }
     }

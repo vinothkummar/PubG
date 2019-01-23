@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -38,42 +38,22 @@ namespace Fanview.API.Repository
 
         public async Task<EventLiveMatchStatus> GetEventLiveMatchStatus()
         {
-            var eventLiveMatchStatus = _eventLiveMatchStatus.GetMongoDbCollection("EventMatchStatus");
-
-            //this feature is commented ; due to matchId issue on the OGN Test
-
-            //var lastLiveMatchStatus = eventLiveMatchStatus.FindAsync(Builders<EventLiveMatchStatus>.Filter.Where(cn => cn.MatchId == matchId)).Result.ToListAsync().Result.OrderByDescending(o => o.Id).FirstOrDefault();
-            var lastLiveMatchStatus = eventLiveMatchStatus.FindAsync(Builders<EventLiveMatchStatus>.Filter.Empty).Result.ToListAsync().Result.OrderByDescending(o => o.Id).FirstOrDefault();
-
-            return await Task.FromResult(lastLiveMatchStatus);
-
+            var eventMatchStatus = _eventLiveMatchStatus.GetMongoDbCollection("EventMatchStatus");
+            var filter = Builders<EventLiveMatchStatus>.Filter.Empty;
+            var options = new FindOptions<EventLiveMatchStatus>()
+            {
+                Sort = Builders<EventLiveMatchStatus>.Sort.Descending("_id"),
+                Limit = 1
+            };
+            var res = await eventMatchStatus.FindAsync(filter, options).ConfigureAwait(false);
+            return await res.FirstOrDefaultAsync().ConfigureAwait(false);
         }
 
-        public async Task<int> GetTeamLiveStatusCount(string matchId)
+        public Task<long> GetTeamLiveStatusCount(string matchId)
         {
-            var cacheKey = "TeamLiveStatusCountCach";
-
-            try
-            {
-                var TeamLiveStatusCountCache = _cacheService.RetrieveFromCache<int>(cacheKey);
-
-                if (TeamLiveStatusCountCache != 0)
-                {
-                    return TeamLiveStatusCountCache;
-                }
-
-            }
-            catch (Exception ex)
-            {
-                _logger.LogInformation("TeamLiveStatusCountCache exception " + ex + Environment.NewLine);
-            }
-
-            var liveMatchStatus = _liveMatchStatusRepository.GetMongoDbCollection("TeamLiveStatus");
-
-            var TeamLiveStatusCount = liveMatchStatus.FindAsync(Builders<LiveMatchStatus>.Filter.Where(cn => cn.MatchId == matchId)).Result.ToListAsync().Result.Count;
-
-            return await Task.FromResult(TeamLiveStatusCount);
-
+            var collection = _liveMatchStatusRepository.GetMongoDbCollection("TeamLiveStatus");
+            var filter = Builders<LiveMatchStatus>.Filter.Where(ms => ms.MatchId == matchId);
+            return collection.CountDocumentsAsync(filter);
         }
 
         public void ReplaceTeamLiveStatus(LiveMatchStatus liveMatchStatus, FilterDefinition<LiveMatchStatus> filter)

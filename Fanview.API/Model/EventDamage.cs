@@ -1,68 +1,54 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Fanview.API.Model
 {
     public class EventDamage
     {
-            [BsonId]
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
 
-            [BsonRepresentation(BsonType.ObjectId)]
+        [BsonElement("matchId")]
+        public string MatchId { get; set; }
 
-            public string Id { get; set; }
+        [BsonElement("damage")]
+        public double Damage { get; set; }
 
-            [BsonElement("damage")]
+        [BsonElement("isDetailStatus")]
+        public bool IsDetailStatus { get; set; }
 
-            public float Damage { get; set; }
+        [BsonElement("isVictimMe")]
+        public bool IsVictimMe { get; set; }
 
-            [BsonElement("isDetailStatus")]
+        [BsonElement("damageTypeCategory")]
+        public string DamageCategory { get; set; }
 
-            public bool IsDetailStatus { get; set; }
+        [BsonElement("attackerName")]
+        public string AttackerName { get; set; }
 
-            [BsonElement("isVictimMe")]
+        [BsonElement("attackerLocation")]
+        public Location AttackerLocation { get; set; }
 
-            public bool IsVictimMe { get; set; }
+        [BsonElement("attackerTeamId")]
+        public int AttackerTeamId { get; set; }
 
-            [BsonElement("damageTypeCategory")]
+        [BsonElement("victimName")]
+        public string VictimName { get; set; }
 
-            public string DamageCategory { get; set; }
+        [BsonElement("victimLocation")]
+        public Location VictimLocation { get; set; }
 
-            [BsonElement("attackerName")]
+        [BsonElement("victimTeamId")]
+        public int VictimTeamId { get; set; }
 
-            public string AttackerName { get; set; }
+        [BsonElement("eventTimeStamp")]
+        public double EventTimeStamp { get; set; }
 
-            [BsonElement("attackerLocation")]
+        [BsonElement("eventType")]
+        public string EventType { get; set; }
 
-            public Location AttackerLocation { get; set; }
-
-            [BsonElement("attackerTeamId")]
-
-            public int AttackerTeamId { get; set; }
-
-            [BsonElement("victimName")]
-
-            public string VictimName { get; set; }
-
-            [BsonElement("victimLocation")]
-
-            public Location VictimLocation { get; set; }
-
-            [BsonElement("victimTeamId")]
-
-            public int VictimTeamId { get; set; }
-
-            [BsonElement("eventTimeStamp")]
-
-            public double EventTimeStamp { get; set; }
-
-            [BsonElement("eventType")]
-
-            public string EventType { get; set; }
-
-
+        [BsonElement("eventSourceFileName")]
+        public string EventSourceFileName { get; set; }
     }
 }
