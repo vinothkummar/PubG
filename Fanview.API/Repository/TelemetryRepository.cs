@@ -67,9 +67,7 @@ namespace Fanview.API.Repository
                     await Task.Run(async () =>  _playerKillRepository.InsertPlayerKillTelemetry(jsonResult, string.Empty));
 
                     await Task.Run(async () => _playerVehicleLeaveRepository.InsertVehicleLeaveTelemetry(jsonResult, string.Empty));
-
-                    //InsertPlayerKillTelemetry(jsonResult);
-
+                                      
                     _logger.LogInformation("Completed Loading Telemetery Response Json" + Environment.NewLine);
                 }
 
@@ -113,9 +111,7 @@ namespace Fanview.API.Repository
 
                     //await Task.Run(async () => _playerKillRepository.InsertLiveKillEventTelemetry(array, fileName));
 
-                    //await Task.Run(async () => _takeDamageRepository.InsertEventDamageTelemetry(array, fileName));
-
-
+                   // await Task.Run(async () => _takeDamageRepository.InsertEventDamageTelemetry(array, fileName));
 
                     File.Move(file, folderPathToMoveProcessedFile + "\\" + fileName + "_" + _random.Next().ToString());
 

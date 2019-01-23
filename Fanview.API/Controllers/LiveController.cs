@@ -98,12 +98,12 @@ namespace Fanview.API.Controllers
             return _playerKillRepository.GetLiveKillList(topN);
         }
 
-        /// <summary>
-        /// Returns Live Player Stats
-        /// </summary>
-        /// <remarks>              
-        /// Sample request: api/Live/PlayerStats/{matchId}
-        /// </remarks>        
+        ///// <summary>
+        ///// Returns Live Player Stats
+        ///// </summary>
+        ///// <remarks>              
+        ///// Sample request: api/Live/PlayerStats/{matchId}
+        ///// </remarks>        
         //[HttpGet("LivePlayerStats/{matchId}", Name = "GetLivePlayerStats")]
         //public Task<IEnumerable<PlayerProfileTournament>> GetLivePlayerStats(int matchId)
         //{
