@@ -14,6 +14,7 @@ using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
 using System.Reflection;
 using System.IO;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Fanview.API
 {
@@ -41,7 +42,7 @@ namespace Fanview.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             //.AddJsonOptions(options =>
             //                    options.SerializerSettings.ContractResolver = new DefaultContractResolver());
             //new CamelCasePropertyNamesContractResolver()
@@ -65,13 +66,9 @@ namespace Fanview.API
             {
                 app.UseDeveloperExceptionPage();
             }
-
-         
             app.UseSwagger();
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Fanview APi"); });
-
             app.UseMvc();
-
         }
     }
 }

@@ -1,66 +1,60 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Fanview.API.Repository.Interface;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Linq;
-using Fanview.API.Assets;
-using Fanview.API.Services.Interface;
+using Fanview.API.Utility;
+using Newtonsoft.Json;
+using Microsoft.Extensions.Caching.Memory;
+using System;
 
 namespace Fanview.API.Repository
 {
     public class AssetsRepository : IAssetsRepository
     {
-        private IHostingEnvironment _hostingEnvironment;
-        private ILogger<AssetsRepository> _logger;
-        private ICacheService _cacheService;
+        private readonly ILogger<AssetsRepository> _logger;
+        private readonly IMemoryCache _memoryCache;
+        private readonly string _damageCausersResourcePath;
+        private readonly string _damageCausersCacheKey;
+        private readonly TimeSpan _damageCausersCacheExpiration;
 
-
-        public AssetsRepository(IHostingEnvironment hostingEnvironment, ILogger<AssetsRepository> logger, ICacheService cacheService)
+        public AssetsRepository(ILogger<AssetsRepository> logger, IMemoryCache memoryCache)
         {
-            _hostingEnvironment = hostingEnvironment;
-            _cacheService = cacheService;
             _logger = logger;
-
-
+            _memoryCache = memoryCache;
+            _damageCausersResourcePath = "Fanview.API.Assets.DamageCauserName.json";
+            _damageCausersCacheKey = "DamageCausers";
+            _damageCausersCacheExpiration = TimeSpan.FromHours(2);
         }      
 
         public string GetDamageCauserName(string damageCauserKey)
         {
-            var provider = new PhysicalFileProvider(Directory.GetCurrentDirectory());
-
-            var contents = provider.GetDirectoryContents(string.Empty).Where(cn => cn.Name == "Assets").FirstOrDefault().PhysicalPath;
-
-            var fileName = contents + "\\DamageCauserName.json";
-
-            //var fileName = Path.GetFullPath(@"../" + "Fanview.API\\Assets\\DamageCauserName.json");
-
-            JObject damageCauserNameList = JObject.Parse(File.ReadAllText(fileName));
-
-            //var damageCauserNameList = new DamageCauserName(_cacheService).GetDamageCauserName().Result;
-
             try
             {
-                var damagedCaused = damageCauserNameList.SelectToken(damageCauserKey);
-
-                //var damagedCaused = damageCauserNameList.FirstOrDefault(cn => cn.Key == damageCauserKey).Value;
-
-                return damagedCaused.ToString();
+                var damageCausersDict = _memoryCache.Get<Dictionary<string, string>>(_damageCausersCacheKey);
+                if (damageCausersDict == null)
+                {
+                    var damageCausersJson = EmbeddedResourcesUtility.ReadEmbeddedResource(_damageCausersResourcePath);
+                    damageCausersDict = JsonConvert.DeserializeObject<Dictionary<string, string>>(damageCausersJson);
+                    _memoryCache.Set(_damageCausersCacheKey, damageCausersDict, new MemoryCacheEntryOptions
+                    {
+                        AbsoluteExpiration = DateTimeOffset.UtcNow.Add(_damageCausersCacheExpiration)
+                    });
+                }
+                return damageCausersDict[damageCauserKey];
             }
-            catch (Exception exception)
+            catch (FileNotFoundException)
             {
-                _logger.LogInformation("Damage Causer key " + exception + Environment.NewLine);
-
-                return null;
+                _logger.LogError($"Resource path: {_damageCausersResourcePath} not found");
             }
-
-
-
-
+            catch (JsonReaderException)
+            {
+                _logger.LogError($"Failed to deserialize Damage Causers json into a dictionary.");
+            }
+            catch (KeyNotFoundException)
+            {
+                _logger.LogError($"Key {damageCauserKey} not found in the damage causers dictionary.");
+            }
+            return string.Empty;
         }
     }
 }

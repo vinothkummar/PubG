@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Fanview.API.Model;
 
 
@@ -9,8 +6,7 @@ namespace Fanview.API.Repository.Interface
 {
     public interface IEventScheduleRepository
     {        
-        Task<Competition> GetDailySchedule(string daycount);
-        Task<IEnumerable<Competition>> GetCompetitionSchedule();
-
+        Competition GetDailySchedule(string daycount);
+        IEnumerable<Competition> GetCompetitionSchedule();
     }
 }

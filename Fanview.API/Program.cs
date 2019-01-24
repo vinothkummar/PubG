@@ -25,7 +25,7 @@ namespace Fanview.API
         }
         public static void Main(string[] args)
         {
-            var fileName = Path.Combine(Path.GetFullPath(@"../../../../../" + "FanViewAPILog"), SpecialFileName);
+            var fileName = Path.Combine(Path.GetFullPath(@"../" + "FanViewAPILog"), SpecialFileName);
 
             Log.Logger = new LoggerConfiguration()
            .MinimumLevel.Debug()

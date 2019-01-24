@@ -44,11 +44,7 @@ namespace Fanview.API.Repository
         private IGenericRepository<TeamPlayer> _teamPlayers;
         private ITeamPlayerRepository _teamPlayerRepository;
         private IMatchRepository _matchRepository;
-
-
-        private string _matchId;
        
-
         public PlayerKillRepository(IClientBuilder httpClientBuilder,
                                     IHttpClientRequest httpClientRequest,                                    
                                     IGenericRepository<Kill> genericRepository,
@@ -245,78 +241,13 @@ namespace Fanview.API.Repository
             }            
         }
 
-
         public async Task<IEnumerable<LiveEventKill>> GetLiveKilled()
         {
-            try
-            {
-                var liveKilledFromCache = _cacheService.RetrieveFromCache<IEnumerable<LiveEventKill>>("LiveEventKilledCache");
-
-                if (liveKilledFromCache != null)
-                {
-                    return liveKilledFromCache;
-                }
-            }
-            catch(Exception ex)
-            {
-                _logger.LogInformation("LiveEventKilledCache exception " + ex + Environment.NewLine);
-            }
-           
-           
-
-            try
-            {
-                _logger.LogInformation("GetLivePlayerKilled Repository call started" + Environment.NewLine);
-
-
-                //var tournamentMatchId = _eventRepository.GetTournamentLiveMatch().Result;
-
-                //var response = _LiveEventKill.GetAll("LiveEventKill").Result.Where(cn => cn.MatchId == tournamentMatchId);
-
-                var response = _LiveEventKill.GetAll("LiveEventKill").Result.Where(cn => cn.IsGroggy == false);
-
-                await _cacheService.SaveToCache<IEnumerable<LiveEventKill>>("LiveEventKilledCache", response, 1000, 1);
-                
-                _logger.LogInformation("GetLivePlayerKilled Repository call completed" + Environment.NewLine);
-
-                return await Task.FromResult(response);
-
-            }
-            catch (Exception exception)
-            {
-                _logger.LogError(exception, "GetlivePlayerKilled");
-
-                throw;
-            }
-          
-          
+            var collection = _LiveEventKill.GetMongoDbCollection("LiveEventKill");
+            var filter = Builders<LiveEventKill>.Filter.Where(ek => ek.IsGroggy == false);
+            var query = await collection.FindAsync(filter).ConfigureAwait(false);
+            return await query.ToListAsync().ConfigureAwait(false);
         }
-
-        public async Task<IEnumerable<LiveEventKill>> GetLiveKilledMongo()
-        {
-           
-            try
-            {
-                _logger.LogInformation("GetLivePlayerKilled Repository call started" + Environment.NewLine);
-
-
-                var response = await _LiveEventKill.GetAll("LiveEventKill");
-                 
-               _logger.LogInformation("GetLivePlayerKilled Repository call completed" + Environment.NewLine);
-
-               return  response.Where(cn => cn.IsGroggy == false);
-               
-            }
-            catch (Exception exception)
-            {
-                _logger.LogError(exception, "GetlivePlayerKilled");
-
-                throw;
-            }
-
-
-        }
-
 
         public async Task<IEnumerable<Kill>> GetLast4PlayerKilled(string matchId)
         { 
@@ -592,7 +523,7 @@ namespace Fanview.API.Repository
                         t.Wait();
                         if (t.Status == TaskStatus.RanToCompletion)
                         {
-                            var liveKilledOrTeamEliminated = LiveKilledOrTeamEliminiated(kills);
+                            var liveKilledOrTeamEliminated = await LiveKilledOrTeamEliminiated(kills).ConfigureAwait(false);
 
                             _liveKilledCachedData.Add(liveKilledOrTeamEliminated);
                         }
@@ -651,11 +582,9 @@ namespace Fanview.API.Repository
             return Task.FromResult(killLeaders);
         }
 
-        private KilliPrinter LiveKilledOrTeamEliminiated(IEnumerable<LiveEventKill> playerKilled)
+        private async Task<KilliPrinter> LiveKilledOrTeamEliminiated(IEnumerable<LiveEventKill> playerKilled)
         {
-         
-            var result = _teamPlayerRepository.GetPlayersId(playerKilled);
-
+            var result = await _teamPlayerRepository.GetPlayersId(playerKilled).ConfigureAwait(false);
             var playerKillMessage = result.Select(item => new PlayerKilledGraphics()
             {
                 TimeKilled = item.TimeKilled,

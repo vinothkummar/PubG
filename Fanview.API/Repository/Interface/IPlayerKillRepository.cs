@@ -19,7 +19,6 @@ namespace Fanview.API.Repository.Interface
 
         Task<IEnumerable<LiveEventKill>> GetLiveKilled();
 
-        Task<IEnumerable<LiveEventKill>> GetLiveKilledMongo();
 
 
         Task<IEnumerable<Kill>> GetPlayerKilled(string matchId1, string matchId2, string matchId3, string matchId4);

@@ -16,7 +16,5 @@ namespace Fanview.API.Repository.Interface
         Task<IEnumerable<MatchPlayerStats>> GetPlayerMatchStats(string matchId1, string matchId2, string matchId3, string matchId4);
         void InsertLiveEventMatchStatusTelemetry(JObject[] jsonResult, string fileName, DateTime eventTime);
         Task<IEnumerable<LiveMatchStatus>> GetLiveMatchStatus();
-        Task<IEnumerable<LiveMatchStatus>> GetLiveMatchStatus2();
-        Task<IEnumerable<LiveMatchStatus>> GetLiveMatchStatusAsync();
     }
 }
