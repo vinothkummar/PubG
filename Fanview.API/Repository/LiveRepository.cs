@@ -21,9 +21,9 @@ namespace Fanview.API.Repository
             _teamCollection = dbClient.Database.GetCollection<Team>("Team");
         }
 
-        public async Task<LiveDamageList> GetLiveDamageList(string matchId)
+        public async Task<LiveDamageList> GetLiveDamageList()
         {
-            var eventDamageFilter = Builders<EventDamage>.Filter.Where(ed => ed.MatchId == matchId);
+            var eventDamageFilter = Builders<EventDamage>.Filter.Empty;
             var eventDamageQuery = await _eventDamageCollection.FindAsync(eventDamageFilter).ConfigureAwait(false);
             var eventDamage = await eventDamageQuery.ToListAsync().ConfigureAwait(false);
             var teamPlayerQueryable = _teamPlayerCollection.AsQueryable();
