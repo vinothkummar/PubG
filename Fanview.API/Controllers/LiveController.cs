@@ -66,11 +66,10 @@ namespace Fanview.API.Controllers
         /// Sample request: api/Live/DamageList/{matchId}          
         /// Input Parameter: f84d39a1-8218-4438-9bf5-7150f9e0f093
         /// </remarks>
-        /// <param name='matchId'>f84d39a1-8218-4438-9bf5-7150f9e0f093</param>
-        [HttpGet("DamageList/{matchId}", Name = "GetLiveDamageList")]
-        public Task<LiveDamageList> GetLiveDamageList(string matchId)
+        [HttpGet("DamageList", Name = "GetLiveDamageList")]
+        public Task<LiveDamageList> GetLiveDamageList()
         {
-            return _liveRepository.GetLiveDamageList(matchId);
+            return _liveRepository.GetLiveDamageList();
         }
 
         /// <summary>
