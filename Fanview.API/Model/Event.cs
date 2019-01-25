@@ -14,11 +14,11 @@ namespace Fanview.API.Model
         public string Id { get; set; }
         [BsonElement("matchId")]
         public int MatchId { get; set; }
-        [BsonElement("type")]
-        public string Type { get; set; }
         [BsonElement("createdAt")]
         public string CreatedAT { get; set; }
         [BsonElement("eventName")]
         public string EventName { get; set; }
+        [BsonElement("dataAvailable")]
+        public bool DataAvailable  { get; set; }
     }
 }

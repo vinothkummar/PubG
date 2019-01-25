@@ -227,7 +227,42 @@ namespace Fanview.API.Repository
         {
             var matchCollection = _tournamentRepository.GetMongoDbCollection("TournamentMatchId");
 
-            return await matchCollection.FindAsync(Builders<Event>.Filter.Empty).Result.ToListAsync();
+            var ranking = _matchRankingRepository.GetMongoDbCollection("MatchRanking");
+
+            var matchRanking = ranking.FindAsync(Builders<MatchRanking>.Filter.Empty).Result.ToEnumerable().Select(se => new { Id = se.MatchId }).Distinct();                       
+
+            var matchDetails = await matchCollection.FindAsync(Builders<Event>.Filter.Empty).Result.ToListAsync();
+
+            var matchDetailsJoin = matchDetails.GroupJoin(matchRanking, left =>  left.Id , right =>  right.Id ,
+                                                            (left, right) => new { TableA = right, TableB = left }).SelectMany(p => p.TableA.DefaultIfEmpty(), (x, y) => new { TableA = y, TableB = x.TableB });
+
+            var matchDetailStatusUpdate = new List<Event>();
+
+            foreach (var item in matchDetailsJoin)
+            {
+                if (item.TableA != null && item.TableB != null)
+                {
+                    matchDetailStatusUpdate.Add(new Event() {
+                        Id = item.TableB.Id,
+                        MatchId = item.TableB.MatchId,
+                        CreatedAT = item.TableB.CreatedAT,
+                        DataAvailable = true,
+                        EventName = item.TableB.EventName
+                    });
+                }
+                else
+                {
+                    matchDetailStatusUpdate.Add(new Event() {
+                        Id = item.TableB.Id,
+                        MatchId = item.TableB.MatchId,
+                        CreatedAT = item.TableB.CreatedAT,
+                        DataAvailable = false,
+                        EventName = item.TableB.EventName
+                    });
+                }
+
+            }
+            return  matchDetailStatusUpdate;
         }
 
         public async Task<Object> GetTournaments()
