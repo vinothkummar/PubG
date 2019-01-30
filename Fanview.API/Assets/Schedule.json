@@ -1,239 +1,271 @@
 [
   {
-    "competitionName": "NPL Preseason",
+    "competitionName": "NPL Regular Season - Phase I",
+    "weekCount": "1",
     "dayCount": "1",
     "scheduleTimeAndStatus": [
       {
-        "scheduleTime": "2019-01-07T16:00:00",
-        "matchRoundStatus": "Scheduled",
-        "stageId": "1",
+        "scheduleTime": "2019-02-01T17:00:00",
         "dayRound": "1",
         "matchId": "1"
       },
       {
-        "scheduleTime": "2019-01-07T17:00:00",
-        "matchRoundStatus": "Scheduled",
-        "stageId": "1",
+        "scheduleTime": "2019-02-01T18:00:00",
         "dayRound": "2",
         "matchId": "2"
       },
       {
-        "scheduleTime": "2019-01-07T18:00:00",
-        "matchRoundStatus": "Scheduled",
-        "stageId": "1",
+        "scheduleTime": "2019-02-01T19:00:00",
         "dayRound": "3",
         "matchId": "3"
       },
       {
-        "scheduleTime": "2019-01-07T19:00:00",
-        "matchRoundStatus": "Scheduled",
-        "stageId": "1",
+        "scheduleTime": "2019-02-01T20:00:00",
         "dayRound": "4",
         "matchId": "4"
       }
     ]
   },
   {
-    "competitionName": "NPL Preseason",
+    "competitionName": "NPL Regular Season - Phase I",
+    "weekCount": "1",
     "dayCount": "2",
     "scheduleTimeAndStatus": [
       {
-        "scheduleTime": "2019-01-08T16:00:00",
-        "matchRoundStatus": "Scheduled",
-        "stageId": "1",
+        "scheduleTime": "2019-02-02T14:00:00",
         "dayRound": "1",
         "matchId": "5"
       },
       {
-        "scheduleTime": "2019-01-08T17:00:00",
-        "matchRoundStatus": "Scheduled",
-        "stageId": "1",
+        "scheduleTime": "2019-02-02T15:00:00",
         "dayRound": "2",
         "matchId": "6"
       },
       {
-        "scheduleTime": "2019-01-08T18:00:00",
-        "matchRoundStatus": "Scheduled",
-        "stageId": "1",
+        "scheduleTime": "2019-02-02T16:00:00",
         "dayRound": "3",
         "matchId": "7"
       },
       {
-        "scheduleTime": "2019-01-08T19:00:00",
-        "matchRoundStatus": "Scheduled",
-        "stageId": "1",
+        "scheduleTime": "2019-02-02T17:00:00",
         "dayRound": "4",
         "matchId": "8"
       }
     ]
   },
   {
-    "competitionName": "NPL Preseason",
+    "competitionName": "NPL Regular Season - Phase I",
+    "weekCount": "2",
     "dayCount": "3",
     "scheduleTimeAndStatus": [
       {
-        "scheduleTime": "2019-01-09T16:00:00",
-        "matchRoundStatus": "Scheduled",
-        "stageId": "1",
+        "scheduleTime": "2019-02-08T17:00:00",
         "dayRound": "1",
         "matchId": "9"
       },
       {
-        "scheduleTime": "2019-01-09T17:00:00",
-        "matchRoundStatus": "Scheduled",
-        "stageId": "1",
+        "scheduleTime": "2019-02-08T18:00:00",
         "dayRound": "2",
         "matchId": "10"
       },
       {
-        "scheduleTime": "2019-01-09T18:00:00",
-        "matchRoundStatus": "Scheduled",
-        "stageId": "1",
+        "scheduleTime": "2019-02-08T19:00:00",
         "dayRound": "3",
         "matchId": "11"
       },
       {
-        "scheduleTime": "2019-01-09T19:00:00",
-        "matchRoundStatus": "Scheduled",
-        "stageId": "1",
+        "scheduleTime": "2019-02-08T20:00:00",
         "dayRound": "4",
         "matchId": "12"
       }
     ]
   },
   {
-    "competitionName": "NPL Preseason",
+    "competitionName": "NPL Regular Season - Phase I",
+    "weekCount": "2",
     "dayCount": "4",
     "scheduleTimeAndStatus": [
       {
-        "scheduleTime": "2019-01-10T16:00:00",
-        "matchRoundStatus": "Scheduled",
-        "stageId": "1",
+        "scheduleTime": "2019-02-08T14:00:00",
         "dayRound": "1",
         "matchId": "13"
       },
       {
-        "scheduleTime": "2019-01-10T17:00:00",
-        "matchRoundStatus": "Scheduled",
-        "stageId": "1",
+        "scheduleTime": "2019-02-08T15:00:00",
         "dayRound": "2",
         "matchId": "14"
       },
       {
-        "scheduleTime": "2019-01-10T18:00:00",
-        "matchRoundStatus": "Scheduled",
-        "stageId": "1",
+        "scheduleTime": "2019-02-08T16:00:00",
         "dayRound": "3",
         "matchId": "15"
       },
       {
-        "scheduleTime": "2019-01-10T19:00:00",
-        "matchRoundStatus": "Scheduled",
-        "stageId": "1",
+        "scheduleTime": "2019-02-08T17:00:00",
         "dayRound": "4",
         "matchId": "16"
       }
     ]
   },
   {
-    "competitionName": "NPL Preseason",
+    "competitionName": "NPL Regular Season - Phase I",
+    "weekCount": "3",
     "dayCount": "5",
     "scheduleTimeAndStatus": [
       {
-        "scheduleTime": "2019-01-11T16:00:00",
-        "matchRoundStatus": "Scheduled",
-        "stageId": "1",
+        "scheduleTime": "2019-02-15T17:00:00",
         "dayRound": "1",
         "matchId": "17"
       },
       {
-        "scheduleTime": "2019-01-11T17:00:00",
-        "matchRoundStatus": "Scheduled",
-        "stageId": "1",
+        "scheduleTime": "2019-02-15T18:00:00",
         "dayRound": "2",
         "matchId": "18"
       },
       {
-        "scheduleTime": "2019-01-11T18:00:00",
-        "matchRoundStatus": "Scheduled",
-        "stageId": "1",
+        "scheduleTime": "2019-02-15T19:00:00",
         "dayRound": "3",
         "matchId": "19"
       },
       {
-        "scheduleTime": "2019-01-11T19:00:00",
-        "matchRoundStatus": "Scheduled",
-        "stageId": "1",
+        "scheduleTime": "2019-02-15T20:00:00",
         "dayRound": "4",
         "matchId": "20"
       }
     ]
   },
   {
-    "competitionName": "NPL Preseason",
+    "competitionName": "NPL Regular Season - Phase I",
+    "weekCount": "3",
     "dayCount": "6",
     "scheduleTimeAndStatus": [
       {
-        "scheduleTime": "2019-01-12T16:00:00",
-        "matchRoundStatus": "Scheduled",
-        "stageId": "1",
+        "scheduleTime": "2019-02-16T14:00:00",
         "dayRound": "1",
         "matchId": "21"
       },
       {
-        "scheduleTime": "2019-01-12T17:00:00",
-        "matchRoundStatus": "Scheduled",
-        "stageId": "1",
+        "scheduleTime": "2019-02-16T15:00:00",
         "dayRound": "2",
         "matchId": "22"
       },
       {
-        "scheduleTime": "2019-01-12T18:00:00",
-        "matchRoundStatus": "Scheduled",
-        "stageId": "1",
+        "scheduleTime": "2019-02-16T16:00:00",
         "dayRound": "3",
         "matchId": "23"
       },
       {
-        "scheduleTime": "2019-01-12T19:00:00",
-        "matchRoundStatus": "Scheduled",
-        "stageId": "1",
+        "scheduleTime": "2019-02-16T17:00:00",
         "dayRound": "4",
         "matchId": "24"
       }
     ]
   },
   {
-    "competitionName": "NPL Preseason",
+    "competitionName": "NPL Regular Season - Phase I",
+    "weekCount": "4",
     "dayCount": "7",
     "scheduleTimeAndStatus": [
       {
-        "scheduleTime": "2019-01-13T16:00:00",
-        "matchRoundStatus": "Scheduled",
-        "stageId": "2",
+        "scheduleTime": "2019-03-01T17:00:00",
         "dayRound": "1",
         "matchId": "25"
       },
       {
-        "scheduleTime": "2019-01-13T17:00:00",
-        "matchRoundStatus": "Scheduled",
-        "stageId": "2",
+        "scheduleTime": "2019-03-01T18:00:00",
         "dayRound": "2",
         "matchId": "26"
       },
       {
-        "scheduleTime": "2019-01-13T18:00:00",
-        "matchRoundStatus": "Scheduled",
-        "stageId": "2",
+        "scheduleTime": "2019-03-01T19:00:00",
         "dayRound": "3",
         "matchId": "27"
       },
       {
-        "scheduleTime": "2019-01-13T19:00:00",
-        "matchRoundStatus": "Scheduled",
-        "stageId": "2",
+        "scheduleTime": "2019-03-01T20:00:00",
         "dayRound": "4",
         "matchId": "28"
+      }
+    ]
+  },
+  {
+    "competitionName": "NPL Regular Season - Phase I",
+    "weekCount": "4",
+    "dayCount": "8",
+    "scheduleTimeAndStatus": [
+      {
+        "scheduleTime": "2019-03-02T14:00:00",
+        "dayRound": "1",
+        "matchId": "29"
+      },
+      {
+        "scheduleTime": "2019-03-02T15:00:00",
+        "dayRound": "2",
+        "matchId": "30"
+      },
+      {
+        "scheduleTime": "2019-03-02T16:00:00",
+        "dayRound": "3",
+        "matchId": "31"
+      },
+      {
+        "scheduleTime": "2019-03-02T17:00:00",
+        "dayRound": "4",
+        "matchId": "32"
+      }
+    ]
+  },
+  {
+    "competitionName": "NPL Regular Season - Phase I",
+    "weekCount": "5",
+    "dayCount": "9",
+    "scheduleTimeAndStatus": [
+      {
+        "scheduleTime": "2019-03-08T17:00:00",
+        "dayRound": "1",
+        "matchId": "33"
+      },
+      {
+        "scheduleTime": "2019-03-08T18:00:00",
+        "dayRound": "2",
+        "matchId": "34"
+      },
+      {
+        "scheduleTime": "2019-03-08T19:00:00",
+        "dayRound": "3",
+        "matchId": "35"
+      },
+      {
+        "scheduleTime": "2019-03-08T20:00:00",
+        "dayRound": "4",
+        "matchId": "36"
+      }
+    ]
+  },
+  {
+    "competitionName": "NPL Regular Season - Phase I",
+    "weekCount": "5",
+    "dayCount": "10",
+    "scheduleTimeAndStatus": [
+      {
+        "scheduleTime": "2019-03-09T14:00:00",
+        "dayRound": "1",
+        "matchId": "37"
+      },
+      {
+        "scheduleTime": "2019-03-09T15:00:00",
+        "dayRound": "2",
+        "matchId": "38"
+      },
+      {
+        "scheduleTime": "2019-03-09T16:00:00",
+        "dayRound": "3",
+        "matchId": "39"
+      },
+      {
+        "scheduleTime": "2019-03-09T17:00:00",
+        "dayRound": "4",
+        "matchId": "40"
       }
     ]
   }
