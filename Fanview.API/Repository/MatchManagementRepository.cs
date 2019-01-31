@@ -1,6 +1,8 @@
 ﻿using Fanview.API.Model;
+using Fanview.API.Model.ViewModels;
 using Fanview.API.Repository.Interface;
 using Fanview.API.Services.Interface;
+using Fanview.API.Utility;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 using Newtonsoft.Json.Linq;
@@ -10,13 +12,13 @@ using System.Dynamic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Fanview.API.Utility;
 
 namespace Fanview.API.Repository
 {
     public class MatchManagementRepository : IMatchManagementRepository
     {
         private IGenericRepository<Event> _tournamentRepository;
+        private IGenericRepository<DeskSeatingPosition> _deskPositionRepository;
         private IClientBuilder _httpClientBuilder;
         private IHttpClientRequest _httpClientRequest;
         private IGenericRepository<LiveEventKill> _liveEventKillRepository;
@@ -34,13 +36,14 @@ namespace Fanview.API.Repository
         private ILogger<MatchManagementRepository> _logger;
 
         public MatchManagementRepository(IGenericRepository<Event> tournamentRepository, IClientBuilder httpClientBuilder,
-                                    IHttpClientRequest httpClientRequest, IGenericRepository<LiveEventKill> liveEventKillRepository, 
+                                    IHttpClientRequest httpClientRequest, IGenericRepository<LiveEventKill> liveEventKillRepository,
                                     IGenericRepository<MatchRanking> matchRankingRepository, IGenericRepository<Kill> killRepostiory,
                                     IGenericRepository<EventDamage> eventDamageRepository, IGenericRepository<LiveMatchStatus> liveMatchStatusRepository,
                                     IGenericRepository<MatchPlayerStats> matchPlayerStatsRepository, IGenericRepository<MatchSafeZone> matchSafeZoneRepository,
                                     IGenericRepository<CreatePlayer> createPlayerRepository, IGenericRepository<PlayerPoition> playerPositionRepository,
                                     IGenericRepository<TeamRanking> teamRankingRepository, IGenericRepository<VehicleLeave> vehicleLeaveRepository,
                                     IGenericRepository<EventLiveMatchStatus> eventMatchStatusRepository,
+                                    IGenericRepository<DeskSeatingPosition> deskPositionRepository,
                                     ILogger<MatchManagementRepository> logger)
         {
             _tournamentRepository = tournamentRepository;
@@ -58,11 +61,12 @@ namespace Fanview.API.Repository
             _teamRankingRepository = teamRankingRepository;
             _vehicleLeaveRepository = vehicleLeaveRepository;
             _eventMatchStatusRepository = eventMatchStatusRepository;
+            _deskPositionRepository = deskPositionRepository;
             _logger = logger;
         }
 
         public dynamic DeleteDocumentCollections(string matchId)
-        {  
+        {
             var matchRankingFilter = Builders<MatchRanking>.Filter.Eq(s => s.MatchId, matchId);
 
             var matchRankingResponse = _matchRankingRepository.DeleteMany(matchRankingFilter, "MatchRanking");
@@ -196,7 +200,7 @@ namespace Fanview.API.Repository
             var liveMatchStatusFilter = Builders<LiveMatchStatus>.Filter.Empty;
 
             var liveMatchStatusResponse = _liveMatchStatusRepository.DeleteMany(liveMatchStatusFilter, "TeamLiveStatus");
-            
+
             dynamic mongoDeletedCollection = new ExpandoObject();
 
             List<dynamic> deletedColletionInfo = new List<dynamic>() {
@@ -229,11 +233,11 @@ namespace Fanview.API.Repository
 
             var ranking = _matchRankingRepository.GetMongoDbCollection("MatchRanking");
 
-            var matchRanking = ranking.FindAsync(Builders<MatchRanking>.Filter.Empty).Result.ToEnumerable().Select(se => new { Id = se.MatchId }).Distinct();                       
+            var matchRanking = ranking.FindAsync(Builders<MatchRanking>.Filter.Empty).Result.ToEnumerable().Select(se => new { Id = se.MatchId }).Distinct();
 
             var matchDetails = await matchCollection.FindAsync(Builders<Event>.Filter.Empty).Result.ToListAsync();
 
-            var matchDetailsJoin = matchDetails.GroupJoin(matchRanking, left =>  left.Id , right =>  right.Id ,
+            var matchDetailsJoin = matchDetails.GroupJoin(matchRanking, left => left.Id, right => right.Id,
                                                             (left, right) => new { TableA = right, TableB = left }).SelectMany(p => p.TableA.DefaultIfEmpty(), (x, y) => new { TableA = y, TableB = x.TableB });
 
             var matchDetailStatusUpdate = new List<Event>();
@@ -242,7 +246,8 @@ namespace Fanview.API.Repository
             {
                 if (item.TableA != null && item.TableB != null)
                 {
-                    matchDetailStatusUpdate.Add(new Event() {
+                    matchDetailStatusUpdate.Add(new Event()
+                    {
                         Id = item.TableB.Id,
                         MatchId = item.TableB.MatchId,
                         CreatedAT = item.TableB.CreatedAT,
@@ -252,7 +257,8 @@ namespace Fanview.API.Repository
                 }
                 else
                 {
-                    matchDetailStatusUpdate.Add(new Event() {
+                    matchDetailStatusUpdate.Add(new Event()
+                    {
                         Id = item.TableB.Id,
                         MatchId = item.TableB.MatchId,
                         CreatedAT = item.TableB.CreatedAT,
@@ -262,7 +268,7 @@ namespace Fanview.API.Repository
                 }
 
             }
-            return  matchDetailStatusUpdate;
+            return matchDetailStatusUpdate;
         }
 
         public async Task<Object> GetTournaments()
@@ -282,8 +288,11 @@ namespace Fanview.API.Repository
                     var o = JObject.Parse(response);
 
                     var tournaments = o.SelectToken("data").Select(m =>
-                                                    new { Name =  (string)m.SelectToken("id"),
-                                                         CreatedDate = (string)m.SelectToken("attributes.createdAt") }
+                                                    new
+                                                    {
+                                                        Name = (string)m.SelectToken("id"),
+                                                        CreatedDate = (string)m.SelectToken("attributes.createdAt")
+                                                    }
                                                     ).ToList();
 
                     return tournaments;
@@ -293,7 +302,7 @@ namespace Fanview.API.Repository
                     return tournamentsResponse.Result;
                 }
 
-               
+
             }
             catch (Exception ex)
             {
@@ -343,7 +352,7 @@ namespace Fanview.API.Repository
         public void PostMatchDetails(Event matchDetails)
         {
             _tournamentRepository.Insert(matchDetails, "TournamentMatchId");
-           
+
         }
 
         public async Task<object> GetLiveLatestMatch(string tournamentName)
@@ -377,6 +386,79 @@ namespace Fanview.API.Repository
             {
                 throw ex;
             }
+        }
+
+        public void CreatePlayerDeskPosition(IEnumerable<DeskSeatings> seatingPosition)
+        {
+             var deskSeatings = seatingPosition.Select(s => new DeskSeatingPosition(){
+                 DeskNumber = s.DeskNumber,
+                 TeamIdShort = s.TeamIdShort,
+                 Seat1PlayerId = s.Seat1PlayerId,
+                 Seat2PlayerId = s.Seat2PlayerId,
+                 Seat3PlayerId = s.Seat3PlayerId,
+                 Seat4PlayerId = s.Seat4PlayerId
+             });
+
+            _deskPositionRepository.Insert(deskSeatings, "DeskSeatingPosition");
+        }
+
+        public void EditPlayerDeskPosition(IEnumerable<DeskSeatings> seatingPosition)
+        {
+            var playerSeatings = seatingPosition.Select(s => new DeskSeatingPosition()
+            {
+                DeskNumber = s.DeskNumber,
+                TeamIdShort = s.TeamIdShort,
+                Seat1PlayerId = s.Seat1PlayerId,
+                Seat2PlayerId = s.Seat2PlayerId,
+                Seat3PlayerId = s.Seat3PlayerId,
+                Seat4PlayerId = s.Seat4PlayerId
+            });
+
+            var deskSeatings = _deskPositionRepository.GetMongoDbCollection("DeskSeatingPosition");
+
+            
+
+            foreach (var desk in playerSeatings)
+            {
+                var exitingSeatingPositions = deskSeatings.Find(Builders<DeskSeatingPosition>.Filter.Where(cn => cn.DeskNumber == desk.DeskNumber)).FirstOrDefault();
+
+                var newSeatingPositions = new DeskSeatingPosition() {
+                                    Id = exitingSeatingPositions.Id,
+                                    DeskNumber = desk.DeskNumber,
+                                    TeamIdShort = desk.TeamIdShort,
+                                    Seat1PlayerId = desk.Seat1PlayerId,
+                                    Seat2PlayerId = desk.Seat2PlayerId,
+                                    Seat3PlayerId = desk.Seat3PlayerId,
+                                    Seat4PlayerId = desk.Seat4PlayerId
+                                   };
+
+                var filter = Builders<DeskSeatingPosition>.Filter.Eq(s => s.Id, exitingSeatingPositions.Id);
+
+                _deskPositionRepository.Replace(newSeatingPositions, filter, "DeskSeatingPosition");
+
+            }
+
+
+        }
+
+        public async Task<IEnumerable<DeskSeatings>> GetPlayerDeskPositions()
+        {
+            var deskSeatings = _deskPositionRepository.GetMongoDbCollection("DeskSeatingPosition");
+
+            var seatingPositions = deskSeatings.FindAsync(Builders<DeskSeatingPosition>.Filter.Empty).Result.ToEnumerable()
+                                        .Select(s => new DeskSeatings() {
+                                                        DeskNumber = s.DeskNumber,
+                                                        TeamIdShort = s.TeamIdShort,
+                                                        Seat1PlayerId = s.Seat1PlayerId,
+                                                        Seat2PlayerId = s.Seat2PlayerId,
+                                                        Seat3PlayerId = s.Seat3PlayerId,
+                                                        Seat4PlayerId = s.Seat4PlayerId
+                                              });
+
+
+
+            return await Task.FromResult(seatingPositions);
+
         }
     }
 }

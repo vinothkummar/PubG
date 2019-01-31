@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Fanview.API.Repository.Interface;
 using Fanview.API.Model;
+using Fanview.API.Model.ViewModels;
 
 
 
@@ -31,6 +32,24 @@ namespace Fanview.API.Controllers
         public void PostMatchdetails(Event match)
         {
             _matchmanagementrepository.PostMatchDetails(match);
+        }
+
+        [HttpGet("GetPlayerDeskPositions", Name = "GetPlayerDeskPositions")]
+        public Task<IEnumerable<DeskSeatings>> GetPlayerDeskPositions()
+        {
+            return _matchmanagementrepository.GetPlayerDeskPositions();
+        }
+
+        [HttpPost("CreatePlayerDeskPosition", Name = "CreatePlayerDeskPosition")]
+        public void CreatePlayerDeskPosition([FromBody]IEnumerable<DeskSeatings> seatingPosition)
+        {
+            _matchmanagementrepository.CreatePlayerDeskPosition(seatingPosition);
+        }
+
+        [HttpPut("EditPlayerDeskPosition", Name = "EditPlayerDeskPosition")]
+        public void EditPlayerDeskPosition([FromBody]IEnumerable<DeskSeatings> seatingPosition)
+        {
+            _matchmanagementrepository.EditPlayerDeskPosition(seatingPosition);
         }
 
         [HttpGet("GetTournaments", Name = "GetTournaments")]

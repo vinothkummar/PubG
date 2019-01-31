@@ -418,28 +418,13 @@ namespace Fanview.API.Repository
                     {
                         t.Wait();
                         if (t.Status == TaskStatus.RanToCompletion)
-                        {
-                            //There is bug in the live Cache which is not retrieving the team eliminated timestamp.
-                            //so, for the temporary workaround I have take the data from the mongo
-                            //if (isTeamElimnated == false)
-                            //{
+                        {                           
                             var matchLiveStatusProcess = CreateMatchLiveStatus(matchStatus, matchStatus.Select(a => a.MatchId).ElementAtOrDefault(0)).Result;
-                            //}
-                            //else
-                            //{
-                            //This whole workaround logic should go away
-                            //var tournamentMatchId = _cacheService.RetrieveFromCache<string>("TournamentMatchIdCache");
-
-                            //if (tournamentMatchId != null)
-                            //{
+                            
                             var teamCurrentStatus = _genericLiveMatchStatusRepository.GetMongoDbCollection("TeamLiveStatus");
 
                             teamLiveStatus = await teamCurrentStatus.FindAsync(Builders<LiveMatchStatus>.Filter.Where(cn => cn.MatchId == matchStatus.Select(a => a.MatchId).ElementAtOrDefault(0))).Result.ToListAsync();
-
-                            //}
-
-
-                            //}
+                          
 
                         }
                     }

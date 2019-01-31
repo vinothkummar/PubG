@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Fanview.API.Model;
+using Fanview.API.Model.ViewModels;
 using MongoDB.Driver;
 
 namespace Fanview.API.Repository.Interface
@@ -22,5 +23,11 @@ namespace Fanview.API.Repository.Interface
         dynamic DeleteDocumentCollections(string matchId);
 
         dynamic DeleteLiveDataDocument();
+
+        Task<IEnumerable<DeskSeatings>> GetPlayerDeskPositions();
+
+        void CreatePlayerDeskPosition(IEnumerable<DeskSeatings> seatingPosition);
+
+        void EditPlayerDeskPosition(IEnumerable<DeskSeatings> seatingPosition);
     }
 }
