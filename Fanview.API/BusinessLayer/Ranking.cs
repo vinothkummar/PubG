@@ -56,7 +56,7 @@ namespace Fanview.API.BusinessLayer
 
             var rankScorePoints =  _genericRankPointsRepository.GetAll("RankPoints").Result;
 
-            var playerKillPointsWithTeam = matchPlayerStats.Select(m => new { m.MatchId, TeamId = m.TeamId, ShortTeamId = m.ShortTeamId, PlayerAccountId = m.stats.PlayerId, KillPoints = m.stats.Kills * 16 })
+            var playerKillPointsWithTeam = matchPlayerStats.Select(m => new { m.MatchId, TeamId = m.TeamId, ShortTeamId = m.ShortTeamId, PlayerAccountId = m.stats.PlayerId, KillPoints = m.stats.Kills * 1 })
                                                            .GroupBy(g => new { g.TeamId, g.ShortTeamId,  g.MatchId })
                                                            .Select(s => new
                                                             { 
