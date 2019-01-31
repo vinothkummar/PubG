@@ -37,7 +37,7 @@ namespace Fanview.API.BusinessLayer
         public async Task<IEnumerable<LiveTeamRanking>> GetLiveRanking()
         {
             var matchStatusTask = GetLiveStatus();
-            var killListTask = _playerKillRepository.GetLiveKillList(0);
+            var killListTask = _playerKillRepository.GetLiveKillList(64);
             await Task.WhenAll(matchStatusTask, killListTask).ConfigureAwait(false);
             return await _teamRankingService.GetTeamRankings(killListTask.Result, matchStatusTask.Result).ConfigureAwait(false);
         } 
