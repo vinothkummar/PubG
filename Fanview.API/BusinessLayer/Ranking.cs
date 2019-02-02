@@ -280,7 +280,7 @@ namespace Fanview.API.BusinessLayer
 
             // Get daily rankings
             var dailyRankings = new List<IEnumerable<RankingResults>>();
-            for (var i = 0; i < matchesPerDay; ++i)
+            for (var i = 1; i <= matchesPerDay; ++i)
             {
                 try
                 {
