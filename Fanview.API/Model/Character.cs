@@ -20,5 +20,9 @@ namespace Fanview.API.Model
         public int Ranking { get; set; }
         [BsonElement("accountId")]
         public string AccountId { get; set; }
+        [BsonElement("isInBlueZone")]
+        public Boolean IsInBlueZone { get; set; }
+        [BsonElement("isInRedZone")]
+        public Boolean isInRedZone { get; set; }
     }
 }
