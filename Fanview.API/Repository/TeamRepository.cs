@@ -21,7 +21,7 @@ namespace Fanview.API.Repository
         private IGenericRepository<PlayerPoition> _teamPlayersPosition;
         private IMatchRepository _matchRepository;
         private IGenericRepository<TeamRanking> _teamRankings;
-        private IGenericRepository<VehicleLeave> _vehicleLeave;
+        private IGenericRepository<ParachuteLanding> _parachuteLanding;
         private IGenericRepository<Event> _tournament;        
         private ILogger<TeamRepository> _logger;
         private ICacheService _cacheService;
@@ -31,7 +31,7 @@ namespace Fanview.API.Repository
                               IGenericRepository<TeamPlayer> teamPlayers,
                               IGenericRepository<TeamRanking> teamRankings,
                               IGenericRepository<Event> tournament,
-                              IGenericRepository<VehicleLeave> vehicleLeave,
+                              IGenericRepository<ParachuteLanding> parachuteLanding,
                               IGenericRepository<PlayerPoition> teamPlayersPosition,   
                               IMatchRepository matchRepository,
                               ICacheService cacheService,
@@ -42,7 +42,7 @@ namespace Fanview.API.Repository
             _teamPlayers = teamPlayers;
             _teamRankings = teamRankings;
             _tournament = tournament;
-            _vehicleLeave = vehicleLeave;
+            _parachuteLanding = parachuteLanding;
             _teamPlayersPosition = teamPlayersPosition;
             _matchRepository = matchRepository;
             _logger = logger;
@@ -406,9 +406,9 @@ namespace Fanview.API.Repository
 
             var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
 
-            var vehicleLandingCollection = _vehicleLeave.GetMongoDbCollection("VehicleLeave");
-            var vehicleLandingsQuery = await vehicleLandingCollection.FindAsync(Builders<VehicleLeave>.Filter.Where(c => c.MatchId == tournamentMatchId && c.Vehicle.VehicleType == "Parachute" && c.RideDistance != 0));
-            var vehicleLandings = await vehicleLandingsQuery.ToListAsync();
+            var parachuteLandingCollection = _parachuteLanding.GetMongoDbCollection("ParachuteLanding");
+            var parachuteLandingsQuery = await parachuteLandingCollection.FindAsync(Builders<ParachuteLanding>.Filter.Where(c => c.MatchId == tournamentMatchId  && c.Distance != 0));
+            var parachuteLandings = await parachuteLandingsQuery.ToListAsync();
 
             var response = new TeamLanding();
 
@@ -425,7 +425,7 @@ namespace Fanview.API.Repository
                 var playersQuery = await teamPlayersCollection.FindAsync(Builders<TeamPlayer>.Filter.Where(tp => tp.TeamId == q.Id));
                 var players = await playersQuery.ToListAsync();
                 var playerNames = players.Select(p => p.PlayerName);
-                var filteredLandings = vehicleLandings.Where(vl => playerNames.Contains(vl.Character.Name));
+                var filteredLandings = parachuteLandings.Where(vl => playerNames.Contains(vl.Character.Name));
 
                 if (filteredLandings.Any())
                 {

@@ -18,6 +18,7 @@ namespace Fanview.API.Repository
     {
         private IMatchRepository _matchRepository;
         private IGenericRepository<VehicleLeave> _genericRepository;
+        private IGenericRepository<ParachuteLanding> _parachuteLandingRepository;
         private ILogger<PlayerRepository> _logger;        
         private IGenericRepository<PlayerPoition> _PlayerPositionRepository;
         private ITeamPlayerRepository _teamPlayers;
@@ -27,10 +28,13 @@ namespace Fanview.API.Repository
 
         public PlayerRepository(IMatchRepository matchRepository, IGenericRepository<VehicleLeave> genericRepository, 
              IGenericRepository<PlayerPoition> playerPositionRepository,
-             ILogger<PlayerRepository> logger, IGenericRepository<Event> tournament, ITeamPlayerRepository teamPlayers)
+             ILogger<PlayerRepository> logger, IGenericRepository<Event> tournament, ITeamPlayerRepository teamPlayers,
+             IGenericRepository<ParachuteLanding> parachuteLandingRepository
+            )
         {
             _matchRepository = matchRepository;
             _genericRepository = genericRepository;
+            _parachuteLandingRepository = parachuteLandingRepository;
             _PlayerPositionRepository = playerPositionRepository;
             _teamPlayers = teamPlayers;
             _logger = logger;
@@ -99,9 +103,54 @@ namespace Fanview.API.Repository
                 Func<Task> persistDataToMongo = async () => _genericRepository.Insert(logvehicleLeave, "VehicleLeave");
 
                 await Task.Run(persistDataToMongo);
-            }
+            }              
+        }
 
-              
+        public async void InsertParachuteLanding(string jsonResult, string matchId)
+        {
+            var jsonToJObject = JArray.Parse(jsonResult);
+
+            var parachuteLanding = _parachuteLandingRepository.GetMongoDbCollection("ParachuteLanding");
+
+            var isParachuteLandingExists = await parachuteLanding.FindAsync(Builders<ParachuteLanding>.Filter.Where(cn => cn.MatchId == matchId)).Result.ToListAsync();
+
+            if (isParachuteLandingExists.Count() == 0 || isParachuteLandingExists == null)
+            {
+                var logparachuteLanding = GetLogParachuteLanding(jsonToJObject, matchId);
+
+                Func<Task> persistDataToMongo = async () => _parachuteLandingRepository.Insert(logparachuteLanding, "ParachuteLanding");
+
+                await Task.Run(persistDataToMongo);
+            }
+        }
+
+        private IEnumerable<ParachuteLanding> GetLogParachuteLanding(JArray jsonToJObject, string matchId)
+        {
+            var result = jsonToJObject.Where(x => x.Value<string>("_T") == "LogParachuteLanding").Select(s => new ParachuteLanding()
+            {
+                MatchId = matchId,
+                Character = new Character()
+                {
+                    Name = (string)s["character"]["name"],
+                    TeamId = _teamPlayers.GetTeamPlayers().Result.Where(cn => cn.PlayerName == (string)s["character"]["name"]).FirstOrDefault().TeamIdShort, //(int)s["character"]["teamId"],
+                    Health = (float)s["character"]["health"],
+                    Location = new Location()
+                    {
+                        x = (float)s["character"]["location"]["x"],
+                        y = (float)s["character"]["location"]["y"],
+                        z = (float)s["character"]["location"]["z"],
+                    },
+                    Ranking = (int)s["character"]["ranking"],
+                    AccountId = (string)s["character"]["isInBlueZone"],
+                    IsInBlueZone = (bool)s["character"]["isInBlueZone"],
+                    isInRedZone = (bool)s["character"]["isInRedZone"]
+                },                
+                Distance = (float)s["distance"],
+                EventTimeStamp = (string)s["_D"],
+                EventType = (string)s["_T"]
+            });
+
+            return result;
         }
 
         private IEnumerable<VehicleLeave> GetLogVehicleLeave(JArray jsonToJObject, string matchId)
@@ -165,6 +214,6 @@ namespace Fanview.API.Repository
 
             return fpath;
             
-        }
+        }        
     }
 }

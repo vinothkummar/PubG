@@ -19,7 +19,7 @@ namespace Fanview.API.BusinessLayer
         private IGenericRepository<MatchPlayerStats> _matchPlayerStats;
         private IGenericRepository<TeamPlayer> _teamPlayers;
         private IGenericRepository<Event> _tournament;
-        private IGenericRepository<VehicleLeave> _vehicleLeave;
+        private IGenericRepository<ParachuteLanding> _parachuteLanding;
         private IGenericRepository<PlayerPoition> _teamPlayersPosition;
         private IMatchRepository _matchRepository;
         private IRanking _ranking;
@@ -30,7 +30,7 @@ namespace Fanview.API.BusinessLayer
                               IGenericRepository<MatchPlayerStats> matchPlayerStats,
                               IGenericRepository<TeamPlayer> teamPlayers,
                               IGenericRepository<Event> tournament,
-                              IGenericRepository<VehicleLeave> vehicleLeave,
+                              IGenericRepository<ParachuteLanding> parachuteLanding,
                               IGenericRepository<PlayerPoition> teamPlayersPosition,
                               IMatchRepository matchRepository,
                               IRanking ranking,
@@ -41,7 +41,7 @@ namespace Fanview.API.BusinessLayer
             _matchPlayerStats = matchPlayerStats;
             _teamPlayers = teamPlayers;
             _tournament = tournament;
-            _vehicleLeave = vehicleLeave;
+            _parachuteLanding = parachuteLanding;
             _teamPlayersPosition = teamPlayersPosition;
             _matchRepository = matchRepository;
             _ranking = ranking;
@@ -81,17 +81,14 @@ namespace Fanview.API.BusinessLayer
 
             
 
-            var vehicleLanding = _vehicleLeave.GetMongoDbCollection("VehicleLeave");
+            var parachuteLanding = _parachuteLanding.GetMongoDbCollection("ParachuteLanding");
 
-            var playerVehicleLeave = vehicleLanding.FindAsync(Builders<VehicleLeave>.Filter.Where(cn => cn.MatchId == tournamentMatchId && cn.Vehicle.VehicleType == "Parachute"))
+            var playerVehicleLeave = parachuteLanding.FindAsync(Builders<ParachuteLanding>.Filter.Where(cn => cn.MatchId == tournamentMatchId))
                                                      .Result.ToListAsync().Result.OrderByDescending(o => o.EventTimeStamp).GroupBy(g => g.Character.Name).Select(s => new {
                                                       MatchId = s.Select(a => a.MatchId).ElementAtOrDefault(0),
-                                                      Character = s.Select(a => a.Character).ElementAtOrDefault(0),
-                                                      Vehicle = s.Select(a => a.Vehicle).ElementAtOrDefault(0),
-                                                      RideDistance = s.Select( a => a.RideDistance).ElementAtOrDefault(0),
-                                                      seatIndex  = s.Select(a => a.seatIndex).ElementAtOrDefault(0),
-                                                      Common = s.Select(a => a.Common).ElementAtOrDefault(0),
-                                                      Version = s.Select(a => a.Version).ElementAtOrDefault(0),
+                                                      Character = s.Select(a => a.Character).ElementAtOrDefault(0),                                                     
+                                                      Distance = s.Select( a => a.Distance).ElementAtOrDefault(0),                                                 
+                                                      Common = s.Select(a => a.Common).ElementAtOrDefault(0),                                                     
                                                       EventTimeStamp = s.Select(a => a.EventTimeStamp).ElementAtOrDefault(0).ToDateTimeFormat(),
                                                       EventType = s.Select(a => a.EventType).ElementAtOrDefault(0)
                                                    }).OrderBy(o => o.EventTimeStamp);

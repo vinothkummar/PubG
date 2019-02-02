@@ -277,6 +277,7 @@ namespace Fanview.API.Repository
                     await Task.Run(async () => InsertPlayerKillTelemetry(telemetryJsonResult, matchId));
                     await Task.Run(async () => _playerRepository.InsertLogPlayerPosition(telemetryJsonResult, matchId));
                     await Task.Run(async () => _playerRepository.InsertVehicleLeaveTelemetry(telemetryJsonResult, matchId));
+                    await Task.Run(async () => _playerRepository.InsertParachuteLanding(telemetryJsonResult, matchId));
                     await Task.Run(async () => _matchRepository.InsertMatchSafeZonePosition(telemetryJsonResult, matchId));
                     await Task.Run(async () => _matchRepository.InsertMatchSummary(jsonResult, matchId));
 

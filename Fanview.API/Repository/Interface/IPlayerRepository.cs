@@ -11,6 +11,8 @@ namespace Fanview.API.Repository.Interface
     {
         void InsertVehicleLeaveTelemetry(string jsonResult, string matchId);
 
+        void InsertParachuteLanding(string jsonResult, string matchId);
+
         void InsertLogPlayerPosition(string jsonResult, string matchId);
 
         Task<IEnumerable<VehicleLeave>> GetPlayerLeftVechile();
