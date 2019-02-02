@@ -56,7 +56,7 @@ namespace Fanview.API.BusinessLayer
 
             var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
 
-            var teamStatsRanking = _ranking.GetMatchRankings(matchId).Result.Take(3);           
+            var teamStatsRanking = _ranking.GetMatchRankings(matchId).Result.Take(16);           
 
             var logPlayersPosition = _teamPlayersPosition.GetMongoDbCollection("PlayerPosition");
             
