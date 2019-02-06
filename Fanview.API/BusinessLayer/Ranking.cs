@@ -135,9 +135,6 @@ namespace Fanview.API.BusinessLayer
         }
         public async Task<IEnumerable<RankingResults>> GetMatchRankings(int matchId)
         {
-            //var teamCollection = _genericTeamRepository.GetMongoDbCollection("Team");
-            //var teams = await _genericTeamRepository.GetAll("Team");
-
             var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
 
             var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
@@ -149,14 +146,8 @@ namespace Fanview.API.BusinessLayer
             var i = 1;
 
             var matchStandings = new List<MatchRanking>();
-            foreach (var item in matchRankingScore.Result)
+            foreach (var item in matchRankingScore.Result.OrderByDescending(o => o.TotalPoints).ThenByDescending(t => t.KillPoints))
             {
-                //var team = teams.FirstOrDefault(t => t.Name == item.TeamName);
-                //if (team == null)
-                //{
-                //    throw new Exception($"Couldn't find a team with name: {item.TeamName} in Team collection.");
-                //}
-
                 var matchRanking = new MatchRanking();
                     matchRanking.MatchId = item.MatchId;
                     matchRanking.TeamId = item.TeamId;
@@ -166,16 +157,17 @@ namespace Fanview.API.BusinessLayer
                     matchRanking.TotalPoints = item.TotalPoints;
                     matchRanking.ShortTeamID = item.ShortTeamID;
 
-                if (matchStandings.Where(cn => cn.TotalPoints == item.TotalPoints).Count() > 0) {
-                    i = i - 1;
-                    matchRanking.TeamRank = $"{i}";
-                    i = i + 2;
-                    
+                var totalPointsEqual = matchStandings.Where(cn => cn.TotalPoints == item.TotalPoints);
 
+                var killPointsEqual = totalPointsEqual.Where(cn => cn.KillPoints == item.KillPoints);
+
+                if (totalPointsEqual.Count() > 0 && killPointsEqual.Count() > 0) {
+                    i = (matchStandings.Count + 1) - totalPointsEqual.Count();                    
+                    matchRanking.TeamRank = $"{i}";
                 }
                 else
                 {
-                    matchRanking.TeamRank = $"{i++}";
+                    matchRanking.TeamRank = $"{matchStandings.Count + 1}";
                 }
 
                 matchRanking.PubGOpenApiTeamId = item.PubGOpenApiTeamId;
@@ -192,7 +184,7 @@ namespace Fanview.API.BusinessLayer
                 KillPoints = s.KillPoints,
                 RankPoints = s.RankPoints,
                 TotalPoints = s.TotalPoints,
-            }).OrderByDescending(o => o.TotalPoints).ThenByDescending(t => t.KillPoints);
+            });
 
             return await Task.FromResult(rankingResult);
         }
