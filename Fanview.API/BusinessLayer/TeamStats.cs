@@ -115,7 +115,7 @@ namespace Fanview.API.BusinessLayer
                                                             });
 
             var longestSurvivingLocation = playerLocation.Join(longestSurvivingTeamPlayers, pl => new { TeamId = pl.TeamId, Name = pl.PlayerName }, plvtop3 => new { TeamId = plvtop3.TeamID, Name = plvtop3.PlayerName }, (pl, plvtop3) => new { pl, plvtop3 })
-                                      .Where(cn => (cn.pl.EventTimeStamp.TimeOfDay > cn.plvtop3.EventTimeStamp.TimeOfDay))
+                                      .Where(cn => (cn.pl.EventTimeStamp > cn.plvtop3.EventTimeStamp))
                                       .OrderBy(o => o.pl.EventTimeStamp).GroupBy(g => g.pl.TeamId)
                                       .Select(s => new Route()
                                       {
