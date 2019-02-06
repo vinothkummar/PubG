@@ -56,7 +56,7 @@ namespace Fanview.API.BusinessLayer
 
             var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
 
-            var teamStatsRanking = _ranking.GetMatchRankings(matchId).Result.Take(16);           
+            var teamStatsRanking = _ranking.GetMatchRankings(matchId).Result.Take(1);           
 
             var logPlayersPosition = _teamPlayersPosition.GetMongoDbCollection("PlayerPosition");
             
@@ -77,7 +77,7 @@ namespace Fanview.API.BusinessLayer
                                                         Ranking = s.mpp.Ranking,
                                                         TeamId = s.mpp.TeamId,                                                      
                                                         FanviewTeamId = s.t.TeamId.ToString()
-                                                    });
+                                                    }).ToList();
 
             
 
@@ -91,7 +91,7 @@ namespace Fanview.API.BusinessLayer
                                                       Common = s.Select(a => a.Common).ElementAtOrDefault(0),                                                     
                                                       EventTimeStamp = s.Select(a => a.EventTimeStamp).ElementAtOrDefault(0).ToDateTimeFormat(),
                                                       EventType = s.Select(a => a.EventType).ElementAtOrDefault(0)
-                                                   }).OrderBy(o => o.EventTimeStamp);
+                                                   }).OrderBy(o => o.EventTimeStamp).ToList();
 
                                                    
 
@@ -158,11 +158,10 @@ namespace Fanview.API.BusinessLayer
                 route.TeamRank = item.TeamRank;
                 route.PlayerName = item.PlayerName;
                 route.TeamRoute = locationList;
-
                 routes.Add(route);
 
                 teamRoute.Route = routes.OrderBy(o => o.TeamRank).ToList();
-            }
+;            }
 
             return teamRoute;           
         }       

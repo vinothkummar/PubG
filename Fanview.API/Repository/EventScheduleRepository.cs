@@ -26,7 +26,7 @@ namespace Fanview.API.Repository
             _memoryCache = memoryCache;
             _eventScheduleResourcePath = "Fanview.API.Assets.Schedule.json";
             _eventScheduleCacheKey = "EventSchedule";
-            _eventScheduleCacheExpiration = TimeSpan.FromHours(2);
+            _eventScheduleCacheExpiration = TimeSpan.FromMinutes(30);
         }
 
         public IEnumerable<Competition> GetCompetitionSchedule()
