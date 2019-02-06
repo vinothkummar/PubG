@@ -193,10 +193,13 @@ namespace Fanview.API.BusinessLayer
         {   
 
             var matchRankingCollection = _genericMatchRankingRepository.GetAll("MatchRanking");
+
+            var lastMatchId = matchRankingCollection.Result.Select(s => s.MatchId).OrderByDescending(o => o).Skip(1).FirstOrDefault();
+
             var i = 1;
             var tournamentRankingStandings = matchRankingCollection.Result
                                         .GroupBy(g => new {g.TeamName, g.ShortTeamID })
-                                        .Select(s => new MatchRanking()
+                                        .Select(s => new TournamentRanking()
                                         {
                                             PubGOpenApiTeamId = s.FirstOrDefault().PubGOpenApiTeamId,                                            
                                             TeamName = s.Key.TeamName,
@@ -204,22 +207,29 @@ namespace Fanview.API.BusinessLayer
                                             KillPoints = s.Sum(a => a.KillPoints),
                                             RankPoints = s.Sum(a => a.RankPoints),
                                             TotalPoints = s.Sum(a => a.TotalPoints)
-                                        }).OrderByDescending(o => o.TotalPoints).Select(k => new MatchRanking() {
+                                        }).OrderByDescending(o => o.TotalPoints).Select(k => new TournamentRanking() {
                                             PubGOpenApiTeamId = k.PubGOpenApiTeamId,                                            
                                             TeamName = k.TeamName,
                                             ShortTeamID = k.ShortTeamID,
                                             KillPoints = k.KillPoints,
                                             RankPoints = k.RankPoints,
-                                            TotalPoints = k.TotalPoints
+                                            TotalPoints = k.TotalPoints,
+                                            BestKillPoints = GetTheMaxTPoints(matchRankingCollection.Result.Where(cn => cn.TeamName == k.TeamName).Select(s1 => s1.KillPoints).ToArray()),
+                                            BestTotalPoints = GetTheMaxTPoints(matchRankingCollection.Result.Where(cn => cn.TeamName == k.TeamName).Select(s1 => s1.TotalPoints).ToArray()),
+                                            LastKillPoints = GetLastKillPoints(matchRankingCollection.Result, k.TeamName, lastMatchId),
+                                            LastRankPoints = GetLastRankPoints(matchRankingCollection.Result, k.TeamName, lastMatchId)
                                         });
 
           
 
-            var matchStandings = new List<MatchRanking>();
-            foreach (var item in tournamentRankingStandings)
+            var matchStandings = new List<TournamentRanking>();
+            foreach (var item in tournamentRankingStandings.OrderByDescending(o => o.TotalPoints)
+                                .ThenByDescending(t => t.KillPoints).ThenByDescending(t1 => t1.BestTotalPoints)
+                                .ThenByDescending(t2 => t2.BestKillPoints).ThenByDescending(t3 => t3.LastKillPoints)
+                                .ThenByDescending(t4 => t4.LastRankPoints))
             {
          
-                var matchRanking = new MatchRanking();
+                var matchRanking = new TournamentRanking();
                 matchRanking.MatchId = item.MatchId;
                 matchRanking.TeamId = item.TeamId;
                 matchRanking.TeamName = item.TeamName;
@@ -227,27 +237,33 @@ namespace Fanview.API.BusinessLayer
                 matchRanking.RankPoints = item.RankPoints;
                 matchRanking.TotalPoints = item.TotalPoints;
 
-                if (matchStandings.Where(cn => cn.TotalPoints == item.TotalPoints).Count() > 0)
+                var totalPointsEqual = matchStandings.Where(cn => cn.TotalPoints == item.TotalPoints);
+
+                var killPointsEqual = totalPointsEqual.Where(cn => cn.KillPoints == item.KillPoints);
+
+                if (totalPointsEqual.Count() > 0 && killPointsEqual.Count() > 0)
                 {
-                    i = i - 1;
+                    i = (matchStandings.Count + 1) - totalPointsEqual.Count();
                     matchRanking.TeamRank = $"{i}";
-                    i = i + 2;
                 }
                 else
                 {
-                    matchRanking.TeamRank = $"{i++}";
+                    matchRanking.TeamRank = $"{matchStandings.Count + 1}";
                 }
 
                 matchRanking.PubGOpenApiTeamId = item.PubGOpenApiTeamId;
                 matchRanking.ShortTeamID = item.ShortTeamID;
+                matchRanking.BestKillPoints = item.BestKillPoints;
+                matchRanking.BestTotalPoints = item.BestTotalPoints;
+                matchRanking.LastKillPoints = item.LastKillPoints;
+                matchRanking.LastRankPoints = item.LastRankPoints;
 
                 matchStandings.Add(matchRanking);
-
             }
 
-            matchStandings = matchStandings.OrderByDescending(o => o.TotalPoints).ThenByDescending(t => t.KillPoints).ToList();
+          
 
-            var lastMatchId = matchRankingCollection.Result.Select(s => s.MatchId).OrderByDescending(o => o).Skip(1).FirstOrDefault();
+           
 
             Object rankingResult = matchStandings.Select(s => new
             {
@@ -257,13 +273,13 @@ namespace Fanview.API.BusinessLayer
                 KillPoints = s.KillPoints,
                 RankPoints = s.RankPoints,
                 TotalPoints = s.TotalPoints,
-                BestKillPoints = GetTheMaxTPoints(matchRankingCollection.Result.Where(cn => cn.TeamName == s.TeamName).Select(s1 => s1.KillPoints).ToArray()),
-                BestTotalPoints = GetTheMaxTPoints(matchRankingCollection.Result.Where(cn => cn.TeamName == s.TeamName).Select(s1 => s1.TotalPoints).ToArray()),
-                LastKillPoints = GetLastKillPoints(matchRankingCollection.Result, s.TeamName, lastMatchId),
-                LastRankPoints = GetLastRankPoints(matchRankingCollection.Result, s.TeamName, lastMatchId)
+                BestKillPoints = s.BestKillPoints,
+                BestTotalPoints = s.BestTotalPoints,
+                LastKillPoint = s.LastKillPoints,
+                LastRankPoint = s.LastRankPoints
             });
 
-            return rankingResult;
+            return Task.FromResult(rankingResult);
         }
 
        
