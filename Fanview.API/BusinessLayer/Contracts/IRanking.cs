@@ -17,7 +17,7 @@ namespace Fanview.API.BusinessLayer.Contracts
 
         Task<IEnumerable<MatchRanking>> PollAndGetMatchRanking(string matchId);
 
-        Task<Object> GetTournamentRankings();
+        Task<IEnumerable<TournamentRanking>> GetTournamentRankings();
 
         Task<IEnumerable<RankingResults>> GetTournamentRankingByDay(int day);
     }

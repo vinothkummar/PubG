@@ -189,7 +189,7 @@ namespace Fanview.API.BusinessLayer
             return await Task.FromResult(rankingResult);
         }
 
-        public async Task<Object> GetTournamentRankings()
+        public async Task<IEnumerable<TournamentRanking>> GetTournamentRankings()
         {   
 
             var matchRankingCollection = _genericMatchRankingRepository.GetAll("MatchRanking");
@@ -265,21 +265,21 @@ namespace Fanview.API.BusinessLayer
 
            
 
-            Object rankingResult = matchStandings.Select(s => new
+            var rankingResult = matchStandings.Select(s => new TournamentRanking()
             {
                 TeamRank = s.TeamRank,
-                TeamId = s.ShortTeamID,
+                TeamId = s.ShortTeamID.ToString(),
                 TeamName = s.TeamName,
                 KillPoints = s.KillPoints,
                 RankPoints = s.RankPoints,
                 TotalPoints = s.TotalPoints,
                 BestKillPoints = s.BestKillPoints,
                 BestTotalPoints = s.BestTotalPoints,
-                LastKillPoint = s.LastKillPoints,
-                LastRankPoint = s.LastRankPoints
+                LastKillPoints = s.LastKillPoints,
+                LastRankPoints = s.LastRankPoints
             });
 
-            return Task.FromResult(rankingResult);
+            return await Task.FromResult(rankingResult);
         }
 
        

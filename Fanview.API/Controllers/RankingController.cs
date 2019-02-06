@@ -67,7 +67,7 @@ namespace Fanview.API.Controllers
         /// Sample request: TournamentRankings        
         /// </remarks>        
         [HttpGet("TournamentRankings", Name = "GetTournamentRanking")]
-        public async Task<Object> GetTournamentRanking()
+        public async Task<IEnumerable<TournamentRanking>> GetTournamentRanking()
         {
             return await _ranking.GetTournamentRankings();
         }
