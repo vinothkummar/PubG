@@ -141,53 +141,9 @@ namespace Fanview.API.BusinessLayer
 
             var matchRankingCollection = _genericMatchRankingRepository.GetMongoDbCollection("MatchRanking");
 
-            var matchRankingScore = matchRankingCollection.FindAsync(Builders<MatchRanking>.Filter.Where(cn => cn.MatchId == tournamentMatchId )).Result.ToListAsync();
-
-            var i = 1;
+            var matchRankingScore = matchRankingCollection.FindAsync(Builders<MatchRanking>.Filter.Where(cn => cn.MatchId == tournamentMatchId)).Result.ToListAsync();
             
-
-            var matchStandings = new List<MatchRanking>();
-            foreach (var item in matchRankingScore.Result.OrderByDescending(o => o.TotalPoints).ThenByDescending(t => t.KillPoints))
-            {
-                var matchRanking = new MatchRanking();
-                    matchRanking.MatchId = item.MatchId;
-                    matchRanking.TeamId = item.TeamId;
-                    matchRanking.TeamName = item.TeamName;
-                    matchRanking.KillPoints = item.KillPoints;
-                    matchRanking.RankPoints = item.RankPoints;
-                    matchRanking.TotalPoints = item.TotalPoints;
-                    matchRanking.ShortTeamID = item.ShortTeamID;
-
-                var totalPointsEqual = matchStandings.Where(cn => cn.TotalPoints == item.TotalPoints);
-
-                var killPointsEqual = totalPointsEqual.Where(cn => cn.KillPoints == item.KillPoints);
-
-                
-
-                if (totalPointsEqual.Count() > 0 && killPointsEqual.Count() > 0) {
-                    i = (matchStandings.Count + 1) - killPointsEqual.Count();
-                        matchRanking.TeamRank = $"{i}";
-                }
-                else
-                {
-                    matchRanking.TeamRank = $"{matchStandings.Count + 1}";
-                }
-
-                matchRanking.PubGOpenApiTeamId = item.PubGOpenApiTeamId;
-
-                matchStandings.Add(matchRanking);
-            }
-
-
-            var rankingResult = matchStandings.Select(s => new RankingResults()
-            {
-                TeamRank = s.TeamRank,
-                TeamId = s.ShortTeamID,
-                TeamName = s.TeamName,
-                KillPoints = s.KillPoints,
-                RankPoints = s.RankPoints,
-                TotalPoints = s.TotalPoints,
-            });
+            IEnumerable<RankingResults> rankingResult = RankingOrder(matchRankingScore.Result);
 
             return await Task.FromResult(rankingResult);
         }
@@ -313,9 +269,7 @@ namespace Fanview.API.BusinessLayer
             });
 
             return await Task.FromResult(rankingResult);
-        }
-
-       
+        }       
 
         public async Task<IEnumerable<RankingResults>> GetTournamentRankingByDay(int day)
         {
@@ -356,19 +310,19 @@ namespace Fanview.API.BusinessLayer
                 teamRankingDict[matchRanking.TeamName].TotalPoints += matchRanking.TotalPoints;
             }
 
+         
+            var matchRankingScore = teamRankingDict.Values.Select(s => new MatchRanking() {
+                ShortTeamID = s.TeamId,
+                TeamName = s.TeamName,
+                KillPoints = s.KillPoints,
+                RankPoints = s.RankPoints,
+                TotalPoints = s.TotalPoints}).ToList();
+
             // Create a list holding the combined rankings for that day and sort it by total points
-            var teamRanking = teamRankingDict.Values.ToList();
-            teamRanking.Sort((a, b) => b.TotalPoints.CompareTo(a.TotalPoints));
+            IEnumerable<RankingResults> rankingResult = RankingOrder(matchRankingScore);
 
-            // Set the team ranking according to the order in which they appear in the sorted list
-            var j = 1;
-            foreach (var team in teamRanking)
-            {
-                team.TeamRank = j.ToString();
-                j++;
-            }
 
-            return teamRanking;
+            return rankingResult;
         }
 
         public async Task<IEnumerable<MatchRanking>> PollAndGetMatchRanking(string matchId)
@@ -426,6 +380,57 @@ namespace Fanview.API.BusinessLayer
             var lastRankPoint = matchRankings.Where(cn => cn.MatchId == lastMatchId && cn.TeamName == teamName).Select(s => s.RankPoints).FirstOrDefault();
 
             return lastRankPoint;
+        }
+
+        private IEnumerable<RankingResults> RankingOrder(List<MatchRanking> matchRankingScore)
+        {
+            var matchStandings = new List<MatchRanking>();
+
+            var i = 1;
+
+            foreach (var item in matchRankingScore.OrderByDescending(o => o.TotalPoints).ThenByDescending(t => t.KillPoints))
+            {
+                var matchRanking = new MatchRanking();
+                matchRanking.MatchId = item.MatchId;
+                matchRanking.TeamId = item.TeamId;
+                matchRanking.TeamName = item.TeamName;
+                matchRanking.KillPoints = item.KillPoints;
+                matchRanking.RankPoints = item.RankPoints;
+                matchRanking.TotalPoints = item.TotalPoints;
+                matchRanking.ShortTeamID = item.ShortTeamID;
+
+                var totalPointsEqual = matchStandings.Where(cn => cn.TotalPoints == item.TotalPoints);
+
+                var killPointsEqual = totalPointsEqual.Where(cn => cn.KillPoints == item.KillPoints);
+
+
+
+                if (totalPointsEqual.Count() > 0 && killPointsEqual.Count() > 0)
+                {
+                    i = (matchStandings.Count + 1) - killPointsEqual.Count();
+                    matchRanking.TeamRank = $"{i}";
+                }
+                else
+                {
+                    matchRanking.TeamRank = $"{matchStandings.Count + 1}";
+                }
+
+                matchRanking.PubGOpenApiTeamId = item.PubGOpenApiTeamId;
+
+                matchStandings.Add(matchRanking);
+            }
+
+
+            var rankingResult = matchStandings.Select(s => new RankingResults()
+            {
+                TeamRank = s.TeamRank,
+                TeamId = s.ShortTeamID,
+                TeamName = s.TeamName,
+                KillPoints = s.KillPoints,
+                RankPoints = s.RankPoints,
+                TotalPoints = s.TotalPoints,
+            });
+            return rankingResult;
         }
     }
 }
