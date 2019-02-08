@@ -144,6 +144,7 @@ namespace Fanview.API.BusinessLayer
             var matchRankingScore = matchRankingCollection.FindAsync(Builders<MatchRanking>.Filter.Where(cn => cn.MatchId == tournamentMatchId )).Result.ToListAsync();
 
             var i = 1;
+            
 
             var matchStandings = new List<MatchRanking>();
             foreach (var item in matchRankingScore.Result.OrderByDescending(o => o.TotalPoints).ThenByDescending(t => t.KillPoints))
@@ -161,9 +162,11 @@ namespace Fanview.API.BusinessLayer
 
                 var killPointsEqual = totalPointsEqual.Where(cn => cn.KillPoints == item.KillPoints);
 
+                
+
                 if (totalPointsEqual.Count() > 0 && killPointsEqual.Count() > 0) {
-                    i = (matchStandings.Count + 1) - totalPointsEqual.Count();                    
-                    matchRanking.TeamRank = $"{i}";
+                    i = (matchStandings.Count + 1) - killPointsEqual.Count();
+                        matchRanking.TeamRank = $"{i}";
                 }
                 else
                 {
@@ -253,27 +256,27 @@ namespace Fanview.API.BusinessLayer
                 
                 if (totalPointsEqual.Count() > 0 && killPointsEqual.Count() > 0 && bestTotalPointsEqual.Count() > 0 && bestKillPointsEqual.Count() > 0 && lastKillPointsEqual.Count() > 0 && lastRankPointsEqual.Count() > 0 )
                 {
-                    i = (matchStandings.Count + 1) - totalPointsEqual.Count();
+                    i = (matchStandings.Count + 1) - lastRankPointsEqual.Count();
                     matchRanking.TeamRank = $"{i}";
                 }
                 else if (totalPointsEqual.Count() > 0 && killPointsEqual.Count() > 0 && bestTotalPointsEqual.Count() > 0 && bestKillPointsEqual.Count() > 0 && lastKillPointsEqual.Count() > 0 )
                 {
-                    i = (matchStandings.Count + 1) - totalPointsEqual.Count();
+                    i = (matchStandings.Count + 1) - lastKillPointsEqual.Count();
                     matchRanking.TeamRank = $"{i}";
                 }
                 else if (totalPointsEqual.Count() > 0 && killPointsEqual.Count() > 0 && bestTotalPointsEqual.Count() > 0 && bestKillPointsEqual.Count() > 0)
                 {
-                    i = (matchStandings.Count + 1) - totalPointsEqual.Count();
+                    i = (matchStandings.Count + 1) - bestKillPointsEqual.Count();
                     matchRanking.TeamRank = $"{i}";
                 }
                 else if (totalPointsEqual.Count() > 0 && killPointsEqual.Count() > 0 && bestTotalPointsEqual.Count() > 0)
                 {
-                    i = (matchStandings.Count + 1) - totalPointsEqual.Count();
+                    i = (matchStandings.Count + 1) - bestTotalPointsEqual.Count();
                     matchRanking.TeamRank = $"{i}";
                 }
                 else if (totalPointsEqual.Count() > 0 && killPointsEqual.Count() > 0)
                 {
-                    i = (matchStandings.Count + 1) - totalPointsEqual.Count();
+                    i = (matchStandings.Count + 1) - killPointsEqual.Count();
                     matchRanking.TeamRank = $"{i}";
                 }
                 else
