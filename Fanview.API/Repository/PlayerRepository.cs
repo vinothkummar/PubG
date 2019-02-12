@@ -195,7 +195,7 @@ namespace Fanview.API.Repository
 
             var VehicleLeave = _genericRepository.GetMongoDbCollection("VehicleLeave");
 
-            var vehicleTransport = VehicleLeave.FindAsync(Builders<VehicleLeave>.Filter.Where(cn => cn.MatchId == tournamentMatchId && cn.Vehicle.VehicleType =="TransportAircraft")).Result.ToListAsync().Result;
+            var vehicleTransport = VehicleLeave.FindAsync(Builders<VehicleLeave>.Filter.Where(cn => cn.MatchId == tournamentMatchId && cn.Vehicle.VehicleType =="TransportAircraft")).Result.ToListAsync().Result.OrderBy( o => o.Id);
 
             var flightPathfirstPosition = vehicleTransport.Take(1).FirstOrDefault();
 
@@ -212,8 +212,8 @@ namespace Fanview.API.Repository
             fpath.FlightPathEnd = flightPathlastPosition.Character.Location;
 
 
-            return fpath;
+            return await Task.FromResult(fpath);
             
         }        
     }
-}
+} 
