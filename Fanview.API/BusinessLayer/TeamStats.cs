@@ -48,10 +48,8 @@ namespace Fanview.API.BusinessLayer
             _logger = logger;
         }
 
-        public async Task<TeamRoute> GetTeamRoute(int matchId)
+        public Task<TeamRoute> GetTeamRoute(int matchId)
         {
-            var teamsCollection = _team.GetMongoDbCollection("Team").AsQueryable();             
-
             var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
 
             var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
@@ -75,9 +73,9 @@ namespace Fanview.API.BusinessLayer
                                                         s.mpp.Location,
                                                         EventTimeStamp = s.mpp.EventTimeStamp.ToDateTimeFormat(),
                                                         Ranking = s.mpp.Ranking,
-                                                        TeamId = s.mpp.TeamId,                                                      
+                                                        TeamId = s.mpp.TeamId,
                                                         FanviewTeamId = s.t.TeamId.ToString()
-                                                    }).ToList();
+                                                    });
 
             
 
@@ -91,7 +89,7 @@ namespace Fanview.API.BusinessLayer
                                                       Common = s.Select(a => a.Common).ElementAtOrDefault(0),                                                     
                                                       EventTimeStamp = s.Select(a => a.EventTimeStamp).ElementAtOrDefault(0).ToDateTimeFormat(),
                                                       EventType = s.Select(a => a.EventType).ElementAtOrDefault(0)
-                                                   }).OrderBy(o => o.EventTimeStamp).ToList();
+                                                   }).OrderBy(o => o.EventTimeStamp);
 
                                                    
 
@@ -163,7 +161,7 @@ namespace Fanview.API.BusinessLayer
                 teamRoute.Route = routes.OrderBy(o => o.TeamRank).ToList();
 ;            }
 
-            return teamRoute;           
+            return Task.FromResult(teamRoute);           
         }       
     }
 }
