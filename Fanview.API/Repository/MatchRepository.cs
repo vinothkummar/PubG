@@ -229,7 +229,7 @@ namespace Fanview.API.Repository
 
             var safeZone = _matchSafeZoneRepository.GetMongoDbCollection("MatchSafeZone");
 
-            var matchSafeZone = safeZone.FindAsync(Builders<MatchSafeZone>.Filter.Where(cn => cn.MatchId == tournamentMatchId )).Result.ToListAsync().Result
+            var matchSafeZone = safeZone.FindAsync(Builders<MatchSafeZone>.Filter.Where(cn => cn.MatchId == tournamentMatchId )).Result.ToListAsync().Result.OrderBy(o => o.Id)
                                             .Select(s => new SafeZone() { SafetyZonePosition = s.GameState.SafetyZonePosition,
                                                                                 SafetyZoneRadius = s.GameState.SafetyZoneRadius }).GroupBy(g => new { x = g.SafetyZonePosition.X, y = g.SafetyZonePosition.Y, z = g.SafetyZonePosition.Z , Radius = g.SafetyZoneRadius });
              
