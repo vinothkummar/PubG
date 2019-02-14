@@ -453,7 +453,7 @@ namespace Fanview.API.BusinessLayer
 
             if (rankAdjustments != null)
             {
-                return rankPointAdjustments.FirstOrDefault().RankPointsAdjustments;               
+                return rankAdjustments.RankPointsAdjustments;               
             }
             else
             {
