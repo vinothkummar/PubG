@@ -18,6 +18,7 @@ namespace Fanview.API.BusinessLayer
         private IPlayerKillRepository _playerKillRepository;
         private IGenericRepository<RankPoints> _genericRankPointsRepository;
         private IGenericRepository<MatchRanking> _genericMatchRankingRepository;
+        private IGenericRepository<RankPointAdjustments> _rankPointAdjustments;
         private IGenericRepository<TeamRanking> _genericTeamRankingRepository;
         private IGenericRepository<Team> _genericTeamRepository;
         private ITeamRepository _teamRepository;
@@ -30,6 +31,7 @@ namespace Fanview.API.BusinessLayer
                        IGenericRepository<MatchRanking> genericMatchRankingRepository,
                        IGenericRepository<TeamRanking> genericTeamRankingRepository,
                        IGenericRepository<Team> genericTeamRepository,
+                       IGenericRepository<RankPointAdjustments> rankPointAdjustments,
                        ITeamRepository teamRepository,
                        ITeamPlayerRepository teamPlayerRepository, 
                        IGenericRepository<Event> tournament)
@@ -41,6 +43,7 @@ namespace Fanview.API.BusinessLayer
             _genericMatchRankingRepository = genericMatchRankingRepository;
             _genericTeamRankingRepository = genericTeamRankingRepository;
             _genericTeamRepository = genericTeamRepository;
+            _rankPointAdjustments = rankPointAdjustments;
             _teamRepository = teamRepository;
             _teamPlayerRespository = teamPlayerRepository;
             _tournament = tournament;
@@ -167,7 +170,8 @@ namespace Fanview.API.BusinessLayer
                 BestKillPoints = s.BestKillPoints,
                 BestTotalPoints = s.BestTotalPoints,
                 LastKillPoints = s.LastKillPoints,
-                LastRankPoints = s.LastRankPoints
+                LastRankPoints = s.LastRankPoints,
+                AdjustmentedPoints = s.AdjustmentedPoints
             });
 
             return await Task.FromResult(rankingResult);
@@ -176,6 +180,8 @@ namespace Fanview.API.BusinessLayer
         private List<TournamentRanking> OrderTournamentRanking(Task<IEnumerable<MatchRanking>> matchRankingCollection)
         {
             var lastMatchId = matchRankingCollection.Result.Select(s => s.MatchId).OrderByDescending(o => o).Skip(1).FirstOrDefault();
+
+            var rankPointAdjustments = _rankPointAdjustments.GetAll("RankPointAdjustments").Result.ToList();
 
             var i = 1;
             var tournamentRankingStandings = matchRankingCollection.Result
@@ -195,11 +201,12 @@ namespace Fanview.API.BusinessLayer
                                             ShortTeamID = k.ShortTeamID,
                                             KillPoints = k.KillPoints,
                                             RankPoints = k.RankPoints,
-                                            TotalPoints = k.TotalPoints,
+                                            TotalPoints = GetAdjustedTotalPoints(k.TotalPoints, k.ShortTeamID, rankPointAdjustments),
                                             BestKillPoints = GetTheMaxTPoints(matchRankingCollection.Result.Where(cn => cn.TeamName == k.TeamName).Select(s1 => s1.KillPoints).ToArray()),
                                             BestTotalPoints = GetTheMaxTPoints(matchRankingCollection.Result.Where(cn => cn.TeamName == k.TeamName).Select(s1 => s1.TotalPoints).ToArray()),
                                             LastKillPoints = GetLastKillPoints(matchRankingCollection.Result, k.TeamName, lastMatchId),
-                                            LastRankPoints = GetLastRankPoints(matchRankingCollection.Result, k.TeamName, lastMatchId)
+                                            LastRankPoints = GetLastRankPoints(matchRankingCollection.Result, k.TeamName, lastMatchId),
+                                            AdjustmentedPoints = GetAdjustedPoints(k.ShortTeamID, rankPointAdjustments)
                                         });
 
 
@@ -300,6 +307,7 @@ namespace Fanview.API.BusinessLayer
                 matchRanking.BestTotalPoints = item.BestTotalPoints;
                 matchRanking.LastKillPoints = item.LastKillPoints;
                 matchRanking.LastRankPoints = item.LastRankPoints;
+                matchRanking.AdjustmentedPoints = item.AdjustmentedPoints;
 
                 matchStandings.Add(matchRanking);
             }
@@ -416,6 +424,42 @@ namespace Fanview.API.BusinessLayer
             var lastRankPoint = matchRankings.Where(cn => cn.MatchId == lastMatchId && cn.TeamName == teamName).Select(s => s.RankPoints).FirstOrDefault();
 
             return lastRankPoint;
+        }
+
+        private int GetAdjustedTotalPoints(int tpoints, int teamId, IEnumerable<RankPointAdjustments> rankPointAdjustments)
+        {
+            var rankAdjustments = rankPointAdjustments.FirstOrDefault(cn => cn.TeamId == teamId);
+
+            if (rankAdjustments != null)
+            {
+
+                var pointAdjustments = rankAdjustments.RankPointsAdjustments;
+
+                if (pointAdjustments.Substring(0, 1) == "+")
+                {
+                    return tpoints + Convert.ToInt16(pointAdjustments.Substring(1, pointAdjustments.Length - 1));
+                }
+                else
+                {
+                    return tpoints - Convert.ToInt16(pointAdjustments.Substring(1, pointAdjustments.Length - 1));
+                }
+            }
+            return tpoints;
+        }
+
+        private string GetAdjustedPoints(int teamId, IEnumerable<RankPointAdjustments> rankPointAdjustments)
+        {
+            var rankAdjustments = rankPointAdjustments.FirstOrDefault(cn => cn.TeamId == teamId);
+
+            if (rankAdjustments != null)
+            {
+                return rankPointAdjustments.FirstOrDefault().RankPointsAdjustments;               
+            }
+            else
+            {
+                return string.Empty;
+            }
+            
         }
 
         private IEnumerable<RankingResults> RankingOrder(List<MatchRanking> matchRankingScore)

@@ -125,13 +125,10 @@ namespace Fanview.API.Repository
                 DamageCauserName = (string)s["damageCauserName"],
                 Distance = (float)s["distance"],
                 Common = new Common()
-                {
-                   // MatchId = (string)s["common"]["matchId"],
-                   // MapName = (string)s["common"]["mapName"],
+                {                  
                     IsGame = (float)s["common"]["isGame"]
 
-                },
-               // Version = (int)s["_V"],
+                },              
                 EventTimeStamp = (string)s["_D"],
                 EventType = (string)s["_T"]
 
