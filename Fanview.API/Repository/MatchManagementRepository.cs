@@ -32,6 +32,7 @@ namespace Fanview.API.Repository
         private IGenericRepository<PlayerPoition> _playerPositionRepository;
         private readonly IGenericRepository<TeamRanking> _teamRankingRepository;
         private IGenericRepository<VehicleLeave> _vehicleLeaveRepository;
+        private readonly IGenericRepository<ParachuteLanding> _parachuteLandingRepository;
         private IGenericRepository<EventLiveMatchStatus> _eventMatchStatusRepository;
         private ILogger<MatchManagementRepository> _logger;
 
@@ -42,6 +43,7 @@ namespace Fanview.API.Repository
                                     IGenericRepository<MatchPlayerStats> matchPlayerStatsRepository, IGenericRepository<MatchSafeZone> matchSafeZoneRepository,
                                     IGenericRepository<CreatePlayer> createPlayerRepository, IGenericRepository<PlayerPoition> playerPositionRepository,
                                     IGenericRepository<TeamRanking> teamRankingRepository, IGenericRepository<VehicleLeave> vehicleLeaveRepository,
+                                    IGenericRepository<ParachuteLanding> parachuteLandingRepository,
                                     IGenericRepository<EventLiveMatchStatus> eventMatchStatusRepository,
                                     IGenericRepository<DeskSeatingPosition> deskPositionRepository,
                                     ILogger<MatchManagementRepository> logger)
@@ -60,6 +62,7 @@ namespace Fanview.API.Repository
             _playerPositionRepository = playerPositionRepository;
             _teamRankingRepository = teamRankingRepository;
             _vehicleLeaveRepository = vehicleLeaveRepository;
+            _parachuteLandingRepository = parachuteLandingRepository;
             _eventMatchStatusRepository = eventMatchStatusRepository;
             _deskPositionRepository = deskPositionRepository;
             _logger = logger;
@@ -119,8 +122,10 @@ namespace Fanview.API.Repository
 
             var matchSummaryResponse = _tournamentRepository.DeleteOne(tournamentMatchIdFilter, "MatchSummary");
 
+            var parachuteLandingFilter = Builders<ParachuteLanding>.Filter.Eq(s => s.MatchId, matchId);
 
-
+            var parachuteLandingResponse = _parachuteLandingRepository.DeleteMany(parachuteLandingFilter, "ParachuteLanding");
+                
             dynamic mongoDeletedCollection = new ExpandoObject();
 
             List<dynamic> deletedColletionInfo = new List<dynamic>() {
@@ -175,7 +180,12 @@ namespace Fanview.API.Repository
                  new ExpandoObject().Init(
                     "CollectionName".WithValue("MatchSummary"),
                     "DocumentDeleteCount".WithValue(matchSummaryResponse.Result.DeletedCount),
-                    "CompletedSuccessfully".WithValue(matchSummaryResponse.IsCompletedSuccessfully))
+                    "CompletedSuccessfully".WithValue(matchSummaryResponse.IsCompletedSuccessfully)),
+                 new ExpandoObject().Init(
+                    "CollectionName".WithValue("ParachuteLanding"),
+                    "DocumentDeleteCount".WithValue(parachuteLandingResponse.Result.DeletedCount),
+                    "CompletedSuccessfully".WithValue(parachuteLandingResponse.IsCompletedSuccessfully)
+                     )
             };
 
             mongoDeletedCollection.Result = deletedColletionInfo;
