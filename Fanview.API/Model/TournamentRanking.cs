@@ -25,7 +25,7 @@ namespace Fanview.API.Model
         public int BestTotalPoints { get; set; }
         public int LastKillPoints { get; set; }
         public int LastRankPoints { get; set; }
-        public string AdjustmentedPoints { get; set; }
+        public string AdjustedPoints { get; set; }
 
     }
 }

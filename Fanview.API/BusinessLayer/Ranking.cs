@@ -171,7 +171,7 @@ namespace Fanview.API.BusinessLayer
                 BestTotalPoints = s.BestTotalPoints,
                 LastKillPoints = s.LastKillPoints,
                 LastRankPoints = s.LastRankPoints,
-                AdjustmentedPoints = s.AdjustmentedPoints
+                AdjustedPoints = s.AdjustedPoints
             });
 
             return await Task.FromResult(rankingResult);
@@ -206,7 +206,7 @@ namespace Fanview.API.BusinessLayer
                                             BestTotalPoints = GetTheMaxTPoints(matchRankingCollection.Result.Where(cn => cn.TeamName == k.TeamName).Select(s1 => s1.TotalPoints).ToArray()),
                                             LastKillPoints = GetLastKillPoints(matchRankingCollection.Result, k.TeamName, lastMatchId),
                                             LastRankPoints = GetLastRankPoints(matchRankingCollection.Result, k.TeamName, lastMatchId),
-                                            AdjustmentedPoints = GetAdjustedPoints(k.ShortTeamID, rankPointAdjustments)
+                                            AdjustedPoints = GetAdjustedPoints(k.ShortTeamID, rankPointAdjustments)
                                         });
 
 
@@ -307,7 +307,7 @@ namespace Fanview.API.BusinessLayer
                 matchRanking.BestTotalPoints = item.BestTotalPoints;
                 matchRanking.LastKillPoints = item.LastKillPoints;
                 matchRanking.LastRankPoints = item.LastRankPoints;
-                matchRanking.AdjustmentedPoints = item.AdjustmentedPoints;
+                matchRanking.AdjustedPoints = item.AdjustedPoints;
 
                 matchStandings.Add(matchRanking);
             }
