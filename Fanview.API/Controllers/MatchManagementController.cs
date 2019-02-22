@@ -23,9 +23,9 @@ namespace Fanview.API.Controllers
         }       
 
         [HttpGet("GetMatches", Name = "GetMatchdetails")]
-        public Task<IEnumerable<Event>> GetMatchdetails()
+        public async Task<IEnumerable<Event>> GetMatchdetails()
         {
-            return _matchmanagementrepository.GetMatchDetails();
+            return _matchmanagementrepository.GetMatchDetails().Result.ToList();
         }
 
         [HttpPost("PostMatches", Name = "PostMatchdetails")]
