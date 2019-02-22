@@ -1,0 +1,13 @@
+2019-02-22 12:38:40.835 +00:00 [INF] Starting web host
+2019-02-22 12:38:42.986 +00:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-02-22 12:38:45.760 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:2689/swagger/index.html  
+2019-02-22 12:38:45.761 +00:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:2689/  0
+2019-02-22 12:38:45.922 +00:00 [INF] Request finished in 160.8063ms 200 
+2019-02-22 12:38:46.269 +00:00 [INF] Request finished in 533.1814ms 200 text/html
+2019-02-22 12:38:46.413 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:2689/swagger/v1/swagger.json  
+2019-02-22 12:38:47.038 +00:00 [INF] Request finished in 625.2649ms 200 application/json;charset=utf-8
+2019-02-22 12:39:18.294 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:2689/api/Live/Status  
+2019-02-22 12:39:18.554 +00:00 [INF] Route matched with {action = "GetLiveStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API)
+2019-02-22 12:39:18.988 +00:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) - Validation state: "Valid"
+2019-02-22 12:39:53.539 +00:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 34544.652ms.
+2019-02-22 12:39:53.573 +00:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.LiveMatchStatus, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.

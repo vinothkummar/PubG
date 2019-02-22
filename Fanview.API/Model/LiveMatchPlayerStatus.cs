@@ -17,7 +17,7 @@ namespace Fanview.API.Model
         [BsonElement("location")]
         public Location Location { get; set; }
         [BsonElement("health")]
-        public int Health { get; set; }
+        public float Health { get; set; }
         [BsonElement("boostGauge")]
         public int BoostGauge { get; set; }
         [BsonElement("state")]
