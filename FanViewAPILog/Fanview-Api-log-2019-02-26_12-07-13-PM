@@ -1,0 +1,14 @@
+2019-02-26 12:07:13.601 +00:00 [INF] Starting web host
+2019-02-26 12:07:15.859 +00:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-02-26 12:07:18.389 +00:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:2689/  0
+2019-02-26 12:07:18.388 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:2689/swagger/index.html  
+2019-02-26 12:07:18.571 +00:00 [INF] Request finished in 179.92ms 200 
+2019-02-26 12:07:18.906 +00:00 [INF] Request finished in 541.9602ms 200 text/html
+2019-02-26 12:07:19.056 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:2689/swagger/v1/swagger.json  
+2019-02-26 12:07:19.677 +00:00 [INF] Request finished in 621.2445ms 200 application/json;charset=utf-8
+2019-02-26 12:08:15.543 +00:00 [INF] Request starting HTTP/1.1 DELETE http://localhost:2689/api/Live/DeletliveTeamStatemongocollection  
+2019-02-26 12:08:15.825 +00:00 [INF] Route matched with {action = "DeleteTeamLiveStatesTable", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.DeleteTeamLiveStatesTable (Fanview.API)
+2019-02-26 12:08:16.258 +00:00 [INF] Executing action method Fanview.API.Controllers.LiveController.DeleteTeamLiveStatesTable (Fanview.API) - Validation state: "Valid"
+2019-02-26 12:08:29.447 +00:00 [INF] Executed action method Fanview.API.Controllers.LiveController.DeleteTeamLiveStatesTable (Fanview.API), returned result Microsoft.AspNetCore.Mvc.EmptyResult in 13179.349400000001ms.
+2019-02-26 12:08:29.480 +00:00 [INF] Executed action Fanview.API.Controllers.LiveController.DeleteTeamLiveStatesTable (Fanview.API) in 13649.7981ms
+2019-02-26 12:08:29.482 +00:00 [INF] Request finished in 13939.5168ms 200 

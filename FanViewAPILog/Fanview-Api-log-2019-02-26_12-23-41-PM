@@ -1,0 +1,14 @@
+2019-02-26 12:23:41.936 +00:00 [INF] Starting web host
+2019-02-26 12:23:44.355 +00:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-02-26 12:23:47.161 +00:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:2689/  0
+2019-02-26 12:23:47.161 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:2689/swagger/index.html  
+2019-02-26 12:23:47.352 +00:00 [INF] Request finished in 203.4548ms 200 
+2019-02-26 12:23:47.675 +00:00 [INF] Request finished in 527.284ms 200 text/html
+2019-02-26 12:23:47.841 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:2689/swagger/v1/swagger.json  
+2019-02-26 12:23:48.491 +00:00 [INF] Request finished in 650.068ms 200 application/json;charset=utf-8
+2019-02-26 12:24:10.959 +00:00 [INF] Request starting HTTP/1.1 DELETE http://localhost:2689/api/Live/DeletliveMatchEventmongocollection  
+2019-02-26 12:24:11.227 +00:00 [INF] Route matched with {action = "DeleteLiveMatchstat", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.DeleteLiveMatchstat (Fanview.API)
+2019-02-26 12:24:11.667 +00:00 [INF] Executing action method Fanview.API.Controllers.LiveController.DeleteLiveMatchstat (Fanview.API) - Validation state: "Valid"
+2019-02-26 12:24:20.512 +00:00 [INF] Executed action method Fanview.API.Controllers.LiveController.DeleteLiveMatchstat (Fanview.API), returned result Microsoft.AspNetCore.Mvc.EmptyResult in 8833.245ms.
+2019-02-26 12:24:20.552 +00:00 [INF] Executed action Fanview.API.Controllers.LiveController.DeleteLiveMatchstat (Fanview.API) in 9319.1638ms
+2019-02-26 12:24:20.554 +00:00 [INF] Request finished in 9594.652ms 200 

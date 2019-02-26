@@ -10,15 +10,27 @@ namespace Fanview.API.Repository
 {
     public class LiveRepository : ILiveRepository
     {
+        private IGenericRepository<LiveEventKill> _genericEventKillRepository;
+        private IGenericRepository<EventLiveMatchStatus> _genericEventlivestateRepository;
+        private IGenericRepository<EventDamage> _genericLiveDamage;
+
+        private IGenericRepository<LiveMatchStatus> _genericmatchstates;
         private readonly IMongoCollection<EventDamage> _eventDamageCollection;
         private readonly IMongoCollection<TeamPlayer> _teamPlayerCollection;
         private readonly IMongoCollection<Team> _teamCollection;
 
-        public LiveRepository(IMongoDbClient dbClient)
+        public LiveRepository(IMongoDbClient dbClient, IGenericRepository<LiveEventKill> genericEventKillRepository, 
+            IGenericRepository<LiveMatchStatus> genericmatchstates,IGenericRepository<EventLiveMatchStatus> genericEventlivestateRepository,
+            IGenericRepository<EventDamage> genericLiveDamage)
+
         {
             _eventDamageCollection = dbClient.Database.GetCollection<EventDamage>("LiveEventDamage");
             _teamPlayerCollection = dbClient.Database.GetCollection<TeamPlayer>("TeamPlayers");
             _teamCollection = dbClient.Database.GetCollection<Team>("Team");
+            _genericEventKillRepository = genericEventKillRepository;
+            _genericmatchstates = genericmatchstates;
+            _genericEventlivestateRepository = genericEventlivestateRepository;
+            _genericLiveDamage = genericLiveDamage;
         }
 
         public async Task<LiveDamageList> GetLiveDamageList()
@@ -50,5 +62,30 @@ namespace Fanview.API.Repository
                 DamageList = result
             };
         }
+        public void DeleteAllEventKillTable()
+        {
+            var filter = Builders<LiveEventKill>.Filter.Empty;
+            _genericEventKillRepository.DeleteMany(filter, "LiveEventKill");
+        }
+        public void DeleteAllTeamStates()
+        {
+            var filter = Builders<LiveMatchStatus>.Filter.Empty;
+            _genericmatchstates.DeleteMany(filter, "TeamLiveStatus");
+            
+        }
+        public void DeleteEventMatchStates()
+        {
+            var filter = Builders<EventLiveMatchStatus>.Filter.Empty;
+            _genericEventlivestateRepository.DeleteMany(filter, "EventMatchStatus");
+
+        }
+        public void DeleteEventLiveMatchDamage()
+        {
+            var filter = Builders<EventDamage>.Filter.Empty;
+            _genericLiveDamage.DeleteMany(filter, "LiveEventDamage");
+
+        }
+        
+
     }
 }
