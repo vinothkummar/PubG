@@ -3,6 +3,7 @@ using Fanview.API.Model;
 using Fanview.API.Model.LiveModels;
 using Fanview.API.Repository.Interface;
 using MongoDB.Driver;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -85,7 +86,19 @@ namespace Fanview.API.Repository
             _genericLiveDamage.DeleteMany(filter, "LiveEventDamage");
 
         }
-        
+        public void DeleteAll()
+        {
+            //collectionNames include 4 collections to be deleted inside.
+            var CollectionNames = new List<string>() { "TeamLiveStatus", "LiveEventKill", "EventMatchStatus", "LiveEventDamage" };
+            //loop through collections and delete each of 4 collection
+            foreach (var item in CollectionNames)
+            {
+                var filter = Builders<EventDamage>.Filter.Empty;
+                _genericLiveDamage.DeleteMany(filter, item);
+            }
+
+        }
+
 
     }
 }

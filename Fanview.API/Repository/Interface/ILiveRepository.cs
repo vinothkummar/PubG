@@ -10,5 +10,6 @@ namespace Fanview.API.Repository.Interface
         void DeleteAllTeamStates();
         void DeleteEventMatchStates();
         void DeleteEventLiveMatchDamage();
+        void DeleteAll();
     }
 }

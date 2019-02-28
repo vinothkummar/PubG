@@ -83,25 +83,30 @@ namespace Fanview.API.Controllers
         {
             return _playerKillRepository.GetLiveKillList(0);
         }
-        [HttpDelete("DeleteLiveEventKillmongocollection", Name = "DeleteAllEventKillTable")]
+        [HttpDelete("Killiprinter", Name = "DeleteAllEventKillTable")]
         public void DeleteLiveEventKillTable()
         {
                 _liveRepository.DeleteAllEventKillTable();
         }
-        [HttpDelete("DeletliveTeamStatemongocollection", Name = "DeleteTeamLiveStatesTable")]
+        [HttpDelete("Status", Name = "DeleteTeamLiveStatesTable")]
         public void DeleteTeamLiveStatesTable()
         {
             _liveRepository.DeleteAllTeamStates();
         }
-        [HttpDelete("DeletliveMatchEventmongocollection", Name = "DeleteLiveMatchstat")]
+        [HttpDelete("MatchStatus", Name = "DeleteLiveMatchstat")]
         public void DeleteLiveMatchstat()
         {
             _liveRepository.DeleteEventMatchStates();
         }
-        [HttpDelete("DeleteliveDamagemongocollection", Name = "DeleteLiveDamage")]
+        [HttpDelete("Damage", Name = "DeleteLiveDamage")]
         public void DeleteLiveDamage()
         {
             _liveRepository.DeleteEventLiveMatchDamage();
+        }
+        [HttpDelete("DeleteAll", Name = "DeleteAll")]
+        public void DeleteAll()
+        {
+            _liveRepository.DeleteAll();
         }
 
         /// <summary>
