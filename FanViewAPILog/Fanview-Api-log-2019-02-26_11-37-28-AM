@@ -1,0 +1,14 @@
+2019-02-26 11:37:28.914 +00:00 [INF] Starting web host
+2019-02-26 11:37:31.152 +00:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-02-26 11:37:33.792 +00:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:2689/  0
+2019-02-26 11:37:33.792 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:2689/swagger/index.html  
+2019-02-26 11:37:33.984 +00:00 [INF] Request finished in 191.9613ms 200 
+2019-02-26 11:37:34.352 +00:00 [INF] Request finished in 586.0239ms 200 text/html
+2019-02-26 11:37:34.498 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:2689/swagger/v1/swagger.json  
+2019-02-26 11:37:35.129 +00:00 [INF] Request finished in 631.6139ms 200 application/json;charset=utf-8
+2019-02-26 11:37:56.848 +00:00 [INF] Request starting HTTP/1.1 DELETE http://localhost:2689/api/Live/DeleteLiveEventKillTable  
+2019-02-26 11:37:57.090 +00:00 [INF] Route matched with {action = "DeleteLiveEventKillTable", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.DeleteLiveEventKillTable (Fanview.API)
+2019-02-26 11:37:57.497 +00:00 [INF] Executing action method Fanview.API.Controllers.LiveController.DeleteLiveEventKillTable (Fanview.API) - Validation state: "Valid"
+2019-02-26 11:38:08.909 +00:00 [INF] Executed action method Fanview.API.Controllers.LiveController.DeleteLiveEventKillTable (Fanview.API), returned result Microsoft.AspNetCore.Mvc.EmptyResult in 11399.0467ms.
+2019-02-26 11:38:08.946 +00:00 [INF] Executed action Fanview.API.Controllers.LiveController.DeleteLiveEventKillTable (Fanview.API) in 11849.8741ms
+2019-02-26 11:38:08.949 +00:00 [INF] Request finished in 12100.9965ms 200 

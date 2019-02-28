@@ -1,0 +1,14 @@
+2019-02-28 11:18:52.173 +00:00 [INF] Starting web host
+2019-02-28 11:18:54.099 +00:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-02-28 11:18:56.424 +00:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:2689/  0
+2019-02-28 11:18:56.422 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:2689/swagger/index.html  
+2019-02-28 11:18:56.582 +00:00 [INF] Request finished in 172.7439ms 200 
+2019-02-28 11:18:56.878 +00:00 [INF] Request finished in 472.051ms 200 text/html
+2019-02-28 11:18:57.022 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:2689/swagger/v1/swagger.json  
+2019-02-28 11:18:57.679 +00:00 [INF] Request finished in 656.6054ms 200 application/json;charset=utf-8
+2019-02-28 11:19:28.111 +00:00 [INF] Request starting HTTP/1.1 DELETE http://localhost:2689/api/Live/DeleteAll  
+2019-02-28 11:19:28.381 +00:00 [INF] Route matched with {action = "DeleteAll", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.DeleteAll (Fanview.API)
+2019-02-28 11:19:28.819 +00:00 [INF] Executing action method Fanview.API.Controllers.LiveController.DeleteAll (Fanview.API) - Validation state: "Valid"
+2019-02-28 11:20:00.818 +00:00 [INF] Executed action method Fanview.API.Controllers.LiveController.DeleteAll (Fanview.API), returned result Microsoft.AspNetCore.Mvc.EmptyResult in 31988.052900000002ms.
+2019-02-28 11:20:00.847 +00:00 [INF] Executed action Fanview.API.Controllers.LiveController.DeleteAll (Fanview.API) in 32461.4693ms
+2019-02-28 11:20:00.849 +00:00 [INF] Request finished in 32737.4244ms 200 
