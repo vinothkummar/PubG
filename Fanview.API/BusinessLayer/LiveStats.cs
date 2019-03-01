@@ -30,7 +30,9 @@ namespace Fanview.API.BusinessLayer
         {
             var liveMatchStatus = await  _teamLiveStatusRepository.GetEventLiveMatchStatus().ConfigureAwait(false);
             liveMatchStatus.MatchState = liveMatchStatus.MatchState
-                .Replace("WaitingPostMatch", "Completed");
+                .Replace("WaitingPostMatch", "Completed")
+                .Replace("InProgress", "Running")
+                .Replace("WaitingToStart", "Waiting");
             return liveMatchStatus;
         }
 

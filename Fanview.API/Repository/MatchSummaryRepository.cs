@@ -475,7 +475,7 @@ namespace Fanview.API.Repository
                     {
                         var teamPlayerStatus = new LiveMatchPlayerStatus();
                         teamLiveStatus.TeamId = teamPlayers.Where(cn => cn.PlayerName == item2.PlayerName).Select(a => a.TeamIdShort).FirstOrDefault();
-                        teamLiveStatus.TeamName = _teamRepository.GetTeam().Result.Where(cn => cn.TeamId == teamLiveStatus.TeamId).Select(s => s.ShortName).ElementAtOrDefault(0);
+                        teamLiveStatus.TeamName = _teamRepository.GetTeam().Result.Where(cn => cn.TeamId == teamLiveStatus.TeamId).Select(s => s.Name).ElementAtOrDefault(0);
                         teamPlayerStatus.PlayerId = teamPlayers.Where(cn => cn.PlayerName == item2.PlayerName).Select(a => a.PlayerId).FirstOrDefault();
                         teamPlayerStatus.PlayerName = item2.PlayerName;
                         teamPlayerStatus.Location = item2.Location;
