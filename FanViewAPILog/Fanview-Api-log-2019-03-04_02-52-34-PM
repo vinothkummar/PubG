@@ -1,0 +1,15 @@
+2019-03-04 14:52:34.653 +00:00 [INF] Starting web host
+2019-03-04 14:52:36.857 +00:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-03-04 14:52:39.503 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:2689/swagger/index.html  
+2019-03-04 14:52:39.504 +00:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:2689/  0
+2019-03-04 14:52:39.663 +00:00 [INF] Request finished in 165.8919ms 200 
+2019-03-04 14:52:40.032 +00:00 [INF] Request finished in 554.7293ms 200 text/html
+2019-03-04 14:52:40.184 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:2689/swagger/v1/swagger.json  
+2019-03-04 14:52:40.801 +00:00 [INF] Request finished in 617.5398ms 200 application/json;charset=utf-8
+2019-03-04 14:53:45.107 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:2689/api/Player/Stats/Average  
+2019-03-04 14:53:45.371 +00:00 [INF] Route matched with {action = "GetTournamentAveragePlayerStats", controller = "Player"}. Executing action Fanview.API.Controllers.PlayerController.GetTournamentAveragePlayerStats (Fanview.API)
+2019-03-04 14:53:45.685 +00:00 [INF] Executing action method Fanview.API.Controllers.PlayerController.GetTournamentAveragePlayerStats (Fanview.API) - Validation state: "Valid"
+2019-03-04 14:53:46.101 +00:00 [INF] Executed action method Fanview.API.Controllers.PlayerController.GetTournamentAveragePlayerStats (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 408.61940000000004ms.
+2019-03-04 14:53:46.136 +00:00 [INF] Executing ObjectResult, writing value of type 'System.Linq.OrderedEnumerable`2[[Fanview.API.Model.ViewModels.PlayerProfileTournament, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[System.Int32, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2019-03-04 14:53:46.355 +00:00 [INF] Executed action Fanview.API.Controllers.PlayerController.GetTournamentAveragePlayerStats (Fanview.API) in 978.9347ms
+2019-03-04 14:53:46.361 +00:00 [INF] Request finished in 1253.8238ms 200 application/json; charset=utf-8

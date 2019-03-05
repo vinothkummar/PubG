@@ -26,5 +26,6 @@ namespace Fanview.API.Repository.Interface
         void Deleteplayer(string playerid);
         void Updatemanyplayers(IEnumerable<TeamPlayer> players);
         void DeleteAllTeamPlayers();
+        Task<Object> GetPlayerTournamentAverageStats();
     }
 }

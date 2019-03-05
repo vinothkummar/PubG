@@ -133,7 +133,8 @@ namespace Fanview.API.Repository
             var teamPlayer = await teamPlayerCollection.FindAsync(Builders<TeamPlayer>.Filter.Empty).Result.ToListAsync();
 
             var matchstats =_genericMatchPlayerStatsRepository.GetAll("MatchPlayerStats").Result;
-
+            var matchstat = matchstats.AsQueryable().ToList();
+            var matchcount = matchstats.Select(x => x.MatchId).Distinct().Count();
             var playerProfile = matchstats.Join(teamPlayer, ms => ms.stats.Name.Trim(), tp => tp.PlayerName.Trim(), (ms, tp) => new { ms, tp })
                                           .Select(s => new
                                           {
@@ -158,16 +159,20 @@ namespace Fanview.API.Repository
                                                   WalkDistance = s.ms.stats.WalkDistance
                                               }
                                           });
-
+           var matchcoun = playerProfile.GroupBy(x=>x.PlayerId).Select(group=>new { matchid = group.Select(x => x.MatchId) }).Select(x=>x.matchid.Count());
             var PlayerProfileGrouped = playerProfile.GroupBy(g => g.PlayerId).Select(s => new PlayerProfileTournament()
-            {   
+            {
+                NumMatches = s.Select(c => c.MatchId).Count(),
                 PlayerId = s.Select(c => c.PlayerId).ElementAtOrDefault(0),
                 PlayerName = s.Select(c => c.PlayerName).ElementAtOrDefault(0),
                 FullName = s.Select(c => c.FullName).ElementAtOrDefault(0),
                 Country = s.Select(c => c.Country).ElementAtOrDefault(0),
                 TeamId = s.Select(c => c.TeamId).ElementAtOrDefault(0),
-                stats = new Stats()
+                
+           
+            stats = new Stats()
                 {
+                    
                     Knocks = s.Sum(a => a.Stats.Knocs),
                     Assists = s.Sum(a => a.Stats.Assists),
                     Boosts = s.Sum(a => a.Stats.Boosts),
@@ -183,7 +188,72 @@ namespace Fanview.API.Repository
 
                 }
             }).OrderBy(o => o.PlayerId);
-            
+            var detailed = PlayerProfileGrouped.ToList();
+            return PlayerProfileGrouped;
+        }
+        public async Task<Object> GetPlayerTournamentAverageStats()
+        {
+            var teamPlayerCollection = _genericTeamPlayerRepository.GetMongoDbCollection("TeamPlayers");
+
+            var teamPlayer = await teamPlayerCollection.FindAsync(Builders<TeamPlayer>.Filter.Empty).Result.ToListAsync();
+
+            var matchstats = _genericMatchPlayerStatsRepository.GetAll("MatchPlayerStats").Result;
+            //var matchstat = matchstats.AsQueryable().ToList();
+            //var matchcount = matchstats.Select(x => x.MatchId).Distinct().Count();
+            var playerProfile = matchstats.Join(teamPlayer, ms => ms.stats.Name.Trim(), tp => tp.PlayerName.Trim(), (ms, tp) => new { ms, tp })
+                                          .Select(s => new
+                                          {
+                                              MatchId = s.ms.MatchId,
+                                              PlayerId = s.tp.PlayerId,
+                                              PlayerName = s.tp.PlayerName,
+                                              FullName = s.tp.FullName,
+                                              Country = s.tp.Country,
+                                              TeamId = s.tp.TeamIdShort,
+                                              Stats = new
+                                              {
+                                                  Knocs = s.ms.stats.DBNOs,
+                                                  Assists = s.ms.stats.Assists,
+                                                  Boosts = s.ms.stats.Boosts,
+                                                  Damage = s.ms.stats.DamageDealt,
+                                                  HeadShort = s.ms.stats.HeadshotKills,
+                                                  Heals = s.ms.stats.Heals,
+                                                  Kills = s.ms.stats.Kills,
+                                                  TimeSurvived = s.ms.stats.TimeSurvived,
+                                                  Revives = s.ms.stats.Revives,
+                                                  RideDistance = s.ms.stats.RideDistance,
+                                                  SwimDistance = s.ms.stats.SwimDistance,
+                                                  WalkDistance = s.ms.stats.WalkDistance
+                                              }
+                                          });
+            //var matchcoun = playerProfile.GroupBy(x => x.PlayerName).Select(group => new { PlayerName = group.Key, matchid = group.Select(x => x.MatchId) }).ToDictionary(x => x.PlayerName, x => x.matchid.Count());
+            var PlayerProfileGrouped = playerProfile.GroupBy(g => g.PlayerId).Select(s => new PlayerProfileTournament()
+            {
+                NumMatches = s.Select(c => c.MatchId).Count(),
+                PlayerId = s.Select(c => c.PlayerId).ElementAtOrDefault(0),
+                PlayerName = s.Select(c => c.PlayerName).ElementAtOrDefault(0),
+                FullName = s.Select(c => c.FullName).ElementAtOrDefault(0),
+                Country = s.Select(c => c.Country).ElementAtOrDefault(0),
+                TeamId = s.Select(c => c.TeamId).ElementAtOrDefault(0),
+                
+                stats = new Stats()
+                {
+                    
+                    Knocks = Math.Round(s.Average(a => a.Stats.Knocs), 2, MidpointRounding.AwayFromZero),
+                    Assists = Math.Round(s.Average(a => a.Stats.Assists) , 2, MidpointRounding.AwayFromZero),
+                    Boosts = Math.Round(s.Average(a => a.Stats.Boosts), 2, MidpointRounding.AwayFromZero),
+                    damage = Math.Round(s.Average(a => a.Stats.Damage), 2, MidpointRounding.AwayFromZero),
+                    headShot = Math.Round(s.Average(a => a.Stats.HeadShort) , 2, MidpointRounding.AwayFromZero),
+                    Heals = Math.Round(s.Average(a => a.Stats.Heals) , 2, MidpointRounding.AwayFromZero),
+                    Kills = Math.Round(s.Average(a => a.Stats.Kills) , 2, MidpointRounding.AwayFromZero),
+                    TimeSurvived = Math.Round(s.Average(a => a.Stats.TimeSurvived) , 2, MidpointRounding.AwayFromZero),
+                    Revives = Math.Round(s.Average(a => a.Stats.Revives), 2, MidpointRounding.AwayFromZero),
+                    RideDistance = Math.Round(s.Average(a => a.Stats.RideDistance) , 2, MidpointRounding.AwayFromZero),
+                    SwimDistance = Math.Round(s.Average(a => a.Stats.SwimDistance), 2, MidpointRounding.AwayFromZero),
+                    WalkDistance = Math.Round(s.Average(a => a.Stats.Revives) , 2, MidpointRounding.AwayFromZero)
+
+                }
+            }).OrderBy(o => o.PlayerId);
+     
             return PlayerProfileGrouped;
         }
 
@@ -229,12 +299,13 @@ namespace Fanview.API.Repository
 
             var PlayerProfileGrouped = playerProfile.GroupBy(g => g.PlayerId).Select(s => new PlayerProfileTournament()
             {
-                MatchId = matchId,
+                MatchId = s.Select(c=>c.MatchId).ElementAtOrDefault(0),
                 PlayerId = s.Select(c => c.PlayerId).ElementAtOrDefault(0),
                 PlayerName = s.Select(c => c.PlayerName).ElementAtOrDefault(0),
                 FullName = s.Select(c => c.FullName).ElementAtOrDefault(0),
                 Country = s.Select(c => c.Country).ElementAtOrDefault(0),
                 TeamId = s.Select(c => c.TeamId).ElementAtOrDefault(0),
+                NumMatches=s.Select(c=>c.MatchId).Count(),
                 stats = new Stats()
                 {
                     Knocks = s.Sum(a => a.Stats.Knocs),
@@ -296,7 +367,7 @@ namespace Fanview.API.Repository
 
             var PlayerProfileGrouped = playerProfile.GroupBy(g => g.PlayerId).Select(s => new PlayerProfileTournament()
             {
-                MatchId = matchId,
+                
                 PlayerId = s.Select(c => c.PlayerId).ElementAtOrDefault(0),
                 PlayerName = s.Select(c => c.PlayerName).ElementAtOrDefault(0),
                 FullName = s.Select(c => c.FullName).ElementAtOrDefault(0),
