@@ -1,0 +1,18 @@
+2019-03-05 14:32:05.202 +00:00 [INF] Starting web host
+2019-03-05 14:32:07.467 +00:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-03-05 14:32:10.154 +00:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:2689/  0
+2019-03-05 14:32:10.153 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:2689/swagger/index.html  
+2019-03-05 14:32:10.327 +00:00 [INF] Request finished in 186.6182ms 200 
+2019-03-05 14:32:10.665 +00:00 [INF] Request finished in 529.6744ms 200 text/html
+2019-03-05 14:32:10.816 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:2689/swagger/v1/swagger.json  
+2019-03-05 14:32:11.425 +00:00 [INF] Request finished in 609.8187ms 200 application/json;charset=utf-8
+2019-03-05 14:33:06.599 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:2689/api/Team/All  
+2019-03-05 14:33:06.858 +00:00 [INF] Route matched with {action = "GetAllTeam", controller = "Team"}. Executing action Fanview.API.Controllers.TeamController.GetAllTeam (Fanview.API)
+2019-03-05 14:33:07.189 +00:00 [INF] Executing action method Fanview.API.Controllers.TeamController.GetAllTeam (Fanview.API) - Validation state: "Valid"
+2019-03-05 14:33:07.566 +00:00 [INF] Executed action method Fanview.API.Controllers.TeamController.GetAllTeam (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 370.4483ms.
+2019-03-05 14:33:07.598 +00:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.ViewModels.TeamParticipants, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-03-05 14:33:07.629 +00:00 [INF] Executed action Fanview.API.Controllers.TeamController.GetAllTeam (Fanview.API) in 764.9047ms
+2019-03-05 14:33:07.630 +00:00 [INF] Request finished in 1030.8121ms 200 application/json; charset=utf-8
+2019-03-05 14:33:22.778 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:2689/api/Team/Stats/Overall  
+2019-03-05 14:33:22.785 +00:00 [INF] Route matched with {action = "GetAllTeamStats", controller = "Team"}. Executing action Fanview.API.Controllers.TeamController.GetAllTeamStats (Fanview.API)
+2019-03-05 14:33:22.785 +00:00 [INF] Executing action method Fanview.API.Controllers.TeamController.GetAllTeamStats (Fanview.API) - Validation state: "Valid"

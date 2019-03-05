@@ -35,5 +35,6 @@ namespace Fanview.API.Repository.Interface
         void DeleteAll();
         void UpdatemanyTeams(IEnumerable<Team> teams);
         Task<int> GetTeamCount();
+        Task<Object> GetTeamAverageStats();
     }
 }

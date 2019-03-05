@@ -1,0 +1,11 @@
+2019-03-05 17:09:58.487 +00:00 [INF] Starting web host
+2019-03-05 17:10:00.927 +00:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-03-05 17:10:03.512 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:2689/swagger/index.html  
+2019-03-05 17:10:03.513 +00:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:2689/  0
+2019-03-05 17:10:03.699 +00:00 [INF] Request finished in 189.2383ms 200 
+2019-03-05 17:10:04.012 +00:00 [INF] Request finished in 523.6343ms 200 text/html
+2019-03-05 17:10:04.179 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:2689/swagger/v1/swagger.json  
+2019-03-05 17:10:04.797 +00:00 [INF] Request finished in 617.5948ms 200 application/json;charset=utf-8
+2019-03-05 17:11:52.933 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:2689/api/Team/Stats/Overall  
+2019-03-05 17:11:53.203 +00:00 [INF] Route matched with {action = "GetAllTeamStats", controller = "Team"}. Executing action Fanview.API.Controllers.TeamController.GetAllTeamStats (Fanview.API)
+2019-03-05 17:11:53.527 +00:00 [INF] Executing action method Fanview.API.Controllers.TeamController.GetAllTeamStats (Fanview.API) - Validation state: "Valid"
