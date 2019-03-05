@@ -66,7 +66,15 @@ namespace Fanview.API.Controllers
         {   
             return _teamPlayerRepository.GetPlayerTournamentStats();          
         }
-   
+        /// <summary>
+        /// Returns Tournament Average Match Stats   
+        /// </summary> 
+        [HttpGet("Stats/Average", Name = "GetTournamentAveragePlayerStats")]
+        public Task<object> GetTournamentAveragePlayerStats()
+        {
+            return _teamPlayerRepository.GetPlayerTournamentAverageStats();
+        }
+
         [HttpGet("Stats/{matchId}", Name = "GetPlayerTournamentStats")]
         public Task<object> GetPlayerTournamentStats(int matchId)
         {

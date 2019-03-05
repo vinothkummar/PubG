@@ -1,0 +1,21 @@
+2019-03-04 12:11:37.979 +00:00 [INF] Starting web host
+2019-03-04 12:11:40.217 +00:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-03-04 12:11:42.966 +00:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:2689/  0
+2019-03-04 12:11:42.965 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:2689/swagger/index.html  
+2019-03-04 12:11:43.129 +00:00 [INF] Request finished in 170.3279ms 200 
+2019-03-04 12:11:43.489 +00:00 [INF] Request finished in 549.6979ms 200 text/html
+2019-03-04 12:11:43.631 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:2689/swagger/v1/swagger.json  
+2019-03-04 12:11:44.243 +00:00 [INF] Request finished in 612.2458ms 200 application/json;charset=utf-8
+2019-03-04 12:13:08.508 +00:00 [INF] Request starting HTTP/1.1 POST http://localhost:2689/api/OpenAPI/RoundRankingData/f84d39a1-8218-4438-9bf5-7150f9e0f093  0
+2019-03-04 12:13:08.786 +00:00 [INF] Route matched with {action = "PostAndCalculateMatchRoundRanking", controller = "OpenAPI"}. Executing action Fanview.API.Controllers.OpenAPIController.PostAndCalculateMatchRoundRanking (Fanview.API)
+2019-03-04 12:13:09.282 +00:00 [INF] Executing action method Fanview.API.Controllers.OpenAPIController.PostAndCalculateMatchRoundRanking (Fanview.API) with arguments (["f84d39a1-8218-4438-9bf5-7150f9e0f093"]) - Validation state: "Valid"
+2019-03-04 12:13:35.374 +00:00 [INF] Match Round Ranking Data Request Started
+
+2019-03-04 12:13:36.428 +00:00 [INF] Match Player Stats Request Started
+
+2019-03-04 12:13:36.713 +00:00 [INF] Match Player Stats  Response Json
+
+2019-03-04 12:13:45.010 +00:00 [INF] Match Request Started
+
+2019-03-04 12:13:45.078 +00:00 [INF] Match Player Stats  Response Json
+

@@ -1,0 +1,15 @@
+2019-03-04 16:38:29.443 +00:00 [INF] Starting web host
+2019-03-04 16:38:31.719 +00:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-03-04 16:38:34.302 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:2689/swagger/index.html  
+2019-03-04 16:38:34.303 +00:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:2689/  0
+2019-03-04 16:38:34.460 +00:00 [INF] Request finished in 163.8708ms 200 
+2019-03-04 16:38:34.807 +00:00 [INF] Request finished in 527.6111ms 200 text/html
+2019-03-04 16:38:34.981 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:2689/swagger/v1/swagger.json  
+2019-03-04 16:38:35.585 +00:00 [INF] Request finished in 604.2113ms 200 application/json;charset=utf-8
+2019-03-04 16:38:50.423 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:2689/api/Player/Stats/Overall  
+2019-03-04 16:38:50.676 +00:00 [INF] Route matched with {action = "GetTournamentPlayerStats", controller = "Player"}. Executing action Fanview.API.Controllers.PlayerController.GetTournamentPlayerStats (Fanview.API)
+2019-03-04 16:38:50.978 +00:00 [INF] Executing action method Fanview.API.Controllers.PlayerController.GetTournamentPlayerStats (Fanview.API) - Validation state: "Valid"
+2019-03-04 16:38:51.665 +00:00 [INF] Executed action method Fanview.API.Controllers.PlayerController.GetTournamentPlayerStats (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 680.43090000000007ms.
+2019-03-04 16:38:51.703 +00:00 [INF] Executing ObjectResult, writing value of type 'System.Linq.OrderedEnumerable`2[[Fanview.API.Model.ViewModels.PlayerProfileTournament, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[System.Int32, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2019-03-04 16:38:51.776 +00:00 [INF] Executed action Fanview.API.Controllers.PlayerController.GetTournamentPlayerStats (Fanview.API) in 1094.5694ms
+2019-03-04 16:38:51.781 +00:00 [INF] Request finished in 1358.1049ms 200 application/json; charset=utf-8

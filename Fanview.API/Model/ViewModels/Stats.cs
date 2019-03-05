@@ -7,17 +7,19 @@ namespace Fanview.API.Model.ViewModels
 {
     public class Stats
     {
-        public int Knocks { get; set; }
-        public int Assists { get; set; }
-        public int Boosts { get; set; }
-        public float damage{ get; set; }
-        public int headShot { get; set; }
-        public int Heals { get; set; }
-        public int Kills { get; set; }
-        public int TimeSurvived { get; set; }
-        public int Revives { get; set; }
-        public float RideDistance { get; set; }
-        public float SwimDistance { get; set; }
-        public float WalkDistance { get; set; }
+        public double Knocks { get; set; }
+        public double Assists { get; set; }
+        public double Boosts { get; set; }
+        public double damage{ get; set; }
+        public double headShot { get; set; }
+        public double Heals { get; set; }
+        public double Kills { get; set; }
+        public double TimeSurvived { get; set; }
+        public double Revives { get; set; }
+        public double RideDistance { get; set; }
+        public double SwimDistance { get; set; }
+        public double WalkDistance { get; set; }
+        
+        
     }
 }
