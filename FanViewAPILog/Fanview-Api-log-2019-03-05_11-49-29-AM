@@ -1,0 +1,18 @@
+2019-03-05 11:49:29.989 +00:00 [INF] Starting web host
+2019-03-05 11:49:32.260 +00:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-03-05 11:49:34.913 +00:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:2689/  0
+2019-03-05 11:49:34.913 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:2689/swagger/index.html  
+2019-03-05 11:49:35.084 +00:00 [INF] Request finished in 173.8423ms 200 
+2019-03-05 11:49:35.419 +00:00 [INF] Request finished in 530.446ms 200 text/html
+2019-03-05 11:49:35.573 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:2689/swagger/v1/swagger.json  
+2019-03-05 11:49:36.198 +00:00 [INF] Request finished in 625.1323ms 200 application/json;charset=utf-8
+2019-03-05 11:50:16.492 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:2689/api/Player/Stats/2  
+2019-03-05 11:50:16.779 +00:00 [INF] Route matched with {action = "GetPlayerTournamentStats", controller = "Player"}. Executing action Fanview.API.Controllers.PlayerController.GetPlayerTournamentStats (Fanview.API)
+2019-03-05 11:50:17.172 +00:00 [INF] Executing action method Fanview.API.Controllers.PlayerController.GetPlayerTournamentStats (Fanview.API) with arguments (["2"]) - Validation state: "Valid"
+2019-03-05 11:50:23.075 +00:00 [INF] Executed action method Fanview.API.Controllers.PlayerController.GetPlayerTournamentStats (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 5888.2732000000005ms.
+2019-03-05 11:50:23.107 +00:00 [INF] Executing ObjectResult, writing value of type 'System.Linq.OrderedEnumerable`2[[Fanview.API.Model.ViewModels.PlayerProfileTournament, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[System.Int32, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2019-03-05 11:50:23.174 +00:00 [INF] Executed action Fanview.API.Controllers.PlayerController.GetPlayerTournamentStats (Fanview.API) in 6389.1555000000008ms
+2019-03-05 11:50:23.180 +00:00 [INF] Request finished in 6687.1503ms 200 application/json; charset=utf-8
+2019-03-05 11:54:35.167 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:2689/api/Player/Stats/2  
+2019-03-05 11:54:35.170 +00:00 [INF] Route matched with {action = "GetPlayerTournamentStats", controller = "Player"}. Executing action Fanview.API.Controllers.PlayerController.GetPlayerTournamentStats (Fanview.API)
+2019-03-05 11:54:35.172 +00:00 [INF] Executing action method Fanview.API.Controllers.PlayerController.GetPlayerTournamentStats (Fanview.API) with arguments (["2"]) - Validation state: "Valid"

@@ -1,0 +1,15 @@
+2019-03-05 11:56:25.723 +00:00 [INF] Starting web host
+2019-03-05 11:56:28.141 +00:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-03-05 11:56:30.769 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:2689/swagger/index.html  
+2019-03-05 11:56:30.770 +00:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:2689/  0
+2019-03-05 11:56:30.964 +00:00 [INF] Request finished in 207.8995ms 200 
+2019-03-05 11:56:31.285 +00:00 [INF] Request finished in 550.0064ms 200 text/html
+2019-03-05 11:56:31.447 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:2689/swagger/v1/swagger.json  
+2019-03-05 11:56:32.115 +00:00 [INF] Request finished in 667.886ms 200 application/json;charset=utf-8
+2019-03-05 11:57:10.935 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:2689/api/Player/Stats/2  
+2019-03-05 11:57:11.226 +00:00 [INF] Route matched with {action = "GetPlayerTournamentStats", controller = "Player"}. Executing action Fanview.API.Controllers.PlayerController.GetPlayerTournamentStats (Fanview.API)
+2019-03-05 11:57:11.610 +00:00 [INF] Executing action method Fanview.API.Controllers.PlayerController.GetPlayerTournamentStats (Fanview.API) with arguments (["2"]) - Validation state: "Valid"
+2019-03-05 11:57:18.735 +00:00 [INF] Executed action method Fanview.API.Controllers.PlayerController.GetPlayerTournamentStats (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 7117.2033ms.
+2019-03-05 11:57:18.774 +00:00 [INF] Executing ObjectResult, writing value of type 'System.Linq.OrderedEnumerable`2[[Fanview.API.Model.ViewModels.PlayerProfileTournament, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[System.Int32, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2019-03-05 11:57:18.850 +00:00 [INF] Executed action Fanview.API.Controllers.PlayerController.GetPlayerTournamentStats (Fanview.API) in 7614.8897000000006ms
+2019-03-05 11:57:18.856 +00:00 [INF] Request finished in 7921.39ms 200 application/json; charset=utf-8
