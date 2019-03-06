@@ -6,7 +6,7 @@
     <RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
-    <Authors>Thomas.Robertsson</Authors>
+    <Authors>Tomas Robertsson</Authors>
     <Company>Fanview</Company>
     <Product>PubG Fanview API</Product>
     <ApplicationInsightsResourceId>/subscriptions/ce089ed7-fea5-4578-9973-45225e2e13f6/resourcegroups/FanviewPubG/providers/microsoft.insights/components/PubGAPI</ApplicationInsightsResourceId>
