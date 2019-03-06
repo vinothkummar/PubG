@@ -249,7 +249,7 @@ namespace Fanview.API.Repository
                     Revives = Math.Round(s.Average(a => a.Stats.Revives), 2, MidpointRounding.AwayFromZero),
                     RideDistance = Math.Round(s.Average(a => a.Stats.RideDistance) , 2, MidpointRounding.AwayFromZero),
                     SwimDistance = Math.Round(s.Average(a => a.Stats.SwimDistance), 2, MidpointRounding.AwayFromZero),
-                    WalkDistance = Math.Round(s.Average(a => a.Stats.Revives) , 2, MidpointRounding.AwayFromZero)
+                    WalkDistance = Math.Round(s.Average(a => a.Stats.WalkDistance) , 2, MidpointRounding.AwayFromZero)
 
                 }
             }).OrderBy(o => o.PlayerId);
