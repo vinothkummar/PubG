@@ -326,7 +326,7 @@ namespace Fanview.API.Repository
                 Name = s.Select(a => a.Name).ElementAtOrDefault(0),
                 Region = s.Select(a => a.Region).ElementAtOrDefault(0),
                 ShortName = s.Select(a => a.ShortName).ElementAtOrDefault(0),
-                MatchNum = s.Select(a => a.MatchId).Count(),
+                MatchNum = s.Select(a => a.MatchId).Distinct().Count(),
                 stats = new Stats()
                 {
                     Knocks = s.Sum(a => a.Stats.Knocs),
