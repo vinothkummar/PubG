@@ -1,0 +1,15 @@
+2019-03-06 14:32:29.980 +00:00 [INF] Starting web host
+2019-03-06 14:32:32.296 +00:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-03-06 14:32:35.227 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/index.html  
+2019-03-06 14:32:35.228 +00:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:8001/  0
+2019-03-06 14:32:35.384 +00:00 [INF] Request finished in 164.4548ms 200 
+2019-03-06 14:32:35.731 +00:00 [INF] Request finished in 532.7776ms 200 text/html
+2019-03-06 14:32:35.893 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/v1/swagger.json  
+2019-03-06 14:32:36.543 +00:00 [INF] Request finished in 649.6681ms 200 application/json;charset=utf-8
+2019-03-06 14:35:42.055 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Team/Stats/Overall  
+2019-03-06 14:35:42.311 +00:00 [INF] Route matched with {action = "GetAllTeamStats", controller = "Team"}. Executing action Fanview.API.Controllers.TeamController.GetAllTeamStats (Fanview.API)
+2019-03-06 14:35:42.628 +00:00 [INF] Executing action method Fanview.API.Controllers.TeamController.GetAllTeamStats (Fanview.API) - Validation state: "Valid"
+2019-03-06 14:35:43.001 +00:00 [INF] Executed action method Fanview.API.Controllers.TeamController.GetAllTeamStats (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 366.5842ms.
+2019-03-06 14:35:43.028 +00:00 [INF] Executing ObjectResult, writing value of type 'System.Linq.OrderedEnumerable`2[[<>f__AnonymousType52`6[[System.Int32, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Fanview.API.Model.ViewModels.Stats, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[System.Int32, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2019-03-06 14:35:43.261 +00:00 [INF] Executed action Fanview.API.Controllers.TeamController.GetAllTeamStats (Fanview.API) in 944.0616ms
+2019-03-06 14:35:43.261 +00:00 [INF] Request finished in 1205.672ms 200 application/json; charset=utf-8

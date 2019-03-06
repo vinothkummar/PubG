@@ -1,0 +1,22 @@
+2019-03-06 13:43:23.336 +00:00 [INF] Starting web host
+2019-03-06 13:43:25.680 +00:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-03-06 13:43:28.739 +00:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:8001/  0
+2019-03-06 13:43:28.738 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger  
+2019-03-06 13:43:28.926 +00:00 [INF] Request finished in 193.8025ms 200 
+2019-03-06 13:43:28.959 +00:00 [INF] Request finished in 245.8211ms 301 
+2019-03-06 13:43:29.058 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/index.html  
+2019-03-06 13:43:29.341 +00:00 [INF] Request finished in 283.7145ms 200 text/html
+2019-03-06 13:43:29.370 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/swagger-ui.css  
+2019-03-06 13:43:29.370 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/swagger-ui-bundle.js  
+2019-03-06 13:43:29.373 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/swagger-ui-standalone-preset.js  
+2019-03-06 13:43:29.513 +00:00 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2019-03-06 13:43:29.513 +00:00 [INF] Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+2019-03-06 13:43:29.515 +00:00 [INF] Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+2019-03-06 13:43:29.520 +00:00 [INF] Request finished in 149.8204ms 200 application/javascript
+2019-03-06 13:43:29.520 +00:00 [INF] Request finished in 147.3191ms 200 application/javascript
+2019-03-06 13:43:29.520 +00:00 [INF] Request finished in 149.8197ms 200 text/css
+2019-03-06 13:43:29.752 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/v1/swagger.json  
+2019-03-06 13:43:29.784 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/favicon-32x32.png  
+2019-03-06 13:43:29.788 +00:00 [INF] Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+2019-03-06 13:43:29.789 +00:00 [INF] Request finished in 4.3178ms 200 image/png
+2019-03-06 13:43:30.514 +00:00 [INF] Request finished in 761.5195ms 200 application/json;charset=utf-8
