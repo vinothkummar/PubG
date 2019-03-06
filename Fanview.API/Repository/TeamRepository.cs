@@ -193,21 +193,81 @@ namespace Fanview.API.Repository
                     Knocks = s.Sum(a => a.Stats.Knocs),
                     Assists = s.Sum(a => a.Stats.Assists),
                     Boosts = s.Sum(a => a.Stats.Boosts),
-                    damage = s.Sum(a => a.Stats.Damage),
+                    damage = Math.Round(s.Sum(a => a.Stats.Damage), 2, MidpointRounding.AwayFromZero),
                     headShot = s.Sum(a => a.Stats.HeadShort),
                     Heals = s.Sum(a => a.Stats.Heals),
                     Kills = s.Sum(a => a.Stats.Kills),
                     TimeSurvived = s.Sum(a => a.Stats.TimeSurvived),
                     Revives = s.Sum(a => a.Stats.Revives),
-                    RideDistance = s.Sum(a => a.Stats.RideDistance),
-                    SwimDistance = s.Sum(a => a.Stats.SwimDistance),
-                    WalkDistance = s.Sum(a => a.Stats.WalkDistance)
+                    RideDistance = Math.Round(s.Sum(a => a.Stats.RideDistance), 2, MidpointRounding.AwayFromZero),
+                    SwimDistance = Math.Round(s.Sum(a => a.Stats.SwimDistance), 2, MidpointRounding.AwayFromZero),
+                    WalkDistance = Math.Round(s.Sum(a => a.Stats.WalkDistance), 2, MidpointRounding.AwayFromZero)
                 }
             }).OrderBy(o => o.TeamId);
 
             return teamStatsGrouped;
 
             
+        }
+        public async Task<Object> GetTeamAverageStats()
+        {
+            var teamCollection = _team.GetMongoDbCollection("Team");
+
+            var teams = await teamCollection.FindAsync(Builders<Team>.Filter.Empty).Result.ToListAsync();
+
+            var matchstats = _matchPlayerStats.GetAll("MatchPlayerStats").Result;
+
+            var teamStats = matchstats.Join(teams, ms => ms.TeamId, t => t.Id, (ms, t) => new { ms, t })
+                                          .Select(s => new
+                                          {
+                                              MatchId = s.ms.MatchId,
+                                              TeamId = s.t.TeamId,
+                                              Name = s.t.Name,
+                                              Region = s.t.Region,
+                                              ShortName = s.t.ShortName,
+                                              Stats = new
+                                              {
+                                                  Knocs = s.ms.stats.DBNOs,
+                                                  Assists = s.ms.stats.Assists,
+                                                  Boosts = s.ms.stats.Boosts,
+                                                  Damage = s.ms.stats.DamageDealt,
+                                                  HeadShort = s.ms.stats.HeadshotKills,
+                                                  Heals = s.ms.stats.Heals,
+                                                  Kills = s.ms.stats.Kills,
+                                                  TimeSurvived = s.ms.stats.TimeSurvived,
+                                                  Revives = s.ms.stats.Revives,
+                                                  RideDistance = s.ms.stats.RideDistance,
+                                                  SwimDistance = s.ms.stats.SwimDistance,
+                                                  WalkDistance = s.ms.stats.WalkDistance
+                                              }
+                                          });
+
+            var teamStatsGrouped = teamStats.GroupBy(g => g.TeamId).Select(s => new
+            {
+                TeamId = s.Key,
+                Name = s.Select(a => a.Name).ElementAtOrDefault(0),
+                Region = s.Select(a => a.Region).ElementAtOrDefault(0),
+                ShortName = s.Select(a => a.ShortName).ElementAtOrDefault(0),
+                stats = new Stats()
+                {
+                    Knocks = Math.Round(s.Average(a => a.Stats.Knocs), 2, MidpointRounding.AwayFromZero),
+                    Assists = Math.Round(s.Average(a => a.Stats.Assists), 2, MidpointRounding.AwayFromZero),
+                    Boosts = Math.Round(s.Average(a => a.Stats.Boosts), 2, MidpointRounding.AwayFromZero),
+                    damage = Math.Round(s.Average(a => a.Stats.Damage), 2, MidpointRounding.AwayFromZero),
+                    headShot = Math.Round(s.Average(a => a.Stats.HeadShort), 2, MidpointRounding.AwayFromZero),
+                    Heals = Math.Round(s.Average(a => a.Stats.Heals), 2, MidpointRounding.AwayFromZero),
+                    Kills = Math.Round(s.Average(a => a.Stats.Kills), 2, MidpointRounding.AwayFromZero),
+                    TimeSurvived = Math.Round(s.Average(a => a.Stats.TimeSurvived), 2, MidpointRounding.AwayFromZero),
+                    Revives = Math.Round(s.Average(a => a.Stats.Revives), 2, MidpointRounding.AwayFromZero),
+                    RideDistance = Math.Round(s.Average(a => a.Stats.RideDistance), 2, MidpointRounding.AwayFromZero),
+                    SwimDistance = Math.Round(s.Average(a => a.Stats.SwimDistance), 2, MidpointRounding.AwayFromZero),
+                    WalkDistance = Math.Round(s.Average(a => a.Stats.WalkDistance), 2, MidpointRounding.AwayFromZero)
+                }
+            }).OrderBy(o => o.TeamId);
+
+            return teamStatsGrouped;
+
+
         }
 
         public async void InsertTeam(Team team)
@@ -268,15 +328,15 @@ namespace Fanview.API.Repository
                     Knocks = s.Sum(a => a.Stats.Knocs),
                     Assists = s.Sum(a => a.Stats.Assists),
                     Boosts = s.Sum(a => a.Stats.Boosts),
-                    damage = s.Sum(a => a.Stats.Damage),
+                    damage = Math.Round(s.Sum(a => a.Stats.Damage), 2, MidpointRounding.AwayFromZero),
                     headShot = s.Sum(a => a.Stats.HeadShort),
                     Heals = s.Sum(a => a.Stats.Heals),
                     Kills = s.Sum(a => a.Stats.Kills),
                     TimeSurvived = s.Sum(a => a.Stats.TimeSurvived),
                     Revives = s.Sum(a => a.Stats.Revives),
-                    RideDistance = s.Sum(a => a.Stats.RideDistance),
-                    SwimDistance = s.Sum(a => a.Stats.SwimDistance),
-                    WalkDistance = s.Sum(a => a.Stats.WalkDistance)
+                    RideDistance = Math.Round(s.Sum(a => a.Stats.RideDistance), 2, MidpointRounding.AwayFromZero),
+                    SwimDistance = Math.Round(s.Sum(a => a.Stats.SwimDistance), 2, MidpointRounding.AwayFromZero),
+                    WalkDistance = Math.Round(s.Sum(a => a.Stats.WalkDistance), 2, MidpointRounding.AwayFromZero)
                 }
             }).OrderBy(o => o.TeamId);
 

@@ -60,6 +60,15 @@ namespace Fanview.API.Controllers
         {
             return _teamRepository.GetAllTeamStats();
         }
+        /// <summary>
+        /// Returns Average Team Stats   
+        /// </summary>
+        /// <remarks>
+        [HttpGet("Stats/Average", Name = "GetAverageTeamStats")]
+        public Task<object> GetAverageTeamStats()
+        {
+            return _teamRepository.GetTeamAverageStats();
+        }
         [HttpDelete("DeleteAllteam", Name = "DeleteAllteam")]
         public void DeleteAll()
         {
