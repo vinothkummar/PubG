@@ -1,0 +1,22 @@
+2019-03-06 10:46:32.236 +00:00 [INF] Starting web host
+2019-03-06 10:46:34.788 +00:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-03-06 10:46:37.522 +00:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:2689/  0
+2019-03-06 10:46:37.521 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:2689/swagger/index.html  
+2019-03-06 10:46:37.690 +00:00 [INF] Request finished in 175.8211ms 200 
+2019-03-06 10:46:38.057 +00:00 [INF] Request finished in 562.1136ms 200 text/html
+2019-03-06 10:46:38.207 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:2689/swagger/v1/swagger.json  
+2019-03-06 10:46:38.990 +00:00 [INF] Request finished in 783.5414ms 200 application/json;charset=utf-8
+2019-03-06 10:48:30.809 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:2689/api/Live/KillList  
+2019-03-06 10:48:31.200 +00:00 [INF] Route matched with {action = "GetLiveKillList", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveKillList (Fanview.API)
+2019-03-06 10:48:31.921 +00:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveKillList (Fanview.API) - Validation state: "Valid"
+2019-03-06 10:48:32.380 +00:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetLiveKillList (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 450.8244ms.
+2019-03-06 10:48:32.433 +00:00 [INF] Executing ObjectResult, writing value of type 'Fanview.API.Model.ViewModels.KillLeader'.
+2019-03-06 10:48:32.708 +00:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetLiveKillList (Fanview.API) in 1500.2274ms
+2019-03-06 10:48:32.715 +00:00 [INF] Request finished in 1905.7052ms 200 application/json; charset=utf-8
+2019-03-06 10:49:17.190 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:2689/api/Live/DamageList  
+2019-03-06 10:49:17.199 +00:00 [INF] Route matched with {action = "GetLiveDamageList", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveDamageList (Fanview.API)
+2019-03-06 10:49:17.199 +00:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveDamageList (Fanview.API) - Validation state: "Valid"
+2019-03-06 10:49:17.234 +00:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetLiveDamageList (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 34.7254ms.
+2019-03-06 10:49:17.234 +00:00 [INF] Executing ObjectResult, writing value of type 'Fanview.API.Model.LiveModels.LiveDamageList'.
+2019-03-06 10:49:17.235 +00:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetLiveDamageList (Fanview.API) in 36.7263ms
+2019-03-06 10:49:17.236 +00:00 [INF] Request finished in 45.5921ms 200 application/json; charset=utf-8

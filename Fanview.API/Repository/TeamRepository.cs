@@ -181,13 +181,14 @@ namespace Fanview.API.Repository
                                                   WalkDistance = s.ms.stats.WalkDistance
                                               }
                                           });
-
+            var matchcount = teamStats.GroupBy(x => x.TeamId).Select(group => new { teamid = group.Key, matchid = group.Select(x => x.MatchId).Count() });
             var teamStatsGrouped = teamStats.GroupBy(g => g.TeamId).Select(s => new 
             {
                 TeamId = s.Key,
                 Name = s.Select(a => a.Name).ElementAtOrDefault(0),
                 Region = s.Select(a => a.Region).ElementAtOrDefault(0),
                 ShortName = s.Select(a => a.ShortName).ElementAtOrDefault(0),
+                MatchNum=s.Select(a=>a.MatchId).Count(),
                 stats = new Stats()
                 {
                     Knocks = s.Sum(a => a.Stats.Knocs),
@@ -248,6 +249,8 @@ namespace Fanview.API.Repository
                 Name = s.Select(a => a.Name).ElementAtOrDefault(0),
                 Region = s.Select(a => a.Region).ElementAtOrDefault(0),
                 ShortName = s.Select(a => a.ShortName).ElementAtOrDefault(0),
+                MatchNum = s.Select(a => a.MatchId).Count(),
+
                 stats = new Stats()
                 {
                     Knocks = Math.Round(s.Average(a => a.Stats.Knocs), 2, MidpointRounding.AwayFromZero),
@@ -323,6 +326,7 @@ namespace Fanview.API.Repository
                 Name = s.Select(a => a.Name).ElementAtOrDefault(0),
                 Region = s.Select(a => a.Region).ElementAtOrDefault(0),
                 ShortName = s.Select(a => a.ShortName).ElementAtOrDefault(0),
+                MatchNum = s.Select(a => a.MatchId).Count(),
                 stats = new Stats()
                 {
                     Knocks = s.Sum(a => a.Stats.Knocs),
