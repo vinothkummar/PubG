@@ -253,18 +253,18 @@ namespace Fanview.API.Repository
 
                 stats = new Stats()
                 {
-                    Knocks = Math.Round((double)(s.Sum(a => a.Stats.Knocs)/s.Select(a=>a.MatchId).Distinct().Count()), 2, MidpointRounding.AwayFromZero),
-                    Assists = Math.Round((double)(s.Sum(a => a.Stats.Assists) / s.Select(a => a.MatchId).Distinct().Count()), 2, MidpointRounding.AwayFromZero),
-                    Boosts = ((double)s.Sum(a => a.Stats.Boosts) / s.Select(a => a.MatchId).Distinct().Count()),
-                    damage = Math.Round((double)Convert.ToDouble(s.Sum(a => a.Stats.Damage) / s.Select(a => a.MatchId).Distinct().Count()), 2, MidpointRounding.AwayFromZero),
-                    headShot = Math.Round((double)Convert.ToDouble(s.Sum(a => a.Stats.HeadShort) / s.Select(a => a.MatchId).Distinct().Count()), 2, MidpointRounding.AwayFromZero),
-                    Heals = Math.Round((double)Convert.ToDouble(s.Sum(a => a.Stats.Heals) / s.Select(a => a.MatchId).Distinct().Count()), 2, MidpointRounding.AwayFromZero),
-                    Kills = Math.Round((double)Convert.ToDouble(s.Sum(a => a.Stats.Kills) / s.Select(a => a.MatchId).Distinct().Count()), 2, MidpointRounding.AwayFromZero),
-                    TimeSurvived = Math.Round((double)Convert.ToDouble(s.Sum(a => a.Stats.TimeSurvived) / s.Select(a => a.MatchId).Distinct().Count()), 2, MidpointRounding.AwayFromZero),
-                    Revives = Math.Round((double)Convert.ToDouble(s.Sum(a => a.Stats.Revives) / s.Select(a => a.MatchId).Distinct().Count()), 2, MidpointRounding.AwayFromZero),
-                    RideDistance = Math.Round((double)Convert.ToDouble(s.Sum(a => a.Stats.RideDistance) / s.Select(a => a.MatchId).Distinct().Count()), 2, MidpointRounding.AwayFromZero),
-                    SwimDistance = Math.Round((double)Convert.ToDouble(s.Sum(a => a.Stats.SwimDistance) / s.Select(a => a.MatchId).Distinct().Count()), 2, MidpointRounding.AwayFromZero),
-                    WalkDistance = Math.Round((double)Convert.ToDouble(s.Sum(a => a.Stats.WalkDistance) / s.Select(a => a.MatchId).Distinct().Count()), 2, MidpointRounding.AwayFromZero)
+                    Knocks = Math.Round((double)(s.Sum(a => a.Stats.Knocs)/(double)s.Select(a=>a.MatchId).Distinct().Count()), 2, MidpointRounding.AwayFromZero),
+                    Assists = Math.Round((double)(s.Sum(a => a.Stats.Assists) /(double) s.Select(a => a.MatchId).Distinct().Count()), 2, MidpointRounding.AwayFromZero),
+                    Boosts =Math.Round((double)s.Sum(a => a.Stats.Boosts) /(double) s.Select(a => a.MatchId).Distinct().Count(),2,MidpointRounding.AwayFromZero),
+                    damage = Math.Round((double)(s.Sum(a => a.Stats.Damage) /(double) s.Select(a => a.MatchId).Distinct().Count()), 2, MidpointRounding.AwayFromZero),
+                    headShot = Math.Round((double)(s.Sum(a => a.Stats.HeadShort) /(double) s.Select(a => a.MatchId).Distinct().Count()), 2, MidpointRounding.AwayFromZero),
+                    Heals = Math.Round((double)(s.Sum(a => a.Stats.Heals) /(double)s.Select(a => a.MatchId).Distinct().Count()), 2, MidpointRounding.AwayFromZero),
+                    Kills = Math.Round((double)(s.Sum(a => a.Stats.Kills) /(double) s.Select(a => a.MatchId).Distinct().Count()), 2, MidpointRounding.AwayFromZero),
+                    TimeSurvived = Math.Round((double)(s.Sum(a => a.Stats.TimeSurvived) /(double) s.Select(a => a.MatchId).Distinct().Count()), 2, MidpointRounding.AwayFromZero),
+                    Revives = Math.Round((double)(s.Sum(a => a.Stats.Revives) /(double) s.Select(a => a.MatchId).Distinct().Count()), 2, MidpointRounding.AwayFromZero),
+                    RideDistance = Math.Round((double)(s.Sum(a => a.Stats.RideDistance) /(double) s.Select(a => a.MatchId).Distinct().Count()), 2, MidpointRounding.AwayFromZero),
+                    SwimDistance = Math.Round((double)(s.Sum(a => a.Stats.SwimDistance) / (double)s.Select(a => a.MatchId).Distinct().Count()), 2, MidpointRounding.AwayFromZero),
+                    WalkDistance = Math.Round((double)(s.Sum(a => a.Stats.WalkDistance) /(double) s.Select(a => a.MatchId).Distinct().Count()), 2, MidpointRounding.AwayFromZero)
                 }
             }).OrderBy(o => o.TeamId);
 
