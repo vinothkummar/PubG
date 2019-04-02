@@ -18,7 +18,7 @@ namespace Fanview.API.Repository.Interface
 
         Task<IEnumerable<TeamLineUp>> GetTeamMatchup(string teamId1, string teamId2);
 
-        Task<Object> GetAllTeamStats();
+        Task<List<TeamProfile>> GetAllTeamStats();
 
         Task<Object> GetTeamStats(int matchId);
         
@@ -27,7 +27,7 @@ namespace Fanview.API.Repository.Interface
         Task<IEnumerable<TeamRankingView>> GetTeamProfileMatchUp(string teamId1, string teamId2);
 
         Task<IEnumerable<TeamParticipants>> GetAllTeam();
-
+        Task<IEnumerable<TeamProfile>> GetAccumulatedTeamStats();
         Task<TeamLanding> GetTeamLanding(int matchId);
         Task<IEnumerable<Team>> GetTeams();
         void PostTeam(Team team);
@@ -35,6 +35,7 @@ namespace Fanview.API.Repository.Interface
         void DeleteAll();
         void UpdatemanyTeams(IEnumerable<Team> teams);
         Task<int> GetTeamCount();
-        Task<Object> GetTeamAverageStats();
+        Task<IEnumerable<TeamProfile>> GetTeamAverageStats();
+        Task<IEnumerable<TeamProfile>> GetAccumulatedTeamAverageStats();
     }
 }

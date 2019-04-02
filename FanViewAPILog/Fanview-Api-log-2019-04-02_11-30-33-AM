@@ -1,0 +1,31 @@
+2019-04-02 11:30:34.478 +01:00 [INF] Starting web host
+2019-04-02 11:30:36.656 +01:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-04-02 11:30:39.112 +01:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:8001/  0
+2019-04-02 11:30:39.111 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/index.html  
+2019-04-02 11:30:39.280 +01:00 [INF] Request finished in 166.7995ms 200 
+2019-04-02 11:30:39.587 +01:00 [INF] Request finished in 496.3724ms 200 text/html
+2019-04-02 11:30:39.638 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/swagger-ui.css  
+2019-04-02 11:30:39.706 +01:00 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2019-04-02 11:30:39.712 +01:00 [INF] Request finished in 74.8247ms 200 text/css
+2019-04-02 11:30:39.834 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/v1/swagger.json  
+2019-04-02 11:30:40.205 +01:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: The following errors occurred with attribute routing information:
+
+Error 1:
+Attribute routes with the same name 'YearlyOveralStats' must have the same template:
+Action: 'Fanview.API.Controllers.PlayerController.YearlyOveralStats (Fanview.API)' - Template: 'api/Player/Stats/YearlyOveralStats'
+Action: 'Fanview.API.Controllers.TeamController.YearlyOveralStats (Fanview.API)' - Template: 'api/Team/Stats/YearlyOveralStats'
+
+Error 2:
+Attribute routes with the same name 'YearlyAverageStats' must have the same template:
+Action: 'Fanview.API.Controllers.PlayerController.YearlyAverageStats (Fanview.API)' - Template: 'api/Player/Stats/YearlyAverageStats'
+Action: 'Fanview.API.Controllers.TeamController.YearlyAverageStats (Fanview.API)' - Template: 'api/Team/Stats/YearlyAverageStats'
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionDescriptorBuilder.Build(ApplicationModel application)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionDescriptorProvider.OnProvidersExecuting(ActionDescriptorProviderContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ActionDescriptorCollectionProvider.UpdateCollection()
+   at Microsoft.AspNetCore.Mvc.Internal.ActionDescriptorCollectionProvider.get_ActionDescriptors()
+   at Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescriptionGroupCollectionProvider.get_ApiDescriptionGroups()
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GetSwagger(String documentName, String host, String basePath, String[] schemes)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2019-04-02 11:30:40.491 +01:00 [INF] Request finished in 656.8744ms 500 text/html; charset=utf-8

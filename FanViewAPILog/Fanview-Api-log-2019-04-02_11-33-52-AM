@@ -1,0 +1,14 @@
+2019-04-02 11:33:52.728 +01:00 [INF] Starting web host
+2019-04-02 11:33:54.762 +01:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-04-02 11:33:57.449 +01:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:8001/  0
+2019-04-02 11:33:57.448 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/index.html  
+2019-04-02 11:33:57.591 +01:00 [INF] Request finished in 148.2436ms 200 
+2019-04-02 11:33:57.896 +01:00 [INF] Request finished in 468.0567ms 200 text/html
+2019-04-02 11:33:57.951 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/swagger-ui.css  
+2019-04-02 11:33:58.019 +01:00 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2019-04-02 11:33:58.023 +01:00 [INF] Request finished in 72.6072ms 200 text/css
+2019-04-02 11:33:58.106 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/favicon-16x16.png  
+2019-04-02 11:33:58.107 +01:00 [INF] Sending file. Request path: '/favicon-16x16.png'. Physical path: 'N/A'
+2019-04-02 11:33:58.107 +01:00 [INF] Request finished in 0.7889ms 200 image/png
+2019-04-02 11:33:58.189 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/v1/swagger.json  
+2019-04-02 11:33:58.860 +01:00 [INF] Request finished in 671.0935ms 200 application/json;charset=utf-8

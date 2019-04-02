@@ -1,0 +1,14 @@
+2019-04-02 10:35:19.290 +01:00 [INF] Starting web host
+2019-04-02 10:35:21.324 +01:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-04-02 10:35:23.898 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/index.html  
+2019-04-02 10:35:23.899 +01:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:8001/  0
+2019-04-02 10:35:24.066 +01:00 [INF] Request finished in 183.3743ms 200 
+2019-04-02 10:35:24.372 +01:00 [INF] Request finished in 491.3592ms 200 text/html
+2019-04-02 10:35:24.420 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/swagger-ui.css  
+2019-04-02 10:35:24.504 +01:00 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2019-04-02 10:35:24.511 +01:00 [INF] Request finished in 90.2822ms 200 text/css
+2019-04-02 10:35:24.729 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/v1/swagger.json  
+2019-04-02 10:35:25.524 +01:00 [INF] Request finished in 794.7205ms 200 application/json;charset=utf-8
+2019-04-02 10:36:03.582 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Team/Stats/AccumulatedStats  
+2019-04-02 10:36:03.855 +01:00 [INF] Route matched with {action = "GetAccumulatedOveralTeamStats", controller = "Team"}. Executing action Fanview.API.Controllers.TeamController.GetAccumulatedOveralTeamStats (Fanview.API)
+2019-04-02 10:36:04.184 +01:00 [INF] Executing action method Fanview.API.Controllers.TeamController.GetAccumulatedOveralTeamStats (Fanview.API) - Validation state: "Valid"

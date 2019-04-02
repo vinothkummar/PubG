@@ -16,7 +16,7 @@ namespace Fanview.API.Controllers
 
         public PlayerController(ITeamPlayerRepository teamPlayerRepository)
         {
-            _teamPlayerRepository = teamPlayerRepository;            
+            _teamPlayerRepository = teamPlayerRepository;
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace Fanview.API.Controllers
                     result.Add(
                     new PlayerAll()
                     {
-                        Id=item.Id,
+                        Id = item.Id,
                         TeamId = item.TeamIdShort,
                         PlayerId = item.PlayerId,
                         PlayerName = item.PlayerName,
@@ -62,17 +62,33 @@ namespace Fanview.API.Controllers
         /// Returns Tournament Total Match Stats   
         /// </summary> 
         [HttpGet("Stats/Overall", Name = "GetTournamentPlayerStats")]
-        public Task<object>GetTournamentPlayerStats()
-        {   
-            return _teamPlayerRepository.GetPlayerTournamentStats();          
+        public Task<List<PlayerProfileTournament>> GetTournamentPlayerStats()
+        {
+            return _teamPlayerRepository.GetPlayerTournamentStats();
         }
         /// <summary>
         /// Returns Tournament Average Match Stats   
         /// </summary> 
         [HttpGet("Stats/Average", Name = "GetTournamentAveragePlayerStats")]
-        public Task<object> GetTournamentAveragePlayerStats()
+        public Task<List<PlayerProfileTournament>> GetTournamentAveragePlayerStats()
         {
             return _teamPlayerRepository.GetPlayerTournamentAverageStats();
+        }
+        /// <summary>
+        /// Returns Overal Stats for a Year
+        /// </summary> 
+        [HttpGet("Stats/YearlyOveralStats", Name = "YearlyOveralStats")]
+        public Task<IEnumerable<PlayerProfileTournament>> YearlyOveralPlayerStats()
+        {
+            return  _teamPlayerRepository.AccumulateOveralPlayerstate();
+        }
+        /// <summary>
+        /// Returns Average Stats for a Year 
+        /// </summary> 
+        [HttpGet("Stats/YearlyAverageStats", Name = "YearlyAverageStats")]
+        public Task<IEnumerable<PlayerProfileTournament>> YearlyAveragePlayerStats()
+        {
+            return _teamPlayerRepository.AccumulatedAveragePlayerstate();
         }
 
         [HttpGet("Stats/{matchId}", Name = "GetPlayerTournamentStats")]
