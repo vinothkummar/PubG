@@ -192,6 +192,7 @@ namespace Fanview.API.Repository
             }
             }).OrderBy(o => o.PlayerId).ToList();
             var detailed = PlayerProfileGrouped.ToList();
+           
             return PlayerProfileGrouped;
         }
         public async Task<List<PlayerProfileTournament>> GetPlayerTournamentAverageStats()
