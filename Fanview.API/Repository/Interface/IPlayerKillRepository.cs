@@ -14,6 +14,7 @@ namespace Fanview.API.Repository.Interface
         void InsertPlayerKillTelemetry(string jsonResult, string matchId);
 
         void PollTelemetryPlayerKilled(string jsonResult);
+        Task<object> GetTotalKills();
 
         Task<IEnumerable<Kill>> GetPlayerKilled(string matchId);
 

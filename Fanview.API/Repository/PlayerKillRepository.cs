@@ -600,6 +600,26 @@ namespace Fanview.API.Repository
 
             return killMessage;
         }
-               
+        public async Task<object> GetTotalKills()
+        {
+            var leaderkills = this.GetKillLeaderList().Result.killList.OrderBy(x=>x.teamId).ThenBy(x=>x.playerId).ToList();
+            var livekills = this.GetLiveKillList(64).Result.killList.OrderBy(x=>x.teamId).ThenBy(x=>x.playerId).ToList();
+            var count = this.GetLiveKillList(64).Result.killList.Select(x => x.teamId).Distinct().Count();
+           
+            var totals = livekills.Join(leaderkills, innerKey => innerKey.playerId, outerkey => outerkey.playerId
+            ,
+                (phase1, phase2) => new  {
+                    TeamId=phase1.teamId,
+                    Kills=phase1.kills+phase2.kills,
+                    PlayerId=phase1.playerId,
+                    PlayerName=phase1.playerName
+                   
+                }).OrderBy(x=>x.TeamId).ThenBy(x=>x.PlayerId).ToList();
+            return await Task.FromResult(totals);
+
+
+        }
+
+
     }
 }

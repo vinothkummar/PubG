@@ -121,7 +121,11 @@ namespace Fanview.API.Controllers
         {
             return _playerKillRepository.GetLiveKillList(topN);
         }
-
+        [HttpGet("TotalKillLists")]
+        public Task<object> TotalKillLists()
+        {
+            return _playerKillRepository.GetTotalKills();
+        }
         ///// <summary>
         ///// Returns Live Player Stats
         ///// </summary>

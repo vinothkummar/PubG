@@ -1,0 +1,30 @@
+2019-04-04 15:23:45.969 +01:00 [INF] Starting web host
+2019-04-04 15:23:48.287 +01:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-04-04 15:23:50.891 +01:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:8001/  0
+2019-04-04 15:23:50.891 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/index.html  
+2019-04-04 15:23:51.061 +01:00 [INF] Request finished in 178.6839ms 200 
+2019-04-04 15:23:51.374 +01:00 [INF] Request finished in 510.174ms 200 text/html
+2019-04-04 15:23:51.520 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/v1/swagger.json  
+2019-04-04 15:23:52.151 +01:00 [INF] Request finished in 631.4757ms 200 application/json;charset=utf-8
+2019-04-04 15:24:21.509 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/TotalKillLists  
+2019-04-04 15:24:21.764 +01:00 [INF] Route matched with {action = "TotalKillLists", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.TotalKillLists (Fanview.API)
+2019-04-04 15:24:22.177 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.TotalKillLists (Fanview.API) - Validation state: "Valid"
+2019-04-04 15:24:26.481 +01:00 [INF] GetKillLeaderList Repository Function call started
+
+2019-04-04 15:24:26.960 +01:00 [INF] GetKillLeaderList Repository Function call completed
+
+2019-04-04 15:42:32.408 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.TotalKillLists (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 1090222.1503ms.
+2019-04-04 15:42:32.486 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[<>f__AnonymousType38`4[[System.Int32, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-04-04 15:42:32.639 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.TotalKillLists (Fanview.API) in 1090870.5101ms
+2019-04-04 15:42:32.640 +01:00 [INF] Request finished in 1091130.8333ms 200 application/json; charset=utf-8
+2019-04-04 15:42:35.869 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/TotalKillLists  
+2019-04-04 15:42:35.871 +01:00 [INF] Route matched with {action = "TotalKillLists", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.TotalKillLists (Fanview.API)
+2019-04-04 15:42:35.872 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.TotalKillLists (Fanview.API) - Validation state: "Valid"
+2019-04-04 15:42:39.642 +01:00 [INF] GetKillLeaderList Repository Function call started
+
+2019-04-04 15:42:45.386 +01:00 [INF] GetKillLeaderList Repository Function call completed
+
+2019-04-04 15:43:02.608 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.TotalKillLists (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 26736.649100000002ms.
+2019-04-04 15:43:02.609 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[<>f__AnonymousType38`4[[System.Int32, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-04-04 15:43:02.609 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.TotalKillLists (Fanview.API) in 26737.618400000003ms
+2019-04-04 15:43:02.609 +01:00 [INF] Request finished in 26740.7676ms 200 application/json; charset=utf-8
