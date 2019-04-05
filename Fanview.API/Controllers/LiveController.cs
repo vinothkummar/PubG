@@ -73,6 +73,22 @@ namespace Fanview.API.Controllers
         }
 
         /// <summary>
+        /// Returns Total Damage List
+        /// </summary>
+        /// <remarks>     
+        /// Sample request: api/live/TotalDamage
+        /// </remarks>       
+        [HttpGet("TotalDamage", Name = "GetTotalDamage")]
+        public Task<object> GetTotalDamage()
+        {
+           return _playerKillRepository.GetTotalDamage();
+
+        }
+
+
+
+
+        /// <summary>
         /// Returns Live Kill List
         /// </summary>
         /// <remarks>     

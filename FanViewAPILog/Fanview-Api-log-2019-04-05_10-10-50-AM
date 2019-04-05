@@ -1,0 +1,19 @@
+2019-04-05 10:10:50.680 +01:00 [INF] Starting web host
+2019-04-05 10:10:52.876 +01:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-04-05 10:10:55.607 +01:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:8001/  0
+2019-04-05 10:10:55.606 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/index.html  
+2019-04-05 10:10:55.789 +01:00 [INF] Request finished in 184.7884ms 200 
+2019-04-05 10:10:56.145 +01:00 [INF] Request finished in 563.6259ms 200 text/html
+2019-04-05 10:10:56.302 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/v1/swagger.json  
+2019-04-05 10:10:56.935 +01:00 [INF] Request finished in 633.0936ms 200 application/json;charset=utf-8
+2019-04-05 10:11:16.232 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/TotalKillLists  
+2019-04-05 10:11:16.496 +01:00 [INF] Route matched with {action = "TotalKillLists", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.TotalKillLists (Fanview.API)
+2019-04-05 10:11:16.927 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.TotalKillLists (Fanview.API) - Validation state: "Valid"
+2019-04-05 10:11:22.407 +01:00 [INF] GetKillLeaderList Repository Function call started
+
+2019-04-05 10:11:22.961 +01:00 [INF] GetKillLeaderList Repository Function call completed
+
+2019-04-05 10:11:27.090 +01:00 [INF] GetKillLeaderList Repository Function call started
+
+2019-04-05 10:11:27.110 +01:00 [INF] GetKillLeaderList Repository Function call completed
+
