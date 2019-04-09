@@ -386,7 +386,7 @@ namespace Fanview.API.Repository
                         y = (float)s1["location"]["y"],
                         z = (float)s1["location"]["z"],
                     },
-                    Health = (float)s1["health"],
+                    Health = (double)s1["health"],
                     BoostGauge = (int)s1["boostGauge"],
                     State = (string)s1["state"],
                     ArmedWeapon = (string)s1["armedWeapon"],
@@ -486,9 +486,9 @@ namespace Fanview.API.Repository
                         teamPlayerStatus.ArmedAmmoCount = item2.ArmedAmmoCount;
                         teamPlayerStatus.InventoryAmmoCount = item2.InventoryAmmoCount;
 
-                        teamPlayerStatus.IsAlive = item2.Health > 0.00001 ? true : false;
+                        teamPlayerStatus.IsAlive = item2.Health > 0.000000000000001 ? true : false;
 
-                        if (item2.Health <= 0.00001 && teamPlayerStatus.IsAlive == false)
+                        if (item2.Health < 0.000000000000001 && teamPlayerStatus.IsAlive == false)
                         {
                             teamPlayerStatus.State = "Dead";
                         }

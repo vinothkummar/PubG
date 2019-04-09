@@ -21,7 +21,7 @@ namespace Fanview.API.Model
         [BsonElement("name")]
         public string Name { get; set; }
         [BsonElement("health")]
-        public float Health { get; set; }
+        public double Health { get; set; }
         [BsonElement("location")]
         public Location Location { get; set; }
         [BsonElement("eventTimeStamp")]

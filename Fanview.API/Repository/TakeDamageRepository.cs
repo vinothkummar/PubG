@@ -106,7 +106,7 @@ namespace Fanview.API.Repository
                 {
                     Name = (string)s["attacker"]["name"],
                     TeamId = (int)s["attacker"]["teamId"],
-                    Health = (float)s["attacker"]["health"],
+                    Health = (double)s["attacker"]["health"],
                     Location = new Location()
                     {
                         x = (float)s["attacker"]["location"]["x"],
@@ -120,7 +120,7 @@ namespace Fanview.API.Repository
                 {
                     Name = (string)s["victim"]["name"],
                     TeamId = (int)s["victim"]["teamId"],
-                    Health = (float)s["victim"]["health"],
+                    Health = (double)s["victim"]["health"],
                     Location = new Location()
                     {
                         x = (float)s["victim"]["location"]["x"],

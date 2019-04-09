@@ -13,7 +13,7 @@ namespace Fanview.API.Model
         [BsonElement("teamId")]
         public int TeamId { get; set; }
         [BsonElement("health")]
-        public float Health { get; set; }
+        public double Health { get; set; }
         [BsonElement("location")]
         public Location Location { get; set; }
         [BsonElement("ranking")]

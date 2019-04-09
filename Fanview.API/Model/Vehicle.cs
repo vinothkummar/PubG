@@ -14,7 +14,7 @@ namespace Fanview.API.Model
         [BsonElement("vehicleId")]
         public string VehicleId  { get; set; }
         [BsonElement("healthPercent")]
-        public float HealthPercent { get; set; }
+        public double HealthPercent { get; set; }
         [BsonElement("feulPercent")]
         public float FeulPercent { get; set; }       
     }
