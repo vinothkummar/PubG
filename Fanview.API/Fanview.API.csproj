@@ -43,6 +43,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Json-folder\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

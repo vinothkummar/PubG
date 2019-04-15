@@ -17,7 +17,7 @@ namespace Fanview.API.Repository.Interface
         Task<IEnumerable<TeamPlayer>> GetTeamPlayersNonCached();
         Task<TeamLineUp> GetTeamandPlayers();
         Task<IEnumerable<CreatePlayer>> GetPlayersCreated(string matchId);
-        Task<Object> GetPlayerTournamentStats();
+        Task<List<PlayerProfileTournament>> GetPlayerTournamentStats();
         Task<Object> GetPlayerTournamentStats(int matchId);
         Task<IEnumerable<PlayerProfileTournament>> GetTeamPlayersStatsMatchUp(int playerId1, int playerId2, int matchId);
         Task<IEnumerable<PlayerProfileTournament>> GetPlayerProfilesMatchUP(int playerId1, int playerId2);
@@ -26,6 +26,8 @@ namespace Fanview.API.Repository.Interface
         void Deleteplayer(string playerid);
         void Updatemanyplayers(IEnumerable<TeamPlayer> players);
         void DeleteAllTeamPlayers();
-        Task<Object> GetPlayerTournamentAverageStats();
+        Task<List<PlayerProfileTournament>> GetPlayerTournamentAverageStats();
+        Task<IEnumerable<PlayerProfileTournament>> AccumulateOveralPlayerstate();
+        Task<IEnumerable<PlayerProfileTournament>> AccumulatedAveragePlayerstate();
     }
 }

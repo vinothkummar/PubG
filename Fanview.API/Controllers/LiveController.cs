@@ -73,6 +73,22 @@ namespace Fanview.API.Controllers
         }
 
         /// <summary>
+        /// Returns Total Damage List
+        /// </summary>
+        /// <remarks>     
+        /// Sample request: api/live/TotalDamage
+        /// </remarks>       
+        [HttpGet("TotalDamage", Name = "GetTotalDamage")]
+        public Task<object> GetTotalDamage()
+        {
+           return _playerKillRepository.GetTotalDamage();
+
+        }
+
+
+
+
+        /// <summary>
         /// Returns Live Kill List
         /// </summary>
         /// <remarks>     
@@ -121,7 +137,11 @@ namespace Fanview.API.Controllers
         {
             return _playerKillRepository.GetLiveKillList(topN);
         }
-
+        [HttpGet("TotalKillLists")]
+        public Task<object> TotalKillLists()
+        {
+            return _playerKillRepository.GetTotalKills();
+        }
         ///// <summary>
         ///// Returns Live Player Stats
         ///// </summary>

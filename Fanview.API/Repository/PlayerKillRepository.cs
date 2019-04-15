@@ -44,7 +44,7 @@ namespace Fanview.API.Repository
         private IGenericRepository<TeamPlayer> _teamPlayers;
         private ITeamPlayerRepository _teamPlayerRepository;
         private IMatchRepository _matchRepository;
-       
+        private ILiveRepository _liveRepository;
         public PlayerKillRepository(IClientBuilder httpClientBuilder,
                                     IHttpClientRequest httpClientRequest,                                    
                                     IGenericRepository<Kill> genericRepository,
@@ -63,7 +63,8 @@ namespace Fanview.API.Repository
                                     ILogger<PlayerKillRepository> logger,
                                     IOptions<ApplicationSettings> settings,
                                     ICacheService cacheService,
-                                    IAssetsRepository assetsRepository)
+                                    IAssetsRepository assetsRepository,
+                                    ILiveRepository liveRepository)
         {
             _httpClientBuilder = httpClientBuilder;
             _httpClientRequest = httpClientRequest;  
@@ -83,6 +84,7 @@ namespace Fanview.API.Repository
             _eventRepository = eventRepository;
             _cacheService = cacheService;
             _assetsRepository = assetsRepository;
+            _liveRepository = liveRepository;
             _liveKilledCachedData = new List<KilliPrinter>();
         }
         
@@ -600,6 +602,52 @@ namespace Fanview.API.Repository
 
             return killMessage;
         }
-               
+        public async Task<object> GetTotalKills()
+        {
+            var LeaderKills = this.GetKillLeaderList().Result.killList.OrderBy(x=>x.teamId).ThenBy(x=>x.playerId).ToList();
+            var LiveKills = this.GetLiveKillList(128).Result.killList.OrderBy(x=>x.teamId).ThenBy(x=>x.playerId).ToList();
+            var playerkills = this.GetKillLeaderList().Result.killList.GroupBy(x => x.playerName).Select(group=>new { Name = group.Key, kill= group.Select(x=>x.kills).FirstOrDefault() });            
+          var count = this.GetLiveKillList(128).Result.killList.Select(x => x.teamId).Distinct().Count();
+           
+            var Totals = LeaderKills.Join(LiveKills, innerKey => innerKey.playerId, outerkey => outerkey.playerId
+            ,
+                (phase1, phase2) => new Kills {
+                 playerId=phase1.playerId,
+                 playerName=phase1.playerName,
+                 teamId=phase1.teamId,
+                 kills=phase1.kills+phase2.kills,
+                 DamageDealt=phase1.DamageDealt,
+                 timeSurvived=phase1.timeSurvived
+                   
+                }).OrderByDescending(x=>x.kills).ToList();
+
+           var TotalCombined=LeaderKills.Union(Totals).OrderByDescending(x=>x.kills).ToList();
+            var DistinctPlayers = TotalCombined.GroupBy(p => p.playerId).Select(g => g.First()).ToList();
+          
+            return await Task.FromResult(DistinctPlayers);
+
+
+        }
+        public async Task<object> GetTotalDamage()
+        {
+            var LeaderDamage = this.GetKillLeaderListToppedByDamageDealt().Result.killList.OrderBy(x=>x.teamId).ToList();
+            var DamageLists= _liveRepository.GetLiveDamageList().Result.DamageList.OrderBy(x=>x.TeamId).ToList();
+            var JoinedDamage = LeaderDamage.Join(DamageLists, innerKey => innerKey.playerId, outerkey => outerkey.PlayerId,
+                (first, second) => new {
+                   
+                    
+                    TeamName=second.TeamName,
+                    TeamId=second.TeamId,
+                    Damage=Math.Round(first.DamageDealt+second.DamageDealt),
+                    PlayerId=first.playerId,
+                    PlayerName=first.playerName,
+                    
+                    
+                }
+
+                ).OrderByDescending(x=>x.Damage).ToList();
+            return await Task.FromResult(JoinedDamage);
+        }
+
     }
 }

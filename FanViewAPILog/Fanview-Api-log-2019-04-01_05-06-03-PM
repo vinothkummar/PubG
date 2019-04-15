@@ -1,0 +1,17 @@
+2019-04-01 17:06:04.347 +01:00 [INF] Starting web host
+2019-04-01 17:06:06.447 +01:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-04-01 17:06:08.943 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/index.html  
+2019-04-01 17:06:08.944 +01:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:8001/  0
+2019-04-01 17:06:09.122 +01:00 [INF] Request finished in 192.6964ms 200 
+2019-04-01 17:06:09.487 +01:00 [INF] Request finished in 561.6187ms 200 text/html
+2019-04-01 17:06:09.547 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/swagger-ui-bundle.js  
+2019-04-01 17:06:09.547 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/swagger-ui-standalone-preset.js  
+2019-04-01 17:06:09.649 +01:00 [INF] The file /swagger-ui-standalone-preset.js was not modified
+2019-04-01 17:06:09.649 +01:00 [INF] The file /swagger-ui-bundle.js was not modified
+2019-04-01 17:06:09.656 +01:00 [INF] Request finished in 109.0489ms 304 application/javascript
+2019-04-01 17:06:09.656 +01:00 [INF] Request finished in 109.049ms 304 application/javascript
+2019-04-01 17:06:09.815 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/v1/swagger.json  
+2019-04-01 17:06:10.528 +01:00 [INF] Request finished in 713.447ms 200 application/json;charset=utf-8
+2019-04-01 17:06:44.241 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Player/Stats/AcucumulatedPlayerStats  
+2019-04-01 17:06:44.513 +01:00 [INF] Route matched with {action = "GetAcucumulatedPlayerStats", controller = "Player"}. Executing action Fanview.API.Controllers.PlayerController.GetAcucumulatedPlayerStats (Fanview.API)
+2019-04-01 17:06:44.880 +01:00 [INF] Executing action method Fanview.API.Controllers.PlayerController.GetAcucumulatedPlayerStats (Fanview.API) - Validation state: "Valid"

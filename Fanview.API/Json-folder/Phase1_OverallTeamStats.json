@@ -1,0 +1,338 @@
+[
+  {
+    "teamId": 1,
+    "name": "Wildcard Gaming",
+    "region": "NA",
+    "shortName": "WC",
+    "matchNum": 40,
+    "stats": {
+      "knocks": 144,
+      "assists": 117,
+      "boosts": 336,
+      "damage": 30533.26,
+      "headShot": 17,
+      "heals": 372,
+      "kills": 152,
+      "timeSurvived": 197537,
+      "revives": 37,
+      "rideDistance": 725941.69,
+      "swimDistance": 217.87,
+      "walkDistance": 254077.75
+    }
+  },
+  {
+    "teamId": 2,
+    "name": "Cloud9",
+    "region": "NA",
+    "shortName": "C9",
+    "matchNum": 40,
+    "stats": {
+      "knocks": 193,
+      "assists": 144,
+      "boosts": 451,
+      "damage": 40575.31,
+      "headShot": 30,
+      "heals": 441,
+      "kills": 190,
+      "timeSurvived": 212325,
+      "revives": 50,
+      "rideDistance": 447146.78,
+      "swimDistance": 1326.41,
+      "walkDistance": 258687.31
+    }
+  },
+  {
+    "teamId": 3,
+    "name": "Team Envy",
+    "region": "NA",
+    "shortName": "NV",
+    "matchNum": 40,
+    "stats": {
+      "knocks": 177,
+      "assists": 142,
+      "boosts": 497,
+      "damage": 34548.37,
+      "headShot": 36,
+      "heals": 505,
+      "kills": 186,
+      "timeSurvived": 208916,
+      "revives": 51,
+      "rideDistance": 660185.5,
+      "swimDistance": 163.25,
+      "walkDistance": 241966.06
+    }
+  },
+  {
+    "teamId": 4,
+    "name": "Why Tempt Fate",
+    "region": "NA",
+    "shortName": "WTF",
+    "matchNum": 40,
+    "stats": {
+      "knocks": 172,
+      "assists": 108,
+      "boosts": 589,
+      "damage": 35056.69,
+      "headShot": 38,
+      "heals": 353,
+      "kills": 183,
+      "timeSurvived": 206913,
+      "revives": 42,
+      "rideDistance": 544188.81,
+      "swimDistance": 5.19,
+      "walkDistance": 283090.13
+    }
+  },
+  {
+    "teamId": 5,
+    "name": "Smokin' Aces",
+    "region": "NA",
+    "shortName": "SA",
+    "matchNum": 40,
+    "stats": {
+      "knocks": 142,
+      "assists": 85,
+      "boosts": 366,
+      "damage": 28495.78,
+      "headShot": 33,
+      "heals": 321,
+      "kills": 151,
+      "timeSurvived": 199650,
+      "revives": 25,
+      "rideDistance": 465969.13,
+      "swimDistance": 1340.78,
+      "walkDistance": 301766.53
+    }
+  },
+  {
+    "teamId": 6,
+    "name": "eUnited",
+    "region": "NA",
+    "shortName": "eU",
+    "matchNum": 40,
+    "stats": {
+      "knocks": 150,
+      "assists": 89,
+      "boosts": 314,
+      "damage": 28831.52,
+      "headShot": 36,
+      "heals": 386,
+      "kills": 136,
+      "timeSurvived": 181494,
+      "revives": 41,
+      "rideDistance": 676561.19,
+      "swimDistance": 62.6,
+      "walkDistance": 254210.72
+    }
+  },
+  {
+    "teamId": 7,
+    "name": "Vicious Gaming",
+    "region": "NA",
+    "shortName": "VG",
+    "matchNum": 40,
+    "stats": {
+      "knocks": 135,
+      "assists": 105,
+      "boosts": 405,
+      "damage": 28021.41,
+      "headShot": 24,
+      "heals": 370,
+      "kills": 127,
+      "timeSurvived": 193748,
+      "revives": 29,
+      "rideDistance": 542428.75,
+      "swimDistance": 234.73,
+      "walkDistance": 218915.84
+    }
+  },
+  {
+    "teamId": 10,
+    "name": "ENDEMIC",
+    "region": "NA",
+    "shortName": "END",
+    "matchNum": 40,
+    "stats": {
+      "knocks": 136,
+      "assists": 97,
+      "boosts": 424,
+      "damage": 26738.29,
+      "headShot": 31,
+      "heals": 290,
+      "kills": 144,
+      "timeSurvived": 203555,
+      "revives": 32,
+      "rideDistance": 771415.63,
+      "swimDistance": 58.22,
+      "walkDistance": 230932.98
+    }
+  },
+  {
+    "teamId": 12,
+    "name": "Noble",
+    "region": "NA",
+    "shortName": "Noble",
+    "matchNum": 40,
+    "stats": {
+      "knocks": 86,
+      "assists": 54,
+      "boosts": 301,
+      "damage": 17925.16,
+      "headShot": 17,
+      "heals": 314,
+      "kills": 91,
+      "timeSurvived": 171587,
+      "revives": 24,
+      "rideDistance": 659126.06,
+      "swimDistance": 748.75,
+      "walkDistance": 225866.97
+    }
+  },
+  {
+    "teamId": 16,
+    "name": "Oxymoron",
+    "region": "NA",
+    "shortName": "OXY",
+    "matchNum": 40,
+    "stats": {
+      "knocks": 96,
+      "assists": 42,
+      "boosts": 357,
+      "damage": 19235.32,
+      "headShot": 13,
+      "heals": 418,
+      "kills": 85,
+      "timeSurvived": 174093,
+      "revives": 27,
+      "rideDistance": 631490.38,
+      "swimDistance": 43.19,
+      "walkDistance": 205756.33
+    }
+  },
+  {
+    "teamId": 18,
+    "name": "Simplicity",
+    "region": "NA",
+    "shortName": "SIM",
+    "matchNum": 40,
+    "stats": {
+      "knocks": 147,
+      "assists": 112,
+      "boosts": 375,
+      "damage": 29985.54,
+      "headShot": 22,
+      "heals": 361,
+      "kills": 142,
+      "timeSurvived": 200533,
+      "revives": 37,
+      "rideDistance": 444699.13,
+      "swimDistance": 114.48,
+      "walkDistance": 259966.44
+    }
+  },
+  {
+    "teamId": 23,
+    "name": "Lazarus",
+    "region": "NA",
+    "shortName": "LZR",
+    "matchNum": 40,
+    "stats": {
+      "knocks": 106,
+      "assists": 65,
+      "boosts": 329,
+      "damage": 19746.82,
+      "headShot": 14,
+      "heals": 311,
+      "kills": 88,
+      "timeSurvived": 181661,
+      "revives": 26,
+      "rideDistance": 794654.19,
+      "swimDistance": 137.25,
+      "walkDistance": 191618.03
+    }
+  },
+  {
+    "teamId": 25,
+    "name": "Shoot To Kill",
+    "region": "NA",
+    "shortName": "STK",
+    "matchNum": 40,
+    "stats": {
+      "knocks": 169,
+      "assists": 133,
+      "boosts": 473,
+      "damage": 34668.51,
+      "headShot": 41,
+      "heals": 406,
+      "kills": 176,
+      "timeSurvived": 211541,
+      "revives": 33,
+      "rideDistance": 673756.13,
+      "swimDistance": 115.47,
+      "walkDistance": 277725.78
+    }
+  },
+  {
+    "teamId": 26,
+    "name": "SpaceStation Gaming",
+    "region": "NA",
+    "shortName": "SSG",
+    "matchNum": 40,
+    "stats": {
+      "knocks": 116,
+      "assists": 93,
+      "boosts": 318,
+      "damage": 23246.4,
+      "headShot": 22,
+      "heals": 303,
+      "kills": 128,
+      "timeSurvived": 198712,
+      "revives": 31,
+      "rideDistance": 588982.94,
+      "swimDistance": 306.88,
+      "walkDistance": 251511.55
+    }
+  },
+  {
+    "teamId": 27,
+    "name": "Tempo Storm",
+    "region": "NA",
+    "shortName": "TS",
+    "matchNum": 40,
+    "stats": {
+      "knocks": 197,
+      "assists": 182,
+      "boosts": 459,
+      "damage": 40099.23,
+      "headShot": 46,
+      "heals": 401,
+      "kills": 214,
+      "timeSurvived": 221587,
+      "revives": 44,
+      "rideDistance": 815710.31,
+      "swimDistance": 98.16,
+      "walkDistance": 290516.84
+    }
+  },
+  {
+    "teamId": 30,
+    "name": "Ghost Gaming",
+    "region": "NA",
+    "shortName": "Ghost",
+    "matchNum": 40,
+    "stats": {
+      "knocks": 152,
+      "assists": 96,
+      "boosts": 400,
+      "damage": 28854.58,
+      "headShot": 28,
+      "heals": 411,
+      "kills": 134,
+      "timeSurvived": 199078,
+      "revives": 31,
+      "rideDistance": 604851.69,
+      "swimDistance": 106.4,
+      "walkDistance": 243159.23
+    }
+  }
+]

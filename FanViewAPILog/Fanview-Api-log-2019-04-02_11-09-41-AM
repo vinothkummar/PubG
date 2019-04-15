@@ -1,0 +1,82 @@
+2019-04-02 11:09:42.144 +01:00 [INF] Starting web host
+2019-04-02 11:09:44.263 +01:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-04-02 11:09:46.911 +01:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:8001/  0
+2019-04-02 11:09:46.910 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/index.html  
+2019-04-02 11:09:47.068 +01:00 [INF] Request finished in 158.0147ms 200 
+2019-04-02 11:09:47.364 +01:00 [INF] Request finished in 473.1252ms 200 text/html
+2019-04-02 11:09:47.420 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/swagger-ui.css  
+2019-04-02 11:09:47.500 +01:00 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2019-04-02 11:09:47.507 +01:00 [INF] Request finished in 87.535ms 200 text/css
+2019-04-02 11:09:47.700 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/v1/swagger.json  
+2019-04-02 11:09:48.376 +01:00 [INF] Request finished in 676.2932ms 200 application/json;charset=utf-8
+2019-04-02 11:10:14.258 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Team/Stats/AccumulatedAverageStats  
+2019-04-02 11:10:14.520 +01:00 [INF] Route matched with {action = "AccumulatedAverageStatsTeamStats", controller = "Team"}. Executing action Fanview.API.Controllers.TeamController.AccumulatedAverageStatsTeamStats (Fanview.API)
+2019-04-02 11:10:14.843 +01:00 [INF] Executing action method Fanview.API.Controllers.TeamController.AccumulatedAverageStatsTeamStats (Fanview.API) - Validation state: "Valid"
+2019-04-02 11:12:01.085 +01:00 [INF] Executed action method Fanview.API.Controllers.TeamController.AccumulatedAverageStatsTeamStats (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 106229.55810000001ms.
+2019-04-02 11:12:01.136 +01:00 [INF] Executing ObjectResult, writing value of type 'MongoDB.Driver.Linq.MongoQueryableImpl`2[[Fanview.API.Model.ViewModels.TeamProfile, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Fanview.API.Model.ViewModels.TeamProfile, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-04-02 11:12:01.200 +01:00 [INF] Executed action Fanview.API.Controllers.TeamController.AccumulatedAverageStatsTeamStats (Fanview.API) in 106672.5862ms
+2019-04-02 11:12:01.209 +01:00 [ERR] An unhandled exception has occurred while executing the request.
+System.NotSupportedException: The joined collection cannot have any qualifiers.
+   at MongoDB.Driver.Linq.Processors.Pipeline.MethodCallBinders.JoinBinder.Bind(PipelineExpression pipeline, PipelineBindingContext bindingContext, MethodCallExpression node, IEnumerable`1 arguments)
+   at MongoDB.Driver.Linq.Processors.MethodInfoMethodCallBinder`1.Bind(PipelineExpression pipeline, TBindingContext bindingContext, MethodCallExpression node, IEnumerable`1 arguments)
+   at MongoDB.Driver.Linq.Processors.PipelineBinderBase`1.BindMethodCall(MethodCallExpression node)
+   at MongoDB.Driver.Linq.Processors.Pipeline.PipelineBinder.Bind(Expression node, IBsonSerializerRegistry serializerRegistry)
+   at MongoDB.Driver.Linq.MongoQueryProviderImpl`1.Prepare(Expression expression)
+   at MongoDB.Driver.Linq.MongoQueryProviderImpl`1.Translate(Expression expression)
+   at MongoDB.Driver.Linq.MongoQueryProviderImpl`1.Execute(Expression expression)
+   at MongoDB.Driver.Linq.MongoQueryableImpl`2.GetEnumerator()
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeList(JsonWriter writer, IEnumerable values, JsonArrayContract contract, JsonProperty member, JsonContainerContract collectionContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.Serialize(JsonWriter jsonWriter, Object value, Type objectType)
+   at Newtonsoft.Json.JsonSerializer.SerializeInternal(JsonWriter jsonWriter, Object value, Type objectType)
+   at Microsoft.AspNetCore.Mvc.Formatters.JsonOutputFormatter.WriteObject(TextWriter writer, Object value)
+   at Microsoft.AspNetCore.Mvc.Formatters.JsonOutputFormatter.WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeResultAsync(IActionResult result)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResultFilterAsync[TFilter,TFilterAsync]()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResultExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeResultFilters()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2019-04-02 11:12:01.227 +01:00 [WRN] The response has already started, the error page middleware will not be executed.
+2019-04-02 11:12:01.235 +01:00 [ERR] Connection id "0HLLNADAQ35EF", Request id "0HLLNADAQ35EF:00000003": An unhandled exception was thrown by the application.
+System.NotSupportedException: The joined collection cannot have any qualifiers.
+   at MongoDB.Driver.Linq.Processors.Pipeline.MethodCallBinders.JoinBinder.Bind(PipelineExpression pipeline, PipelineBindingContext bindingContext, MethodCallExpression node, IEnumerable`1 arguments)
+   at MongoDB.Driver.Linq.Processors.MethodInfoMethodCallBinder`1.Bind(PipelineExpression pipeline, TBindingContext bindingContext, MethodCallExpression node, IEnumerable`1 arguments)
+   at MongoDB.Driver.Linq.Processors.PipelineBinderBase`1.BindMethodCall(MethodCallExpression node)
+   at MongoDB.Driver.Linq.Processors.Pipeline.PipelineBinder.Bind(Expression node, IBsonSerializerRegistry serializerRegistry)
+   at MongoDB.Driver.Linq.MongoQueryProviderImpl`1.Prepare(Expression expression)
+   at MongoDB.Driver.Linq.MongoQueryProviderImpl`1.Translate(Expression expression)
+   at MongoDB.Driver.Linq.MongoQueryProviderImpl`1.Execute(Expression expression)
+   at MongoDB.Driver.Linq.MongoQueryableImpl`2.GetEnumerator()
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeList(JsonWriter writer, IEnumerable values, JsonArrayContract contract, JsonProperty member, JsonContainerContract collectionContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.Serialize(JsonWriter jsonWriter, Object value, Type objectType)
+   at Newtonsoft.Json.JsonSerializer.SerializeInternal(JsonWriter jsonWriter, Object value, Type objectType)
+   at Microsoft.AspNetCore.Mvc.Formatters.JsonOutputFormatter.WriteObject(TextWriter writer, Object value)
+   at Microsoft.AspNetCore.Mvc.Formatters.JsonOutputFormatter.WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeResultAsync(IActionResult result)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResultFilterAsync[TFilter,TFilterAsync]()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResultExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeResultFilters()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Server.IISIntegration.IISMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpProtocol.ProcessRequests[TContext](IHttpApplication`1 application)
+2019-04-02 11:12:01.240 +01:00 [INF] Request finished in 106981.8039ms 200 application/json; charset=utf-8

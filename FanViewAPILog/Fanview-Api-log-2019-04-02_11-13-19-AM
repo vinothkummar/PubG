@@ -1,0 +1,84 @@
+2019-04-02 11:13:20.066 +01:00 [INF] Starting web host
+2019-04-02 11:13:22.211 +01:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-04-02 11:13:24.783 +01:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:8001/  0
+2019-04-02 11:13:24.782 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/index.html  
+2019-04-02 11:13:24.934 +01:00 [INF] Request finished in 164.3856ms 200 
+2019-04-02 11:13:25.291 +01:00 [INF] Request finished in 525.1759ms 200 text/html
+2019-04-02 11:13:25.362 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/swagger-ui.css  
+2019-04-02 11:13:25.465 +01:00 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2019-04-02 11:13:25.474 +01:00 [INF] Request finished in 112.8822ms 200 text/css
+2019-04-02 11:13:25.700 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/v1/swagger.json  
+2019-04-02 11:13:26.391 +01:00 [INF] Request finished in 690.7709ms 200 application/json;charset=utf-8
+2019-04-02 11:13:56.667 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Team/Stats/AccumulatedAverageStats  
+2019-04-02 11:13:56.926 +01:00 [INF] Route matched with {action = "AccumulatedAverageStatsTeamStats", controller = "Team"}. Executing action Fanview.API.Controllers.TeamController.AccumulatedAverageStatsTeamStats (Fanview.API)
+2019-04-02 11:13:57.320 +01:00 [INF] Executing action method Fanview.API.Controllers.TeamController.AccumulatedAverageStatsTeamStats (Fanview.API) - Validation state: "Valid"
+2019-04-02 11:14:17.112 +01:00 [INF] Executed action Fanview.API.Controllers.TeamController.AccumulatedAverageStatsTeamStats (Fanview.API) in 20180.265900000002ms
+2019-04-02 11:14:17.125 +01:00 [ERR] An unhandled exception has occurred while executing the request.
+System.NotSupportedException: The joined collection cannot have any qualifiers.
+   at MongoDB.Driver.Linq.Processors.Pipeline.MethodCallBinders.JoinBinder.Bind(PipelineExpression pipeline, PipelineBindingContext bindingContext, MethodCallExpression node, IEnumerable`1 arguments)
+   at MongoDB.Driver.Linq.Processors.MethodInfoMethodCallBinder`1.Bind(PipelineExpression pipeline, TBindingContext bindingContext, MethodCallExpression node, IEnumerable`1 arguments)
+   at MongoDB.Driver.Linq.Processors.PipelineBinderBase`1.BindMethodCall(MethodCallExpression node)
+   at MongoDB.Driver.Linq.Processors.Pipeline.PipelineBinder.Bind(Expression node, IBsonSerializerRegistry serializerRegistry)
+   at MongoDB.Driver.Linq.MongoQueryProviderImpl`1.Prepare(Expression expression)
+   at MongoDB.Driver.Linq.MongoQueryProviderImpl`1.Translate(Expression expression)
+   at MongoDB.Driver.Linq.MongoQueryProviderImpl`1.Execute(Expression expression)
+   at MongoDB.Driver.Linq.MongoQueryableImpl`2.GetEnumerator()
+   at System.Collections.Generic.List`1.AddEnumerable(IEnumerable`1 enumerable)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at Fanview.API.Repository.TeamRepository.GetAccumulatedTeamAverageStats() in C:\Users\fatem\OneDrive\Documents\GitHub\PubG.Solution\Fanview.API\Repository\TeamRepository.cs:line 647
+   at lambda_method(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Internal.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2019-04-02 11:14:17.497 +01:00 [INF] Request finished in 20830.3345ms 500 text/html; charset=utf-8
+2019-04-02 11:14:43.259 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Team/Stats/AccumulatedAverageStats  
+2019-04-02 11:14:43.263 +01:00 [INF] Route matched with {action = "AccumulatedAverageStatsTeamStats", controller = "Team"}. Executing action Fanview.API.Controllers.TeamController.AccumulatedAverageStatsTeamStats (Fanview.API)
+2019-04-02 11:14:43.264 +01:00 [INF] Executing action method Fanview.API.Controllers.TeamController.AccumulatedAverageStatsTeamStats (Fanview.API) - Validation state: "Valid"
+2019-04-02 11:16:30.507 +01:00 [INF] Executed action Fanview.API.Controllers.TeamController.AccumulatedAverageStatsTeamStats (Fanview.API) in 107244.02470000001ms
+2019-04-02 11:16:30.509 +01:00 [ERR] An unhandled exception has occurred while executing the request.
+System.NotSupportedException: The joined collection cannot have any qualifiers.
+   at MongoDB.Driver.Linq.Processors.Pipeline.MethodCallBinders.JoinBinder.Bind(PipelineExpression pipeline, PipelineBindingContext bindingContext, MethodCallExpression node, IEnumerable`1 arguments)
+   at MongoDB.Driver.Linq.Processors.MethodInfoMethodCallBinder`1.Bind(PipelineExpression pipeline, TBindingContext bindingContext, MethodCallExpression node, IEnumerable`1 arguments)
+   at MongoDB.Driver.Linq.Processors.PipelineBinderBase`1.BindMethodCall(MethodCallExpression node)
+   at MongoDB.Driver.Linq.Processors.Pipeline.PipelineBinder.Bind(Expression node, IBsonSerializerRegistry serializerRegistry)
+   at MongoDB.Driver.Linq.MongoQueryProviderImpl`1.Prepare(Expression expression)
+   at MongoDB.Driver.Linq.MongoQueryProviderImpl`1.Translate(Expression expression)
+   at MongoDB.Driver.Linq.MongoQueryProviderImpl`1.Execute(Expression expression)
+   at MongoDB.Driver.Linq.MongoQueryableImpl`2.GetEnumerator()
+   at System.Collections.Generic.List`1.AddEnumerable(IEnumerable`1 enumerable)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at Fanview.API.Repository.TeamRepository.GetAccumulatedTeamAverageStats() in C:\Users\fatem\OneDrive\Documents\GitHub\PubG.Solution\Fanview.API\Repository\TeamRepository.cs:line 647
+   at lambda_method(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Internal.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2019-04-02 11:16:30.537 +01:00 [INF] Request finished in 107277.4963ms 500 text/html; charset=utf-8
+2019-04-02 11:16:40.453 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Team/Stats/AccumulatedStats  
+2019-04-02 11:16:40.457 +01:00 [INF] Route matched with {action = "GetAccumulatedOveralTeamStats", controller = "Team"}. Executing action Fanview.API.Controllers.TeamController.GetAccumulatedOveralTeamStats (Fanview.API)
+2019-04-02 11:16:40.457 +01:00 [INF] Executing action method Fanview.API.Controllers.TeamController.GetAccumulatedOveralTeamStats (Fanview.API) - Validation state: "Valid"

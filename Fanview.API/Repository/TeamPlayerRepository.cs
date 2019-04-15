@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Fanview.API.Model;
 using Fanview.API.Model.ViewModels;
@@ -21,12 +22,14 @@ namespace Fanview.API.Repository
         private IGenericRepository<CreatePlayer> _genericPlayerRepository;
         private IGenericRepository<MatchPlayerStats> _genericMatchPlayerStatsRepository;
         private IGenericRepository<Event> _tournament;
+        private IGenericRepository<PlayerProfileTournament> _playerstates;
 
         public TeamPlayerRepository(IGenericRepository<TeamPlayer> genericRepository, ILogger<TeamRepository> logger,
             IGenericRepository<Team> teamgenericRepository,
             IGenericRepository<CreatePlayer> genericPlayerRepository,
             IGenericRepository<MatchPlayerStats> genericMatchPlayerStatsRepository,
-            IGenericRepository<Event> tournament)
+            IGenericRepository<Event> tournament,
+            IGenericRepository<PlayerProfileTournament> playerstates)
         {
             _genericTeamPlayerRepository = genericRepository;
 
@@ -35,6 +38,7 @@ namespace Fanview.API.Repository
             _genericPlayerRepository = genericPlayerRepository;
             _genericMatchPlayerStatsRepository = genericMatchPlayerStatsRepository;
             _tournament = tournament;
+            _playerstates = playerstates;
         }
 
         public async Task<TeamPlayer> GetPlayerProfile(string playerId1)
@@ -125,7 +129,7 @@ namespace Fanview.API.Repository
             return playerCreated;
         }
 
-        public async Task<Object> GetPlayerTournamentStats()
+        public async Task<List<PlayerProfileTournament>> GetPlayerTournamentStats()
         {
             
             var teamPlayerCollection = _genericTeamPlayerRepository.GetMongoDbCollection("TeamPlayers");
@@ -187,11 +191,12 @@ namespace Fanview.API.Repository
                     WalkDistance = Math.Round(s.Sum(a => a.Stats.WalkDistance), 2, MidpointRounding.AwayFromZero)
 
             }
-            }).OrderBy(o => o.PlayerId);
+            }).OrderBy(o => o.PlayerId).ToList();
             var detailed = PlayerProfileGrouped.ToList();
+           
             return PlayerProfileGrouped;
         }
-        public async Task<Object> GetPlayerTournamentAverageStats()
+        public async Task<List<PlayerProfileTournament>> GetPlayerTournamentAverageStats()
         {
             var teamPlayerCollection = _genericTeamPlayerRepository.GetMongoDbCollection("TeamPlayers");
 
@@ -253,8 +258,7 @@ namespace Fanview.API.Repository
 
                 }
             }).OrderBy(o => o.PlayerId);
-     
-            return PlayerProfileGrouped;
+            return PlayerProfileGrouped.ToList();
         }
 
         public async Task<Object> GetPlayerTournamentStats(int matchId)
@@ -322,7 +326,7 @@ namespace Fanview.API.Repository
                     WalkDistance = Math.Round(s.Sum(a => a.Stats.WalkDistance), 2, MidpointRounding.AwayFromZero)
                 }
             }).OrderBy(o => o.PlayerId);
-
+            _playerstates.Insert(PlayerProfileGrouped, "Phase1AveragePlayerStats");
             return PlayerProfileGrouped;
         }
 
@@ -548,5 +552,91 @@ namespace Fanview.API.Repository
 
             return await Task.FromResult(teamPlayers);
         }
-    }
+        public async Task<IEnumerable<PlayerProfileTournament>> AccumulateOveralPlayerstate()
+        {
+            var OveralStats = this.GetPlayerTournamentStats().Result;
+            var webclient = new WebClient();
+            var json = webclient.DownloadString(@"C:\Users\fatem\OneDrive\Documents\GitHub\PubG.Solution\Fanview.API\Json-folder\Phase1_OverallPlayerStats.json");
+            var result = Newtonsoft.Json.JsonConvert.DeserializeObject<List<PlayerProfileTournament>>(json);
+            //var Sum=Enumerable.Range(0, Math.Max(OveralStats.Count, phase1Overal.Count))
+            //     .Select(i=>
+            //     OveralStatsElementAtOrDefault(i)+phase1Overal.ElementAtOrDefault(i))
+            var sum = OveralStats.Join(result, 
+    innerKey => innerKey.PlayerId,outerkey=>outerkey.PlayerId, (phase1, phase2) => new PlayerProfileTournament()
+    {
+       TeamId= phase1.TeamId,
+       MatchId= phase1.MatchId,
+       NumMatches= phase1.NumMatches,
+       PlayerName= phase1.PlayerName,
+       PlayerId= phase1.PlayerId,
+       Country= phase1.Country,
+       FullName= phase1.FullName,
+        stats = new Stats()
+        {
+            Knocks = phase1.stats.Knocks + phase2.stats.Knocks,
+            Assists = phase1.stats.Assists + phase2.stats.Assists,
+            Kills = phase1.stats.Kills + phase2.stats.Kills,
+            headShot = phase1.stats.headShot + phase2.stats.headShot,
+            Heals = phase1.stats.Heals + phase2.stats.Heals,
+            damage = phase1.stats.damage + phase2.stats.damage,
+            Revives = phase1.stats.Revives + phase2.stats.Revives,
+            TimeSurvived = phase1.stats.TimeSurvived + phase2.stats.TimeSurvived,
+            Boosts = phase1.stats.Boosts + phase2.stats.Boosts,
+            WalkDistance = phase1.stats.WalkDistance + phase2.stats.WalkDistance,
+            RideDistance = phase1.stats.RideDistance + phase2.stats.RideDistance,
+            SwimDistance=phase1.stats.SwimDistance+phase2.stats.SwimDistance
+
+
+            
+
+        }
+       
+        
+        
+    });
+            var sumlist = sum.ToList();
+            return await Task.FromResult(sumlist);   }
+        public async Task<IEnumerable<PlayerProfileTournament>> AccumulatedAveragePlayerstate()
+        {
+            var AverageStats = this.GetPlayerTournamentAverageStats().Result;
+            var webclient = new WebClient();
+            var json = webclient.DownloadString(@"C:\Users\fatem\OneDrive\Documents\GitHub\PubG.Solution\Fanview.API\Json-folder\Phase1_AveragePlayerStats.json");
+            var result = Newtonsoft.Json.JsonConvert.DeserializeObject<List<PlayerProfileTournament>>(json);
+            var sum = AverageStats.Join(result,
+   innerKey => innerKey.PlayerId, outerkey => outerkey.PlayerId, (phase1, phase2) => new PlayerProfileTournament()
+   {
+       TeamId = phase1.TeamId,
+       MatchId = phase1.MatchId,
+       NumMatches = phase1.NumMatches,
+       PlayerName = phase1.PlayerName,
+       PlayerId = phase1.PlayerId,
+       Country = phase1.Country,
+       FullName = phase1.FullName,
+       stats = new Stats()
+       {
+           Knocks = phase1.stats.Knocks + phase2.stats.Knocks,
+           Assists = phase1.stats.Assists + phase2.stats.Assists,
+           Kills = phase1.stats.Kills + phase2.stats.Kills,
+           headShot = phase1.stats.headShot + phase2.stats.headShot,
+           Heals = phase1.stats.Heals + phase2.stats.Heals,
+           damage = phase1.stats.damage + phase2.stats.damage,
+           Revives = phase1.stats.Revives + phase2.stats.Revives,
+           TimeSurvived = phase1.stats.TimeSurvived + phase2.stats.TimeSurvived,
+           Boosts = phase1.stats.Boosts + phase2.stats.Boosts,
+           WalkDistance = phase1.stats.WalkDistance + phase2.stats.WalkDistance,
+           RideDistance = phase1.stats.RideDistance + phase2.stats.RideDistance,
+           SwimDistance = phase1.stats.SwimDistance + phase2.stats.SwimDistance
+
+
+
+
+       }
+
+       
+
+   });
+            return await Task.FromResult(sum);
+
+        }
+        }
 }

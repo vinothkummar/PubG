@@ -56,7 +56,7 @@ namespace Fanview.API.Controllers
         /// </summary>
         /// <remarks>
         [HttpGet("Stats/Overall", Name = "GetAllTeamStats")]
-        public Task<object> GetAllTeamStats()
+        public Task<List<TeamProfile>> GetAllTeamStats()
         {
             return _teamRepository.GetAllTeamStats();
         }
@@ -65,9 +65,27 @@ namespace Fanview.API.Controllers
         /// </summary>
         /// <remarks>
         [HttpGet("Stats/Average", Name = "GetAverageTeamStats")]
-        public Task<object> GetAverageTeamStats()
+        public Task<IEnumerable<TeamProfile>> GetAverageTeamStats()
         {
             return _teamRepository.GetTeamAverageStats();
+        }
+        /// <summary>
+        /// Returns Sum of Overal Team Stats for Available Phase
+        /// </summary>
+        /// <remarks>
+        [HttpGet("Stats/YearlyOveralTeamStats", Name = "YearlyOveralTeamStats")]
+        public Task<IEnumerable<TeamProfile>> YearlyOveralTeamStats()
+        {
+            return _teamRepository.GetAccumulatedTeamStats();
+        }
+        /// <summary>
+        /// Returns Sum of Average Team Stats for Available Phase
+        /// </summary>
+        /// <remarks>
+        [HttpGet("Stats/YearlyAverageTeamStats", Name = "YearlyAverageTeamStats")]
+        public Task<IEnumerable<TeamProfile>> YearlyAverageStats()
+        {
+            return _teamRepository.GetAccumulatedTeamAverageStats();
         }
         [HttpDelete("DeleteAllteam", Name = "DeleteAllteam")]
         public void DeleteAll()

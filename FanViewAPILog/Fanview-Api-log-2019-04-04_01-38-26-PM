@@ -1,0 +1,25 @@
+2019-04-04 13:38:26.725 +01:00 [INF] Starting web host
+2019-04-04 13:38:29.000 +01:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-04-04 13:38:31.573 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/index.html  
+2019-04-04 13:38:31.574 +01:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:8001/  0
+2019-04-04 13:38:31.749 +01:00 [INF] Request finished in 183.6646ms 200 
+2019-04-04 13:38:32.091 +01:00 [INF] Request finished in 545.276ms 200 text/html
+2019-04-04 13:38:32.245 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/v1/swagger.json  
+2019-04-04 13:38:32.852 +01:00 [INF] Request finished in 607.3086ms 200 application/json;charset=utf-8
+2019-04-04 13:38:55.384 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Player/Stats/YearlyOveralStats  
+2019-04-04 13:38:55.663 +01:00 [INF] Route matched with {action = "YearlyOveralPlayerStats", controller = "Player"}. Executing action Fanview.API.Controllers.PlayerController.YearlyOveralPlayerStats (Fanview.API)
+2019-04-04 13:38:56.013 +01:00 [INF] Executing action method Fanview.API.Controllers.PlayerController.YearlyOveralPlayerStats (Fanview.API) - Validation state: "Valid"
+2019-04-04 13:38:56.663 +01:00 [INF] Executed action method Fanview.API.Controllers.PlayerController.YearlyOveralPlayerStats (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 644.0947ms.
+2019-04-04 13:38:56.695 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.ViewModels.PlayerProfileTournament, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-04-04 13:38:56.735 +01:00 [INF] Executed action Fanview.API.Controllers.PlayerController.YearlyOveralPlayerStats (Fanview.API) in 1066.1055000000001ms
+2019-04-04 13:38:56.735 +01:00 [INF] Request finished in 1351.525ms 200 application/json; charset=utf-8
+2019-04-04 13:38:58.685 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Player/Stats/YearlyOveralStats  
+2019-04-04 13:38:58.689 +01:00 [INF] Route matched with {action = "YearlyOveralPlayerStats", controller = "Player"}. Executing action Fanview.API.Controllers.PlayerController.YearlyOveralPlayerStats (Fanview.API)
+2019-04-04 13:38:58.689 +01:00 [INF] Executing action method Fanview.API.Controllers.PlayerController.YearlyOveralPlayerStats (Fanview.API) - Validation state: "Valid"
+2019-04-04 13:38:58.743 +01:00 [INF] Executed action method Fanview.API.Controllers.PlayerController.YearlyOveralPlayerStats (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 54.4829ms.
+2019-04-04 13:38:58.744 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.ViewModels.PlayerProfileTournament, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-04-04 13:38:58.745 +01:00 [INF] Executed action Fanview.API.Controllers.PlayerController.YearlyOveralPlayerStats (Fanview.API) in 56.2314ms
+2019-04-04 13:38:58.745 +01:00 [INF] Request finished in 60.4128ms 200 application/json; charset=utf-8
+2019-04-04 13:39:41.225 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Player/Stats/YearlyOveralStats  
+2019-04-04 13:39:41.226 +01:00 [INF] Route matched with {action = "YearlyOveralPlayerStats", controller = "Player"}. Executing action Fanview.API.Controllers.PlayerController.YearlyOveralPlayerStats (Fanview.API)
+2019-04-04 13:39:41.226 +01:00 [INF] Executing action method Fanview.API.Controllers.PlayerController.YearlyOveralPlayerStats (Fanview.API) - Validation state: "Valid"

@@ -9,6 +9,7 @@ using MongoDB.Driver.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Fanview.API.Repository
@@ -22,7 +23,9 @@ namespace Fanview.API.Repository
         private IMatchRepository _matchRepository;
         private IGenericRepository<TeamRanking> _teamRankings;
         private IGenericRepository<ParachuteLanding> _parachuteLanding;
-        private IGenericRepository<Event> _tournament;        
+        private IGenericRepository<Event> _tournament;
+        private IGenericRepository<TeamProfile> _TeamStats;
+
         private ILogger<TeamRepository> _logger;
         private ICacheService _cacheService;
 
@@ -35,7 +38,8 @@ namespace Fanview.API.Repository
                               IGenericRepository<PlayerPoition> teamPlayersPosition,   
                               IMatchRepository matchRepository,
                               ICacheService cacheService,
-                              ILogger<TeamRepository> logger)
+                              ILogger<TeamRepository> logger,
+                              IGenericRepository<TeamProfile> TeamStats)
         {
             _team = team;
             _matchPlayerStats = matchPlayerStats;
@@ -47,6 +51,7 @@ namespace Fanview.API.Repository
             _matchRepository = matchRepository;
             _logger = logger;
             _cacheService = cacheService;
+            _TeamStats = TeamStats;
         }
 
         public async Task<IEnumerable<Team>> GetTeam()
@@ -148,7 +153,7 @@ namespace Fanview.API.Repository
             return await Task.FromResult(teamLineUpCollections);
         }
          
-        public async Task<Object> GetAllTeamStats()
+        public async Task<List<TeamProfile>> GetAllTeamStats()
         {
 
             var teamCollection = _team.GetMongoDbCollection("Team");
@@ -205,12 +210,21 @@ namespace Fanview.API.Repository
                     WalkDistance = Math.Round(s.Sum(a => a.Stats.WalkDistance), 2, MidpointRounding.AwayFromZero)
                 }
             }).OrderBy(o => o.TeamId);
-
-            return teamStatsGrouped;
+            var TeamStats = teamStatsGrouped.Select(a => new TeamProfile()
+            {
+                TeamId=a.TeamId,
+                MatchNum=a.MatchNum,
+                Region=a.Region,
+                ShortName=a.ShortName,
+                Name=a.Name,
+                stats=a.stats
+            }).ToList();
+         
+            return TeamStats ;
 
             
         }
-        public async Task<Object> GetTeamAverageStats()
+        public async Task<IEnumerable<TeamProfile>> GetTeamAverageStats()
         {
             var teamCollection = _team.GetMongoDbCollection("Team");
 
@@ -267,8 +281,17 @@ namespace Fanview.API.Repository
                     WalkDistance = Math.Round((double)(s.Sum(a => a.Stats.WalkDistance) /(double) s.Select(a => a.MatchId).Distinct().Count()), 2, MidpointRounding.AwayFromZero)
                 }
             }).OrderBy(o => o.TeamId);
+            var averageStats = teamStatsGrouped.Select(a => new TeamProfile()
+            {
+                TeamId = a.TeamId,
+                MatchNum = a.MatchNum,
+                Name = a.Name,
+                ShortName = a.ShortName,
+                Region = a.Region,
+                stats = a.stats
 
-            return teamStatsGrouped;
+            }).ToList();
+            return averageStats;
 
 
         }
@@ -580,6 +603,86 @@ namespace Fanview.API.Repository
                 return await Task.FromResult(teamCount);
             }
         }
+        public async Task <IEnumerable<TeamProfile>> GetAccumulatedTeamStats()
+        {
+            var OveralTeamStats = this.GetAllTeamStats().Result;
+            var webclient = new WebClient();
+            var json = webclient.DownloadString(@"C:\Users\fatem\OneDrive\Documents\GitHub\PubG.Solution\Fanview.API\Json-folder\Phase1_OverallTeamStats.json");
+            var result = Newtonsoft.Json.JsonConvert.DeserializeObject<List<TeamProfile>>(json);
+            var sum = OveralTeamStats.Join(result,
+ innerKey => innerKey.TeamId, outerkey => outerkey.TeamId, (phase1, phase2) => new TeamProfile()
+ {
+     TeamId = phase1.TeamId,
+     Region=phase1.Region,
+     MatchNum = phase1.MatchNum,
+     Name = phase1.Name,
+     ShortName = phase1.ShortName,
+     stats = new Stats()
+     {
+         Knocks = phase1.stats.Knocks + phase2.stats.Knocks,
+         Assists = phase1.stats.Assists + phase2.stats.Assists,
+         Kills = phase1.stats.Kills + phase2.stats.Kills,
+         headShot = phase1.stats.headShot + phase2.stats.headShot,
+         Heals = phase1.stats.Heals + phase2.stats.Heals,
+         damage = phase1.stats.damage + phase2.stats.damage,
+         Revives = phase1.stats.Revives + phase2.stats.Revives,
+         TimeSurvived = phase1.stats.TimeSurvived + phase2.stats.TimeSurvived,
+         Boosts = phase1.stats.Boosts + phase2.stats.Boosts,
+         WalkDistance = phase1.stats.WalkDistance + phase2.stats.WalkDistance,
+         RideDistance = phase1.stats.RideDistance + phase2.stats.RideDistance,
+         SwimDistance = phase1.stats.SwimDistance + phase2.stats.SwimDistance
+
+
+
+
+     }
+
+
+
+ });
+            return await Task.FromResult(sum);
+
+        }
+        public async Task<IEnumerable<TeamProfile>> GetAccumulatedTeamAverageStats()
+        {
+            var webclient = new WebClient();
+            var json = webclient.DownloadString(@"C:\Users\fatem\OneDrive\Documents\GitHub\PubG.Solution\Fanview.API\Json-folder\Phase1_AverageTeamStats.json");
+            var result = Newtonsoft.Json.JsonConvert.DeserializeObject<List<TeamProfile>>(json);
+            var teamaveragestats = this.GetTeamAverageStats().Result;
+            var sum = teamaveragestats.Join(result,
+innerKey => innerKey.TeamId, outerkey => outerkey.TeamId, (phase1, phase2) => new TeamProfile()
+{
+    TeamId = phase1.TeamId,
+    Region = phase1.Region,
+    MatchNum = phase1.MatchNum,
+    Name = phase1.Name,
+    ShortName = phase1.ShortName,
+    stats = new Stats()
+    {
+        Knocks = phase1.stats.Knocks + phase2.stats.Knocks,
+        Assists = phase1.stats.Assists + phase2.stats.Assists,
+        Kills = phase1.stats.Kills + phase2.stats.Kills,
+        headShot = phase1.stats.headShot + phase2.stats.headShot,
+        Heals = phase1.stats.Heals + phase2.stats.Heals,
+        damage = phase1.stats.damage + phase2.stats.damage,
+        Revives = phase1.stats.Revives + phase2.stats.Revives,
+        TimeSurvived = phase1.stats.TimeSurvived + phase2.stats.TimeSurvived,
+        Boosts = phase1.stats.Boosts + phase2.stats.Boosts,
+        WalkDistance = phase1.stats.WalkDistance + phase2.stats.WalkDistance,
+        RideDistance = phase1.stats.RideDistance + phase2.stats.RideDistance,
+        SwimDistance = phase1.stats.SwimDistance + phase2.stats.SwimDistance
+
+
+
+
+    }
+
+
+
+}).ToList();
+            return await Task.FromResult(sum);
+        }
+        
 
     }
 }

@@ -1,0 +1,57 @@
+2019-04-02 11:20:25.790 +01:00 [INF] Starting web host
+2019-04-02 11:20:27.815 +01:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-04-02 11:20:30.607 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/index.html  
+2019-04-02 11:20:30.608 +01:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:8001/  0
+2019-04-02 11:20:30.800 +01:00 [INF] Request finished in 191.7374ms 200 
+2019-04-02 11:20:31.193 +01:00 [INF] Request finished in 605.8273ms 200 text/html
+2019-04-02 11:20:31.276 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/swagger-ui.css  
+2019-04-02 11:20:31.370 +01:00 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2019-04-02 11:20:31.376 +01:00 [INF] Request finished in 100.1335ms 200 text/css
+2019-04-02 11:20:31.544 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/v1/swagger.json  
+2019-04-02 11:20:32.313 +01:00 [INF] Request finished in 769.672ms 200 application/json;charset=utf-8
+2019-04-02 11:20:55.565 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Ranking/TournamentRankings  
+2019-04-02 11:20:55.834 +01:00 [INF] Route matched with {action = "GetTournamentRanking", controller = "Ranking"}. Executing action Fanview.API.Controllers.RankingController.GetTournamentRanking (Fanview.API)
+2019-04-02 11:20:56.288 +01:00 [INF] Executing action method Fanview.API.Controllers.RankingController.GetTournamentRanking (Fanview.API) - Validation state: "Valid"
+2019-04-02 11:20:56.851 +01:00 [INF] Executed action method Fanview.API.Controllers.RankingController.GetTournamentRanking (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 554.88110000000006ms.
+2019-04-02 11:20:56.885 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[Fanview.API.Model.TournamentRanking, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Fanview.API.Model.TournamentRanking, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-04-02 11:20:56.927 +01:00 [INF] Executed action Fanview.API.Controllers.RankingController.GetTournamentRanking (Fanview.API) in 1086.8463000000002ms
+2019-04-02 11:20:56.927 +01:00 [INF] Request finished in 1362.5916ms 200 application/json; charset=utf-8
+2019-04-02 11:20:57.701 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/MatchManagement/GetMatches  
+2019-04-02 11:20:57.707 +01:00 [INF] Route matched with {action = "GetMatchdetails", controller = "MatchManagement"}. Executing action Fanview.API.Controllers.MatchManagementController.GetMatchdetails (Fanview.API)
+2019-04-02 11:20:57.707 +01:00 [INF] Executing action method Fanview.API.Controllers.MatchManagementController.GetMatchdetails (Fanview.API) - Validation state: "Valid"
+2019-04-02 11:20:57.875 +01:00 [INF] Executed action method Fanview.API.Controllers.MatchManagementController.GetMatchdetails (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 167.34900000000002ms.
+2019-04-02 11:20:57.878 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.Event, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-04-02 11:20:57.880 +01:00 [INF] Executed action Fanview.API.Controllers.MatchManagementController.GetMatchdetails (Fanview.API) in 172.9961ms
+2019-04-02 11:20:57.880 +01:00 [INF] Request finished in 178.7436ms 200 application/json; charset=utf-8
+2019-04-02 11:21:21.125 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/MatchManagement/GetTournaments  
+2019-04-02 11:21:21.130 +01:00 [INF] Route matched with {action = "GeTournaments", controller = "MatchManagement"}. Executing action Fanview.API.Controllers.MatchManagementController.GeTournaments (Fanview.API)
+2019-04-02 11:21:21.130 +01:00 [INF] Executing action method Fanview.API.Controllers.MatchManagementController.GeTournaments (Fanview.API) - Validation state: "Valid"
+2019-04-02 11:21:21.137 +01:00 [INF] Tournament Open API Request Started
+
+2019-04-02 11:21:21.805 +01:00 [INF] Tournament Open API Response Json
+
+2019-04-02 11:21:21.826 +01:00 [INF] Executed action method Fanview.API.Controllers.MatchManagementController.GeTournaments (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 695.74470000000008ms.
+2019-04-02 11:21:21.826 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[<>f__AnonymousType28`2[[System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-04-02 11:21:21.833 +01:00 [INF] Executed action Fanview.API.Controllers.MatchManagementController.GeTournaments (Fanview.API) in 702.8633ms
+2019-04-02 11:21:21.833 +01:00 [INF] Request finished in 708.0713ms 200 application/json; charset=utf-8
+2019-04-02 11:21:21.976 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/MatchManagement/GetMatches  
+2019-04-02 11:21:21.978 +01:00 [INF] Route matched with {action = "GetMatchdetails", controller = "MatchManagement"}. Executing action Fanview.API.Controllers.MatchManagementController.GetMatchdetails (Fanview.API)
+2019-04-02 11:21:21.978 +01:00 [INF] Executing action method Fanview.API.Controllers.MatchManagementController.GetMatchdetails (Fanview.API) - Validation state: "Valid"
+2019-04-02 11:21:21.981 +01:00 [INF] Executed action method Fanview.API.Controllers.MatchManagementController.GetMatchdetails (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 3.2928ms.
+2019-04-02 11:21:21.981 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.Event, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-04-02 11:21:21.982 +01:00 [INF] Executed action Fanview.API.Controllers.MatchManagementController.GetMatchdetails (Fanview.API) in 3.5668ms
+2019-04-02 11:21:21.982 +01:00 [INF] Request finished in 6.0356ms 200 application/json; charset=utf-8
+2019-04-02 11:21:26.898 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/MatchManagement/GetLiveLatestFullMatchId?tournamentName=sea-champ  
+2019-04-02 11:21:26.900 +01:00 [INF] Request finished in 2.339ms 404 
+2019-04-02 11:21:30.128 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/MatchManagement/GetLiveLatestFullMatchId?tournamentName=eu-pel  
+2019-04-02 11:21:30.128 +01:00 [INF] Request finished in 0.2744ms 404 
+2019-04-02 11:21:33.288 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/MatchManagement/GetLiveLatestFullMatchId?tournamentName=cn-pdl  
+2019-04-02 11:21:33.288 +01:00 [INF] Request finished in 0.4547ms 404 
+2019-04-02 11:21:37.484 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/MatchManagement/GetLiveLatestFullMatchId?tournamentName=eu-test  
+2019-04-02 11:21:37.485 +01:00 [INF] Request finished in 0.4999ms 404 
+2019-04-02 11:21:40.769 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/MatchManagement/GetLiveLatestFullMatchId?tournamentName=oce-esl  
+2019-04-02 11:21:40.769 +01:00 [INF] Request finished in 0.2554ms 404 
+2019-04-02 11:21:45.351 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/MatchManagement/GetLiveLatestFullMatchId?tournamentName=tw-19pmlp1  
+2019-04-02 11:21:45.351 +01:00 [INF] Request finished in 0.3086ms 404 
+2019-04-02 11:21:49.396 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/MatchManagement/GetLiveLatestFullMatchId?tournamentName=cn-banana  
+2019-04-02 11:21:49.396 +01:00 [INF] Request finished in 0.8407ms 404 

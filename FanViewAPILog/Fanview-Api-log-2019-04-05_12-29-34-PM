@@ -1,0 +1,22 @@
+2019-04-05 12:29:35.091 +01:00 [INF] Starting web host
+2019-04-05 12:29:37.267 +01:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-04-05 12:29:39.967 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/index.html  
+2019-04-05 12:29:39.969 +01:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:8001/  0
+2019-04-05 12:29:40.140 +01:00 [INF] Request finished in 183.5703ms 200 
+2019-04-05 12:29:40.480 +01:00 [INF] Request finished in 528.4663ms 200 text/html
+2019-04-05 12:29:40.632 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/v1/swagger.json  
+2019-04-05 12:29:41.277 +01:00 [INF] Request finished in 645.2731ms 200 application/json;charset=utf-8
+2019-04-05 12:29:55.214 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/DamageList  
+2019-04-05 12:29:55.482 +01:00 [INF] Route matched with {action = "GetLiveDamageList", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveDamageList (Fanview.API)
+2019-04-05 12:29:55.929 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveDamageList (Fanview.API) - Validation state: "Valid"
+2019-04-05 12:30:07.625 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetLiveDamageList (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 11685.0385ms.
+2019-04-05 12:30:07.677 +01:00 [INF] Executing ObjectResult, writing value of type 'Fanview.API.Model.LiveModels.LiveDamageList'.
+2019-04-05 12:30:07.708 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetLiveDamageList (Fanview.API) in 12219.709ms
+2019-04-05 12:30:07.715 +01:00 [INF] Request finished in 12500.4193ms 200 application/json; charset=utf-8
+2019-04-05 12:30:21.459 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/TotalDamage  
+2019-04-05 12:30:21.463 +01:00 [INF] Route matched with {action = "GetTotalDamage", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetTotalDamage (Fanview.API)
+2019-04-05 12:30:21.463 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetTotalDamage (Fanview.API) - Validation state: "Valid"
+2019-04-05 12:30:25.108 +01:00 [INF] GetKillLeaderList Repository Function call started
+
+2019-04-05 12:30:25.302 +01:00 [INF] GetKillLeaderList Repository Function call completed
+
