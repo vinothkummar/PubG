@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Fanview.API.Model;
 using Fanview.API.Model.ViewModels;
@@ -554,11 +555,13 @@ namespace Fanview.API.Repository
         public async Task<IEnumerable<PlayerProfileTournament>> AccumulateOveralPlayerstate()
         {
             var OveralStats = this.GetPlayerTournamentStats().Result;
-            var phase1Overal = _playerstates.GetAll("Phase1OveralPlayerStats").Result.AsQueryable();
+            var webclient = new WebClient();
+            var json = webclient.DownloadString(@"C:\Users\fatem\OneDrive\Documents\GitHub\PubG.Solution\Fanview.API\Json-folder\Phase1_OverallPlayerStats.json");
+            var result = Newtonsoft.Json.JsonConvert.DeserializeObject<List<PlayerProfileTournament>>(json);
             //var Sum=Enumerable.Range(0, Math.Max(OveralStats.Count, phase1Overal.Count))
             //     .Select(i=>
             //     OveralStatsElementAtOrDefault(i)+phase1Overal.ElementAtOrDefault(i))
-            var sum = OveralStats.Join(OveralStats, 
+            var sum = OveralStats.Join(result, 
     innerKey => innerKey.PlayerId,outerkey=>outerkey.PlayerId, (phase1, phase2) => new PlayerProfileTournament()
     {
        TeamId= phase1.TeamId,
@@ -596,8 +599,10 @@ namespace Fanview.API.Repository
         public async Task<IEnumerable<PlayerProfileTournament>> AccumulatedAveragePlayerstate()
         {
             var AverageStats = this.GetPlayerTournamentAverageStats().Result;
-            var phase1Average = _playerstates.GetAll("Phase1AveragePlayerStats").Result.AsQueryable();
-            var sum = AverageStats.Join(phase1Average,
+            var webclient = new WebClient();
+            var json = webclient.DownloadString(@"C:\Users\fatem\OneDrive\Documents\GitHub\PubG.Solution\Fanview.API\Json-folder\Phase1_AveragePlayerStats.json");
+            var result = Newtonsoft.Json.JsonConvert.DeserializeObject<List<PlayerProfileTournament>>(json);
+            var sum = AverageStats.Join(result,
    innerKey => innerKey.PlayerId, outerkey => outerkey.PlayerId, (phase1, phase2) => new PlayerProfileTournament()
    {
        TeamId = phase1.TeamId,

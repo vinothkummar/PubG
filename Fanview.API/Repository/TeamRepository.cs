@@ -9,6 +9,7 @@ using MongoDB.Driver.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Fanview.API.Repository
@@ -605,8 +606,10 @@ namespace Fanview.API.Repository
         public async Task <IEnumerable<TeamProfile>> GetAccumulatedTeamStats()
         {
             var OveralTeamStats = this.GetAllTeamStats().Result;
-            var phase1TeamStats = _TeamStats.GetAll("Phase1TeamOveralStats").Result.AsQueryable();
-            var sum = OveralTeamStats.Join(phase1TeamStats,
+            var webclient = new WebClient();
+            var json = webclient.DownloadString(@"C:\Users\fatem\OneDrive\Documents\GitHub\PubG.Solution\Fanview.API\Json-folder\Phase1_OverallTeamStats.json");
+            var result = Newtonsoft.Json.JsonConvert.DeserializeObject<List<TeamProfile>>(json);
+            var sum = OveralTeamStats.Join(result,
  innerKey => innerKey.TeamId, outerkey => outerkey.TeamId, (phase1, phase2) => new TeamProfile()
  {
      TeamId = phase1.TeamId,
@@ -642,9 +645,11 @@ namespace Fanview.API.Repository
         }
         public async Task<IEnumerable<TeamProfile>> GetAccumulatedTeamAverageStats()
         {
-            var averagestas = _TeamStats.GetAll("Phase1TeamAverageStats").Result.AsQueryable();
+            var webclient = new WebClient();
+            var json = webclient.DownloadString(@"C:\Users\fatem\OneDrive\Documents\GitHub\PubG.Solution\Fanview.API\Json-folder\Phase1_AverageTeamStats.json");
+            var result = Newtonsoft.Json.JsonConvert.DeserializeObject<List<TeamProfile>>(json);
             var teamaveragestats = this.GetTeamAverageStats().Result;
-            var sum = teamaveragestats.Join(averagestas,
+            var sum = teamaveragestats.Join(result,
 innerKey => innerKey.TeamId, outerkey => outerkey.TeamId, (phase1, phase2) => new TeamProfile()
 {
     TeamId = phase1.TeamId,
