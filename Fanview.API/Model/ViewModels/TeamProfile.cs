@@ -18,8 +18,8 @@ namespace Fanview.API.Model.ViewModels
         public string Name { get; set; }
         [BsonElement("Region")]
         public string Region { get; set; }
-        [BsonElement("MatchNum")]
-        public int MatchNum { get; set; }
+        [BsonElement("NumMatches")]
+        public int NumMatches { get; set; }
         [BsonElement("stats")]
         public Stats stats { get; set; }
         [BsonElement("ShortName")]

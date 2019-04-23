@@ -4,7 +4,7 @@
     "name": "Wildcard Gaming",
     "region": "NA",
     "shortName": "WC",
-    "matchNum": 40,
+    "NumMatches": 40,
     "stats": {
       "knocks": 3.6,
       "assists": 2.93,
@@ -25,7 +25,7 @@
     "name": "Cloud9",
     "region": "NA",
     "shortName": "C9",
-    "matchNum": 40,
+    "NumMatches": 40,
     "stats": {
       "knocks": 4.83,
       "assists": 3.6,
@@ -46,7 +46,7 @@
     "name": "Team Envy",
     "region": "NA",
     "shortName": "NV",
-    "matchNum": 40,
+    "NumMatches": 40,
     "stats": {
       "knocks": 4.43,
       "assists": 3.55,
@@ -67,7 +67,7 @@
     "name": "Why Tempt Fate",
     "region": "NA",
     "shortName": "WTF",
-    "matchNum": 40,
+    "NumMatches": 40,
     "stats": {
       "knocks": 4.3,
       "assists": 2.7,
@@ -88,7 +88,7 @@
     "name": "Smokin' Aces",
     "region": "NA",
     "shortName": "SA",
-    "matchNum": 40,
+    "NumMatches": 40,
     "stats": {
       "knocks": 3.55,
       "assists": 2.13,
@@ -109,7 +109,7 @@
     "name": "eUnited",
     "region": "NA",
     "shortName": "eU",
-    "matchNum": 40,
+    "NumMatches": 40,
     "stats": {
       "knocks": 3.75,
       "assists": 2.23,
@@ -130,7 +130,7 @@
     "name": "Vicious Gaming",
     "region": "NA",
     "shortName": "VG",
-    "matchNum": 40,
+    "NumMatches": 40,
     "stats": {
       "knocks": 3.38,
       "assists": 2.63,
@@ -151,7 +151,7 @@
     "name": "ENDEMIC",
     "region": "NA",
     "shortName": "END",
-    "matchNum": 40,
+    "NumMatches": 40,
     "stats": {
       "knocks": 3.4,
       "assists": 2.42,
@@ -172,7 +172,7 @@
     "name": "Noble",
     "region": "NA",
     "shortName": "Noble",
-    "matchNum": 40,
+    "NumMatches": 40,
     "stats": {
       "knocks": 2.15,
       "assists": 1.35,
@@ -193,7 +193,7 @@
     "name": "Oxymoron",
     "region": "NA",
     "shortName": "OXY",
-    "matchNum": 40,
+    "NumMatches": 40,
     "stats": {
       "knocks": 2.4,
       "assists": 1.05,
@@ -214,7 +214,7 @@
     "name": "Simplicity",
     "region": "NA",
     "shortName": "SIM",
-    "matchNum": 40,
+    "NumMatches": 40,
     "stats": {
       "knocks": 3.68,
       "assists": 2.8,
@@ -235,7 +235,7 @@
     "name": "Lazarus",
     "region": "NA",
     "shortName": "LZR",
-    "matchNum": 40,
+    "NumMatches": 40,
     "stats": {
       "knocks": 2.65,
       "assists": 1.63,
@@ -256,7 +256,7 @@
     "name": "Shoot To Kill",
     "region": "NA",
     "shortName": "STK",
-    "matchNum": 40,
+    "NumMatches": 40,
     "stats": {
       "knocks": 4.22,
       "assists": 3.33,
@@ -277,7 +277,7 @@
     "name": "SpaceStation Gaming",
     "region": "NA",
     "shortName": "SSG",
-    "matchNum": 40,
+    "NumMatches": 40,
     "stats": {
       "knocks": 2.9,
       "assists": 2.33,
@@ -298,7 +298,7 @@
     "name": "Tempo Storm",
     "region": "NA",
     "shortName": "TS",
-    "matchNum": 40,
+    "NumMatches": 40,
     "stats": {
       "knocks": 4.93,
       "assists": 4.55,
@@ -319,7 +319,7 @@
     "name": "Ghost Gaming",
     "region": "NA",
     "shortName": "Ghost",
-    "matchNum": 40,
+    "NumMatches": 40,
     "stats": {
       "knocks": 3.8,
       "assists": 2.4,
