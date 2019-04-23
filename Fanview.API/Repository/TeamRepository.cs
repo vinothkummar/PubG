@@ -232,7 +232,7 @@ namespace Fanview.API.Repository
 
             var matchstats = _matchPlayerStats.GetAll("MatchPlayerStats").Result;
 
-            var teamStats = matchstats.Join(teams, ms => ms.TeamId, t => t.Id, (ms, t) => new { ms, t })
+            var TeamStats = matchstats.Join(teams, ms => ms.TeamId, t => t.Id, (ms, t) => new { ms, t })
                                           .Select(s => new
                                           {
                                               MatchId = s.ms.MatchId,
@@ -257,7 +257,7 @@ namespace Fanview.API.Repository
                                               }
                                           });
 
-            var teamStatsGrouped = teamStats.GroupBy(g => g.TeamId).Select(s => new
+            var TeamStatsGrouped = TeamStats.GroupBy(g => g.TeamId).Select(s => new
             {
                 TeamId = s.Key,
                 Name = s.Select(a => a.Name).ElementAtOrDefault(0),
@@ -281,7 +281,7 @@ namespace Fanview.API.Repository
                     WalkDistance = Math.Round((double)(s.Sum(a => a.Stats.WalkDistance) /(double) s.Select(a => a.MatchId).Distinct().Count()), 2, MidpointRounding.AwayFromZero)
                 }
             }).OrderBy(o => o.TeamId);
-            var averageStats = teamStatsGrouped.Select(a => new TeamProfile()
+            var averageStats = TeamStatsGrouped.Select(a => new TeamProfile()
             {
                 TeamId = a.TeamId,
                 MatchNum = a.MatchNum,
@@ -317,7 +317,7 @@ namespace Fanview.API.Repository
 
             var matchstat = await matchstats.FindAsync(Builders<MatchPlayerStats>.Filter.Where(cn => cn.MatchId == tournamentMatchId)).Result.ToListAsync();
 
-            var teamStats = matchstat.Join(teams, ms => ms.TeamId, t => t.Id, (ms, t) => new { ms, t })
+            var TeamStats = matchstat.Join(teams, ms => ms.TeamId, t => t.Id, (ms, t) => new { ms, t })
                                           .Select(s => new
                                           {
                                               MatchId = s.ms.MatchId,
@@ -342,7 +342,7 @@ namespace Fanview.API.Repository
                                               }
                                           });
 
-            var teamStatsGrouped = teamStats.GroupBy(g => g.TeamId).Select(s => new
+            var TeamStatsGrouped = TeamStats.GroupBy(g => g.TeamId).Select(s => new
             {
                 MatchId = matchId,
                 TeamId = s.Key,
@@ -367,7 +367,7 @@ namespace Fanview.API.Repository
                 }
             }).OrderBy(o => o.TeamId);
 
-            return teamStatsGrouped;
+            return TeamStatsGrouped;
         }
 
         public async Task<IEnumerable<TeamRankingView>> GetTeamProfilesByTeamIdAndMatchId(string teamId1, string teamId2, int matchId)
@@ -376,11 +376,11 @@ namespace Fanview.API.Repository
 
             var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
 
-            var teamStatsRanking = _teamRankings.GetMongoDbCollection("TeamRanking");
+            var TeamStatsRanking = _teamRankings.GetMongoDbCollection("TeamRanking");
 
-            var teamScrore = teamStatsRanking.FindAsync(Builders<TeamRanking>.Filter.Where(cn => (cn.TeamId == teamId1 || cn.TeamId == teamId2 ) && (cn.MatchId == tournamentMatchId))).Result.ToListAsync();
+            var teamScrore = TeamStatsRanking.FindAsync(Builders<TeamRanking>.Filter.Where(cn => (cn.TeamId == teamId1 || cn.TeamId == teamId2 ) && (cn.MatchId == tournamentMatchId))).Result.ToListAsync();
 
-            var teamRanks = teamStatsRanking.AsQueryable().GroupBy(g => g.TeamId).Select(s =>
+            var teamRanks = TeamStatsRanking.AsQueryable().GroupBy(g => g.TeamId).Select(s =>
             new
             {
                 TeamId = s.Key,
@@ -450,12 +450,12 @@ namespace Fanview.API.Repository
         
         public async Task<IEnumerable<TeamRankingView>> GetTeamProfileMatchUp(string teamId1, string teamId2)
         {
-            var teamStatsRanking = _teamRankings.GetMongoDbCollection("TeamRanking");
+            var TeamStatsRanking = _teamRankings.GetMongoDbCollection("TeamRanking");
             var tournaments = _tournament.GetMongoDbCollection("TournamentMatchId");
 
-            var teamScrore = teamStatsRanking.FindAsync(Builders<TeamRanking>.Filter.Where(cn => cn.TeamId == teamId1 || cn.TeamId == teamId2)).Result.ToListAsync();
+            var teamScrore = TeamStatsRanking.FindAsync(Builders<TeamRanking>.Filter.Where(cn => cn.TeamId == teamId1 || cn.TeamId == teamId2)).Result.ToListAsync();
 
-            var teamRanks = teamStatsRanking.AsQueryable().GroupBy(g => g.TeamId).Select(s =>
+            var teamRanks = TeamStatsRanking.AsQueryable().GroupBy(g => g.TeamId).Select(s =>
             new
             {
                 TeamId = s.Key,
@@ -605,11 +605,11 @@ namespace Fanview.API.Repository
         }
         public async Task <IEnumerable<TeamProfile>> GetAccumulatedTeamStats()
         {
-            var OveralTeamStats = this.GetAllTeamStats().Result;
+            var OverallTeamStats = this.GetAllTeamStats().Result;
             var webclient = new WebClient();
-            var json = webclient.DownloadString(@"C:\Users\fatem\OneDrive\Documents\GitHub\PubG.Solution\Fanview.API\Json-folder\Phase1_OverallTeamStats.json");
+            var json = webclient.DownloadString(@"Json-folder/Phase1_OverallTeamStats.json");
             var result = Newtonsoft.Json.JsonConvert.DeserializeObject<List<TeamProfile>>(json);
-            var sum = OveralTeamStats.Join(result,
+            var sum = OverallTeamStats.Join(result,
  innerKey => innerKey.TeamId, outerkey => outerkey.TeamId, (phase1, phase2) => new TeamProfile()
  {
      TeamId = phase1.TeamId,
@@ -646,7 +646,7 @@ namespace Fanview.API.Repository
         public async Task<IEnumerable<TeamProfile>> GetAccumulatedTeamAverageStats()
         {
             var webclient = new WebClient();
-            var json = webclient.DownloadString(@"C:\Users\fatem\OneDrive\Documents\GitHub\PubG.Solution\Fanview.API\Json-folder\Phase1_AverageTeamStats.json");
+            var json = webclient.DownloadString(@"Json-folder/Phase1_AverageTeamStats.json");
             var result = Newtonsoft.Json.JsonConvert.DeserializeObject<List<TeamProfile>>(json);
             var teamaveragestats = this.GetTeamAverageStats().Result;
             var sum = teamaveragestats.Join(result,

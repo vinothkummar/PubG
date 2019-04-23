@@ -54,14 +54,14 @@ namespace Fanview.API.BusinessLayer
 
             var tournamentMatchId = tournaments.FindAsync(Builders<Event>.Filter.Where(cn => cn.MatchId == matchId)).Result.FirstOrDefaultAsync().Result.Id;
 
-            var teamStatsRanking = _ranking.GetMatchRankings(matchId).Result.Take(16);           
+            var TeamStatsRanking = _ranking.GetMatchRankings(matchId).Result.Take(16);           
 
             var logPlayersPosition = _teamPlayersPosition.GetMongoDbCollection("PlayerPosition");
             
             var matchPlayerPosition = logPlayersPosition.FindAsync(Builders<PlayerPoition>.Filter.Where(cn => cn.MatchId == tournamentMatchId)).Result
                                         .ToListAsync().Result.OrderBy(o => o.EventTimeStamp);
 
-            var playerLocation = matchPlayerPosition.Join(teamStatsRanking, mpp => mpp.TeamId, t => t.TeamId, (mpp, t) => new { mpp, t })
+            var playerLocation = matchPlayerPosition.Join(TeamStatsRanking, mpp => mpp.TeamId, t => t.TeamId, (mpp, t) => new { mpp, t })
                                                     .OrderBy(o => o.mpp.TeamId).ThenBy(o1 => o1.mpp.Name)
                                                     .Select(s => new
                                                     {
@@ -93,7 +93,7 @@ namespace Fanview.API.BusinessLayer
 
                                                    
 
-            var playerVehicleLeaveTop3Teams = playerVehicleLeave.Where(cn => teamStatsRanking.Select(s => s.TeamId).Contains(cn.Character.TeamId));
+            var playerVehicleLeaveTop3Teams = playerVehicleLeave.Where(cn => TeamStatsRanking.Select(s => s.TeamId).Contains(cn.Character.TeamId));
 
             var logPlayerKilled = _kill.GetMongoDbCollection("Kill").FindAsync(Builders<Kill>.Filter.Where(cn => cn.MatchId == tournamentMatchId)).Result.ToListAsync().Result
                                                                   .Join(playerVehicleLeaveTop3Teams, k => new { Name = k.Victim.Name }, t => new { Name = t.Character.Name },

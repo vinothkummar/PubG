@@ -20,14 +20,14 @@ namespace Fanview.API.Controllers
         private IPlayerKillRepository _playerKillRepository;
         private IPlayerRepository _playerRepository;
         private ITeamRepository _teamRepository;
-        private ITeamStats _teamStats;
+        private ITeamStats _TeamStats;
 
         public MapController(IMatchRepository matchRepository,
                                IMatchSummaryRepository matchSummaryRepository,
                                IPlayerKillRepository playerKillRepository,
                                IPlayerRepository playerRepository,
                                ITeamRepository teamRepository,
-                               ITeamStats teamStats
+                               ITeamStats TeamStats
                                )
         {
             _matchRepository = matchRepository;
@@ -35,7 +35,7 @@ namespace Fanview.API.Controllers
             _playerKillRepository = playerKillRepository;
             _playerRepository= playerRepository;
             _teamRepository = teamRepository;
-            _teamStats = teamStats;
+            _TeamStats = TeamStats;
         }
         
         /// <summary>
@@ -100,7 +100,7 @@ namespace Fanview.API.Controllers
         [HttpGet("TeamRoute/{matchId}", Name = "GetTeamRoute")]
         public Task<TeamRoute> GetTeamRoute(int matchId)
         {
-            return _teamStats.GetTeamRoute(matchId);
+            return _TeamStats.GetTeamRoute(matchId);
         }
     }
 }

@@ -75,12 +75,12 @@ namespace Fanview.API.Controllers
             return _teamPlayerRepository.GetPlayerTournamentAverageStats();
         }
         /// <summary>
-        /// Returns Overal Stats for a Year
+        /// Returns Overall Stats for a Year
         /// </summary> 
-        [HttpGet("Stats/YearlyOveralStats", Name = "YearlyOveralStats")]
-        public Task<IEnumerable<PlayerProfileTournament>> YearlyOveralPlayerStats()
+        [HttpGet("Stats/YearlyOverallStats", Name = "YearlyOverallStats")]
+        public Task<IEnumerable<PlayerProfileTournament>> YearlyOverallPlayerStats()
         {
-            return  _teamPlayerRepository.AccumulateOveralPlayerstate();
+            return  _teamPlayerRepository.AccumulateOverallPlayerStats();
         }
         /// <summary>
         /// Returns Average Stats for a Year 
@@ -88,7 +88,7 @@ namespace Fanview.API.Controllers
         [HttpGet("Stats/YearlyAverageStats", Name = "YearlyAverageStats")]
         public Task<IEnumerable<PlayerProfileTournament>> YearlyAveragePlayerStats()
         {
-            return _teamPlayerRepository.AccumulatedAveragePlayerstate();
+            return _teamPlayerRepository.AccumulatedAveragePlayerStats();
         }
 
         [HttpGet("Stats/{matchId}", Name = "GetPlayerTournamentStats")]
