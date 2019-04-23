@@ -1,0 +1,8 @@
+2019-04-23 13:11:09.718 +01:00 [INF] Starting web host
+2019-04-23 13:11:11.712 +01:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-04-23 13:11:14.036 +01:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:8001/  0
+2019-04-23 13:11:14.035 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/index.html  
+2019-04-23 13:11:14.180 +01:00 [INF] Request finished in 145.367ms 200 
+2019-04-23 13:11:14.516 +01:00 [INF] Request finished in 501.2264ms 200 text/html
+2019-04-23 13:11:14.721 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/v1/swagger.json  
+2019-04-23 13:11:15.354 +01:00 [INF] Request finished in 633.5142ms 200 application/json;charset=utf-8
