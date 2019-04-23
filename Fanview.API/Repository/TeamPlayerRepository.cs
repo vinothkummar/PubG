@@ -552,7 +552,7 @@ namespace Fanview.API.Repository
 
             return await Task.FromResult(teamPlayers);
         }
-        public async Task<IEnumerable<PlayerProfileTournament>> AccumulateOveralPlayerstate()
+        public async Task<IEnumerable<PlayerProfileTournament>> AccumulateOverallPlayerStats()
         {
             var OveralStats = this.GetPlayerTournamentStats().Result;
             var webclient = new WebClient();
@@ -596,7 +596,7 @@ namespace Fanview.API.Repository
     });
             var sumlist = sum.ToList();
             return await Task.FromResult(sumlist);   }
-        public async Task<IEnumerable<PlayerProfileTournament>> AccumulatedAveragePlayerstate()
+        public async Task<IEnumerable<PlayerProfileTournament>> AccumulatedAveragePlayerStats()
         {
             var AverageStats = this.GetPlayerTournamentAverageStats().Result;
             var webclient = new WebClient();
