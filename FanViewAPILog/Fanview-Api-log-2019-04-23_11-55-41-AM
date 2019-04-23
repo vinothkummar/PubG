@@ -1,0 +1,56 @@
+2019-04-23 11:55:41.954 +01:00 [INF] Starting web host
+2019-04-23 11:55:43.908 +01:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-04-23 11:55:47.916 +01:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:8001/  0
+2019-04-23 11:55:47.914 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/index.html  
+2019-04-23 11:55:48.123 +01:00 [INF] Request finished in 222.9449ms 200 
+2019-04-23 11:55:48.547 +01:00 [INF] Request finished in 652.8367ms 200 text/html
+2019-04-23 11:55:48.780 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/v1/swagger.json  
+2019-04-23 11:55:49.811 +01:00 [INF] Request finished in 1030.5546ms 200 application/json;charset=utf-8
+2019-04-23 11:58:13.777 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Player/Stats/YearlyOveralStats  
+2019-04-23 11:58:14.246 +01:00 [INF] Route matched with {action = "YearlyOveralPlayerStats", controller = "Player"}. Executing action Fanview.API.Controllers.PlayerController.YearlyOveralPlayerStats (Fanview.API)
+2019-04-23 11:58:14.803 +01:00 [INF] Executing action method Fanview.API.Controllers.PlayerController.YearlyOveralPlayerStats (Fanview.API) - Validation state: "Valid"
+2019-04-23 11:58:36.810 +01:00 [INF] Executed action Fanview.API.Controllers.PlayerController.YearlyOveralPlayerStats (Fanview.API) in 22551.5139ms
+2019-04-23 11:58:36.847 +01:00 [ERR] An unhandled exception has occurred while executing the request.
+System.Net.WebException: Could not find a part of the path 'C:\Users\fatem\OneDrive\Documents\GitHub\PubG.Solution\Fanview.API\~\Json-folder\Phase1_OverallPlayerStats.json'. ---> System.Net.WebException: Could not find a part of the path 'C:\Users\fatem\OneDrive\Documents\GitHub\PubG.Solution\Fanview.API\~\Json-folder\Phase1_OverallPlayerStats.json'. ---> System.IO.DirectoryNotFoundException: Could not find a part of the path 'C:\Users\fatem\OneDrive\Documents\GitHub\PubG.Solution\Fanview.API\~\Json-folder\Phase1_OverallPlayerStats.json'.
+   at System.IO.FileStream.ValidateFileHandle(SafeFileHandle fileHandle)
+   at System.IO.FileStream.CreateFileOpenHandle(FileMode mode, FileShare share, FileOptions options)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options)
+   at System.Net.FileWebResponse..ctor(FileWebRequest request, Uri uri, FileAccess access, Boolean useAsync)
+   --- End of inner exception stack trace ---
+   at System.Net.FileWebResponse..ctor(FileWebRequest request, Uri uri, FileAccess access, Boolean useAsync)
+   at System.Net.FileWebRequest.CreateResponse()
+   --- End of inner exception stack trace ---
+   at System.Net.FileWebRequest.CreateResponse()
+   at System.Threading.Tasks.Task`1.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Threading.Tasks.TaskToApm.End[TResult](IAsyncResult asyncResult)
+   at System.Net.FileWebRequest.EndGetResponse(IAsyncResult asyncResult)
+   at System.Net.WebClient.GetWebResponse(WebRequest request)
+   at System.Net.WebClient.DownloadBits(WebRequest request, Stream writeStream)
+   at System.Net.WebClient.DownloadDataInternal(Uri address, WebRequest& request)
+   at System.Net.WebClient.DownloadString(Uri address)
+   at Fanview.API.Repository.TeamPlayerRepository.AccumulateOveralPlayerstate() in C:\Users\fatem\OneDrive\Documents\GitHub\PubG.Solution\Fanview.API\Repository\TeamPlayerRepository.cs:line 559
+   at lambda_method(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Internal.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2019-04-23 11:58:37.621 +01:00 [INF] Request finished in 23844.2996ms 500 text/html; charset=utf-8
+2019-04-23 11:58:46.593 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Player/Stats/YearlyOveralStats  
+2019-04-23 11:58:46.597 +01:00 [INF] Route matched with {action = "YearlyOveralPlayerStats", controller = "Player"}. Executing action Fanview.API.Controllers.PlayerController.YearlyOveralPlayerStats (Fanview.API)
+2019-04-23 11:58:56.382 +01:00 [INF] Executing action method Fanview.API.Controllers.PlayerController.YearlyOveralPlayerStats (Fanview.API) - Validation state: "Valid"

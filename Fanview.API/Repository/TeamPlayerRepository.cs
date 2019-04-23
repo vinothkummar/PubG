@@ -22,14 +22,14 @@ namespace Fanview.API.Repository
         private IGenericRepository<CreatePlayer> _genericPlayerRepository;
         private IGenericRepository<MatchPlayerStats> _genericMatchPlayerStatsRepository;
         private IGenericRepository<Event> _tournament;
-        private IGenericRepository<PlayerProfileTournament> _playerstats;
+        private IGenericRepository<PlayerProfileTournament> _playerstates;
 
         public TeamPlayerRepository(IGenericRepository<TeamPlayer> genericRepository, ILogger<TeamRepository> logger,
             IGenericRepository<Team> teamgenericRepository,
             IGenericRepository<CreatePlayer> genericPlayerRepository,
             IGenericRepository<MatchPlayerStats> genericMatchPlayerStatsRepository,
             IGenericRepository<Event> tournament,
-            IGenericRepository<PlayerProfileTournament> playerstats)
+            IGenericRepository<PlayerProfileTournament> playerstates)
         {
             _genericTeamPlayerRepository = genericRepository;
 
@@ -38,7 +38,7 @@ namespace Fanview.API.Repository
             _genericPlayerRepository = genericPlayerRepository;
             _genericMatchPlayerStatsRepository = genericMatchPlayerStatsRepository;
             _tournament = tournament;
-            _playerstats = playerstats;
+            _playerstates = playerstates;
         }
 
         public async Task<TeamPlayer> GetPlayerProfile(string playerId1)
@@ -326,7 +326,7 @@ namespace Fanview.API.Repository
                     WalkDistance = Math.Round(s.Sum(a => a.Stats.WalkDistance), 2, MidpointRounding.AwayFromZero)
                 }
             }).OrderBy(o => o.PlayerId);
-            _playerstats.Insert(PlayerProfileGrouped, "Phase1AveragePlayerStats");
+            _playerstates.Insert(PlayerProfileGrouped, "Phase1AveragePlayerStats");
             return PlayerProfileGrouped;
         }
 
@@ -552,21 +552,21 @@ namespace Fanview.API.Repository
 
             return await Task.FromResult(teamPlayers);
         }
-        public async Task<IEnumerable<PlayerProfileTournament>> AccumulateOverallPlayerStats()
+        public async Task<IEnumerable<PlayerProfileTournament>> AccumulateOveralPlayerstate()
         {
-            var OverallStats = this.GetPlayerTournamentStats().Result;
+            var OveralStats = this.GetPlayerTournamentStats().Result;
             var webclient = new WebClient();
-            var json = webclient.DownloadString(@"Json-folder/Phase1_OverallPlayerStats.json");
+            var json = webclient.DownloadString(@"Json-folder\Phase1_OverallPlayerStats.json");
             var result = Newtonsoft.Json.JsonConvert.DeserializeObject<List<PlayerProfileTournament>>(json);
             //var Sum=Enumerable.Range(0, Math.Max(OveralStats.Count, phase1Overal.Count))
             //     .Select(i=>
             //     OveralStatsElementAtOrDefault(i)+phase1Overal.ElementAtOrDefault(i))
-            var sum = OverallStats.Join(result, 
+            var sum = OveralStats.Join(result, 
     innerKey => innerKey.PlayerId,outerkey=>outerkey.PlayerId, (phase1, phase2) => new PlayerProfileTournament()
     {
        TeamId= phase1.TeamId,
        MatchId= phase1.MatchId,
-       NumMatches= phase1.NumMatches,
+       NumMatches= phase1.NumMatches+phase2.NumMatches,
        PlayerName= phase1.PlayerName,
        PlayerId= phase1.PlayerId,
        Country= phase1.Country,
@@ -596,36 +596,36 @@ namespace Fanview.API.Repository
     });
             var sumlist = sum.ToList();
             return await Task.FromResult(sumlist);   }
-        public async Task<IEnumerable<PlayerProfileTournament>> AccumulatedAveragePlayerStats()
+        public async Task<IEnumerable<PlayerProfileTournament>> AccumulatedAveragePlayerstate()
         {
             var AverageStats = this.GetPlayerTournamentAverageStats().Result;
             var webclient = new WebClient();
-            var json = webclient.DownloadString(@"Json-folder/Phase1_AveragePlayerStats.json");
+            var json = webclient.DownloadString(@"Json-folder\Phase1_AveragePlayerStats.json");
             var result = Newtonsoft.Json.JsonConvert.DeserializeObject<List<PlayerProfileTournament>>(json);
             var sum = AverageStats.Join(result,
    innerKey => innerKey.PlayerId, outerkey => outerkey.PlayerId, (phase1, phase2) => new PlayerProfileTournament()
    {
        TeamId = phase1.TeamId,
        MatchId = phase1.MatchId,
-       NumMatches = phase1.NumMatches,
+       NumMatches = phase1.NumMatches+phase2.NumMatches,
        PlayerName = phase1.PlayerName,
        PlayerId = phase1.PlayerId,
        Country = phase1.Country,
        FullName = phase1.FullName,
        stats = new Stats()
        {
-           Knocks = phase1.stats.Knocks + phase2.stats.Knocks,
-           Assists = phase1.stats.Assists + phase2.stats.Assists,
-           Kills = phase1.stats.Kills + phase2.stats.Kills,
-           headShot = phase1.stats.headShot + phase2.stats.headShot,
-           Heals = phase1.stats.Heals + phase2.stats.Heals,
-           damage = phase1.stats.damage + phase2.stats.damage,
-           Revives = phase1.stats.Revives + phase2.stats.Revives,
-           TimeSurvived = phase1.stats.TimeSurvived + phase2.stats.TimeSurvived,
-           Boosts = phase1.stats.Boosts + phase2.stats.Boosts,
-           WalkDistance = phase1.stats.WalkDistance + phase2.stats.WalkDistance,
-           RideDistance = phase1.stats.RideDistance + phase2.stats.RideDistance,
-           SwimDistance = phase1.stats.SwimDistance + phase2.stats.SwimDistance
+           Knocks = (double)phase1.stats.Knocks + phase2.stats.Knocks/2,
+           Assists =(double) phase1.stats.Assists + phase2.stats.Assists/2,
+           Kills = (double)phase1.stats.Kills + phase2.stats.Kills/2,
+           headShot = (double)phase1.stats.headShot + phase2.stats.headShot/2,
+           Heals = (double)phase1.stats.Heals + phase2.stats.Heals/2,
+           damage = (double)phase1.stats.damage + phase2.stats.damage/2,
+           Revives = (double)phase1.stats.Revives + phase2.stats.Revives/2,
+           TimeSurvived = (double)phase1.stats.TimeSurvived + phase2.stats.TimeSurvived/2,
+           Boosts = (double)phase1.stats.Boosts + phase2.stats.Boosts/2,
+           WalkDistance = (double)phase1.stats.WalkDistance + phase2.stats.WalkDistance/2,
+           RideDistance = (double)phase1.stats.RideDistance + phase2.stats.RideDistance/2,
+           SwimDistance = (double)phase1.stats.SwimDistance + phase2.stats.SwimDistance/2
 
 
 
