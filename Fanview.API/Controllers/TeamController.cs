@@ -70,11 +70,11 @@ namespace Fanview.API.Controllers
             return _teamRepository.GetTeamAverageStats();
         }
         /// <summary>
-        /// Returns Sum of Overal Team Stats for Available Phase
+        /// Returns Sum of Overall Team Stats for Available Phase
         /// </summary>
         /// <remarks>
-        [HttpGet("Stats/YearlyOveralTeamStats", Name = "YearlyOveralTeamStats")]
-        public Task<IEnumerable<TeamProfile>> YearlyOveralTeamStats()
+        [HttpGet("Stats/YearlyOverallTeamStats", Name = "YearlyOverallTeamStats")]
+        public Task<IEnumerable<TeamProfile>> YearlyOverallTeamStats()
         {
             return _teamRepository.GetAccumulatedTeamStats();
         }

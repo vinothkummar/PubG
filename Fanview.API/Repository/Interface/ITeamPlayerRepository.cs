@@ -27,7 +27,7 @@ namespace Fanview.API.Repository.Interface
         void Updatemanyplayers(IEnumerable<TeamPlayer> players);
         void DeleteAllTeamPlayers();
         Task<List<PlayerProfileTournament>> GetPlayerTournamentAverageStats();
-        Task<IEnumerable<PlayerProfileTournament>> AccumulateOveralPlayerstate();
-        Task<IEnumerable<PlayerProfileTournament>> AccumulatedAveragePlayerstate();
+        Task<IEnumerable<PlayerProfileTournament>> AccumulateOverallPlayerStats();
+        Task<IEnumerable<PlayerProfileTournament>> AccumulatedAveragePlayerStats();
     }
 }

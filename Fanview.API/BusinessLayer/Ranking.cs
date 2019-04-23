@@ -379,7 +379,7 @@ namespace Fanview.API.BusinessLayer
             {
                 var teamsScroingPoints = CalculateMatchRanking(matchId).Result.ToList();
 
-                var teamStats = CalculateTeamStats(matchId, teamsScroingPoints).Result;
+                var TeamStats = CalculateTeamStats(matchId, teamsScroingPoints).Result;
 
                 var matchRankingCollection = _genericMatchRankingRepository.GetMongoDbCollection("MatchRanking");
 
@@ -389,7 +389,7 @@ namespace Fanview.API.BusinessLayer
                 {
                     _genericMatchRankingRepository.Insert(teamsScroingPoints, "MatchRanking");
 
-                    _genericTeamRankingRepository.Insert(teamStats, "TeamRanking");
+                    _genericTeamRankingRepository.Insert(TeamStats, "TeamRanking");
                 }
 
                 return teamsScroingPoints;
