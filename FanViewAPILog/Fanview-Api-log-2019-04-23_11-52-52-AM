@@ -1,0 +1,17 @@
+2019-04-23 11:52:52.611 +01:00 [INF] Starting web host
+2019-04-23 11:52:55.567 +01:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-04-23 11:52:58.295 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/index.html  
+2019-04-23 11:52:58.296 +01:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:8001/  0
+2019-04-23 11:52:58.460 +01:00 [INF] Request finished in 174.9381ms 200 
+2019-04-23 11:52:58.831 +01:00 [INF] Request finished in 563.0059ms 200 text/html
+2019-04-23 11:52:58.883 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/swagger-ui-standalone-preset.js  
+2019-04-23 11:52:58.883 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/swagger-ui.css  
+2019-04-23 11:52:58.883 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/swagger-ui-bundle.js  
+2019-04-23 11:52:58.988 +01:00 [INF] The file /swagger-ui-bundle.js was not modified
+2019-04-23 11:52:58.988 +01:00 [INF] The file /swagger-ui-standalone-preset.js was not modified
+2019-04-23 11:52:58.988 +01:00 [INF] The file /swagger-ui.css was not modified
+2019-04-23 11:52:58.997 +01:00 [INF] Request finished in 113.5945ms 304 application/javascript
+2019-04-23 11:52:58.997 +01:00 [INF] Request finished in 113.589ms 304 text/css
+2019-04-23 11:52:58.997 +01:00 [INF] Request finished in 113.711ms 304 application/javascript
+2019-04-23 11:52:59.213 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/v1/swagger.json  
+2019-04-23 11:53:00.155 +01:00 [INF] Request finished in 941.6356ms 200 application/json;charset=utf-8

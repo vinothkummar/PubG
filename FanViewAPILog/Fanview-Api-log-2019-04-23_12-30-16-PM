@@ -1,0 +1,11 @@
+2019-04-23 12:30:16.389 +01:00 [INF] Starting web host
+2019-04-23 12:30:18.360 +01:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-04-23 12:30:21.344 +01:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:8001/  0
+2019-04-23 12:30:21.344 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/index.html  
+2019-04-23 12:30:21.503 +01:00 [INF] Request finished in 168.0702ms 200 
+2019-04-23 12:30:21.835 +01:00 [INF] Request finished in 504.0934ms 200 text/html
+2019-04-23 12:30:22.063 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/v1/swagger.json  
+2019-04-23 12:30:23.019 +01:00 [INF] Request finished in 955.7727ms 200 application/json;charset=utf-8
+2019-04-23 12:30:56.244 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Player/Stats/YearlyAverageStats  
+2019-04-23 12:30:56.689 +01:00 [INF] Route matched with {action = "YearlyAveragePlayerStats", controller = "Player"}. Executing action Fanview.API.Controllers.PlayerController.YearlyAveragePlayerStats (Fanview.API)
+2019-04-23 12:30:57.303 +01:00 [INF] Executing action method Fanview.API.Controllers.PlayerController.YearlyAveragePlayerStats (Fanview.API) - Validation state: "Valid"
