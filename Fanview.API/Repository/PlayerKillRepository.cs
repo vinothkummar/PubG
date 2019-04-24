@@ -633,20 +633,25 @@ namespace Fanview.API.Repository
             var LeaderDamage = this.GetKillLeaderListToppedByDamageDealt().Result.killList.OrderBy(x=>x.teamId).ToList();
             var DamageLists= _liveRepository.GetLiveDamageList().Result.DamageList.OrderBy(x=>x.TeamId).ToList();
             var JoinedDamage = LeaderDamage.Join(DamageLists, innerKey => innerKey.playerId, outerkey => outerkey.PlayerId,
-                (first, second) => new {
+                (first, second) => new Kills{
                    
                     
-                    TeamName=second.TeamName,
-                    TeamId=second.TeamId,
-                    Damage=Math.Round(first.DamageDealt+second.DamageDealt),
-                    PlayerId=first.playerId,
-                    PlayerName=first.playerName,
+                    teamId=second.TeamId,
+                    playerId=first.playerId,
+                    playerName=first.playerName,
+                    DamageDealt=Math.Round(first.DamageDealt+second.DamageDealt),
+                    timeSurvived=first.timeSurvived,
+                    kills=first.kills
+                    
                     
                     
                 }
 
-                ).OrderByDescending(x=>x.Damage).ToList();
-            return await Task.FromResult(JoinedDamage);
+                ).OrderByDescending(x=>x.DamageDealt).ToList();
+
+            var TotalCombined = LeaderDamage.Union(JoinedDamage).OrderByDescending(x => x.DamageDealt).ToList();
+            var DistinctPlayers = TotalCombined.GroupBy(p => p.playerId).Select(g => g.First()).ToList();
+            return await Task.FromResult(DistinctPlayers);
         }
 
     }

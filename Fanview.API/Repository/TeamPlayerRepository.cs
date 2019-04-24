@@ -598,45 +598,38 @@ namespace Fanview.API.Repository
             return await Task.FromResult(sumlist);   }
         public async Task<IEnumerable<PlayerProfileTournament>> AccumulatedAveragePlayerStats()
         {
-            var AverageStats = this.GetPlayerTournamentAverageStats().Result;
-            var webclient = new WebClient();
-            var json = webclient.DownloadString(@"Json-folder\Phase1_AveragePlayerStats.json");
-            var result = Newtonsoft.Json.JsonConvert.DeserializeObject<List<PlayerProfileTournament>>(json);
-            var sum = AverageStats.Join(result,
-   innerKey => innerKey.PlayerId, outerkey => outerkey.PlayerId, (phase1, phase2) => new PlayerProfileTournament()
-   {
-       TeamId = phase1.TeamId,
-       MatchId = phase1.MatchId,
-       NumMatches = phase1.NumMatches+phase2.NumMatches,
-       PlayerName = phase1.PlayerName,
-       PlayerId = phase1.PlayerId,
-       Country = phase1.Country,
-       FullName = phase1.FullName,
-       stats = new Stats()
-       {
-           Knocks = (double)phase1.stats.Knocks + phase2.stats.Knocks/2,
-           Assists =(double) phase1.stats.Assists + phase2.stats.Assists/2,
-           Kills = (double)phase1.stats.Kills + phase2.stats.Kills/2,
-           headShot = (double)phase1.stats.headShot + phase2.stats.headShot/2,
-           Heals = (double)phase1.stats.Heals + phase2.stats.Heals/2,
-           damage = (double)phase1.stats.damage + phase2.stats.damage/2,
-           Revives = (double)phase1.stats.Revives + phase2.stats.Revives/2,
-           TimeSurvived = (double)phase1.stats.TimeSurvived + phase2.stats.TimeSurvived/2,
-           Boosts = (double)phase1.stats.Boosts + phase2.stats.Boosts/2,
-           WalkDistance = (double)phase1.stats.WalkDistance + phase2.stats.WalkDistance/2,
-           RideDistance = (double)phase1.stats.RideDistance + phase2.stats.RideDistance/2,
-           SwimDistance = (double)phase1.stats.SwimDistance + phase2.stats.SwimDistance/2
+            var totalsum = this.AccumulateOverallPlayerStats().Result;
+            var TotalAverage = totalsum.GroupBy(g => g.PlayerId).Select(s => new PlayerProfileTournament()
+            {
+                NumMatches = s.Select(c => c.MatchId).Count(),
+                PlayerId = s.Select(c => c.PlayerId).ElementAtOrDefault(0),
+                PlayerName = s.Select(c => c.PlayerName).ElementAtOrDefault(0),
+                FullName = s.Select(c => c.FullName).ElementAtOrDefault(0),
+                Country = s.Select(c => c.Country).ElementAtOrDefault(0),
+                TeamId = s.Select(c => c.TeamId).ElementAtOrDefault(0),
 
+                stats = new Stats()
+                {
 
+                    Knocks = Math.Round(s.Average(a => a.stats.Knocks), 2, MidpointRounding.AwayFromZero),
+                    Assists = Math.Round(s.Average(a => a.stats.Assists), 2, MidpointRounding.AwayFromZero),
+                    Boosts = Math.Round(s.Average(a => a.stats.Boosts), 2, MidpointRounding.AwayFromZero),
+                    damage = Math.Round(s.Average(a => a.stats.damage), 2, MidpointRounding.AwayFromZero),
+                    headShot = Math.Round(s.Average(a => a.stats.headShot), 2, MidpointRounding.AwayFromZero),
+                    Heals = Math.Round(s.Average(a => a.stats.Heals), 2, MidpointRounding.AwayFromZero),
+                    Kills = Math.Round(s.Average(a => a.stats.Kills), 2, MidpointRounding.AwayFromZero),
+                    TimeSurvived = Math.Round(s.Average(a => a.stats.TimeSurvived), 2, MidpointRounding.AwayFromZero),
+                    Revives = Math.Round(s.Average(a => a.stats.Revives), 2, MidpointRounding.AwayFromZero),
+                    RideDistance = Math.Round(s.Average(a => a.stats.RideDistance), 2, MidpointRounding.AwayFromZero),
+                    SwimDistance = Math.Round(s.Average(a => a.stats.SwimDistance), 2, MidpointRounding.AwayFromZero),
+                    WalkDistance = Math.Round(s.Average(a => a.stats.WalkDistance), 2, MidpointRounding.AwayFromZero)
 
+                }
+            }).OrderBy(o => o.PlayerId);
 
-       }
-
-       
-
-   });
-            return await Task.FromResult(sum);
+            return await Task.FromResult(TotalAverage);
+        }
 
         }
         }
-}
+

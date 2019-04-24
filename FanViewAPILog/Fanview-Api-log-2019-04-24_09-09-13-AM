@@ -1,0 +1,30 @@
+2019-04-24 09:09:14.100 +01:00 [INF] Starting web host
+2019-04-24 09:09:16.225 +01:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-04-24 09:09:18.425 +01:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:8001/  0
+2019-04-24 09:09:18.425 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/index.html  
+2019-04-24 09:09:18.553 +01:00 [INF] Request finished in 132.4008ms 200 
+2019-04-24 09:09:18.878 +01:00 [INF] Request finished in 464.6989ms 200 text/html
+2019-04-24 09:09:19.079 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/v1/swagger.json  
+2019-04-24 09:09:19.733 +01:00 [INF] Request finished in 654.1207ms 200 application/json;charset=utf-8
+2019-04-24 09:10:42.238 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/TotalKillLists  
+2019-04-24 09:10:42.533 +01:00 [INF] Route matched with {action = "TotalKillLists", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.TotalKillLists (Fanview.API)
+2019-04-24 09:10:42.962 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.TotalKillLists (Fanview.API) - Validation state: "Valid"
+2019-04-24 09:10:46.668 +01:00 [INF] GetKillLeaderList Repository Function call started
+
+2019-04-24 09:10:47.154 +01:00 [INF] GetKillLeaderList Repository Function call completed
+
+2019-04-24 09:10:52.727 +01:00 [INF] GetKillLeaderList Repository Function call started
+
+2019-04-24 09:10:52.741 +01:00 [INF] GetKillLeaderList Repository Function call completed
+
+2019-04-24 09:11:23.904 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.TotalKillLists (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 40935.6679ms.
+2019-04-24 09:11:23.957 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.ViewModels.Kills, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-04-24 09:11:23.996 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.TotalKillLists (Fanview.API) in 41454.7788ms
+2019-04-24 09:11:23.997 +01:00 [INF] Request finished in 41758.5369ms 200 application/json; charset=utf-8
+2019-04-24 09:11:52.944 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/TotalDamage  
+2019-04-24 09:11:52.951 +01:00 [INF] Route matched with {action = "GetTotalDamage", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetTotalDamage (Fanview.API)
+2019-04-24 09:11:52.952 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetTotalDamage (Fanview.API) - Validation state: "Valid"
+2019-04-24 09:11:59.790 +01:00 [INF] GetKillLeaderList Repository Function call started
+
+2019-04-24 09:11:59.810 +01:00 [INF] GetKillLeaderList Repository Function call completed
+
