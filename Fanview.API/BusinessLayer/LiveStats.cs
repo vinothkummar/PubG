@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using Fanview.API.Model.LiveModels;
 using Fanview.API.Model;
 using Fanview.API.Services.Interface;
+using System.Linq;
 
 namespace Fanview.API.BusinessLayer
 {
     public class LiveStats : ILiveStats
     {
+        private readonly IRanking _ranking;
         private readonly IMatchSummaryRepository _matchSummaryRepository;
         private readonly ITeamLiveStatusRepository _teamLiveStatusRepository;
         private readonly IPlayerKillRepository _playerKillRepository;
@@ -18,12 +20,14 @@ namespace Fanview.API.BusinessLayer
         public LiveStats(IMatchSummaryRepository matchSummaryRepository,
                         ITeamLiveStatusRepository teamLiveStatusRepository,
                         IPlayerKillRepository playerKillRepository,
-                        ITeamRankingService teamRankingService)
+                        ITeamRankingService teamRankingService,
+                        IRanking ranking)
         {
             _matchSummaryRepository = matchSummaryRepository;
             _teamLiveStatusRepository = teamLiveStatusRepository;
             _playerKillRepository = playerKillRepository;
             _teamRankingService = teamRankingService;
+            _ranking = ranking;
         }
 
         public async Task<EventLiveMatchStatus> GetLiveMatchStatus()
@@ -48,5 +52,35 @@ namespace Fanview.API.BusinessLayer
         {
             return _matchSummaryRepository.GetLiveMatchStatus();
         }
+        public async Task<List<LiveTeamRanking>> TotalRank()
+        {
+            var TournamentRank = _ranking.GetTournamentRankings().Result.ToList();
+            var LiveRank = this.GetLiveRanking().Result.ToList();
+            var TotalRank = TournamentRank.Join(LiveRank, innerKey => innerKey.TeamId, outerkey => outerkey.TeamId, (tournamentrak, liverank) =>
+              new LiveTeamRanking()
+              {
+                  TeamId = liverank.TeamId,
+                  TeamName = tournamentrak.TeamName,
+                  TotalPoints = tournamentrak.TotalPoints + liverank.TotalPoints,
+                  KillPoints = tournamentrak.KillPoints + liverank.KillPoints,
+                  RankPoints=tournamentrak.RankPoints+liverank.RankPoints,
+                  
+                  
+                  
+              }).OrderByDescending(x=>x.TotalPoints).ToList();
+            var NewTotal = TotalRank.Select(s => new LiveTeamRanking()
+            {
+                TeamId = s.TeamId,
+                TeamName = s.TeamName,
+                KillPoints = s.KillPoints,
+                TotalPoints = s.TotalPoints,
+                RankPoints = s.RankPoints,
+                TeamRank = TotalRank.FindIndex(a => a.TotalPoints == s.TotalPoints) + 1
+            }).ToList();
+           
+             
+            return await Task.FromResult(NewTotal);
+        }
+
     }
 }

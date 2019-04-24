@@ -1,0 +1,15 @@
+2019-04-24 12:33:32.024 +01:00 [INF] Starting web host
+2019-04-24 12:33:34.095 +01:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-04-24 12:33:36.666 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/index.html  
+2019-04-24 12:33:36.666 +01:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:8001/  0
+2019-04-24 12:33:36.820 +01:00 [INF] Request finished in 154.9928ms 200 
+2019-04-24 12:33:37.138 +01:00 [INF] Request finished in 489.7297ms 200 text/html
+2019-04-24 12:33:37.403 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/v1/swagger.json  
+2019-04-24 12:33:38.119 +01:00 [INF] Request finished in 715.3259ms 200 application/json;charset=utf-8
+2019-04-24 12:34:26.791 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/TotalRanking  
+2019-04-24 12:34:27.068 +01:00 [INF] Route matched with {action = "GetTotalRanking", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetTotalRanking (Fanview.API)
+2019-04-24 12:34:27.495 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetTotalRanking (Fanview.API) - Validation state: "Valid"
+2019-04-24 12:35:51.028 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetTotalRanking (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 83527.058ms.
+2019-04-24 12:35:51.085 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.LiveModels.LiveTeamRanking, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-04-24 12:35:54.469 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetTotalRanking (Fanview.API) in 87394.4501ms
+2019-04-24 12:35:54.470 +01:00 [INF] Request finished in 87678.5395ms 200 application/json; charset=utf-8

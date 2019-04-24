@@ -104,3 +104,41 @@
 2019-04-24 11:18:32.157 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.Event, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
 2019-04-24 11:18:32.157 +01:00 [INF] Executed action Fanview.API.Controllers.MatchManagementController.GetMatchdetails (Fanview.API) in 5.19ms
 2019-04-24 11:18:32.157 +01:00 [INF] Request finished in 5.6008ms 200 application/json; charset=utf-8
+2019-04-24 11:22:29.328 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Ranking/TournamentRankings  
+2019-04-24 11:22:29.328 +01:00 [INF] Route matched with {action = "GetTournamentRanking", controller = "Ranking"}. Executing action Fanview.API.Controllers.RankingController.GetTournamentRanking (Fanview.API)
+2019-04-24 11:22:29.328 +01:00 [INF] Executing action method Fanview.API.Controllers.RankingController.GetTournamentRanking (Fanview.API) - Validation state: "Valid"
+2019-04-24 11:22:51.405 +01:00 [INF] Executed action method Fanview.API.Controllers.RankingController.GetTournamentRanking (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 22076.6809ms.
+2019-04-24 11:22:51.418 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[Fanview.API.Model.TournamentRanking, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Fanview.API.Model.TournamentRanking, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-04-24 11:22:51.418 +01:00 [INF] Executed action Fanview.API.Controllers.RankingController.GetTournamentRanking (Fanview.API) in 22090.1107ms
+2019-04-24 11:22:51.419 +01:00 [INF] Request finished in 22091.4044ms 200 application/json; charset=utf-8
+2019-04-24 11:22:57.885 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Ranking/TournamentRankings  
+2019-04-24 11:22:57.885 +01:00 [INF] Route matched with {action = "GetTournamentRanking", controller = "Ranking"}. Executing action Fanview.API.Controllers.RankingController.GetTournamentRanking (Fanview.API)
+2019-04-24 11:22:57.885 +01:00 [INF] Executing action method Fanview.API.Controllers.RankingController.GetTournamentRanking (Fanview.API) - Validation state: "Valid"
+2019-04-24 11:24:43.347 +01:00 [INF] Executed action method Fanview.API.Controllers.RankingController.GetTournamentRanking (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 105462.2869ms.
+2019-04-24 11:24:43.348 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[Fanview.API.Model.TournamentRanking, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Fanview.API.Model.TournamentRanking, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-04-24 11:24:48.436 +01:00 [INF] Executed action Fanview.API.Controllers.RankingController.GetTournamentRanking (Fanview.API) in 110550.1714ms
+2019-04-24 11:24:48.436 +01:00 [INF] Request finished in 110551.2948ms 200 application/json; charset=utf-8
+2019-04-24 11:26:34.234 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Ranking/TournamentRankings  
+2019-04-24 11:26:34.234 +01:00 [INF] Route matched with {action = "GetTournamentRanking", controller = "Ranking"}. Executing action Fanview.API.Controllers.RankingController.GetTournamentRanking (Fanview.API)
+2019-04-24 11:26:34.234 +01:00 [INF] Executing action method Fanview.API.Controllers.RankingController.GetTournamentRanking (Fanview.API) - Validation state: "Valid"
+2019-04-24 11:26:45.553 +01:00 [INF] Executed action method Fanview.API.Controllers.RankingController.GetTournamentRanking (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 11319.0216ms.
+2019-04-24 11:26:45.553 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[Fanview.API.Model.TournamentRanking, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Fanview.API.Model.TournamentRanking, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-04-24 11:26:45.553 +01:00 [INF] Executed action Fanview.API.Controllers.RankingController.GetTournamentRanking (Fanview.API) in 11319.4048ms
+2019-04-24 11:26:45.553 +01:00 [INF] Request finished in 11319.915ms 200 application/json; charset=utf-8
+2019-04-24 11:27:23.797 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Ranking  
+2019-04-24 11:27:23.801 +01:00 [INF] Route matched with {action = "GetLiveRanking", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveRanking (Fanview.API)
+2019-04-24 11:27:23.802 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveRanking (Fanview.API) - Validation state: "Valid"
+2019-04-24 11:29:32.741 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetLiveRanking (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 128938.52230000001ms.
+2019-04-24 11:29:32.743 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.LiveModels.LiveTeamRanking, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-04-24 11:29:32.747 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetLiveRanking (Fanview.API) in 128946.12160000001ms
+2019-04-24 11:29:32.752 +01:00 [INF] Request finished in 128954.7409ms 200 application/json; charset=utf-8
+2019-04-24 11:30:09.562 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Ranking/TournamentRankings  
+2019-04-24 11:30:09.562 +01:00 [INF] Route matched with {action = "GetTournamentRanking", controller = "Ranking"}. Executing action Fanview.API.Controllers.RankingController.GetTournamentRanking (Fanview.API)
+2019-04-24 11:30:09.562 +01:00 [INF] Executing action method Fanview.API.Controllers.RankingController.GetTournamentRanking (Fanview.API) - Validation state: "Valid"
+2019-04-24 11:33:38.762 +01:00 [INF] Executed action method Fanview.API.Controllers.RankingController.GetTournamentRanking (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 209199.8455ms.
+2019-04-24 11:33:38.762 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[Fanview.API.Model.TournamentRanking, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Fanview.API.Model.TournamentRanking, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-04-24 11:33:38.762 +01:00 [INF] Executed action Fanview.API.Controllers.RankingController.GetTournamentRanking (Fanview.API) in 209200.3168ms
+2019-04-24 11:33:38.762 +01:00 [INF] Request finished in 209200.6684ms 200 application/json; charset=utf-8
+2019-04-24 11:33:43.395 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Ranking  
+2019-04-24 11:33:43.395 +01:00 [INF] Route matched with {action = "GetLiveRanking", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveRanking (Fanview.API)
+2019-04-24 11:33:43.395 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveRanking (Fanview.API) - Validation state: "Valid"

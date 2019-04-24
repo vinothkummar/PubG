@@ -17,7 +17,7 @@ namespace Fanview.API.Model
         public int KillPoints { get; set; }
         public int RankPoints { get; set; }
         public int TotalPoints { get; set; }
-        public string TeamId { get; set; }
+        public int TeamId { get; set; }
         public string MatchId { get; set; }
         public int PubGOpenApiTeamId { get; set; }
         public int ShortTeamID { get; set; }

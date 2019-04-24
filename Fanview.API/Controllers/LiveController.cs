@@ -168,6 +168,11 @@ namespace Fanview.API.Controllers
         {
             return _liveStats.GetLiveRanking();
         }
+        [HttpGet("TotalRanking", Name = "GetTotalRanking")]
+        public Task<List<LiveTeamRanking>> GetTotalRanking()
+        {
+            return _liveStats.TotalRank();
+        }
 
         [HttpGet("MatchStatus", Name = "GetMatchStatus")]
         public Task<EventLiveMatchStatus> GetMatchStatus()

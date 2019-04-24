@@ -162,7 +162,7 @@ namespace Fanview.API.BusinessLayer
             var rankingResult = matchStandings.Select(s => new TournamentRanking()
             {
                 TeamRank = s.TeamRank,
-                TeamId = s.ShortTeamID.ToString(),
+                TeamId = s.ShortTeamID,
                 TeamName = s.TeamName,
                 KillPoints = s.KillPoints,
                 RankPoints = s.RankPoints,

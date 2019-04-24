@@ -10,5 +10,6 @@ namespace Fanview.API.BusinessLayer.Contracts
         Task<IEnumerable<LiveMatchStatus>> GetLiveStatus();
         Task<IEnumerable<LiveTeamRanking>> GetLiveRanking();
         Task<EventLiveMatchStatus> GetLiveMatchStatus();
+        Task<List<LiveTeamRanking>> TotalRank();
     }
 }
