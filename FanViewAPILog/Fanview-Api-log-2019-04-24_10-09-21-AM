@@ -1,0 +1,18 @@
+2019-04-24 10:09:21.700 +01:00 [INF] Starting web host
+2019-04-24 10:09:23.753 +01:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-04-24 10:09:26.028 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/index.html  
+2019-04-24 10:09:26.029 +01:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:8001/  0
+2019-04-24 10:09:26.181 +01:00 [INF] Request finished in 154.4333ms 200 
+2019-04-24 10:09:26.497 +01:00 [INF] Request finished in 487.9607ms 200 text/html
+2019-04-24 10:09:26.683 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/v1/swagger.json  
+2019-04-24 10:09:27.356 +01:00 [INF] Request finished in 673.537ms 200 application/json;charset=utf-8
+2019-04-24 10:09:52.888 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Team/Stats/Average  
+2019-04-24 10:09:53.149 +01:00 [INF] Route matched with {action = "GetAverageTeamStats", controller = "Team"}. Executing action Fanview.API.Controllers.TeamController.GetAverageTeamStats (Fanview.API)
+2019-04-24 10:09:53.462 +01:00 [INF] Executing action method Fanview.API.Controllers.TeamController.GetAverageTeamStats (Fanview.API) - Validation state: "Valid"
+2019-04-24 10:18:04.735 +01:00 [INF] Executed action method Fanview.API.Controllers.TeamController.GetAverageTeamStats (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 491267.67740000004ms.
+2019-04-24 10:18:04.765 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.ViewModels.TeamProfile, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-04-24 10:18:04.804 +01:00 [INF] Executed action Fanview.API.Controllers.TeamController.GetAverageTeamStats (Fanview.API) in 491650.3411ms
+2019-04-24 10:18:04.805 +01:00 [INF] Request finished in 491916.9572ms 200 application/json; charset=utf-8
+2019-04-24 10:18:39.915 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Team/Stats/YearlyAverageTeamStats  
+2019-04-24 10:18:39.922 +01:00 [INF] Route matched with {action = "YearlyAverageStats", controller = "Team"}. Executing action Fanview.API.Controllers.TeamController.YearlyAverageStats (Fanview.API)
+2019-04-24 10:18:39.922 +01:00 [INF] Executing action method Fanview.API.Controllers.TeamController.YearlyAverageStats (Fanview.API) - Validation state: "Valid"

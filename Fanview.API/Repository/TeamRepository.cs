@@ -645,42 +645,34 @@ namespace Fanview.API.Repository
         }
         public async Task<IEnumerable<TeamProfile>> GetAccumulatedTeamAverageStats()
         {
-            var webclient = new WebClient();
-            var json = webclient.DownloadString(@"Json-folder/Phase1_AverageTeamStats.json");
-            var result = Newtonsoft.Json.JsonConvert.DeserializeObject<List<TeamProfile>>(json);
-            var teamaveragestats = this.GetTeamAverageStats().Result;
-            var sum = teamaveragestats.Join(result,
-innerKey => innerKey.TeamId, outerkey => outerkey.TeamId, (phase1, phase2) => new TeamProfile()
-{
-    TeamId = phase1.TeamId,
-    Region = phase1.Region,
-    NumMatches = phase1.NumMatches + phase2.NumMatches,
-    Name = phase1.Name,
-    ShortName = phase1.ShortName,
-    stats = new Stats()
-    {
-        Knocks = phase1.stats.Knocks + phase2.stats.Knocks,
-        Assists = phase1.stats.Assists + phase2.stats.Assists,
-        Kills = phase1.stats.Kills + phase2.stats.Kills,
-        headShot = phase1.stats.headShot + phase2.stats.headShot,
-        Heals = phase1.stats.Heals + phase2.stats.Heals,
-        damage = phase1.stats.damage + phase2.stats.damage,
-        Revives = phase1.stats.Revives + phase2.stats.Revives,
-        TimeSurvived = phase1.stats.TimeSurvived + phase2.stats.TimeSurvived,
-        Boosts = phase1.stats.Boosts + phase2.stats.Boosts,
-        WalkDistance = phase1.stats.WalkDistance + phase2.stats.WalkDistance,
-        RideDistance = phase1.stats.RideDistance + phase2.stats.RideDistance,
-        SwimDistance = phase1.stats.SwimDistance + phase2.stats.SwimDistance
+            var TotalStats = this.GetAccumulatedTeamStats().Result.ToList();
+            var AverageTeamStats = TotalStats.GroupBy(g => g.TeamId).Select(s => new TeamProfile
+            {
+                TeamId = s.Key,
+                Name = s.Select(a => a.Name).ElementAtOrDefault(0),
+                Region = s.Select(a => a.Region).ElementAtOrDefault(0),
+                ShortName = s.Select(a => a.ShortName).ElementAtOrDefault(0),
+                NumMatches = s.Select(a => a.NumMatches).ElementAtOrDefault(0),
+
+                stats = new Stats()
+                {
+                    Knocks = Math.Round((double)(s.Sum(a => a.stats.Knocks) /(double)s.Select(a => a.NumMatches).ElementAtOrDefault(0)), 2, MidpointRounding.AwayFromZero),
+                    Assists = Math.Round((double)(s.Sum(a => a.stats.Assists) / (double)s.Select(a => a.NumMatches).ElementAtOrDefault(0)), 2, MidpointRounding.AwayFromZero),
+                    Boosts = Math.Round((double)(s.Sum(a => a.stats.Boosts) / (double)s.Select(a => a.NumMatches).ElementAtOrDefault(0)),2, MidpointRounding.AwayFromZero),
+                    damage = Math.Round((double)(s.Sum(a => a.stats.damage) / (double)s.Select(a => a.NumMatches).ElementAtOrDefault(0)), 2, MidpointRounding.AwayFromZero),
+                    headShot = Math.Round((double)(s.Sum(a => a.stats.headShot) / (double)s.Select(a=>a.NumMatches).ElementAtOrDefault(0)), 2, MidpointRounding.AwayFromZero),
+                    Heals = Math.Round((double)(s.Sum(a => a.stats.Heals) / (double)s.Select(a => a.NumMatches).ElementAtOrDefault(0)), 2, MidpointRounding.AwayFromZero),
+                    Kills = Math.Round((double)(s.Sum(a => a.stats.Kills) / (double)s.Select(a => a.NumMatches).ElementAtOrDefault(0)), 2, MidpointRounding.AwayFromZero),
+                    TimeSurvived = Math.Round((double)(s.Sum(a => a.stats.TimeSurvived) / (double)s.Select(a => a.NumMatches).ElementAtOrDefault(0)), 2, MidpointRounding.AwayFromZero),
+                    Revives = Math.Round((double)(s.Sum(a => a.stats.Revives) / (double)s.Select(a => a.NumMatches).ElementAtOrDefault(0)), 2, MidpointRounding.AwayFromZero),
+                    RideDistance = Math.Round((double)(s.Sum(a => a.stats.RideDistance) / (double)s.Select(a => a.NumMatches).ElementAtOrDefault(0)), 2, MidpointRounding.AwayFromZero),
+                    SwimDistance = Math.Round((double)(s.Sum(a => a.stats.SwimDistance) / (double)s.Select(a => a.NumMatches).ElementAtOrDefault(0)), 2, MidpointRounding.AwayFromZero),
+                    WalkDistance = Math.Round((double)(s.Sum(a => a.stats.WalkDistance) / (double)s.Select(a => a.NumMatches).ElementAtOrDefault(0)), 2, MidpointRounding.AwayFromZero)
+                }
+            }).OrderBy(o => o.TeamId);
 
 
-
-
-    }
-
-
-
-}).ToList();
-            return await Task.FromResult(sum);
+            return await Task.FromResult(AverageTeamStats);
         }
         
 
