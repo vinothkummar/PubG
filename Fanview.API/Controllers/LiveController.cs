@@ -168,7 +168,7 @@ namespace Fanview.API.Controllers
         {
             return _liveStats.GetLiveRanking();
         }
-        [HttpGet("TotalRanking", Name = "GetTotalRanking")]
+        [HttpGet("CumulativeRanking", Name = "GetTotalRanking")]
         public Task<List<LiveTeamRanking>> GetTotalRanking()
         {
             return _liveStats.TotalRank();
