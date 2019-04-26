@@ -1,0 +1,37 @@
+2019-04-26 09:40:27.818 +01:00 [INF] Starting web host
+2019-04-26 09:40:29.864 +01:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-04-26 09:40:32.061 +01:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:8001/  0
+2019-04-26 09:40:32.059 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/index.html  
+2019-04-26 09:40:32.201 +01:00 [INF] Request finished in 150.9501ms 200 
+2019-04-26 09:40:32.493 +01:00 [INF] Request finished in 446.6307ms 200 text/html
+2019-04-26 09:40:32.670 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/v1/swagger.json  
+2019-04-26 09:40:33.332 +01:00 [INF] Request finished in 661.1678ms 200 application/json;charset=utf-8
+2019-04-26 09:41:15.129 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/TotalRanking  
+2019-04-26 09:41:15.392 +01:00 [INF] Route matched with {action = "GetTotalRanking", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetTotalRanking (Fanview.API)
+2019-04-26 09:41:15.800 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetTotalRanking (Fanview.API) - Validation state: "Valid"
+2019-04-26 09:41:51.590 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetTotalRanking (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 35784.1097ms.
+2019-04-26 09:41:51.619 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.LiveModels.LiveTeamRanking, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-04-26 09:41:51.650 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetTotalRanking (Fanview.API) in 36251.6131ms
+2019-04-26 09:41:51.650 +01:00 [INF] Request finished in 36520.5736ms 200 application/json; charset=utf-8
+2019-04-26 09:42:36.606 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/CumulativeDamageList  
+2019-04-26 09:42:36.611 +01:00 [INF] Route matched with {action = "GetTotalDamage", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetTotalDamage (Fanview.API)
+2019-04-26 09:42:36.611 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetTotalDamage (Fanview.API) - Validation state: "Valid"
+2019-04-26 09:42:39.501 +01:00 [INF] GetKillLeaderList Repository Function call started
+
+2019-04-26 09:42:39.562 +01:00 [INF] GetKillLeaderList Repository Function call completed
+
+2019-04-26 09:42:44.603 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetTotalDamage (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 7991.2001ms.
+2019-04-26 09:42:44.603 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.ViewModels.Kills, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-04-26 09:42:44.638 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetTotalDamage (Fanview.API) in 8027.2565ms
+2019-04-26 09:42:44.638 +01:00 [INF] Request finished in 8032.1926ms 200 application/json; charset=utf-8
+2019-04-26 09:42:58.826 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/CumulativeDamageList  
+2019-04-26 09:42:58.828 +01:00 [INF] Route matched with {action = "GetTotalDamage", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetTotalDamage (Fanview.API)
+2019-04-26 09:42:58.828 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetTotalDamage (Fanview.API) - Validation state: "Valid"
+2019-04-26 09:43:06.010 +01:00 [INF] GetKillLeaderList Repository Function call started
+
+2019-04-26 09:43:06.025 +01:00 [INF] GetKillLeaderList Repository Function call completed
+
+2019-04-26 09:43:28.294 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetTotalDamage (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 29462.4303ms.
+2019-04-26 09:43:28.295 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.ViewModels.Kills, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-04-26 09:43:28.328 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetTotalDamage (Fanview.API) in 29500.4075ms
+2019-04-26 09:43:28.329 +01:00 [INF] Request finished in 29502.4279ms 200 application/json; charset=utf-8

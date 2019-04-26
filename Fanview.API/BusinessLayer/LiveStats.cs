@@ -6,6 +6,7 @@ using Fanview.API.Model.LiveModels;
 using Fanview.API.Model;
 using Fanview.API.Services.Interface;
 using System.Linq;
+using System;
 
 namespace Fanview.API.BusinessLayer
 {
@@ -55,7 +56,16 @@ namespace Fanview.API.BusinessLayer
         public async Task<List<LiveTeamRanking>> TotalRank()
         {
             var TournamentRank = _ranking.GetTournamentRankings().Result.ToList();
-            var LiveRank = this.GetLiveRanking().Result.ToList();
+            var TournomentLive = TournamentRank.Select(s => new LiveTeamRanking
+            {
+                TeamId=s.TeamId,
+                TeamName=s.TeamName,
+                TeamRank=Convert.ToInt32(s.TeamRank),
+                TotalPoints=s.TotalPoints,
+                KillPoints=s.KillPoints,
+                RankPoints=s.RankPoints
+            });
+            var LiveRank = this.GetLiveRanking().Result.OrderByDescending(x=>x.TotalPoints).ToList();
             var TotalRank = TournamentRank.Join(LiveRank, innerKey => innerKey.TeamId, outerkey => outerkey.TeamId, (tournamentrak, liverank) =>
               new LiveTeamRanking()
               {
@@ -77,9 +87,10 @@ namespace Fanview.API.BusinessLayer
                 RankPoints = s.RankPoints,
                 TeamRank = TotalRank.FindIndex(a => a.TotalPoints == s.TotalPoints) + 1
             }).ToList();
-           
+            var combined = TournomentLive.Union(NewTotal).OrderByDescending(x => x.TotalPoints).
+                 GroupBy(x => x.TeamId).Select(g=>g.First()).ToList();
              
-            return await Task.FromResult(NewTotal);
+            return await Task.FromResult(combined);
         }
 
     }
