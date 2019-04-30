@@ -36,7 +36,7 @@ namespace Fanview.API.MiddlewareExtensions
             services.AddSingleton(typeof(IEventScheduleRepository), typeof(EventScheduleRepository));
             services.AddSingleton(typeof(IRanking), typeof(Ranking));
             services.AddSingleton<ITeamStats, TeamStats>();
-            services.AddSingleton(typeof(ILiveRepository), typeof(LiveRepository));
+            services.AddSingleton(typeof(ILiveRepository),typeof(LiveRepository));
             services.AddSingleton<ILiveStats, LiveStats>();
             services.AddSingleton<IMatchManagementRepository, MatchManagementRepository>();
             services.AddSingleton<ITeamLiveStatusRepository, TeamLiveStatusRepository>();

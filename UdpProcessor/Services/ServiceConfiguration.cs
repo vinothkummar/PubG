@@ -47,6 +47,7 @@ namespace Fanview.UDPProcessor.Services
                                                          .AddTransient<IMatchRepository, MatchRepository>()
                                                          .AddTransient<ITeamLiveStatusRepository, TeamLiveStatusRepository>()
                                                          .AddTransient<IAssetsRepository, AssetsRepository>()
+                                                         .AddTransient<ILiveRepository,LiveRepository>()
                                                          .AddMemoryCache()
                                                          .AddSingleton<IDistributedCache>(cn => new RedisCache(new RedisCacheOptions
                                                          {
