@@ -556,7 +556,7 @@ namespace Fanview.API.Repository
         {
             var OveralStats = this.GetPlayerTournamentStats().Result;
             var webclient = new WebClient();
-            var json = webclient.DownloadString(@"Json-folder\Phase1_OverallPlayerStats.json");
+            var json = webclient.DownloadString(@"Json-folder/Phase1_OverallPlayerStats.json");
             var result = Newtonsoft.Json.JsonConvert.DeserializeObject<List<PlayerProfileTournament>>(json);
             //var Sum=Enumerable.Range(0, Math.Max(OveralStats.Count, phase1Overal.Count))
             //     .Select(i=>
