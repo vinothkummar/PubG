@@ -43,13 +43,13 @@ namespace Fanview.API.Repository
             var teamQueryable = _teamCollection.AsQueryable();
 
             var result = await eventDamage
-                .Join(teamPlayerQueryable, ed => ed.VictimName, tp => tp.PlayerName, (ed, tp) => new { ed, tp })
+                .Join(teamPlayerQueryable, ed => ed.AttackerName, tp => tp.PlayerName, (ed, tp) => new { ed, tp })
                 .Join(teamQueryable, edTp => edTp.tp.TeamId, t => t.Id, (edTp, t) => new { edTp, t })
                 .GroupBy(edTpt => edTpt.edTp.tp.PlayerName)
                 .Select(edTpt => new DamageList
                 {
                     PlayerName = edTpt.Key,
-                    TeamId = edTpt.FirstOrDefault().edTp.ed.VictimTeamId,
+                    TeamId = edTpt.FirstOrDefault().edTp.ed.AttackerTeamId,
                     PlayerId = edTpt.FirstOrDefault().edTp.tp.PlayerId,
                     TeamName = edTpt.FirstOrDefault().t.Name,
                     DamageDealt = edTpt.Sum(e => e.edTp.ed.Damage)
