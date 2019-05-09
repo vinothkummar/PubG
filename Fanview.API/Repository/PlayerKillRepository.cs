@@ -245,7 +245,9 @@ namespace Fanview.API.Repository
             var collection = _LiveEventKill.GetMongoDbCollection("LiveEventKill");
             var filter = Builders<LiveEventKill>.Filter.Empty;
             var query = await collection.FindAsync(filter).ConfigureAwait(false);
-            return await query.ToListAsync().ConfigureAwait(false);
+            var distinct = query.ToListAsync().Result.GroupBy(x => x.AttackId)
+                .Select(x => x.FirstOrDefault());
+            return await Task.FromResult(distinct);
         }
 
         public async Task<IEnumerable<Kill>> GetLast4PlayerKilled(string matchId)
@@ -423,9 +425,10 @@ namespace Fanview.API.Repository
             var teams = _team.GetAll("Team");
             var teamPlayers = _teamPlayerRepository.GetTeamPlayers();           
             var liveEventKillList = _LiveEventKill.GetAll("LiveEventKill");
+            var distinct = liveEventKillList.Result.
+                 GroupBy(x => x.AttackId).Select(g => g.First()).ToList();
             await Task.WhenAll(teams, teamPlayers, liveEventKillList);
-
-            var result = liveEventKillList.Result.Where(ev => ev.Killer.TeamId != ev.Victim.TeamId)
+            var result = distinct.Where(ev => ev.Killer.TeamId != ev.Victim.TeamId)
                 .Join(teamPlayers.Result, ev => new { KillerName = ev.Killer.Name }, tp => new { KillerName = tp.PlayerName }, (ev, tp) => new { ev, tp })
                 .Join(teams.Result, evTp => new { TeamId = evTp.tp.TeamId }, t => new { TeamId = t.Id }, (evTp, t) => new { evTp, t })
                 .GroupBy(g => g.evTp.ev.Killer.Name)

@@ -1,0 +1,11 @@
+2019-05-09 10:04:27.010 +01:00 [INF] Starting web host
+2019-05-09 10:04:29.086 +01:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-05-09 10:04:31.492 +01:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:8001/  0
+2019-05-09 10:04:31.492 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/index.html  
+2019-05-09 10:04:31.633 +01:00 [INF] Request finished in 160.1275ms 200 
+2019-05-09 10:04:31.944 +01:00 [INF] Request finished in 471.0418ms 200 text/html
+2019-05-09 10:04:32.151 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/v1/swagger.json  
+2019-05-09 10:04:32.762 +01:00 [INF] Request finished in 611.0164ms 200 application/json;charset=utf-8
+2019-05-09 10:05:14.972 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/CumulativeRanking  
+2019-05-09 10:05:15.281 +01:00 [INF] Route matched with {action = "GetTotalRanking", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetTotalRanking (Fanview.API)
+2019-05-09 10:05:15.751 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetTotalRanking (Fanview.API) - Validation state: "Valid"

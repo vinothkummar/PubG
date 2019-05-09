@@ -1,0 +1,11 @@
+2019-05-09 12:37:23.861 +01:00 [INF] Starting web host
+2019-05-09 12:37:25.813 +01:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-05-09 12:37:27.942 +01:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:8001/  0
+2019-05-09 12:37:27.941 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/index.html  
+2019-05-09 12:37:28.097 +01:00 [INF] Request finished in 162.1608ms 200 
+2019-05-09 12:37:28.399 +01:00 [INF] Request finished in 467.4445ms 200 text/html
+2019-05-09 12:37:28.614 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/v1/swagger.json  
+2019-05-09 12:37:29.256 +01:00 [INF] Request finished in 641.4073ms 200 application/json;charset=utf-8
+2019-05-09 12:37:59.864 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Killiprinter  
+2019-05-09 12:38:00.139 +01:00 [INF] Route matched with {action = "GetAllKilliprinterForGraphics", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API)
+2019-05-09 12:38:00.553 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) - Validation state: "Valid"

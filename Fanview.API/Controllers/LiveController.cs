@@ -90,12 +90,12 @@ namespace Fanview.API.Controllers
         /// Returns Live Kill List
         /// </summary>
         /// <remarks>     
-        /// Sample request: api/live/KillList/{matchId}
+        /// Sample request: api/live/KillList
         /// </remarks>       
         [HttpGet("KillList", Name = "GetLiveKillList")]
         public Task<KillLeader> GetLiveKillList()
         {
-            return _playerKillRepository.GetLiveKillList(0);
+            return _playerKillRepository.GetLiveKillList(64);
         }
         [HttpDelete("Killiprinter", Name = "DeleteAllEventKillTable")]
         public void DeleteLiveEventKillTable()

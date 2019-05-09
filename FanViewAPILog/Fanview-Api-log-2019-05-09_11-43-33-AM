@@ -1,0 +1,11 @@
+2019-05-09 11:43:33.577 +01:00 [INF] Starting web host
+2019-05-09 11:43:35.581 +01:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-05-09 11:43:37.953 +01:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:8001/  0
+2019-05-09 11:43:37.952 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/index.html  
+2019-05-09 11:43:38.112 +01:00 [INF] Request finished in 170.9941ms 200 
+2019-05-09 11:43:38.432 +01:00 [INF] Request finished in 493.0075ms 200 text/html
+2019-05-09 11:43:38.632 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/v1/swagger.json  
+2019-05-09 11:43:39.419 +01:00 [INF] Request finished in 786.9193ms 200 application/json;charset=utf-8
+2019-05-09 11:44:20.944 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/DamageList  
+2019-05-09 11:44:21.210 +01:00 [INF] Route matched with {action = "GetLiveDamageList", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveDamageList (Fanview.API)
+2019-05-09 11:44:21.613 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveDamageList (Fanview.API) - Validation state: "Valid"

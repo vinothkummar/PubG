@@ -1,0 +1,18 @@
+2019-05-09 12:23:05.411 +01:00 [INF] Starting web host
+2019-05-09 12:23:07.320 +01:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-05-09 12:23:09.532 +01:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:8001/  0
+2019-05-09 12:23:09.531 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/index.html  
+2019-05-09 12:23:09.686 +01:00 [INF] Request finished in 158.0416ms 200 
+2019-05-09 12:23:09.975 +01:00 [INF] Request finished in 463.9237ms 200 text/html
+2019-05-09 12:23:10.150 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/v1/swagger.json  
+2019-05-09 12:23:10.804 +01:00 [INF] Request finished in 653.8809ms 200 application/json;charset=utf-8
+2019-05-09 12:23:49.655 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Killiprinter  
+2019-05-09 12:23:49.916 +01:00 [INF] Route matched with {action = "GetAllKilliprinterForGraphics", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API)
+2019-05-09 12:23:50.299 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) - Validation state: "Valid"
+2019-05-09 12:30:07.075 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 376768.44310000003ms.
+2019-05-09 12:30:07.122 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.KilliPrinter, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 12:30:07.170 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) in 377250.085ms
+2019-05-09 12:30:07.176 +01:00 [INF] Request finished in 377520.6649ms 200 application/json; charset=utf-8
+2019-05-09 12:30:41.986 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Killiprinter  
+2019-05-09 12:30:41.990 +01:00 [INF] Route matched with {action = "GetAllKilliprinterForGraphics", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API)
+2019-05-09 12:30:41.990 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) - Validation state: "Valid"

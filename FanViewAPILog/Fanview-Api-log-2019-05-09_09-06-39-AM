@@ -1,0 +1,736 @@
+2019-05-09 09:06:40.078 +01:00 [INF] Starting web host
+2019-05-09 09:06:42.590 +01:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-05-09 09:06:45.616 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/index.html  
+2019-05-09 09:06:45.616 +01:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:8001/  0
+2019-05-09 09:06:45.835 +01:00 [INF] Request finished in 231.3705ms 200 
+2019-05-09 09:06:46.222 +01:00 [INF] Request finished in 621.3133ms 200 text/html
+2019-05-09 09:06:46.679 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/v1/swagger.json  
+2019-05-09 09:06:47.669 +01:00 [INF] Request finished in 989.8012ms 200 application/json;charset=utf-8
+2019-05-09 09:07:19.686 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Ranking/TournamentRankings  
+2019-05-09 09:07:20.052 +01:00 [INF] Route matched with {action = "GetTournamentRanking", controller = "Ranking"}. Executing action Fanview.API.Controllers.RankingController.GetTournamentRanking (Fanview.API)
+2019-05-09 09:07:20.695 +01:00 [INF] Executing action method Fanview.API.Controllers.RankingController.GetTournamentRanking (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:21.289 +01:00 [INF] Executed action method Fanview.API.Controllers.RankingController.GetTournamentRanking (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 583.8193ms.
+2019-05-09 09:07:21.330 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[Fanview.API.Model.TournamentRanking, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Fanview.API.Model.TournamentRanking, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:21.383 +01:00 [INF] Executed action Fanview.API.Controllers.RankingController.GetTournamentRanking (Fanview.API) in 1322.9548ms
+2019-05-09 09:07:21.383 +01:00 [INF] Request finished in 1697.7037ms 200 application/json; charset=utf-8
+2019-05-09 09:07:22.347 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/MatchManagement/GetMatches  
+2019-05-09 09:07:22.355 +01:00 [INF] Route matched with {action = "GetMatchdetails", controller = "MatchManagement"}. Executing action Fanview.API.Controllers.MatchManagementController.GetMatchdetails (Fanview.API)
+2019-05-09 09:07:22.356 +01:00 [INF] Executing action method Fanview.API.Controllers.MatchManagementController.GetMatchdetails (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:22.585 +01:00 [INF] Executed action method Fanview.API.Controllers.MatchManagementController.GetMatchdetails (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 228.36880000000002ms.
+2019-05-09 09:07:22.588 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.Event, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:22.591 +01:00 [INF] Executed action Fanview.API.Controllers.MatchManagementController.GetMatchdetails (Fanview.API) in 235.28560000000002ms
+2019-05-09 09:07:22.591 +01:00 [INF] Request finished in 244.6167ms 200 application/json; charset=utf-8
+2019-05-09 09:07:46.209 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/MatchManagement/GetMatches  
+2019-05-09 09:07:46.214 +01:00 [INF] Route matched with {action = "GetMatchdetails", controller = "MatchManagement"}. Executing action Fanview.API.Controllers.MatchManagementController.GetMatchdetails (Fanview.API)
+2019-05-09 09:07:46.214 +01:00 [INF] Executing action method Fanview.API.Controllers.MatchManagementController.GetMatchdetails (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:46.222 +01:00 [INF] Executed action method Fanview.API.Controllers.MatchManagementController.GetMatchdetails (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 7.6750000000000007ms.
+2019-05-09 09:07:46.222 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.Event, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:46.222 +01:00 [INF] Executed action Fanview.API.Controllers.MatchManagementController.GetMatchdetails (Fanview.API) in 8.5832ms
+2019-05-09 09:07:46.222 +01:00 [INF] Request finished in 13.1031ms 200 application/json; charset=utf-8
+2019-05-09 09:07:46.520 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/MatchStatus  
+2019-05-09 09:07:46.529 +01:00 [INF] Route matched with {action = "GetMatchStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API)
+2019-05-09 09:07:46.533 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:46.545 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Killiprinter  
+2019-05-09 09:07:46.557 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Status  
+2019-05-09 09:07:46.559 +01:00 [INF] Route matched with {action = "GetAllKilliprinterForGraphics", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API)
+2019-05-09 09:07:46.559 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:46.571 +01:00 [INF] Route matched with {action = "GetLiveStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API)
+2019-05-09 09:07:46.571 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:46.647 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 114.046ms.
+2019-05-09 09:07:46.653 +01:00 [INF] Executing ObjectResult, writing value of type 'Fanview.API.Model.EventLiveMatchStatus'.
+2019-05-09 09:07:46.710 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) in 180.75660000000002ms
+2019-05-09 09:07:46.732 +01:00 [INF] Request finished in 211.9611ms 200 application/json; charset=utf-8
+2019-05-09 09:07:46.738 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 166.6919ms.
+2019-05-09 09:07:46.740 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.LiveMatchStatus, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:46.775 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) in 204.0026ms
+2019-05-09 09:07:46.775 +01:00 [INF] Request finished in 217.7825ms 200 application/json; charset=utf-8
+2019-05-09 09:07:46.863 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 302.1788ms.
+2019-05-09 09:07:46.863 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.KilliPrinter, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:46.866 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) in 306.5045ms
+2019-05-09 09:07:46.866 +01:00 [INF] Request finished in 321.5039ms 200 application/json; charset=utf-8
+2019-05-09 09:07:46.994 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Status  
+2019-05-09 09:07:46.994 +01:00 [INF] Route matched with {action = "GetLiveStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API)
+2019-05-09 09:07:46.995 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:46.995 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Killiprinter  
+2019-05-09 09:07:46.997 +01:00 [INF] Route matched with {action = "GetAllKilliprinterForGraphics", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API)
+2019-05-09 09:07:46.998 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:47.007 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 12.158900000000001ms.
+2019-05-09 09:07:47.008 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.LiveMatchStatus, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:47.012 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/MatchStatus  
+2019-05-09 09:07:47.012 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) in 17.3621ms
+2019-05-09 09:07:47.012 +01:00 [INF] Request finished in 18.4634ms 200 application/json; charset=utf-8
+2019-05-09 09:07:47.012 +01:00 [INF] Route matched with {action = "GetMatchStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API)
+2019-05-09 09:07:47.013 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:47.013 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 14.2042ms.
+2019-05-09 09:07:47.014 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.KilliPrinter, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:47.016 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) in 18.512800000000002ms
+2019-05-09 09:07:47.017 +01:00 [INF] Request finished in 22.1017ms 200 application/json; charset=utf-8
+2019-05-09 09:07:47.021 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 8.5137ms.
+2019-05-09 09:07:47.022 +01:00 [INF] Executing ObjectResult, writing value of type 'Fanview.API.Model.EventLiveMatchStatus'.
+2019-05-09 09:07:47.022 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) in 9.4591000000000012ms
+2019-05-09 09:07:47.022 +01:00 [INF] Request finished in 10.314ms 200 application/json; charset=utf-8
+2019-05-09 09:07:47.478 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Status  
+2019-05-09 09:07:47.478 +01:00 [INF] Route matched with {action = "GetLiveStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API)
+2019-05-09 09:07:47.478 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:47.484 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 6.2011ms.
+2019-05-09 09:07:47.485 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.LiveMatchStatus, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:47.486 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) in 7.8761ms
+2019-05-09 09:07:47.486 +01:00 [INF] Request finished in 8.7956ms 200 application/json; charset=utf-8
+2019-05-09 09:07:47.501 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/MatchStatus  
+2019-05-09 09:07:47.501 +01:00 [INF] Route matched with {action = "GetMatchStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API)
+2019-05-09 09:07:47.501 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:47.508 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 6.7816ms.
+2019-05-09 09:07:47.509 +01:00 [INF] Executing ObjectResult, writing value of type 'Fanview.API.Model.EventLiveMatchStatus'.
+2019-05-09 09:07:47.510 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) in 8.4179000000000013ms
+2019-05-09 09:07:47.510 +01:00 [INF] Request finished in 9.087ms 200 application/json; charset=utf-8
+2019-05-09 09:07:47.537 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Killiprinter  
+2019-05-09 09:07:47.538 +01:00 [INF] Route matched with {action = "GetAllKilliprinterForGraphics", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API)
+2019-05-09 09:07:47.538 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:47.547 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 9.3222ms.
+2019-05-09 09:07:47.547 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.KilliPrinter, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:47.547 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) in 9.8656ms
+2019-05-09 09:07:47.548 +01:00 [INF] Request finished in 10.4401ms 200 application/json; charset=utf-8
+2019-05-09 09:07:47.973 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Status  
+2019-05-09 09:07:47.974 +01:00 [INF] Route matched with {action = "GetLiveStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API)
+2019-05-09 09:07:47.974 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:47.982 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 7.5722000000000005ms.
+2019-05-09 09:07:47.982 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.LiveMatchStatus, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:47.984 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) in 9.9164000000000012ms
+2019-05-09 09:07:47.984 +01:00 [INF] Request finished in 10.8984ms 200 application/json; charset=utf-8
+2019-05-09 09:07:47.989 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Killiprinter  
+2019-05-09 09:07:47.990 +01:00 [INF] Route matched with {action = "GetAllKilliprinterForGraphics", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API)
+2019-05-09 09:07:47.990 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:48.001 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 10.5431ms.
+2019-05-09 09:07:48.001 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.KilliPrinter, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:48.001 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) in 11.5942ms
+2019-05-09 09:07:48.002 +01:00 [INF] Request finished in 12.8014ms 200 application/json; charset=utf-8
+2019-05-09 09:07:48.023 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/MatchStatus  
+2019-05-09 09:07:48.023 +01:00 [INF] Route matched with {action = "GetMatchStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API)
+2019-05-09 09:07:48.024 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:48.026 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 2.6508000000000003ms.
+2019-05-09 09:07:48.026 +01:00 [INF] Executing ObjectResult, writing value of type 'Fanview.API.Model.EventLiveMatchStatus'.
+2019-05-09 09:07:48.027 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) in 3.3924000000000003ms
+2019-05-09 09:07:48.027 +01:00 [INF] Request finished in 3.8926ms 200 application/json; charset=utf-8
+2019-05-09 09:07:48.528 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Killiprinter  
+2019-05-09 09:07:48.529 +01:00 [INF] Route matched with {action = "GetAllKilliprinterForGraphics", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API)
+2019-05-09 09:07:48.529 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:48.535 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Status  
+2019-05-09 09:07:48.536 +01:00 [INF] Route matched with {action = "GetLiveStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API)
+2019-05-09 09:07:48.536 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:48.543 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 14.1822ms.
+2019-05-09 09:07:48.543 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.KilliPrinter, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:48.544 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 7.9096ms.
+2019-05-09 09:07:48.544 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.LiveMatchStatus, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:48.544 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) in 15.1963ms
+2019-05-09 09:07:48.544 +01:00 [INF] Request finished in 16.1844ms 200 application/json; charset=utf-8
+2019-05-09 09:07:48.549 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) in 13.3543ms
+2019-05-09 09:07:48.549 +01:00 [INF] Request finished in 16.2437ms 200 application/json; charset=utf-8
+2019-05-09 09:07:48.562 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/MatchStatus  
+2019-05-09 09:07:48.563 +01:00 [INF] Route matched with {action = "GetMatchStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API)
+2019-05-09 09:07:48.564 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:48.569 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 4.9183ms.
+2019-05-09 09:07:48.569 +01:00 [INF] Executing ObjectResult, writing value of type 'Fanview.API.Model.EventLiveMatchStatus'.
+2019-05-09 09:07:48.570 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) in 5.9931ms
+2019-05-09 09:07:48.570 +01:00 [INF] Request finished in 7.8379ms 200 application/json; charset=utf-8
+2019-05-09 09:07:48.998 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Killiprinter  
+2019-05-09 09:07:48.999 +01:00 [INF] Route matched with {action = "GetAllKilliprinterForGraphics", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API)
+2019-05-09 09:07:48.999 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:49.005 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/MatchStatus  
+2019-05-09 09:07:49.006 +01:00 [INF] Route matched with {action = "GetMatchStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API)
+2019-05-09 09:07:49.007 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:49.012 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 5.4644ms.
+2019-05-09 09:07:49.013 +01:00 [INF] Executing ObjectResult, writing value of type 'Fanview.API.Model.EventLiveMatchStatus'.
+2019-05-09 09:07:49.014 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 14.712100000000001ms.
+2019-05-09 09:07:49.014 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) in 7.3061000000000007ms
+2019-05-09 09:07:49.014 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.KilliPrinter, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:49.014 +01:00 [INF] Request finished in 10.9459ms 200 application/json; charset=utf-8
+2019-05-09 09:07:49.014 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) in 15.4792ms
+2019-05-09 09:07:49.015 +01:00 [INF] Request finished in 16.5024ms 200 application/json; charset=utf-8
+2019-05-09 09:07:49.036 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Status  
+2019-05-09 09:07:49.036 +01:00 [INF] Route matched with {action = "GetLiveStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API)
+2019-05-09 09:07:49.037 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:49.042 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 5.4641ms.
+2019-05-09 09:07:49.043 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.LiveMatchStatus, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:49.045 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) in 8.241200000000001ms
+2019-05-09 09:07:49.045 +01:00 [INF] Request finished in 9.7123ms 200 application/json; charset=utf-8
+2019-05-09 09:07:49.474 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Status  
+2019-05-09 09:07:49.474 +01:00 [INF] Route matched with {action = "GetLiveStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API)
+2019-05-09 09:07:49.474 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:49.480 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 5.9087000000000005ms.
+2019-05-09 09:07:49.480 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.LiveMatchStatus, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:49.481 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) in 7.0302000000000007ms
+2019-05-09 09:07:49.481 +01:00 [INF] Request finished in 7.7201ms 200 application/json; charset=utf-8
+2019-05-09 09:07:49.488 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Killiprinter  
+2019-05-09 09:07:49.490 +01:00 [INF] Route matched with {action = "GetAllKilliprinterForGraphics", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API)
+2019-05-09 09:07:49.490 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:49.511 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 20.1265ms.
+2019-05-09 09:07:49.511 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.KilliPrinter, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:49.511 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) in 20.8381ms
+2019-05-09 09:07:49.511 +01:00 [INF] Request finished in 23.4608ms 200 application/json; charset=utf-8
+2019-05-09 09:07:49.522 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/MatchStatus  
+2019-05-09 09:07:49.522 +01:00 [INF] Route matched with {action = "GetMatchStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API)
+2019-05-09 09:07:49.522 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:49.528 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 5.3855ms.
+2019-05-09 09:07:49.528 +01:00 [INF] Executing ObjectResult, writing value of type 'Fanview.API.Model.EventLiveMatchStatus'.
+2019-05-09 09:07:49.528 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) in 6.1743000000000006ms
+2019-05-09 09:07:49.529 +01:00 [INF] Request finished in 7.2599ms 200 application/json; charset=utf-8
+2019-05-09 09:07:49.985 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Status  
+2019-05-09 09:07:49.985 +01:00 [INF] Route matched with {action = "GetLiveStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API)
+2019-05-09 09:07:49.986 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:49.992 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 6.3173ms.
+2019-05-09 09:07:49.992 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.LiveMatchStatus, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:49.993 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) in 7.8817ms
+2019-05-09 09:07:49.994 +01:00 [INF] Request finished in 8.5919ms 200 application/json; charset=utf-8
+2019-05-09 09:07:50.008 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/MatchStatus  
+2019-05-09 09:07:50.009 +01:00 [INF] Route matched with {action = "GetMatchStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API)
+2019-05-09 09:07:50.009 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:50.015 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 5.8829ms.
+2019-05-09 09:07:50.016 +01:00 [INF] Executing ObjectResult, writing value of type 'Fanview.API.Model.EventLiveMatchStatus'.
+2019-05-09 09:07:50.017 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) in 7.6629000000000005ms
+2019-05-09 09:07:50.017 +01:00 [INF] Request finished in 8.8547ms 200 application/json; charset=utf-8
+2019-05-09 09:07:50.031 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Killiprinter  
+2019-05-09 09:07:50.032 +01:00 [INF] Route matched with {action = "GetAllKilliprinterForGraphics", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API)
+2019-05-09 09:07:50.032 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:50.046 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 14.217ms.
+2019-05-09 09:07:50.047 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.KilliPrinter, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:50.047 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) in 14.901100000000001ms
+2019-05-09 09:07:50.047 +01:00 [INF] Request finished in 15.7611ms 200 application/json; charset=utf-8
+2019-05-09 09:07:50.517 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Status  
+2019-05-09 09:07:50.519 +01:00 [INF] Route matched with {action = "GetLiveStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API)
+2019-05-09 09:07:50.520 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:50.528 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Killiprinter  
+2019-05-09 09:07:50.530 +01:00 [INF] Route matched with {action = "GetAllKilliprinterForGraphics", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API)
+2019-05-09 09:07:50.530 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:50.552 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 31.704500000000003ms.
+2019-05-09 09:07:50.552 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.LiveMatchStatus, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:50.556 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 25.669ms.
+2019-05-09 09:07:50.556 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) in 36.101ms
+2019-05-09 09:07:50.556 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.KilliPrinter, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:50.556 +01:00 [INF] Request finished in 39.2014ms 200 application/json; charset=utf-8
+2019-05-09 09:07:50.556 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) in 26.4314ms
+2019-05-09 09:07:50.557 +01:00 [INF] Request finished in 29.1947ms 200 application/json; charset=utf-8
+2019-05-09 09:07:50.584 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/MatchStatus  
+2019-05-09 09:07:50.584 +01:00 [INF] Route matched with {action = "GetMatchStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API)
+2019-05-09 09:07:50.584 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:50.589 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 4.6966ms.
+2019-05-09 09:07:50.589 +01:00 [INF] Executing ObjectResult, writing value of type 'Fanview.API.Model.EventLiveMatchStatus'.
+2019-05-09 09:07:50.590 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) in 5.7754ms
+2019-05-09 09:07:50.590 +01:00 [INF] Request finished in 6.7066ms 200 application/json; charset=utf-8
+2019-05-09 09:07:50.994 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Status  
+2019-05-09 09:07:50.994 +01:00 [INF] Route matched with {action = "GetLiveStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API)
+2019-05-09 09:07:50.995 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:51.004 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 9.2463ms.
+2019-05-09 09:07:51.004 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.LiveMatchStatus, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:51.006 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) in 11.735800000000001ms
+2019-05-09 09:07:51.007 +01:00 [INF] Request finished in 13.0974ms 200 application/json; charset=utf-8
+2019-05-09 09:07:51.032 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/MatchStatus  
+2019-05-09 09:07:51.032 +01:00 [INF] Route matched with {action = "GetMatchStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API)
+2019-05-09 09:07:51.032 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:51.036 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Killiprinter  
+2019-05-09 09:07:51.038 +01:00 [INF] Route matched with {action = "GetAllKilliprinterForGraphics", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API)
+2019-05-09 09:07:51.038 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:51.042 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 10.0287ms.
+2019-05-09 09:07:51.043 +01:00 [INF] Executing ObjectResult, writing value of type 'Fanview.API.Model.EventLiveMatchStatus'.
+2019-05-09 09:07:51.045 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) in 12.7286ms
+2019-05-09 09:07:51.045 +01:00 [INF] Request finished in 13.9269ms 200 application/json; charset=utf-8
+2019-05-09 09:07:51.054 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 15.905600000000002ms.
+2019-05-09 09:07:51.054 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.KilliPrinter, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:51.055 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) in 16.7441ms
+2019-05-09 09:07:51.055 +01:00 [INF] Request finished in 18.6715ms 200 application/json; charset=utf-8
+2019-05-09 09:07:51.472 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Status  
+2019-05-09 09:07:51.472 +01:00 [INF] Route matched with {action = "GetLiveStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API)
+2019-05-09 09:07:51.473 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:51.476 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 3.3587000000000002ms.
+2019-05-09 09:07:51.476 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.LiveMatchStatus, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:51.477 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) in 4.1839ms
+2019-05-09 09:07:51.477 +01:00 [INF] Request finished in 4.864ms 200 application/json; charset=utf-8
+2019-05-09 09:07:51.493 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Killiprinter  
+2019-05-09 09:07:51.493 +01:00 [INF] Route matched with {action = "GetAllKilliprinterForGraphics", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API)
+2019-05-09 09:07:51.493 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:51.496 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/MatchStatus  
+2019-05-09 09:07:51.497 +01:00 [INF] Route matched with {action = "GetMatchStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API)
+2019-05-09 09:07:51.497 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:51.503 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 4.6981ms.
+2019-05-09 09:07:51.503 +01:00 [INF] Executing ObjectResult, writing value of type 'Fanview.API.Model.EventLiveMatchStatus'.
+2019-05-09 09:07:51.504 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 10.757ms.
+2019-05-09 09:07:51.504 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) in 7.0253000000000005ms
+2019-05-09 09:07:51.504 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.KilliPrinter, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:51.504 +01:00 [INF] Request finished in 8.2716ms 200 application/json; charset=utf-8
+2019-05-09 09:07:51.504 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) in 11.2019ms
+2019-05-09 09:07:51.506 +01:00 [INF] Request finished in 12.9959ms 200 application/json; charset=utf-8
+2019-05-09 09:07:51.982 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Status  
+2019-05-09 09:07:51.982 +01:00 [INF] Route matched with {action = "GetLiveStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API)
+2019-05-09 09:07:51.983 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:51.995 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 12.000300000000001ms.
+2019-05-09 09:07:51.995 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.LiveMatchStatus, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:51.996 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) in 13.2783ms
+2019-05-09 09:07:51.996 +01:00 [INF] Request finished in 14.2904ms 200 application/json; charset=utf-8
+2019-05-09 09:07:52.014 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Killiprinter  
+2019-05-09 09:07:52.014 +01:00 [INF] Route matched with {action = "GetAllKilliprinterForGraphics", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API)
+2019-05-09 09:07:52.014 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:52.019 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/MatchStatus  
+2019-05-09 09:07:52.020 +01:00 [INF] Route matched with {action = "GetMatchStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API)
+2019-05-09 09:07:52.020 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:52.027 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 13.0386ms.
+2019-05-09 09:07:52.028 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 6.926ms.
+2019-05-09 09:07:52.028 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.KilliPrinter, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:52.028 +01:00 [INF] Executing ObjectResult, writing value of type 'Fanview.API.Model.EventLiveMatchStatus'.
+2019-05-09 09:07:52.028 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) in 13.8703ms
+2019-05-09 09:07:52.028 +01:00 [INF] Request finished in 14.8227ms 200 application/json; charset=utf-8
+2019-05-09 09:07:52.030 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) in 9.871ms
+2019-05-09 09:07:52.032 +01:00 [INF] Request finished in 14.0488ms 200 application/json; charset=utf-8
+2019-05-09 09:07:52.498 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Killiprinter  
+2019-05-09 09:07:52.498 +01:00 [INF] Route matched with {action = "GetAllKilliprinterForGraphics", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API)
+2019-05-09 09:07:52.498 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:52.508 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 9.065900000000001ms.
+2019-05-09 09:07:52.508 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.KilliPrinter, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:52.508 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) in 9.8987ms
+2019-05-09 09:07:52.509 +01:00 [INF] Request finished in 10.6472ms 200 application/json; charset=utf-8
+2019-05-09 09:07:52.513 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/MatchStatus  
+2019-05-09 09:07:52.513 +01:00 [INF] Route matched with {action = "GetMatchStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API)
+2019-05-09 09:07:52.513 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:52.517 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Status  
+2019-05-09 09:07:52.517 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 4.3061ms.
+2019-05-09 09:07:52.518 +01:00 [INF] Route matched with {action = "GetLiveStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API)
+2019-05-09 09:07:52.518 +01:00 [INF] Executing ObjectResult, writing value of type 'Fanview.API.Model.EventLiveMatchStatus'.
+2019-05-09 09:07:52.518 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:52.518 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) in 5.1459ms
+2019-05-09 09:07:52.519 +01:00 [INF] Request finished in 6.138ms 200 application/json; charset=utf-8
+2019-05-09 09:07:52.528 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 9.9189ms.
+2019-05-09 09:07:52.528 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.LiveMatchStatus, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:52.529 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) in 11.2455ms
+2019-05-09 09:07:52.529 +01:00 [INF] Request finished in 12.1713ms 200 application/json; charset=utf-8
+2019-05-09 09:07:52.972 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Status  
+2019-05-09 09:07:52.972 +01:00 [INF] Route matched with {action = "GetLiveStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API)
+2019-05-09 09:07:52.973 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:52.977 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 3.9661000000000004ms.
+2019-05-09 09:07:52.977 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.LiveMatchStatus, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:52.978 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) in 4.9492ms
+2019-05-09 09:07:52.978 +01:00 [INF] Request finished in 5.5233ms 200 application/json; charset=utf-8
+2019-05-09 09:07:52.998 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/MatchStatus  
+2019-05-09 09:07:52.998 +01:00 [INF] Route matched with {action = "GetMatchStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API)
+2019-05-09 09:07:52.998 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:53.006 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 8.1072ms.
+2019-05-09 09:07:53.006 +01:00 [INF] Executing ObjectResult, writing value of type 'Fanview.API.Model.EventLiveMatchStatus'.
+2019-05-09 09:07:53.007 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) in 9.2086ms
+2019-05-09 09:07:53.007 +01:00 [INF] Request finished in 9.8212ms 200 application/json; charset=utf-8
+2019-05-09 09:07:53.012 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Killiprinter  
+2019-05-09 09:07:53.012 +01:00 [INF] Route matched with {action = "GetAllKilliprinterForGraphics", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API)
+2019-05-09 09:07:53.012 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:53.023 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 10.302100000000001ms.
+2019-05-09 09:07:53.023 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.KilliPrinter, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:53.023 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) in 11.0929ms
+2019-05-09 09:07:53.024 +01:00 [INF] Request finished in 12.069ms 200 application/json; charset=utf-8
+2019-05-09 09:07:53.502 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Status  
+2019-05-09 09:07:53.502 +01:00 [INF] Route matched with {action = "GetLiveStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API)
+2019-05-09 09:07:53.502 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:53.506 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 3.8469ms.
+2019-05-09 09:07:53.507 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.LiveMatchStatus, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:53.507 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Killiprinter  
+2019-05-09 09:07:53.507 +01:00 [INF] Route matched with {action = "GetAllKilliprinterForGraphics", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API)
+2019-05-09 09:07:53.507 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:53.507 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) in 4.9688ms
+2019-05-09 09:07:53.507 +01:00 [INF] Request finished in 5.5655ms 200 application/json; charset=utf-8
+2019-05-09 09:07:53.519 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 11.3238ms.
+2019-05-09 09:07:53.519 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.KilliPrinter, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:53.519 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) in 12.015400000000001ms
+2019-05-09 09:07:53.520 +01:00 [INF] Request finished in 12.9849ms 200 application/json; charset=utf-8
+2019-05-09 09:07:53.534 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/MatchStatus  
+2019-05-09 09:07:53.534 +01:00 [INF] Route matched with {action = "GetMatchStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API)
+2019-05-09 09:07:53.534 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:53.538 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 3.6135ms.
+2019-05-09 09:07:53.538 +01:00 [INF] Executing ObjectResult, writing value of type 'Fanview.API.Model.EventLiveMatchStatus'.
+2019-05-09 09:07:53.539 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) in 4.4721ms
+2019-05-09 09:07:53.539 +01:00 [INF] Request finished in 5.0724ms 200 application/json; charset=utf-8
+2019-05-09 09:07:54.005 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Killiprinter  
+2019-05-09 09:07:54.005 +01:00 [INF] Route matched with {action = "GetAllKilliprinterForGraphics", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API)
+2019-05-09 09:07:54.006 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:54.010 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/MatchStatus  
+2019-05-09 09:07:54.011 +01:00 [INF] Route matched with {action = "GetMatchStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API)
+2019-05-09 09:07:54.012 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:54.017 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 4.7188ms.
+2019-05-09 09:07:54.017 +01:00 [INF] Executing ObjectResult, writing value of type 'Fanview.API.Model.EventLiveMatchStatus'.
+2019-05-09 09:07:54.019 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) in 7.3389000000000006ms
+2019-05-09 09:07:54.019 +01:00 [INF] Request finished in 9.1969ms 200 application/json; charset=utf-8
+2019-05-09 09:07:54.022 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 16.512800000000002ms.
+2019-05-09 09:07:54.022 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.KilliPrinter, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:54.023 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) in 17.2042ms
+2019-05-09 09:07:54.023 +01:00 [INF] Request finished in 18.2813ms 200 application/json; charset=utf-8
+2019-05-09 09:07:54.027 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Status  
+2019-05-09 09:07:54.051 +01:00 [INF] Route matched with {action = "GetLiveStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API)
+2019-05-09 09:07:54.051 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:54.073 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 21.7782ms.
+2019-05-09 09:07:54.073 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.LiveMatchStatus, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:54.074 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) in 23.0454ms
+2019-05-09 09:07:54.075 +01:00 [INF] Request finished in 47.2649ms 200 application/json; charset=utf-8
+2019-05-09 09:07:54.497 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Killiprinter  
+2019-05-09 09:07:54.497 +01:00 [INF] Route matched with {action = "GetAllKilliprinterForGraphics", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API)
+2019-05-09 09:07:54.497 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:54.501 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/MatchStatus  
+2019-05-09 09:07:54.504 +01:00 [INF] Route matched with {action = "GetMatchStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API)
+2019-05-09 09:07:54.504 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:54.509 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 4.7023ms.
+2019-05-09 09:07:54.509 +01:00 [INF] Executing ObjectResult, writing value of type 'Fanview.API.Model.EventLiveMatchStatus'.
+2019-05-09 09:07:54.511 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 13.4738ms.
+2019-05-09 09:07:54.511 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) in 7.0566ms
+2019-05-09 09:07:54.511 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.KilliPrinter, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:54.511 +01:00 [INF] Request finished in 9.9056ms 200 application/json; charset=utf-8
+2019-05-09 09:07:54.511 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) in 13.9678ms
+2019-05-09 09:07:54.512 +01:00 [INF] Request finished in 14.5899ms 200 application/json; charset=utf-8
+2019-05-09 09:07:54.523 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Status  
+2019-05-09 09:07:54.524 +01:00 [INF] Route matched with {action = "GetLiveStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API)
+2019-05-09 09:07:54.524 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:54.534 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 8.892100000000001ms.
+2019-05-09 09:07:54.534 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.LiveMatchStatus, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:54.535 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) in 10.3056ms
+2019-05-09 09:07:54.535 +01:00 [INF] Request finished in 12.9654ms 200 application/json; charset=utf-8
+2019-05-09 09:07:54.810 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Ranking/TournamentRankings  
+2019-05-09 09:07:54.811 +01:00 [INF] Route matched with {action = "GetTournamentRanking", controller = "Ranking"}. Executing action Fanview.API.Controllers.RankingController.GetTournamentRanking (Fanview.API)
+2019-05-09 09:07:54.812 +01:00 [INF] Executing action method Fanview.API.Controllers.RankingController.GetTournamentRanking (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:54.991 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Status  
+2019-05-09 09:07:54.991 +01:00 [INF] Route matched with {action = "GetLiveStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API)
+2019-05-09 09:07:54.992 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:54.999 +01:00 [INF] Executed action method Fanview.API.Controllers.RankingController.GetTournamentRanking (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 187.1045ms.
+2019-05-09 09:07:54.999 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[Fanview.API.Model.TournamentRanking, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Fanview.API.Model.TournamentRanking, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:54.999 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 7.8053000000000008ms.
+2019-05-09 09:07:54.999 +01:00 [INF] Executed action Fanview.API.Controllers.RankingController.GetTournamentRanking (Fanview.API) in 188.24040000000002ms
+2019-05-09 09:07:55.000 +01:00 [INF] Request finished in 189.3574ms 200 application/json; charset=utf-8
+2019-05-09 09:07:55.000 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.LiveMatchStatus, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:55.005 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) in 13.3315ms
+2019-05-09 09:07:55.005 +01:00 [INF] Request finished in 14.4299ms 200 application/json; charset=utf-8
+2019-05-09 09:07:55.011 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Killiprinter  
+2019-05-09 09:07:55.020 +01:00 [INF] Route matched with {action = "GetAllKilliprinterForGraphics", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API)
+2019-05-09 09:07:55.020 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:55.045 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/MatchStatus  
+2019-05-09 09:07:55.046 +01:00 [INF] Route matched with {action = "GetMatchStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API)
+2019-05-09 09:07:55.047 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:55.052 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 4.1466ms.
+2019-05-09 09:07:55.052 +01:00 [INF] Executing ObjectResult, writing value of type 'Fanview.API.Model.EventLiveMatchStatus'.
+2019-05-09 09:07:55.053 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) in 6.5808ms
+2019-05-09 09:07:55.054 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 33.4151ms.
+2019-05-09 09:07:55.054 +01:00 [INF] Request finished in 9.3395ms 200 application/json; charset=utf-8
+2019-05-09 09:07:55.054 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.KilliPrinter, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:55.054 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) in 34.058ms
+2019-05-09 09:07:55.056 +01:00 [INF] Request finished in 45.1456ms 200 application/json; charset=utf-8
+2019-05-09 09:07:55.237 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Player/Stats/Overall  
+2019-05-09 09:07:55.243 +01:00 [INF] Route matched with {action = "GetTournamentPlayerStats", controller = "Player"}. Executing action Fanview.API.Controllers.PlayerController.GetTournamentPlayerStats (Fanview.API)
+2019-05-09 09:07:55.243 +01:00 [INF] Executing action method Fanview.API.Controllers.PlayerController.GetTournamentPlayerStats (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:58.395 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/MatchStatus  
+2019-05-09 09:07:58.395 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Status  
+2019-05-09 09:07:58.395 +01:00 [INF] Route matched with {action = "GetLiveStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API)
+2019-05-09 09:07:58.395 +01:00 [INF] Route matched with {action = "GetMatchStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API)
+2019-05-09 09:07:58.395 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:58.395 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:58.402 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Killiprinter  
+2019-05-09 09:07:58.404 +01:00 [INF] Route matched with {action = "GetAllKilliprinterForGraphics", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API)
+2019-05-09 09:07:58.405 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:58.406 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 10.4824ms.
+2019-05-09 09:07:58.407 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 11.5761ms.
+2019-05-09 09:07:58.413 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.LiveMatchStatus, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:58.414 +01:00 [INF] Executing ObjectResult, writing value of type 'Fanview.API.Model.EventLiveMatchStatus'.
+2019-05-09 09:07:58.415 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Status  
+2019-05-09 09:07:58.415 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Killiprinter  
+2019-05-09 09:07:58.415 +01:00 [INF] Route matched with {action = "GetLiveStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API)
+2019-05-09 09:07:58.415 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:58.415 +01:00 [INF] Route matched with {action = "GetAllKilliprinterForGraphics", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API)
+2019-05-09 09:07:58.415 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) in 19.994ms
+2019-05-09 09:07:58.415 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) in 20.1069ms
+2019-05-09 09:07:58.415 +01:00 [INF] Request finished in 20.7055ms 200 application/json; charset=utf-8
+2019-05-09 09:07:58.415 +01:00 [INF] Request finished in 20.6536ms 200 application/json; charset=utf-8
+2019-05-09 09:07:58.417 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:58.449 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 33.9261ms.
+2019-05-09 09:07:58.450 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.LiveMatchStatus, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:58.452 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) in 37.1098ms
+2019-05-09 09:07:58.452 +01:00 [INF] Request finished in 37.6684ms 200 application/json; charset=utf-8
+2019-05-09 09:07:58.537 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 119.93010000000001ms.
+2019-05-09 09:07:58.537 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.KilliPrinter, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:58.538 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) in 121.67660000000001ms
+2019-05-09 09:07:58.538 +01:00 [INF] Request finished in 122.8868ms 200 application/json; charset=utf-8
+2019-05-09 09:07:58.556 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 151.55620000000002ms.
+2019-05-09 09:07:58.557 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.KilliPrinter, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:58.558 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) in 153.05280000000002ms
+2019-05-09 09:07:58.558 +01:00 [INF] Request finished in 156.461ms 200 application/json; charset=utf-8
+2019-05-09 09:07:58.628 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Killiprinter  
+2019-05-09 09:07:58.628 +01:00 [INF] Route matched with {action = "GetAllKilliprinterForGraphics", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API)
+2019-05-09 09:07:58.628 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:58.636 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Status  
+2019-05-09 09:07:58.637 +01:00 [INF] Route matched with {action = "GetLiveStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API)
+2019-05-09 09:07:58.637 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:58.642 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 13.8322ms.
+2019-05-09 09:07:58.643 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.KilliPrinter, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:58.643 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) in 14.506200000000002ms
+2019-05-09 09:07:58.643 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 5.3204ms.
+2019-05-09 09:07:58.643 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.LiveMatchStatus, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:58.643 +01:00 [INF] Request finished in 15.3445ms 200 application/json; charset=utf-8
+2019-05-09 09:07:58.647 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) in 9.9606000000000012ms
+2019-05-09 09:07:58.648 +01:00 [INF] Request finished in 11.7177ms 200 application/json; charset=utf-8
+2019-05-09 09:07:58.664 +01:00 [INF] Executed action method Fanview.API.Controllers.PlayerController.GetTournamentPlayerStats (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 3420.8226ms.
+2019-05-09 09:07:58.664 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.ViewModels.PlayerProfileTournament, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:58.664 +01:00 [INF] Executed action Fanview.API.Controllers.PlayerController.GetTournamentPlayerStats (Fanview.API) in 3421.3761ms
+2019-05-09 09:07:58.664 +01:00 [INF] Request finished in 3427.0706ms 200 application/json; charset=utf-8
+2019-05-09 09:07:58.676 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/MatchStatus  
+2019-05-09 09:07:58.677 +01:00 [INF] Route matched with {action = "GetMatchStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API)
+2019-05-09 09:07:58.677 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:58.682 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 5.2120000000000006ms.
+2019-05-09 09:07:58.682 +01:00 [INF] Executing ObjectResult, writing value of type 'Fanview.API.Model.EventLiveMatchStatus'.
+2019-05-09 09:07:58.683 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) in 6.2920000000000007ms
+2019-05-09 09:07:58.683 +01:00 [INF] Request finished in 7.0014ms 200 application/json; charset=utf-8
+2019-05-09 09:07:58.685 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/MatchStatus  
+2019-05-09 09:07:58.688 +01:00 [INF] Route matched with {action = "GetMatchStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API)
+2019-05-09 09:07:58.688 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:58.692 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 3.7285000000000004ms.
+2019-05-09 09:07:58.692 +01:00 [INF] Executing ObjectResult, writing value of type 'Fanview.API.Model.EventLiveMatchStatus'.
+2019-05-09 09:07:58.693 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) in 4.6201ms
+2019-05-09 09:07:58.693 +01:00 [INF] Request finished in 7.9097ms 200 application/json; charset=utf-8
+2019-05-09 09:07:58.754 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Status  
+2019-05-09 09:07:58.755 +01:00 [INF] Route matched with {action = "GetLiveStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API)
+2019-05-09 09:07:58.755 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:58.762 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 7.1431000000000004ms.
+2019-05-09 09:07:58.763 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.LiveMatchStatus, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:58.764 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) in 9.3791000000000011ms
+2019-05-09 09:07:58.765 +01:00 [INF] Request finished in 10.7406ms 200 application/json; charset=utf-8
+2019-05-09 09:07:58.794 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Killiprinter  
+2019-05-09 09:07:58.794 +01:00 [INF] Route matched with {action = "GetAllKilliprinterForGraphics", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API)
+2019-05-09 09:07:58.794 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:58.804 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 9.4857ms.
+2019-05-09 09:07:58.804 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.KilliPrinter, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:07:58.804 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) in 9.9481ms
+2019-05-09 09:07:58.804 +01:00 [INF] Request finished in 10.5305ms 200 application/json; charset=utf-8
+2019-05-09 09:07:58.819 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/MatchStatus  
+2019-05-09 09:07:58.819 +01:00 [INF] Route matched with {action = "GetMatchStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API)
+2019-05-09 09:07:58.819 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:07:58.823 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 3.8042000000000002ms.
+2019-05-09 09:07:58.823 +01:00 [INF] Executing ObjectResult, writing value of type 'Fanview.API.Model.EventLiveMatchStatus'.
+2019-05-09 09:07:58.846 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) in 26.305500000000002ms
+2019-05-09 09:07:58.846 +01:00 [INF] Request finished in 26.9237ms 200 application/json; charset=utf-8
+2019-05-09 09:07:58.925 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Player/Stats/Overall  
+2019-05-09 09:07:58.925 +01:00 [INF] Route matched with {action = "GetTournamentPlayerStats", controller = "Player"}. Executing action Fanview.API.Controllers.PlayerController.GetTournamentPlayerStats (Fanview.API)
+2019-05-09 09:07:58.925 +01:00 [INF] Executing action method Fanview.API.Controllers.PlayerController.GetTournamentPlayerStats (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:08:08.917 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Status  
+2019-05-09 09:08:08.918 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Killiprinter  
+2019-05-09 09:08:08.918 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Status  
+2019-05-09 09:08:08.919 +01:00 [INF] Route matched with {action = "GetAllKilliprinterForGraphics", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API)
+2019-05-09 09:08:08.919 +01:00 [INF] Route matched with {action = "GetLiveStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API)
+2019-05-09 09:08:08.920 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:08:08.921 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:08:08.920 +01:00 [INF] Route matched with {action = "GetLiveStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API)
+2019-05-09 09:08:08.922 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Killiprinter  
+2019-05-09 09:08:08.922 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:08:08.929 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/MatchStatus  
+2019-05-09 09:08:08.925 +01:00 [INF] Route matched with {action = "GetAllKilliprinterForGraphics", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API)
+2019-05-09 09:08:08.943 +01:00 [INF] Route matched with {action = "GetMatchStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API)
+2019-05-09 09:08:08.944 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:08:08.943 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:08:08.954 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 32.9341ms.
+2019-05-09 09:08:08.954 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.LiveMatchStatus, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:08:08.955 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 31.8155ms.
+2019-05-09 09:08:08.956 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.LiveMatchStatus, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:08:08.960 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) in 39.511900000000004ms
+2019-05-09 09:08:08.962 +01:00 [INF] Request finished in 43.9154ms 200 application/json; charset=utf-8
+2019-05-09 09:08:08.970 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) in 48.2976ms
+2019-05-09 09:08:08.970 +01:00 [INF] Request finished in 51.9118ms 200 application/json; charset=utf-8
+2019-05-09 09:08:08.974 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 52.8738ms.
+2019-05-09 09:08:08.974 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.KilliPrinter, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:08:08.974 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) in 54.6511ms
+2019-05-09 09:08:08.975 +01:00 [INF] Request finished in 56.8484ms 200 application/json; charset=utf-8
+2019-05-09 09:08:09.029 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 84.8738ms.
+2019-05-09 09:08:09.057 +01:00 [INF] Executing ObjectResult, writing value of type 'Fanview.API.Model.EventLiveMatchStatus'.
+2019-05-09 09:08:09.061 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) in 117.2382ms
+2019-05-09 09:08:09.062 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 109.2423ms.
+2019-05-09 09:08:09.062 +01:00 [INF] Request finished in 136.3948ms 200 application/json; charset=utf-8
+2019-05-09 09:08:09.062 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.KilliPrinter, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:08:09.062 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) in 119.74040000000001ms
+2019-05-09 09:08:09.064 +01:00 [INF] Request finished in 143.3541ms 200 application/json; charset=utf-8
+2019-05-09 09:08:09.100 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Status  
+2019-05-09 09:08:09.101 +01:00 [INF] Route matched with {action = "GetLiveStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API)
+2019-05-09 09:08:09.101 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:08:09.103 +01:00 [INF] Executed action method Fanview.API.Controllers.PlayerController.GetTournamentPlayerStats (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 10177.681700000001ms.
+2019-05-09 09:08:09.104 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.ViewModels.PlayerProfileTournament, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:08:09.105 +01:00 [INF] Executed action Fanview.API.Controllers.PlayerController.GetTournamentPlayerStats (Fanview.API) in 10179.4276ms
+2019-05-09 09:08:09.105 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/MatchStatus  
+2019-05-09 09:08:09.105 +01:00 [INF] Request finished in 10180.2803ms 200 application/json; charset=utf-8
+2019-05-09 09:08:09.105 +01:00 [INF] Route matched with {action = "GetMatchStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API)
+2019-05-09 09:08:09.106 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:08:09.108 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 6.6217000000000006ms.
+2019-05-09 09:08:09.108 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.LiveMatchStatus, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:08:09.109 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) in 8.0967ms
+2019-05-09 09:08:09.109 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 3.3440000000000003ms.
+2019-05-09 09:08:09.109 +01:00 [INF] Executing ObjectResult, writing value of type 'Fanview.API.Model.EventLiveMatchStatus'.
+2019-05-09 09:08:09.109 +01:00 [INF] Request finished in 8.9372ms 200 application/json; charset=utf-8
+2019-05-09 09:08:09.113 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) in 7.5513ms
+2019-05-09 09:08:09.113 +01:00 [INF] Request finished in 8.6563ms 200 application/json; charset=utf-8
+2019-05-09 09:08:09.272 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Status  
+2019-05-09 09:08:09.272 +01:00 [INF] Route matched with {action = "GetLiveStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API)
+2019-05-09 09:08:09.272 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:08:09.277 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 4.9706ms.
+2019-05-09 09:08:09.278 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.LiveMatchStatus, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:08:09.278 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) in 5.8839000000000006ms
+2019-05-09 09:08:09.278 +01:00 [INF] Request finished in 6.6072ms 200 application/json; charset=utf-8
+2019-05-09 09:08:09.286 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Killiprinter  
+2019-05-09 09:08:09.287 +01:00 [INF] Route matched with {action = "GetAllKilliprinterForGraphics", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API)
+2019-05-09 09:08:09.287 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:08:09.296 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 9.5221ms.
+2019-05-09 09:08:09.297 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.KilliPrinter, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:08:09.297 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) in 10.0809ms
+2019-05-09 09:08:09.297 +01:00 [INF] Request finished in 11.0475ms 200 application/json; charset=utf-8
+2019-05-09 09:08:09.343 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/MatchStatus  
+2019-05-09 09:08:09.343 +01:00 [INF] Route matched with {action = "GetMatchStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API)
+2019-05-09 09:08:09.343 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:08:09.347 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 3.2244ms.
+2019-05-09 09:08:09.347 +01:00 [INF] Executing ObjectResult, writing value of type 'Fanview.API.Model.EventLiveMatchStatus'.
+2019-05-09 09:08:09.347 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) in 3.7815000000000003ms
+2019-05-09 09:08:09.347 +01:00 [INF] Request finished in 4.3162ms 200 application/json; charset=utf-8
+2019-05-09 09:08:09.382 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Killiprinter  
+2019-05-09 09:08:09.382 +01:00 [INF] Route matched with {action = "GetAllKilliprinterForGraphics", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API)
+2019-05-09 09:08:09.382 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:08:09.396 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 13.475000000000001ms.
+2019-05-09 09:08:09.396 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.KilliPrinter, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:08:09.396 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) in 14.1303ms
+2019-05-09 09:08:09.397 +01:00 [INF] Request finished in 14.8112ms 200 application/json; charset=utf-8
+2019-05-09 09:08:09.458 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Status  
+2019-05-09 09:08:09.459 +01:00 [INF] Route matched with {action = "GetLiveStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API)
+2019-05-09 09:08:09.459 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:08:09.463 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 3.5943ms.
+2019-05-09 09:08:09.463 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.LiveMatchStatus, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:08:09.463 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) in 4.3058000000000005ms
+2019-05-09 09:08:09.463 +01:00 [INF] Request finished in 4.9234ms 200 application/json; charset=utf-8
+2019-05-09 09:08:09.510 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Player/Stats/Overall  
+2019-05-09 09:08:09.511 +01:00 [INF] Route matched with {action = "GetTournamentPlayerStats", controller = "Player"}. Executing action Fanview.API.Controllers.PlayerController.GetTournamentPlayerStats (Fanview.API)
+2019-05-09 09:08:09.511 +01:00 [INF] Executing action method Fanview.API.Controllers.PlayerController.GetTournamentPlayerStats (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:08:17.636 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Killiprinter  
+2019-05-09 09:08:17.638 +01:00 [INF] Route matched with {action = "GetAllKilliprinterForGraphics", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API)
+2019-05-09 09:08:17.641 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:08:17.644 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Killiprinter  
+2019-05-09 09:08:17.645 +01:00 [INF] Route matched with {action = "GetAllKilliprinterForGraphics", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API)
+2019-05-09 09:08:17.646 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:08:17.647 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/MatchStatus  
+2019-05-09 09:08:17.647 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/MatchStatus  
+2019-05-09 09:08:17.648 +01:00 [INF] Route matched with {action = "GetMatchStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API)
+2019-05-09 09:08:17.648 +01:00 [INF] Route matched with {action = "GetMatchStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API)
+2019-05-09 09:08:17.649 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:08:17.649 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:08:17.666 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Status  
+2019-05-09 09:08:17.667 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 16.3844ms.
+2019-05-09 09:08:17.667 +01:00 [INF] Route matched with {action = "GetLiveStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API)
+2019-05-09 09:08:17.667 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 17.2074ms.
+2019-05-09 09:08:17.667 +01:00 [INF] Executing ObjectResult, writing value of type 'Fanview.API.Model.EventLiveMatchStatus'.
+2019-05-09 09:08:17.667 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:08:17.668 +01:00 [INF] Executing ObjectResult, writing value of type 'Fanview.API.Model.EventLiveMatchStatus'.
+2019-05-09 09:08:17.669 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) in 20.105700000000002ms
+2019-05-09 09:08:17.669 +01:00 [INF] Request finished in 22.417ms 200 application/json; charset=utf-8
+2019-05-09 09:08:17.670 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) in 20.8393ms
+2019-05-09 09:08:17.670 +01:00 [INF] Request finished in 22.9769ms 200 application/json; charset=utf-8
+2019-05-09 09:08:17.711 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 69.1521ms.
+2019-05-09 09:08:17.714 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.KilliPrinter, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:08:17.714 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) in 73.9661ms
+2019-05-09 09:08:17.716 +01:00 [INF] Request finished in 80.9478ms 200 application/json; charset=utf-8
+2019-05-09 09:08:17.714 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 46.6045ms.
+2019-05-09 09:08:17.719 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 71.885ms.
+2019-05-09 09:08:17.719 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.KilliPrinter, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:08:17.719 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.LiveMatchStatus, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:08:17.719 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) in 73.2825ms
+2019-05-09 09:08:17.720 +01:00 [INF] Request finished in 76.1635ms 200 application/json; charset=utf-8
+2019-05-09 09:08:17.720 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) in 53.1368ms
+2019-05-09 09:08:17.721 +01:00 [INF] Request finished in 54.8418ms 200 application/json; charset=utf-8
+2019-05-09 09:08:17.782 +01:00 [INF] Executed action method Fanview.API.Controllers.PlayerController.GetTournamentPlayerStats (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 8270.948ms.
+2019-05-09 09:08:17.782 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.ViewModels.PlayerProfileTournament, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:08:17.782 +01:00 [INF] Executed action Fanview.API.Controllers.PlayerController.GetTournamentPlayerStats (Fanview.API) in 8271.460500000001ms
+2019-05-09 09:08:17.783 +01:00 [INF] Request finished in 8272.2416ms 200 application/json; charset=utf-8
+2019-05-09 09:08:17.858 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Killiprinter  
+2019-05-09 09:08:17.859 +01:00 [INF] Route matched with {action = "GetAllKilliprinterForGraphics", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API)
+2019-05-09 09:08:17.859 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:08:17.869 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 10.3255ms.
+2019-05-09 09:08:17.870 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.KilliPrinter, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:08:17.870 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) in 11.4856ms
+2019-05-09 09:08:17.871 +01:00 [INF] Request finished in 12.1611ms 200 application/json; charset=utf-8
+2019-05-09 09:08:17.890 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Status  
+2019-05-09 09:08:17.890 +01:00 [INF] Route matched with {action = "GetLiveStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API)
+2019-05-09 09:08:17.890 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:08:17.895 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 4.4564ms.
+2019-05-09 09:08:17.895 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.LiveMatchStatus, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:08:17.896 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) in 5.3117ms
+2019-05-09 09:08:17.896 +01:00 [INF] Request finished in 5.8988ms 200 application/json; charset=utf-8
+2019-05-09 09:08:17.900 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/MatchStatus  
+2019-05-09 09:08:17.900 +01:00 [INF] Route matched with {action = "GetMatchStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API)
+2019-05-09 09:08:17.900 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:08:17.905 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 4.3003ms.
+2019-05-09 09:08:17.905 +01:00 [INF] Executing ObjectResult, writing value of type 'Fanview.API.Model.EventLiveMatchStatus'.
+2019-05-09 09:08:17.906 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) in 5.3054000000000006ms
+2019-05-09 09:08:17.906 +01:00 [INF] Request finished in 6.083ms 200 application/json; charset=utf-8
+2019-05-09 09:08:17.923 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Status  
+2019-05-09 09:08:17.923 +01:00 [INF] Route matched with {action = "GetLiveStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API)
+2019-05-09 09:08:17.924 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:08:17.928 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 4.4745ms.
+2019-05-09 09:08:17.928 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.LiveMatchStatus, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:08:17.929 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) in 5.364ms
+2019-05-09 09:08:17.929 +01:00 [INF] Request finished in 5.9778ms 200 application/json; charset=utf-8
+2019-05-09 09:08:17.969 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/MatchStatus  
+2019-05-09 09:08:17.969 +01:00 [INF] Route matched with {action = "GetMatchStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API)
+2019-05-09 09:08:17.970 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:08:17.975 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 4.6487ms.
+2019-05-09 09:08:17.975 +01:00 [INF] Executing ObjectResult, writing value of type 'Fanview.API.Model.EventLiveMatchStatus'.
+2019-05-09 09:08:17.975 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) in 5.5878000000000005ms
+2019-05-09 09:08:17.975 +01:00 [INF] Request finished in 6.6235ms 200 application/json; charset=utf-8
+2019-05-09 09:08:18.074 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/MatchManagement/GetMatches  
+2019-05-09 09:08:18.074 +01:00 [INF] Route matched with {action = "GetMatchdetails", controller = "MatchManagement"}. Executing action Fanview.API.Controllers.MatchManagementController.GetMatchdetails (Fanview.API)
+2019-05-09 09:08:18.074 +01:00 [INF] Executing action method Fanview.API.Controllers.MatchManagementController.GetMatchdetails (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:08:18.078 +01:00 [INF] Executed action method Fanview.API.Controllers.MatchManagementController.GetMatchdetails (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 4.4356ms.
+2019-05-09 09:08:18.078 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.Event, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:08:18.079 +01:00 [INF] Executed action Fanview.API.Controllers.MatchManagementController.GetMatchdetails (Fanview.API) in 4.8213ms
+2019-05-09 09:08:18.079 +01:00 [INF] Request finished in 5.172ms 200 application/json; charset=utf-8
+2019-05-09 09:08:18.082 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Killiprinter  
+2019-05-09 09:08:18.083 +01:00 [INF] Route matched with {action = "GetAllKilliprinterForGraphics", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API)
+2019-05-09 09:08:18.083 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:08:18.092 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 8.9399ms.
+2019-05-09 09:08:18.093 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.KilliPrinter, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:08:18.093 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) in 9.5681000000000012ms
+2019-05-09 09:08:18.093 +01:00 [INF] Request finished in 10.7383ms 200 application/json; charset=utf-8
+2019-05-09 09:08:18.123 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Status  
+2019-05-09 09:08:18.123 +01:00 [INF] Route matched with {action = "GetLiveStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API)
+2019-05-09 09:08:18.123 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:08:18.129 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 5.3652000000000006ms.
+2019-05-09 09:08:18.129 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.LiveMatchStatus, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:08:18.129 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) in 6.0525ms
+2019-05-09 09:08:18.129 +01:00 [INF] Request finished in 6.6308ms 200 application/json; charset=utf-8
+2019-05-09 09:08:18.156 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Killiprinter  
+2019-05-09 09:08:18.156 +01:00 [INF] Route matched with {action = "GetAllKilliprinterForGraphics", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API)
+2019-05-09 09:08:18.157 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:08:18.168 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 11.2422ms.
+2019-05-09 09:08:18.168 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.KilliPrinter, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:08:18.168 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) in 11.7947ms
+2019-05-09 09:08:18.169 +01:00 [INF] Request finished in 12.7448ms 200 application/json; charset=utf-8
+2019-05-09 09:08:18.261 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Status  
+2019-05-09 09:08:18.261 +01:00 [INF] Route matched with {action = "GetLiveStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API)
+2019-05-09 09:08:18.261 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:08:18.265 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 4.0457ms.
+2019-05-09 09:08:18.265 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.LiveMatchStatus, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:08:18.266 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetLiveStatus (Fanview.API) in 4.7177ms
+2019-05-09 09:08:18.266 +01:00 [INF] Request finished in 5.1095ms 200 application/json; charset=utf-8
+2019-05-09 09:08:18.274 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/MatchStatus  
+2019-05-09 09:08:18.275 +01:00 [INF] Route matched with {action = "GetMatchStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API)
+2019-05-09 09:08:18.275 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:08:18.278 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 3.7153ms.
+2019-05-09 09:08:18.279 +01:00 [INF] Executing ObjectResult, writing value of type 'Fanview.API.Model.EventLiveMatchStatus'.
+2019-05-09 09:08:18.279 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) in 4.4361000000000006ms
+2019-05-09 09:08:18.279 +01:00 [INF] Request finished in 4.9404ms 200 application/json; charset=utf-8
+2019-05-09 09:08:18.292 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Killiprinter  
+2019-05-09 09:08:18.293 +01:00 [INF] Route matched with {action = "GetAllKilliprinterForGraphics", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API)
+2019-05-09 09:08:18.293 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:08:18.302 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 9.1317ms.
+2019-05-09 09:08:18.302 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.KilliPrinter, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 09:08:18.303 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) in 10.0936ms
+2019-05-09 09:08:18.303 +01:00 [INF] Request finished in 10.6613ms 200 application/json; charset=utf-8
+2019-05-09 09:08:18.364 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/MatchStatus  
+2019-05-09 09:08:18.364 +01:00 [INF] Route matched with {action = "GetMatchStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API)
+2019-05-09 09:08:18.364 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:08:18.372 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 7.5788ms.
+2019-05-09 09:08:18.372 +01:00 [INF] Executing ObjectResult, writing value of type 'Fanview.API.Model.EventLiveMatchStatus'.
+2019-05-09 09:08:18.373 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) in 8.5077ms
+2019-05-09 09:08:18.373 +01:00 [INF] Request finished in 9.1588ms 200 application/json; charset=utf-8
+2019-05-09 09:08:18.387 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/MatchStatus  
+2019-05-09 09:08:18.387 +01:00 [INF] Route matched with {action = "GetMatchStatus", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API)
+2019-05-09 09:08:18.387 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) - Validation state: "Valid"
+2019-05-09 09:08:18.391 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 3.8035ms.
+2019-05-09 09:08:18.392 +01:00 [INF] Executing ObjectResult, writing value of type 'Fanview.API.Model.EventLiveMatchStatus'.
+2019-05-09 09:08:18.392 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetMatchStatus (Fanview.API) in 4.7717ms
+2019-05-09 09:08:18.392 +01:00 [INF] Request finished in 5.2561ms 200 application/json; charset=utf-8

@@ -1,0 +1,18 @@
+2019-05-09 10:06:23.903 +01:00 [INF] Starting web host
+2019-05-09 10:06:25.783 +01:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-05-09 10:06:28.243 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/index.html  
+2019-05-09 10:06:28.244 +01:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:8001/  0
+2019-05-09 10:06:28.395 +01:00 [INF] Request finished in 156.936ms 200 
+2019-05-09 10:06:28.696 +01:00 [INF] Request finished in 463.4438ms 200 text/html
+2019-05-09 10:06:28.881 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/v1/swagger.json  
+2019-05-09 10:06:29.533 +01:00 [INF] Request finished in 652.3988ms 200 application/json;charset=utf-8
+2019-05-09 10:06:57.092 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/CumulativeRanking  
+2019-05-09 10:06:57.337 +01:00 [INF] Route matched with {action = "GetTotalRanking", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetTotalRanking (Fanview.API)
+2019-05-09 10:06:57.738 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetTotalRanking (Fanview.API) - Validation state: "Valid"
+2019-05-09 10:07:09.524 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetTotalRanking (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 11779.810500000001ms.
+2019-05-09 10:07:09.554 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.LiveModels.LiveTeamRanking, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 10:07:09.581 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetTotalRanking (Fanview.API) in 12239.6597ms
+2019-05-09 10:07:09.582 +01:00 [INF] Request finished in 12489.9395ms 200 application/json; charset=utf-8
+2019-05-09 10:07:24.005 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/KillList  
+2019-05-09 10:07:24.010 +01:00 [INF] Route matched with {action = "GetLiveKillList", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveKillList (Fanview.API)
+2019-05-09 10:07:24.010 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveKillList (Fanview.API) - Validation state: "Valid"

@@ -1,0 +1,15 @@
+2019-05-09 12:41:04.688 +01:00 [INF] Starting web host
+2019-05-09 12:41:06.627 +01:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-05-09 12:41:08.997 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/index.html  
+2019-05-09 12:41:08.999 +01:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:8001/  0
+2019-05-09 12:41:09.141 +01:00 [INF] Request finished in 150.8341ms 200 
+2019-05-09 12:41:09.446 +01:00 [INF] Request finished in 469.771ms 200 text/html
+2019-05-09 12:41:09.660 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/v1/swagger.json  
+2019-05-09 12:41:10.266 +01:00 [INF] Request finished in 605.3499ms 200 application/json;charset=utf-8
+2019-05-09 12:41:37.504 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/Killiprinter  
+2019-05-09 12:41:37.770 +01:00 [INF] Route matched with {action = "GetAllKilliprinterForGraphics", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API)
+2019-05-09 12:41:38.202 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) - Validation state: "Valid"
+2019-05-09 12:42:22.427 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 44218.8716ms.
+2019-05-09 12:42:22.460 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[Fanview.API.Model.KilliPrinter, Fanview.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-05-09 12:42:30.938 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetAllKilliprinterForGraphics (Fanview.API) in 53162.817200000005ms
+2019-05-09 12:42:30.946 +01:00 [INF] Request finished in 53441.9109ms 200 application/json; charset=utf-8

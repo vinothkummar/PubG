@@ -1,0 +1,18 @@
+2019-05-09 11:40:45.757 +01:00 [INF] Starting web host
+2019-05-09 11:40:47.744 +01:00 [INF] User profile is available. Using 'C:\Users\fatem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-05-09 11:40:50.130 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/index.html  
+2019-05-09 11:40:50.130 +01:00 [INF] Request starting HTTP/1.1 DEBUG http://localhost:8001/  0
+2019-05-09 11:40:50.267 +01:00 [INF] Request finished in 134.1923ms 200 
+2019-05-09 11:40:50.567 +01:00 [INF] Request finished in 454.2261ms 200 text/html
+2019-05-09 11:40:50.796 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/swagger/v1/swagger.json  
+2019-05-09 11:40:51.507 +01:00 [INF] Request finished in 711.0218ms 200 application/json;charset=utf-8
+2019-05-09 11:41:05.175 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/KillList  
+2019-05-09 11:41:05.452 +01:00 [INF] Route matched with {action = "GetLiveKillList", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveKillList (Fanview.API)
+2019-05-09 11:41:05.869 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveKillList (Fanview.API) - Validation state: "Valid"
+2019-05-09 11:41:19.168 +01:00 [INF] Executed action method Fanview.API.Controllers.LiveController.GetLiveKillList (Fanview.API), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 13289.957400000001ms.
+2019-05-09 11:41:19.223 +01:00 [INF] Executing ObjectResult, writing value of type 'Fanview.API.Model.ViewModels.KillLeader'.
+2019-05-09 11:41:19.284 +01:00 [INF] Executed action Fanview.API.Controllers.LiveController.GetLiveKillList (Fanview.API) in 13824.678600000001ms
+2019-05-09 11:41:19.284 +01:00 [INF] Request finished in 14109.0298ms 200 application/json; charset=utf-8
+2019-05-09 11:41:23.436 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:8001/api/Live/KillList  
+2019-05-09 11:41:23.439 +01:00 [INF] Route matched with {action = "GetLiveKillList", controller = "Live"}. Executing action Fanview.API.Controllers.LiveController.GetLiveKillList (Fanview.API)
+2019-05-09 11:41:23.440 +01:00 [INF] Executing action method Fanview.API.Controllers.LiveController.GetLiveKillList (Fanview.API) - Validation state: "Valid"
