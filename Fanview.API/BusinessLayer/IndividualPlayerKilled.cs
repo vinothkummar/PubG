@@ -110,7 +110,7 @@ namespace Fanview.API.BusinessLayer
 
             var killiPrinter = new List<KilliPrinter>();
 
-            foreach (var item in result.Where(c => c.IsGroggy == false))
+            foreach (var item in result)
             {
                 var playerKillMessage = new PlayerKilledGraphics()
                 {

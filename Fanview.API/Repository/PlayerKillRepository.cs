@@ -1,5 +1,6 @@
 ﻿using Fanview.API.Model;
 using Fanview.API.Model.LiveModels;
+using Fanview.API.Model.LiveModels.LiveEvents;
 using Fanview.API.Model.ViewModels;
 using Fanview.API.Repository.Interface;
 using Fanview.API.Services;
@@ -242,7 +243,7 @@ namespace Fanview.API.Repository
         public async Task<IEnumerable<LiveEventKill>> GetLiveKilled()
         {
             var collection = _LiveEventKill.GetMongoDbCollection("LiveEventKill");
-            var filter = Builders<LiveEventKill>.Filter.Where(ek => ek.IsGroggy == false);
+            var filter = Builders<LiveEventKill>.Filter.Empty;
             var query = await collection.FindAsync(filter).ConfigureAwait(false);
             return await query.ToListAsync().ConfigureAwait(false);
         }
@@ -424,10 +425,10 @@ namespace Fanview.API.Repository
             var liveEventKillList = _LiveEventKill.GetAll("LiveEventKill");
             await Task.WhenAll(teams, teamPlayers, liveEventKillList);
 
-            var result = liveEventKillList.Result.Where(ev => !ev.IsGroggy && ev.KillerTeamId != ev.VictimTeamId)
-                .Join(teamPlayers.Result, ev => new { KillerName = ev.KillerName }, tp => new { KillerName = tp.PlayerName }, (ev, tp) => new { ev, tp })
+            var result = liveEventKillList.Result.Where(ev => ev.Killer.TeamId != ev.Victim.TeamId)
+                .Join(teamPlayers.Result, ev => new { KillerName = ev.Killer.Name }, tp => new { KillerName = tp.PlayerName }, (ev, tp) => new { ev, tp })
                 .Join(teams.Result, evTp => new { TeamId = evTp.tp.TeamId }, t => new { TeamId = t.Id }, (evTp, t) => new { evTp, t })
-                .GroupBy(g => g.evTp.ev.KillerName)
+                .GroupBy(g => g.evTp.ev.Killer.Name)
                 .Select(s => new Kills()
                 {
                     kills = s.Count(),
@@ -479,40 +480,36 @@ namespace Fanview.API.Repository
         {  
             var kills = jsonResult.Where(cn => (string)cn["_T"] == "EventKill").Select(s => new LiveEventKill()
             {
-                MatchId = "FanviewdummyMatchId",
-                IsDetailStatus = s.Value<bool>("isDetailStatus"),
-                IsKillerMe = s.Value<bool>("isKillerMe"),
-                KillerName = s.Value<string>("killerName"),
-                KillerLocation = new Location()
-                {
-                    x = (float)s["killerLocation"]["x"],
-                    y = (float)s["killerLocation"]["y"],
-                    z = (float)s["killerLocation"]["z"],
-                },
-                KillerTeamId = s.Value<int>("killerTeamId"),
-                IsVictimMe = s.Value<bool>("isVictimMe"),
-                VictimName = s.Value<string>("victimName"),
-                VictimLocation = new Location()
-                {
-                    x = (float)s["victimLocation"]["x"],
-                    y = (float)s["victimLocation"]["y"],
-                    z = (float)s["victimLocation"]["z"],
-                },
-                VictimTeamId = s.Value<int>("victimTeamId"),
-                DamageCauser = s.Value<string>("damageCauser"),
-                DamageReason = s.Value<string>("damageReason"),
-                IsGroggy = s.Value<bool>("isGroggy"),
-                IsStealKilled = s.Value<bool>("isStealKilled"),
-                Version = (int)s["_V"],
-                EventType = (string)s["_T"],
-                EventTimeStamp = eventTime,
-                EventSourceFileName = fileName
-
+                teamSize = s.Value<int>("teamSize"),
+                BlueZoneCustomOptions = s.Value<string>("blueZoneCustomOptions"),
+                IsCustomGame = s.Value<bool>("isCustomGame"),
+                MapName = s.Value<string>("mapName"),
+                WeatherId = s.Value<string>("weatherId"),
+                Characters = new Character(),
+                CameraViewBehaviour = s.Value<string>("cameraViewBehaviour"),
+                IsEventMode = s.Value<bool>("isEventMode"),
+                _V = s.Value<int>("_V"),
+                _D = s.Value<DateTime>("_D"),
+                _T = s.Value<string>("_T"),
+                _U = s.Value<bool>("_U"),
+                AttackId = s.Value<int>("attackId"),
+                Attacker = new Attacker(),
+                Victim = new Victim(),
+                DamageCauserName = s.Value<string>("damageCauserName"),
+                damageReason = s.Value<string>("damageReason"),
+                damage = s.Value<float>("damage"),
+                DamageCauserAdditionalInfo = new List<string>(),
+                Distance = s.Value<float>("distance"),
+                IsAttackerInVehicle = s.Value<bool>("isAttackerInVehicle"),
+                DBNOId = s.Value<int>("dBNOId"),
+                Killer = new Killer(),
+                assistant = new Assistant(),
+                VictimGameResult = new Victimgameresult(),
             });
 
             if(kills.Count() > 0){
             
-                if (kills.Where(cn => cn.IsGroggy == false).Count() == 1)
+                if (kills.Count() == 1)
                 {
 
                     Task t = Task.Run(async () => await _cacheService.SaveToCache<IEnumerable<KilliPrinter>>("LiveKilledCache", _liveKilledCachedData, 1000, 1));
@@ -541,10 +538,10 @@ namespace Fanview.API.Repository
 
         public async Task<IEnumerable<LiveKillCount>> GetLiveKillCount(IEnumerable<LiveEventKill> liveEventKills)
         {
-            var killCount = liveEventKills.GroupBy(g => g.KillerName).Select(s => new LiveKillCount()
+            var killCount = liveEventKills.GroupBy(g => g.Killer.Name).Select(s => new LiveKillCount()
             {
                 KillerName = s.Key,
-                KillerTeamId = s.Select(a => a.KillerTeamId).ElementAtOrDefault(0),
+                KillerTeamId = s.Select(a => a.Killer.TeamId).ElementAtOrDefault(0),
                 KillCount = s.Count()
             }).OrderByDescending(o => o.KillCount);
 

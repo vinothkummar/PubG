@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using Fanview.API.Model.LiveModels.LiveEvents;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
@@ -12,42 +13,59 @@ namespace Fanview.API.Model
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
-        [BsonElement("matchId")]
-        public string MatchId { get; set; }
-        [BsonElement("isDetailStatus")]
-        public bool IsDetailStatus { get; set; }
-        [BsonElement("isKillerMe")]
-        public bool IsKillerMe { get; set; }
-        [BsonElement("killerName")]
-        public string KillerName { get; set; }
-        [BsonElement("killerLocation")]
-        public Location KillerLocation { get; set; }
-        [BsonElement("killerTeamId")]
-        public int KillerTeamId { get; set; }
-        [BsonElement("isVictimMe")]
-        public bool IsVictimMe { get; set; }
-        [BsonElement("victimName")]
-        public string VictimName { get; set; }
-        [BsonElement("victimLocation")]
-        public Location VictimLocation { get; set; }
-        [BsonElement("victimTeamId")]
-        public int VictimTeamId { get; set; }
-        [BsonElement("damageCauser")]
-        public string DamageCauser { get; set; }
-        [BsonElement("damageReason")]
-        public string DamageReason { get; set; }
-        [BsonElement("isGroggy")]
-        public bool IsGroggy { get; set; }
-        [BsonElement("isStealKilled")]
-        public bool IsStealKilled { get; set; }
-        [BsonElement("version")]
-        public int Version { get; set; }
-        [BsonElement("eventTimeStamp")]
-        public DateTime EventTimeStamp { get; set; }
-        [BsonElement("eventType")]
-        public string EventType { get; set; }
-        [BsonElement("eventSourceFileName")]
-        public string EventSourceFileName { get; set; }
-
+        [BsonElement("teamSize")]
+        public int teamSize { get; set; }
+        [BsonElement("blueZoneCustomOptions")]
+        public string BlueZoneCustomOptions { get; set; }
+        [BsonElement("isCustomGame")]
+        public bool IsCustomGame { get; set; }
+        [BsonElement("mapName")]
+        public string MapName { get; set; }
+        [BsonElement("weatherId")]
+        public string WeatherId { get; set; }
+        [BsonElement("characters")]
+        public Character Characters { get; set; }
+        [BsonElement("cameraViewBehaviour")]
+        public string CameraViewBehaviour { get; set; }
+        [BsonElement("isEventMode")]
+        public bool IsEventMode { get; set; }
+        [BsonElement("_V")]
+        public int _V { get; set; }
+        [BsonElement("_D")]
+        public DateTime _D { get; set; }
+        [BsonElement("_T")]
+        public string _T { get; set; }
+        [BsonElement("_U")]
+        public bool _U { get; set; }
+        [BsonElement("attackId")]
+        public int AttackId { get; set; }
+        [BsonElement("attacker")]
+        public Attacker Attacker { get; set; }
+        [BsonElement("victim")]
+        public Victim Victim { get; set; }
+        [BsonElement("damageTypeCategory")]
+        public string DamageTypeCategory { get; set; }
+        [BsonElement("DamageReason ")]
+        public string damageReason { get; set; }
+        [BsonElement("Damage")]
+        public float damage { get; set; }
+        [BsonElement("damageCauserName")]
+        public string DamageCauserName { get; set; }
+        [BsonElement("damageCauserAdditionalInfo")]
+        public List<string> DamageCauserAdditionalInfo { get; set; }
+        [BsonElement("distance")]
+        public float Distance { get; set; }
+        [BsonElement("isAttackerInVehicle")]
+        public bool IsAttackerInVehicle { get; set; }
+        [BsonElement("dBNOId")]
+        public int DBNOId { get; set; }
+        [BsonElement("killer")]
+        public Killer Killer { get; set; }
+        [BsonElement("Assistant")]
+        public Assistant assistant { get; set; }
+        [BsonElement("VictimGameResult")]
+        public Victimgameresult VictimGameResult { get; set; }
+        [BsonElement("reviver")]
+        public Reviver Reviver { get; set; }
     }
 }

@@ -492,9 +492,9 @@ namespace Fanview.API.Repository
         {
             var teamPlayers =  await GetTeamPlayers().ConfigureAwait(false);
 
-            var liveKilledPlayersVictim = liveEventKills.Join(teamPlayers, pk => pk.VictimName.ToLower().Trim(), tp => tp.PlayerName.ToLower().Trim(), (pk, tp) => new { pk, tp });
+            var liveKilledPlayersVictim = liveEventKills.Join(teamPlayers, pk => pk.Victim.Name.ToLower().Trim(), tp => tp.PlayerName.ToLower().Trim(), (pk, tp) => new { pk, tp });
 
-            var liveKilledOuterJoin = liveKilledPlayersVictim.GroupJoin(teamPlayers, left => left.pk.KillerName.ToLower().Trim(), right => right.PlayerName.ToLower().Trim(),
+            var liveKilledOuterJoin = liveKilledPlayersVictim.GroupJoin(teamPlayers, left => left.pk.Killer.Name.ToLower().Trim(), right => right.PlayerName.ToLower().Trim(),
                                                             (left, right) => new { TableA = right, TableB = left }).SelectMany(p => p.TableA.DefaultIfEmpty(), (x, y) => new { TableA = y, TableB = x.TableB });
 
             var liveKilledPlayers = new List<PlayerKilledGraphics>();
@@ -505,15 +505,14 @@ namespace Fanview.API.Repository
                 {
                     liveKilledPlayers.Add(new PlayerKilledGraphics()
                     {
-                        TimeKilled = item.TableB.pk.EventTimeStamp,
-                        KillerName = item.TableB.pk.KillerName,
-                        VictimName = item.TableB.pk.VictimName,
-                        VictimLocation = item.TableB.pk.VictimLocation,
-                        DamagedCausedBy = item.TableB.pk.DamageCauser,
-                        DamageReason = item.TableB.pk.DamageReason,
-                        VictimTeamId = item.TableB.pk.VictimTeamId,
-                        KillerTeamId = item.TableB.pk.KillerTeamId,
-                        IsGroggy = item.TableB.pk.IsGroggy,
+                        TimeKilled = item.TableB.pk._D,
+                        KillerName = item.TableB.pk.Killer.Name,
+                        VictimName = item.TableB.pk.Victim.Name,
+                        VictimLocation = item.TableB.pk.Victim.Location,
+                        DamagedCausedBy = item.TableB.pk.DamageCauserName,
+                        DamageReason = item.TableB.pk.damageReason,
+                        VictimTeamId = item.TableB.pk.Victim.TeamId,
+                        KillerTeamId = item.TableB.pk.Killer.TeamId,
                         VictimPlayerId = item.TableB.tp.PlayerId,
                         KillerPlayerId = item.TableA.PlayerId,
                     });
@@ -522,15 +521,14 @@ namespace Fanview.API.Repository
                 {
                     liveKilledPlayers.Add(new PlayerKilledGraphics()
                     {
-                        TimeKilled = item.TableB.pk.EventTimeStamp,
-                        KillerName = item.TableB.pk.KillerName,
-                        VictimName = item.TableB.pk.VictimName,
-                        VictimLocation = item.TableB.pk.VictimLocation,
-                        DamagedCausedBy = item.TableB.pk.DamageCauser,
-                        DamageReason = item.TableB.pk.DamageReason,
-                        VictimTeamId = item.TableB.pk.VictimTeamId,
-                        KillerTeamId = item.TableB.pk.KillerTeamId,
-                        IsGroggy = item.TableB.pk.IsGroggy,
+                        TimeKilled = item.TableB.pk._D,
+                        KillerName = item.TableB.pk.Killer.Name,
+                        VictimName = item.TableB.pk.Victim.Name,
+                        VictimLocation = item.TableB.pk.Victim.Location,
+                        DamagedCausedBy = item.TableB.pk.DamageCauserName,
+                        DamageReason = item.TableB.pk.damageReason,
+                        VictimTeamId = item.TableB.pk.Victim.TeamId,
+                        KillerTeamId = item.TableB.pk.Killer.TeamId,
                         VictimPlayerId = item.TableB.tp.PlayerId,
                         KillerPlayerId = 0,
                     });

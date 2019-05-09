@@ -78,7 +78,7 @@ namespace Fanview.API.Repository
 
             var killResponse = _killRepostiory.DeleteMany(killFilter, "Kill");
 
-            var liveEventKillFilter = Builders<LiveEventKill>.Filter.Eq(s => s.MatchId, matchId);
+            var liveEventKillFilter = Builders<LiveEventKill>.Filter.Empty;
 
             var liveEventKillResponse = _liveEventKillRepository.DeleteMany(liveEventKillFilter, "LiveEventKill");
 
