@@ -189,6 +189,27 @@
     }
   },
   {
+    "teamId": 15,
+    "name": "PlayerOne Esports",
+    "region": "NA",
+    "shortName": "P1E",
+    "NumMatches": 0,
+    "stats": {
+      "knocks": 0,
+      "assists": 0,
+      "boosts": 0,
+      "damage": 0.00,
+      "headShot": 0,
+      "heals": 0,
+      "kills": 0,
+      "timeSurvived": 0,
+      "revives": 0,
+      "rideDistance": 0.00,
+      "swimDistance": 0.00,
+      "walkDistance": 0.00
+    }
+  },
+  {
     "teamId": 16,
     "name": "Oxymoron",
     "region": "NA",
@@ -228,6 +249,27 @@
       "rideDistance": 444699.13,
       "swimDistance": 114.48,
       "walkDistance": 259966.44
+    }
+  },
+  {
+    "teamId": 21,
+    "name": "Denial Esports",
+    "region": "NA",
+    "shortName": "DNL",
+    "NumMatches": 0,
+    "stats": {
+      "knocks": 0,
+      "assists": 0,
+      "boosts": 0,
+      "damage": 0.00,
+      "headShot": 0,
+      "heals": 0,
+      "kills": 0,
+      "timeSurvived": 0,
+      "revives": 0,
+      "rideDistance": 0.00,
+      "swimDistance": 0.00,
+      "walkDistance": 0.00
     }
   },
   {
@@ -334,5 +376,89 @@
       "swimDistance": 106.4,
       "walkDistance": 243159.23
     }
-  }
+  },
+  {
+    "teamId": 33,
+    "name": "Pecadores",
+    "region": "NA",
+    "shortName": "PEC",
+    "NumMatches": 0,
+    "stats": {
+      "knocks": 0,
+      "assists": 0,
+      "boosts": 0,
+      "damage": 0.00,
+      "headShot": 0,
+      "heals": 0,
+      "kills": 0,
+      "timeSurvived": 0,
+      "revives": 0,
+      "rideDistance": 0.00,
+      "swimDistance": 0.00,
+      "walkDistance": 0.00
+    }
+  },
+  {
+    "teamId": 34,
+    "name": "Excelerate",
+    "region": "NA",
+    "shortName": "EXG",
+    "NumMatches": 0,
+    "stats": {
+      "knocks": 0,
+      "assists": 0,
+      "boosts": 0,
+      "damage": 0.00,
+      "headShot": 0,
+      "heals": 0,
+      "kills": 0,
+      "timeSurvived": 0,
+      "revives": 0,
+      "rideDistance": 0.00,
+      "swimDistance": 0.00,
+      "walkDistance": 0.00
+    }
+  },
+  {
+    "teamId": 35,
+    "name": "BluMartini Gaming",
+    "region": "NA",
+    "shortName": "BMG",
+    "NumMatches": 0,
+    "stats": {
+      "knocks": 0,
+      "assists": 0,
+      "boosts": 0,
+      "damage": 0.00,
+      "headShot": 0,
+      "heals": 0,
+      "kills": 0,
+      "timeSurvived": 0,
+      "revives": 0,
+      "rideDistance": 0.00,
+      "swimDistance": 0.00,
+      "walkDistance": 0.00
+    }
+  },
+  {
+    "teamId": 36,
+    "name": "The Rumblers",
+    "region": "NA",
+    "shortName": "RUM",
+    "NumMatches": 0,
+    "stats": {
+      "knocks": 0,
+      "assists": 0,
+      "boosts": 0,
+      "damage": 0.00,
+      "headShot": 0,
+      "heals": 0,
+      "kills": 0,
+      "timeSurvived": 0,
+      "revives": 0,
+      "rideDistance": 0.00,
+      "swimDistance": 0.00,
+      "walkDistance": 0.00
+    }
+  },
 ]
