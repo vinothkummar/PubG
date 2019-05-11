@@ -20,5 +20,6 @@ namespace Fanview.API.Model
         //public string PlayerLeft { get; set; }
         public int VictimPlayerId { get; set; }
         public int KillerPlayerId { get; set; }
+        public bool IsGroggy { get; set; }
     }
 }

@@ -25,7 +25,7 @@
   {
     "matchId": null,
     "playerId": 2,
-    "playerName": "WC_Sharpshot",
+    "playerName": "WC_SharpShot",
     "fullName": "Sharpshot",
     "country": "NA",
     "teamId": 1,
@@ -94,7 +94,7 @@
   {
     "matchId": null,
     "playerId": 5,
-    "playerName": "C9_Lobes",
+    "playerName": "SIM_Lobes",
     "fullName": "Lobes",
     "country": "NA",
     "teamId": 2,
@@ -232,7 +232,7 @@
   {
     "matchId": null,
     "playerId": 11,
-    "playerName": "NV_PAT_KAPS",
+    "playerName": "NV_PATKAPS",
     "fullName": "PAT_KAPS",
     "country": "NA",
     "teamId": 3,
@@ -301,7 +301,7 @@
   {
     "matchId": null,
     "playerId": 14,
-    "playerName": "WTF_Hetror",
+    "playerName": "SSG_Hetror",
     "fullName": "Hetror",
     "country": "NA",
     "teamId": 4,
@@ -324,7 +324,7 @@
   {
     "matchId": null,
     "playerId": 15,
-    "playerName": "WTF_Bahawaka",
+    "playerName": "SSG_Bahawaka",
     "fullName": "Bahawaka",
     "country": "NA",
     "teamId": 4,
@@ -347,7 +347,7 @@
   {
     "matchId": null,
     "playerId": 16,
-    "playerName": "WTF_Valliate",
+    "playerName": "SSG_Valliate",
     "fullName": "Valliate",
     "country": "NA",
     "teamId": 4,
@@ -370,7 +370,7 @@
   {
     "matchId": null,
     "playerId": 17,
-    "playerName": "SA_CherryPoppins",
+    "playerName": "SIM_CherryPoppin",
     "fullName": "CherryPoppins",
     "country": "NA",
     "teamId": 5,
@@ -393,7 +393,7 @@
   {
     "matchId": null,
     "playerId": 18,
-    "playerName": "SA_Definelegit",
+    "playerName": "DNL_Definelegit",
     "fullName": "Definelegit",
     "country": "NA",
     "teamId": 5,
@@ -416,7 +416,7 @@
   {
     "matchId": null,
     "playerId": 19,
-    "playerName": "SA_Kr0w",
+    "playerName": "DNL_Kr0w",
     "fullName": "Kr0w",
     "country": "NA",
     "teamId": 5,
@@ -439,7 +439,7 @@
   {
     "matchId": null,
     "playerId": 20,
-    "playerName": "SA_Soapylicious",
+    "playerName": "DNL_Soapylicious",
     "fullName": "Soapylicious",
     "country": "NA",
     "teamId": 5,
@@ -485,7 +485,7 @@
   {
     "matchId": null,
     "playerId": 22,
-    "playerName": "eU_GICE",
+    "playerName": "EUN_GICE",
     "fullName": "GICE",
     "country": "NA",
     "teamId": 6,
@@ -508,7 +508,7 @@
   {
     "matchId": null,
     "playerId": 23,
-    "playerName": "eU_PistolaTime",
+    "playerName": "EUN_PistolaTime",
     "fullName": "PistolaTime",
     "country": "NA",
     "teamId": 6,
@@ -531,7 +531,7 @@
   {
     "matchId": null,
     "playerId": 24,
-    "playerName": "eU_TaylorJay",
+    "playerName": "EUN_TaylorJay",
     "fullName": "TaylorJay",
     "country": "NA",
     "teamId": 6,
@@ -600,7 +600,7 @@
   {
     "matchId": null,
     "playerId": 27,
-    "playerName": "VG_shuhroo",
+    "playerName": "DNL_SHUHROO",
     "fullName": "shuhroo",
     "country": "NA",
     "teamId": 7,
@@ -830,7 +830,7 @@
   {
     "matchId": null,
     "playerId": 61,
-    "playerName": "OXY_basher",
+    "playerName": "BMG_Basher",
     "fullName": "Basher",
     "country": "NA",
     "teamId": 16,
@@ -853,7 +853,7 @@
   {
     "matchId": null,
     "playerId": 62,
-    "playerName": "OXY_Jazon",
+    "playerName": "BMG_Jazon",
     "fullName": "Jazon",
     "country": "NA",
     "teamId": 16,
@@ -876,7 +876,7 @@
   {
     "matchId": null,
     "playerId": 63,
-    "playerName": "OXY_clamb",
+    "playerName": "BMG_clamb",
     "fullName": "clamb",
     "country": "NA",
     "teamId": 16,
@@ -899,7 +899,7 @@
   {
     "matchId": null,
     "playerId": 64,
-    "playerName": "OXY_Jsank",
+    "playerName": "SSG_Jsank",
     "fullName": "Jsank",
     "country": "NA",
     "teamId": 16,
@@ -1106,7 +1106,7 @@
   {
     "matchId": null,
     "playerId": 97,
-    "playerName": "STK_PurdyKurty",
+    "playerName": "LZR_PurdyKurty",
     "fullName": "PurdyKurty",
     "country": "NA",
     "teamId": 25,
@@ -1129,7 +1129,7 @@
   {
     "matchId": null,
     "playerId": 98,
-    "playerName": "STK_Uncivil",
+    "playerName": "LZR_Uncivil",
     "fullName": "Uncivil",
     "country": "NA",
     "teamId": 25,
@@ -1152,7 +1152,7 @@
   {
     "matchId": null,
     "playerId": 99,
-    "playerName": "STK_Adam",
+    "playerName": "LZR_Adam",
     "fullName": "Adam",
     "country": "NA",
     "teamId": 25,
@@ -1175,7 +1175,7 @@
   {
     "matchId": null,
     "playerId": 100,
-    "playerName": "STK_aLOW",
+    "playerName": "LZR_aLOW",
     "fullName": "aLOW",
     "country": "NA",
     "teamId": 25,
@@ -1198,7 +1198,7 @@
   {
     "matchId": null,
     "playerId": 101,
-    "playerName": "SSG_dmasteR",
+    "playerName": "PEC_dmasteR",
     "fullName": "dmasteR",
     "country": "NA",
     "teamId": 26,
@@ -1221,7 +1221,7 @@
   {
     "matchId": null,
     "playerId": 102,
-    "playerName": "SSG_hwinn",
+    "playerName": "C9_hwinn",
     "fullName": "hwinn",
     "country": "NA",
     "teamId": 26,
@@ -1244,7 +1244,7 @@
   {
     "matchId": null,
     "playerId": 103,
-    "playerName": "SSG_SMURF10Fs",
+    "playerName": "PEC_SMURFFFFFFFF",
     "fullName": "SMURF10Fs",
     "country": "NA",
     "teamId": 26,
@@ -1267,7 +1267,7 @@
   {
     "matchId": null,
     "playerId": 104,
-    "playerName": "SSG_Vexyl",
+    "playerName": "PEC_Vexyl",
     "fullName": "Vexyl",
     "country": "NA",
     "teamId": 26,
@@ -1359,7 +1359,7 @@
   {
     "matchId": null,
     "playerId": 108,
-    "playerName": "TS_Sharky",
+    "playerName": "TS_sharky",
     "fullName": "Sharky",
     "country": "NA",
     "teamId": 27,
@@ -1382,7 +1382,7 @@
   {
     "matchId": null,
     "playerId": 117,
-    "playerName": "Ghost_BALLOC",
+    "playerName": "GG_BALLOC",
     "fullName": "BALLOC",
     "country": "NA",
     "teamId": 30,
@@ -1405,7 +1405,7 @@
   {
     "matchId": null,
     "playerId": 118,
-    "playerName": "Ghost_Miccoy",
+    "playerName": "GG_Miccoy",
     "fullName": "Miccoy",
     "country": "NA",
     "teamId": 30,
@@ -1428,7 +1428,7 @@
   {
     "matchId": null,
     "playerId": 119,
-    "playerName": "Ghost_DrasseL",
+    "playerName": "GG_DrasseL",
     "fullName": "DrasseL",
     "country": "NA",
     "teamId": 30,
@@ -1451,7 +1451,7 @@
   {
     "matchId": null,
     "playerId": 120,
-    "playerName": "Ghost_Frolicer",
+    "playerName": "GG_Frolicer",
     "fullName": "Frolicer",
     "country": "NA",
     "teamId": 30,
@@ -1496,8 +1496,8 @@
   },
   {
     "matchId": null,
-    "playerId": 130,
-    "playerName": "Ghost_Shrimzy",
+    "playerId": 109,
+    "playerName": "GG_Shrimzy",
     "fullName": "Shrimzy",
     "country": "NA",
     "teamId": 30,

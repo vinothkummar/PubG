@@ -14,7 +14,6 @@ namespace Fanview.API.Repository
         private IGenericRepository<LiveEventKill> _genericEventKillRepository;
         private IGenericRepository<EventLiveMatchStatus> _genericEventlivestateRepository;
         private IGenericRepository<EventDamage> _genericLiveDamage;
-
         private IGenericRepository<LiveMatchStatus> _genericmatchstates;
         private readonly IMongoCollection<EventDamage> _eventDamageCollection;
         private readonly IMongoCollection<TeamPlayer> _teamPlayerCollection;
@@ -39,23 +38,21 @@ namespace Fanview.API.Repository
         {
             var eventDamageFilter = Builders<EventDamage>.Filter.Empty;
             var eventDamageQuery = await _eventDamageCollection.FindAsync(eventDamageFilter).ConfigureAwait(false);
-            var EventDamage = _genericEventKillRepository.GetAll("LiveEventDamage").Result.ToList();
-            var Distinct = EventDamage.GroupBy(x => x.AttackId).Select(g => g.FirstOrDefault()).ToList();
             var eventDamage = await eventDamageQuery.ToListAsync().ConfigureAwait(false);
             var teamPlayerQueryable = _teamPlayerCollection.AsQueryable();
             var teamQueryable = _teamCollection.AsQueryable();
 
-            var result = await EventDamage
-                .Join(teamPlayerQueryable, ed => ed.Attacker.Name, tp => tp.PlayerName, (ed, tp) => new { ed, tp })
+            var result = await eventDamage
+                .Join(teamPlayerQueryable, ed => ed.AttackerName, tp => tp.PlayerName, (ed, tp) => new { ed, tp })
                 .Join(teamQueryable, edTp => edTp.tp.TeamId, t => t.Id, (edTp, t) => new { edTp, t })
                 .GroupBy(edTpt => edTpt.edTp.tp.PlayerName)
                 .Select(edTpt => new DamageList
                 {
                     PlayerName = edTpt.Key,
-                    TeamId = edTpt.FirstOrDefault().edTp.ed.Attacker.TeamId,
+                    TeamId = edTpt.FirstOrDefault().edTp.ed.AttackerTeamId,
                     PlayerId = edTpt.FirstOrDefault().edTp.tp.PlayerId,
                     TeamName = edTpt.FirstOrDefault().t.Name,
-                    DamageDealt = edTpt.Sum(e => e.edTp.ed.damage)
+                    DamageDealt = edTpt.Sum(e => e.edTp.ed.Damage)
                 })
                 .ToAsyncEnumerable()
                 .ToArray()

@@ -108,7 +108,7 @@
     "teamId": 6,
     "name": "eUnited",
     "region": "NA",
-    "shortName": "eU",
+    "shortName": "EUN",
     "NumMatches": 40,
     "stats": {
       "knocks": 150,
@@ -318,7 +318,7 @@
     "teamId": 30,
     "name": "Ghost Gaming",
     "region": "NA",
-    "shortName": "Ghost",
+    "shortName": "GG",
     "NumMatches": 40,
     "stats": {
       "knocks": 152,
