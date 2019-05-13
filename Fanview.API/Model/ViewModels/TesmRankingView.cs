@@ -11,7 +11,7 @@ namespace Fanview.API.Model.ViewModels
         public string TeamRank { get; set; }
         public string TeamName { get; set; }
         public int Kill { get; set; }
-        public float Damage { get; set; }
+        public double Damage { get; set; }
         public int TotalPoints { get; set; }
         public int MatchId { get; set; }
     }

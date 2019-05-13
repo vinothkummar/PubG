@@ -15,7 +15,7 @@ namespace Fanview.API.Model
         [BsonElement("boosts")]
         public int Boosts { get; set; }
         [BsonElement("damageDealt")]
-        public float DamageDealt { get; set; }
+        public double DamageDealt { get; set; }
         [BsonElement("deathType")]
         public string DeathType { get; set; }
         [BsonElement("headshotKills")]
@@ -27,7 +27,7 @@ namespace Fanview.API.Model
         [BsonElement("killPoints")]
         public int KillPoints { get; set; }
         [BsonElement("killPointsDelta")]
-        public float KillPointsDelta { get; set; }
+        public double KillPointsDelta { get; set; }
         [BsonElement("killStreaks")]
         public int KillStreaks { get; set; }
         [BsonElement("kills")]
@@ -47,11 +47,11 @@ namespace Fanview.API.Model
         [BsonElement("revives")]
         public int Revives { get; set; }
         [BsonElement("rideDistance")]
-        public float RideDistance { get; set; }
+        public double RideDistance { get; set; }
         [BsonElement("roadKills")]
         public int RoadKills { get; set; }
         [BsonElement("swimDistance")]
-        public float SwimDistance { get; set; }
+        public double SwimDistance { get; set; }
         [BsonElement("teamKills")]
         public int TeamKills { get; set; }
         [BsonElement("timeSurvived")]
@@ -59,14 +59,14 @@ namespace Fanview.API.Model
         [BsonElement("vechicleDestroys")]
         public int VechicleDestroys { get; set; }
         [BsonElement("walkDistance")]
-        public float WalkDistance { get; set; }
+        public double WalkDistance { get; set; }
         [BsonElement("weaponsAcquired")]
         public int WeaponsAcquired { get; set; }
         [BsonElement("winPlace")]
         public int WinPlace { get; set; }
         [BsonElement("winPoints")]
-        public float WinPoints  { get; set; }
+        public double WinPoints  { get; set; }
         [BsonElement("winPointsDelta")]
-        public float WinPointsDelta { get; set; }
+        public double WinPointsDelta { get; set; }
     }
 }
