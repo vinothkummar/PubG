@@ -9,6 +9,19 @@ namespace Fanview.API.Model
 {
     public class EventLiveMatchStatus
     {
+        [BsonId]
+
+        [BsonRepresentation(BsonType.ObjectId)]
+
+        public string Id { get; set; }
+        [BsonElement("isDetailStatus")]
+        public bool IsDetailStatus { get; set; }
+        [BsonElement("matchId")]
+        public string MatchId { get; set; }
+        [BsonElement("teamMode")]
+        public string TeamMode { get; set; }
+        [BsonElement("cameraMode")]
+        public string CameraMode { get; set; }
         [BsonElement("matchState")]
         public string MatchState { get; set; }
         [BsonElement("elapsedTime")]
@@ -37,9 +50,15 @@ namespace Fanview.API.Model
         public int StartTeamCount { get; set; }
         [BsonElement("aliveTeamCount")]
         public int AliveTeamCount { get; set; }
+        [BsonElement("playerInfos")]
+        public List<EventMatchStatusPlayerInfo> PlayerInfos { get; set; }
+        [BsonElement("version")]
+        public int Version { get; set; }
         [BsonElement("eventTimeStamp")]
         public double EventTimeStamp { get; set; }
         [BsonElement("eventType")]
         public string EventType { get; set; }
+        [BsonElement("eventSourceFileName")]
+        public string EventSourceFileName { get; set; }
     }
 }
