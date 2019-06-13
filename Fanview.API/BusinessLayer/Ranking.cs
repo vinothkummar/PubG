@@ -179,7 +179,7 @@ namespace Fanview.API.BusinessLayer
 
         private List<TournamentRanking> OrderTournamentRanking(Task<IEnumerable<MatchRanking>> matchRankingCollection)
         {
-            var lastMatchId = matchRankingCollection.Result.Select(s => s.MatchId).OrderByDescending(o => o).Skip(1).FirstOrDefault();
+            var lastMatchId = matchRankingCollection.Result.Select(s => s.MatchId).LastOrDefault();
 
             var rankPointAdjustments = _rankPointAdjustments.GetAll("RankPointAdjustments").Result.ToList();
 
